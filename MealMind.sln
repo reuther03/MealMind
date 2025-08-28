@@ -6,7 +6,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{273F753C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrapper", "Bootstrapper", "{E23BA669-06B0-422B-87AA-E4AB5CF4B9FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrapper.MealMind", "src\Bootstrapper\Bootstrapper.MealMind\Bootstrapper.MealMind.csproj", "{AADD7986-166C-47F2-8FB4-58D2F211B955}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Bootstrapper", "src\Bootstrapper\MealMind.Bootstrapper\MealMind.Bootstrapper.csproj", "{AADD7986-166C-47F2-8FB4-58D2F211B955}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{C94A819F-5484-46CD-857B-2E32C9C1E81B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Shared.Abstractions", "src\Shared\MealMind.Shared.Abstractions\MealMind.Shared.Abstractions.csproj", "{C72DD6C3-DD0F-49B4-B8E9-C5AA0CA9F167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Shared.Infrastructure", "src\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj", "{B37D8E35-CFCD-4824-9359-914C6D621126}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{8596FE12-16D3-4102-9E14-5D43A612F4AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{2A6BB710-DCF3-4613-8495-41326AF86062}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Identity.Api", "src\Modules\Identity\MealMind.Modules.Identity.Api\MealMind.Modules.Identity.Api.csproj", "{0310373A-BDFD-4A0A-9178-01501289E94E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Identity.Application", "src\Modules\Identity\MealMind.Modules.Identity.Application\MealMind.Modules.Identity.Application.csproj", "{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Identity.Domain", "src\Modules\Identity\MealMind.Modules.Identity.Domain\MealMind.Modules.Identity.Domain.csproj", "{BA83791E-CD23-445E-9B43-40EBD4844D78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Identity.Infrastructure", "src\Modules\Identity\MealMind.Modules.Identity.Infrastructure\MealMind.Modules.Identity.Infrastructure.csproj", "{38C997F8-C195-47E8-B8F4-33E36DED4DE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,11 +34,44 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E23BA669-06B0-422B-87AA-E4AB5CF4B9FE} = {D2B5906E-0B53-4969-A3C9-85AF37F9100B}
 		{AADD7986-166C-47F2-8FB4-58D2F211B955} = {E23BA669-06B0-422B-87AA-E4AB5CF4B9FE}
+		{C94A819F-5484-46CD-857B-2E32C9C1E81B} = {D2B5906E-0B53-4969-A3C9-85AF37F9100B}
+		{C72DD6C3-DD0F-49B4-B8E9-C5AA0CA9F167} = {C94A819F-5484-46CD-857B-2E32C9C1E81B}
+		{B37D8E35-CFCD-4824-9359-914C6D621126} = {C94A819F-5484-46CD-857B-2E32C9C1E81B}
+		{8596FE12-16D3-4102-9E14-5D43A612F4AD} = {D2B5906E-0B53-4969-A3C9-85AF37F9100B}
+		{2A6BB710-DCF3-4613-8495-41326AF86062} = {8596FE12-16D3-4102-9E14-5D43A612F4AD}
+		{0310373A-BDFD-4A0A-9178-01501289E94E} = {2A6BB710-DCF3-4613-8495-41326AF86062}
+		{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F} = {2A6BB710-DCF3-4613-8495-41326AF86062}
+		{BA83791E-CD23-445E-9B43-40EBD4844D78} = {2A6BB710-DCF3-4613-8495-41326AF86062}
+		{38C997F8-C195-47E8-B8F4-33E36DED4DE4} = {2A6BB710-DCF3-4613-8495-41326AF86062}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C72DD6C3-DD0F-49B4-B8E9-C5AA0CA9F167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C72DD6C3-DD0F-49B4-B8E9-C5AA0CA9F167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C72DD6C3-DD0F-49B4-B8E9-C5AA0CA9F167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C72DD6C3-DD0F-49B4-B8E9-C5AA0CA9F167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B37D8E35-CFCD-4824-9359-914C6D621126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B37D8E35-CFCD-4824-9359-914C6D621126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B37D8E35-CFCD-4824-9359-914C6D621126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B37D8E35-CFCD-4824-9359-914C6D621126}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0310373A-BDFD-4A0A-9178-01501289E94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0310373A-BDFD-4A0A-9178-01501289E94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0310373A-BDFD-4A0A-9178-01501289E94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0310373A-BDFD-4A0A-9178-01501289E94E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA83791E-CD23-445E-9B43-40EBD4844D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA83791E-CD23-445E-9B43-40EBD4844D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA83791E-CD23-445E-9B43-40EBD4844D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA83791E-CD23-445E-9B43-40EBD4844D78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
