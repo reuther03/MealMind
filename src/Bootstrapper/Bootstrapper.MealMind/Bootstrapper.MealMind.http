@@ -1,0 +1,6 @@
+@Bootstrapper.MealMind_HostAddress = http://localhost:5147
+
+GET {{Bootstrapper.MealMind_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
