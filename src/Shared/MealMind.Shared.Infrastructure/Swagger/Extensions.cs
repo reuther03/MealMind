@@ -11,7 +11,7 @@ public static class Extensions
         services.AddSwaggerGen(swagger =>
         {
             swagger.CustomSchemaIds(x => x.FullName);
-            swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "NewsNode API", Version = "v1" });
+            swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "MealMind API", Version = "v1" });
 
             var securityScheme = new OpenApiSecurityScheme
             {
