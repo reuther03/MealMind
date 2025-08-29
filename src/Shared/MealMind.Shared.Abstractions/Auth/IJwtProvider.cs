@@ -1,6 +1,4 @@
-﻿using MealMind.Shared.Abstractions.Kernel.ValueObjects;
-
-namespace MealMind.Shared.Abstractions.Auth;
+﻿namespace MealMind.Shared.Abstractions.Auth;
 
 public interface IJwtProvider
 {

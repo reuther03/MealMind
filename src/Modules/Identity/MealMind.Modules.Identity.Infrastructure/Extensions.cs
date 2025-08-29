@@ -2,7 +2,6 @@
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Infrastructure.Database;
 using MealMind.Shared.Infrastructure.Postgres;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MealMind.Modules.Identity.Infrastructure;

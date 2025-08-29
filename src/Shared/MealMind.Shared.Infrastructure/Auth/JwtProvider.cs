@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Text;
 using MealMind.Shared.Abstractions.Auth;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
