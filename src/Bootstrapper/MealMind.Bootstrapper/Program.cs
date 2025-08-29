@@ -1,4 +1,4 @@
-using Bootstrapper.MealMind;
+using MealMind.Bootstrapper;
 using MealMind.Shared.Infrastructure;
 using MealMind.Shared.Infrastructure.Modules;
 

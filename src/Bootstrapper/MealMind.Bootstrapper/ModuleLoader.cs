@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using MealMind.Shared.Abstractions.Modules;
 
-namespace Bootstrapper.MealMind;
+namespace MealMind.Bootstrapper;
 
 public static class ModuleLoader
 {
