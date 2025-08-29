@@ -27,7 +27,9 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
             .IsRequired();
 
         builder.Property(x => x.Password)
-            .HasConversion(x => x!.Value, x => new Password(x))
+            .HasConversion(x => x.Value, x => new Password(x))
             .IsRequired();
+
+        builder.HasIndex(x => x.Email).IsUnique();
     }
 }
