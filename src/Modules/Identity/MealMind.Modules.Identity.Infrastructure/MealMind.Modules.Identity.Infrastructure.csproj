@@ -11,8 +11,4 @@
       <ProjectReference Include="..\MealMind.Modules.Identity.Application\MealMind.Modules.Identity.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Database\" />
-    </ItemGroup>
-
 </Project>

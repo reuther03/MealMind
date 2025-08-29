@@ -1,0 +1,26 @@
+﻿version: '3.9'
+
+networks:
+  MealMind.Network:
+    name: MealMind.Network
+
+services:
+  mealmind.postgres:
+    image: postgres:latest
+    container_name: MealMind.Postgres
+    hostname: MealMind.Postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5433:5433"
+    volumes:
+      - ./.container/mealmind.postgres:/var/lib/postgresql
+      - ./.container/mealmind.postgres:/var/log/postgresql
+    command: -p 5433
+    networks:
+      - MealMind.Network
+
+volumes:
+  postgres:
+    driver: local
