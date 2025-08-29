@@ -5,4 +5,5 @@ namespace MealMind.Modules.Identity.Application.Abstractions.Database;
 
 public interface IIdentityUserRepository : IRepository<IdentityUser>
 {
+    Task<bool> ExistsWithEmailAsync(string email, CancellationToken cancellationToken = default);
 }
