@@ -24,7 +24,7 @@ public class IdentityModule : IModule
             .AddInfrastructure();
     }
 
-    public void Use(IApplicationBuilder app)
+    public void Use(WebApplication app)
     {
     }
 }

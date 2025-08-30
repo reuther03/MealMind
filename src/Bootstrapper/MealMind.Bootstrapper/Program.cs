@@ -27,6 +27,7 @@ app.UseInfrastructure();
 foreach (var module in modules)
 {
     module.Use(app);
+    module.AddModuleEndpoints(app);
 }
 
 await app.RunAsync();

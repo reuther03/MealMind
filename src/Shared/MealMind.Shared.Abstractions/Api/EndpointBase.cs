@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace MealMind.Shared.Infrastructure.Api;
+namespace Stoxly.Shared.Abstractions.Api;
 
 public abstract class EndpointBase
 {
