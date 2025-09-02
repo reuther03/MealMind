@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MealMind.Shared.Abstractions.Api;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Stoxly.Shared.Abstractions.Api;
 
 namespace MealMind.Shared.Abstractions.Modules;
 
