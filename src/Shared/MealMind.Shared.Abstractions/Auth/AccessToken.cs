@@ -11,15 +11,14 @@ public class AccessToken
     public string Role { get; init; } = null!;
 
 
-    public static AccessToken Create(string token, Guid userId, string email, string username, MarketplaceUserRole role)
+    public static AccessToken Create(string token, Guid userId, string email, string username)
     {
         return new AccessToken
         {
             Token = token,
             UserId = userId,
             Email = email,
-            Username = username,
-            Role = role.ToString()
+            Username = username
         };
     }
 }
