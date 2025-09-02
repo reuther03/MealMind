@@ -21,6 +21,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Modules\Identity\MealMind.Modules.Identity.Api\MealMind.Modules.Identity.Api.csproj"/>
+        <ProjectReference Include="..\..\Modules\Nutrition\MealMind.Modules.Nutrition.Api\MealMind.Modules.Nutrition.Api.csproj" />
     </ItemGroup>
 
 </Project>

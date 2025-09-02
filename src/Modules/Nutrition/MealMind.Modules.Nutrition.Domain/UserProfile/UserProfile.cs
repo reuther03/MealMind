@@ -1,0 +1,26 @@
+﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
+
+namespace MealMind.Modules.Nutrition.Domain.UserProfile;
+
+public class UserProfile : AggregateRoot<UserId>
+{
+    public Name Username { get; private set; }
+    public Email Email { get; private set; }
+    public DateTime DateOfBirth { get; private set; }
+
+    private UserProfile()
+    {
+    }
+
+    private UserProfile(UserId id, Name userName, Email email, DateTime dateOfBirth) : base(id)
+    {
+        Username = userName;
+        Email = email;
+        DateOfBirth = dateOfBirth;
+    }
+
+    public static UserProfile Create(UserId id, Name userName, Email email, DateTime dateOfBirth)
+        => new(id, userName, email, dateOfBirth);
+}
