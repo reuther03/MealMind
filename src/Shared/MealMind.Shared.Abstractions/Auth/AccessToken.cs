@@ -8,7 +8,6 @@ public class AccessToken
     public Guid UserId { get; init; }
     public string Email { get; init; } = null!;
     public string Username { get; init; } = null!;
-    public string Role { get; init; } = null!;
 
 
     public static AccessToken Create(string token, Guid userId, string email, string username)
