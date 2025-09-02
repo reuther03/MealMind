@@ -1,0 +1,8 @@
+{
+    "nutrition": {
+        "module": {
+            "name": "nutrition",
+            "enabled": true
+        }
+    }
+}

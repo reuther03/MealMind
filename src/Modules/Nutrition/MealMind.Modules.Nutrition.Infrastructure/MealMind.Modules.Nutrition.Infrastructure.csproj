@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj" />
+      <ProjectReference Include="..\MealMind.Modules.Nutrition.Application\MealMind.Modules.Nutrition.Application.csproj" />
+    </ItemGroup>
+
+</Project>

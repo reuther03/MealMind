@@ -26,6 +26,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Identity.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Identity.Infrastructure", "src\Modules\Identity\MealMind.Modules.Identity.Infrastructure\MealMind.Modules.Identity.Infrastructure.csproj", "{38C997F8-C195-47E8-B8F4-33E36DED4DE4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nutrition", "Nutrition", "{95AA316D-0D2A-4C0D-A1C4-20B95907CEF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Nutrition.Api", "src\Modules\Nutrition\MealMind.Modules.Nutrition.Api\MealMind.Modules.Nutrition.Api.csproj", "{C55ECF3C-BD51-46D5-BFB9-4AC3C4E094D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Nutrition.Application", "src\Modules\Nutrition\MealMind.Modules.Nutrition.Application\MealMind.Modules.Nutrition.Application.csproj", "{322A7CE9-E5E3-4431-8593-547F10CC0066}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Nutrition.Infrastructure", "src\Modules\Nutrition\MealMind.Modules.Nutrition.Infrastructure\MealMind.Modules.Nutrition.Infrastructure.csproj", "{27D3315F-09E3-49ED-A19A-F2D8BA813A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.Nutrition.Domain", "src\Modules\Nutrition\MealMind.Modules.Nutrition.Domain\MealMind.Modules.Nutrition.Domain.csproj", "{A8E6962E-C601-490C-80AB-051737F0B58A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +53,11 @@ Global
 		{B71506E0-FA00-4ABC-AC70-1E34F3E39E3F} = {2A6BB710-DCF3-4613-8495-41326AF86062}
 		{BA83791E-CD23-445E-9B43-40EBD4844D78} = {2A6BB710-DCF3-4613-8495-41326AF86062}
 		{38C997F8-C195-47E8-B8F4-33E36DED4DE4} = {2A6BB710-DCF3-4613-8495-41326AF86062}
+		{95AA316D-0D2A-4C0D-A1C4-20B95907CEF1} = {8596FE12-16D3-4102-9E14-5D43A612F4AD}
+		{C55ECF3C-BD51-46D5-BFB9-4AC3C4E094D7} = {95AA316D-0D2A-4C0D-A1C4-20B95907CEF1}
+		{322A7CE9-E5E3-4431-8593-547F10CC0066} = {95AA316D-0D2A-4C0D-A1C4-20B95907CEF1}
+		{27D3315F-09E3-49ED-A19A-F2D8BA813A1E} = {95AA316D-0D2A-4C0D-A1C4-20B95907CEF1}
+		{A8E6962E-C601-490C-80AB-051737F0B58A} = {95AA316D-0D2A-4C0D-A1C4-20B95907CEF1}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -73,5 +88,21 @@ Global
 		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38C997F8-C195-47E8-B8F4-33E36DED4DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55ECF3C-BD51-46D5-BFB9-4AC3C4E094D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55ECF3C-BD51-46D5-BFB9-4AC3C4E094D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55ECF3C-BD51-46D5-BFB9-4AC3C4E094D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55ECF3C-BD51-46D5-BFB9-4AC3C4E094D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322A7CE9-E5E3-4431-8593-547F10CC0066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322A7CE9-E5E3-4431-8593-547F10CC0066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322A7CE9-E5E3-4431-8593-547F10CC0066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322A7CE9-E5E3-4431-8593-547F10CC0066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D3315F-09E3-49ED-A19A-F2D8BA813A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D3315F-09E3-49ED-A19A-F2D8BA813A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D3315F-09E3-49ED-A19A-F2D8BA813A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D3315F-09E3-49ED-A19A-F2D8BA813A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8E6962E-C601-490C-80AB-051737F0B58A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8E6962E-C601-490C-80AB-051737F0B58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8E6962E-C601-490C-80AB-051737F0B58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8E6962E-C601-490C-80AB-051737F0B58A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
