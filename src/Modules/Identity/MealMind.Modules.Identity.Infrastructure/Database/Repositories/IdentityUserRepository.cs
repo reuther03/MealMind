@@ -16,4 +16,7 @@ internal class IdentityUserRepository : Repository<IdentityUser, IdentityDbConte
 
     public async Task<bool> ExistsWithEmailAsync(string email, CancellationToken cancellationToken = default)
         => await _context.IdentityUsers.AnyAsync(x => x.Email == email, cancellationToken);
+
+    public Task<IdentityUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+        => _context.IdentityUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 }
