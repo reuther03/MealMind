@@ -26,7 +26,6 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
             .HasConversion(x => x.Value, x => new Email(x))
             .IsRequired();
 
-        builder.Property(x => x.DateOfBirth)
-            .IsRequired();
+        builder.Property(x => x.DateOfBirth);
     }
 }

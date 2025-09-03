@@ -2,7 +2,7 @@
 
 namespace MealMind.Shared.Abstractions.Kernel.Database;
 
-public interface IRepository<TEntity> where TEntity : class, IEntity
+public interface IRepository<in TEntity> where TEntity : class, IEntity
 {
     Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
     void Remove(TEntity entity);

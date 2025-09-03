@@ -8,19 +8,18 @@ public class UserProfile : AggregateRoot<UserId>
 {
     public Name Username { get; private set; }
     public Email Email { get; private set; }
-    public DateTime DateOfBirth { get; private set; }
+    public DateTime? DateOfBirth { get; private set; }
 
     private UserProfile()
     {
     }
 
-    private UserProfile(UserId id, Name userName, Email email, DateTime dateOfBirth) : base(id)
+    private UserProfile(UserId id, Name userName, Email email) : base(id)
     {
         Username = userName;
         Email = email;
-        DateOfBirth = dateOfBirth;
     }
 
-    public static UserProfile Create(UserId id, Name userName, Email email, DateTime dateOfBirth)
-        => new(id, userName, email, dateOfBirth);
+    public static UserProfile Create(UserId id, Name userName, Email email)
+        => new(id, userName, email);
 }
