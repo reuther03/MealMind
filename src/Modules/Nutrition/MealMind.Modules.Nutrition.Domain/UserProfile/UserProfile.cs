@@ -8,7 +8,7 @@ public class UserProfile : AggregateRoot<UserId>
 {
     public Name Username { get; private set; }
     public Email Email { get; private set; }
-    public DateTime? DateOfBirth { get; private set; }
+    public PersonalData PersonalData { get; private set; }
 
     private UserProfile()
     {
@@ -22,4 +22,9 @@ public class UserProfile : AggregateRoot<UserId>
 
     public static UserProfile Create(UserId id, Name userName, Email email)
         => new(id, userName, email);
+
+    public void UpdatePersonalData(PersonalData personalData)
+    {
+        PersonalData = personalData;
+    }
 }
