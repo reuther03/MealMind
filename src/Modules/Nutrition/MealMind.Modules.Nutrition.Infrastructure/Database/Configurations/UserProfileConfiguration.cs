@@ -26,25 +26,36 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
             .HasConversion(x => x.Value, x => new Email(x))
             .IsRequired();
 
-        //set collumn names for PersonalData properties
         builder.OwnsOne(x => x.PersonalData, pd =>
         {
+            pd.ToTable("UserProfile_PersonalData");
+
+            pd.WithOwner()
+                .HasForeignKey("UserProfileId");
+
+            pd.HasKey("UserProfileId");
+
             pd.Property(x => x.Gender)
+                .HasColumnName("Gender")
                 .HasConversion<string>()
                 .IsRequired();
 
             pd.Property(x => x.DateOfBirth)
+                .HasColumnName("DateOfBirth")
                 .IsRequired();
 
             pd.Property(x => x.Weight)
+                .HasColumnName("Weight")
                 .HasPrecision(6, 3)
                 .IsRequired();
 
             pd.Property(x => x.Height)
+                .HasColumnName("Height")
                 .HasPrecision(5, 2)
                 .IsRequired();
 
             pd.Property(x => x.ActivityLevel)
+                .HasColumnName("ActivityLevel")
                 .HasConversion<string>()
                 .IsRequired();
         });
