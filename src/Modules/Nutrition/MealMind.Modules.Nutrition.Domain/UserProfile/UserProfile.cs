@@ -6,9 +6,11 @@ namespace MealMind.Modules.Nutrition.Domain.UserProfile;
 
 public class UserProfile : AggregateRoot<UserId>
 {
+    private readonly List<NutritionTarget> _nutritionTargets = [];
     public Name Username { get; private set; }
     public Email Email { get; private set; }
     public PersonalData PersonalData { get; private set; }
+    public IReadOnlyList<NutritionTarget> NutritionTargets => _nutritionTargets.AsReadOnly();
 
     private UserProfile()
     {
@@ -25,4 +27,7 @@ public class UserProfile : AggregateRoot<UserId>
 
     public void UpdatePersonalData(PersonalData personalData)
         => PersonalData = personalData;
+
+    public void AddNutritionTarget(NutritionTarget nutritionTarget)
+        => _nutritionTargets.Add(nutritionTarget);
 }
