@@ -59,5 +59,10 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                 .HasConversion<string>()
                 .IsRequired();
         });
+
+        builder.HasMany(x => x.NutritionTargets)
+            .WithOne()
+            .HasForeignKey(x => x.UserProfileId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
