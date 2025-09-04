@@ -24,7 +24,5 @@ public class UserProfile : AggregateRoot<UserId>
         => new(id, userName, email);
 
     public void UpdatePersonalData(PersonalData personalData)
-    {
-        PersonalData = personalData;
-    }
+        => PersonalData = personalData;
 }
