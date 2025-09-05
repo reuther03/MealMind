@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Identity.Application.Features.Commands.SignInCommand;
 using MealMind.Shared.Abstractions.Api;
+using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ internal sealed class SignInEndpoint : EndpointBase
                 async (SignInCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
-                    return Results.Ok(result);
+                    return Result.Ok(result);
                 })
             .AllowAnonymous()
             .WithDocumentation(
@@ -24,6 +25,7 @@ internal sealed class SignInEndpoint : EndpointBase
                 """
                 {
                     "email":"
+                }
                 """);
     }
 }

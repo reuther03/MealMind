@@ -25,7 +25,7 @@ public class UserProfile : AggregateRoot<UserId>
     public static UserProfile Create(UserId id, Name userName, Email email)
         => new(id, userName, email);
 
-    public void UpdatePersonalData(PersonalData personalData)
+    public void SetPersonalData(PersonalData personalData)
         => PersonalData = personalData;
 
     public void AddNutritionTarget(NutritionTarget nutritionTarget)
