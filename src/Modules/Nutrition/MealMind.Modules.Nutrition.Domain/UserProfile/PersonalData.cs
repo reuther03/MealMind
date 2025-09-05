@@ -20,7 +20,7 @@ public record PersonalData : ValueObject
         ActivityLevel = activityLevel;
     }
 
-    private static PersonalData Create(Gender gender, DateOnly dateOfBirth, decimal weight, decimal height, ActivityLevel activityLevel)
+    public static PersonalData Create(Gender gender, DateOnly dateOfBirth, decimal weight, decimal height, ActivityLevel activityLevel)
     {
         if (dateOfBirth > DateOnly.FromDateTime(DateTime.UtcNow))
             throw new DomainException("Date of birth cannot be in the future");
