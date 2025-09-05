@@ -19,12 +19,24 @@ internal sealed class SignInEndpoint : EndpointBase
                     return Result.Ok(result);
                 })
             .AllowAnonymous()
-            .WithDocumentation(
-                "Sign In",
-                "Authenticates a user and returns a JWT token.",
+            .WithDocumentation("Sign In",
+                "Authenticates a user with email and password. Returns a JWT access token with user details.",
                 """
                 {
-                    "email":"
+                  "email": "john.doe@example.com",
+                  "password": "SecurePassword123!"
+                }
+                """,
+                """
+                {
+                  "value": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "email": "john.doe@example.com",
+                    "username": "johndoe"
+                  },
+                  "isSuccessful": true,
+                  "errors": []
                 }
                 """);
     }

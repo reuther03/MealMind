@@ -20,13 +20,23 @@ internal sealed class SetPersonalDataEndpoint : EndpointBase
                 })
             .RequireAuthorization()
             .WithDocumentation("Set Personal Data",
-                "Sets the personal data for the authenticated user.",
+                "Updates the personal data (gender, date of birth, weight, height, and activity level) for the authenticated user's nutrition profile.",
                 """
-                    {
-                     test: "data"
-                    }
+                {
+                  "gender": 1,
+                  "dateOfBirth": "1990-01-15",
+                  "weight": 75.5,
+                  "height": 180,
+                  "activityLevel": 2
+                }
+                """,
                 """
-            )
+                {
+                  "value": true,
+                  "isSuccessful": true,
+                  "errors": []
+                }
+                """)
             .WithTags(nameof(NutritionModule));
     }
 }
