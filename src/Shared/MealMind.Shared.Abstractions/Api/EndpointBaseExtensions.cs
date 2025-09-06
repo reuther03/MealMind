@@ -33,27 +33,24 @@ public static class EndpointBaseExtensions
         sb.AppendLine();
         sb.AppendLine($"**{description}**");
 
-        if (!string.IsNullOrWhiteSpace(requestExample))
-        {
-            sb.AppendLine();
-            sb.AppendLine("---");
-            sb.AppendLine();
-            sb.AppendLine("**Request Example:**");
-            sb.AppendLine("```json");
-            sb.AppendLine(requestExample);
-            sb.AppendLine("```");
-        }
 
-        if (!string.IsNullOrWhiteSpace(responseExample))
-        {
-            sb.AppendLine();
-            sb.AppendLine("---");
-            sb.AppendLine();
-            sb.AppendLine("**Response Example:**");
-            sb.AppendLine("```json");
-            sb.AppendLine(responseExample);
-            sb.AppendLine("```");
-        }
+        sb.AppendLine();
+        sb.AppendLine("---");
+        sb.AppendLine();
+        sb.AppendLine("**Request Example:**");
+        sb.AppendLine("```json");
+        sb.AppendLine(requestExample);
+        sb.AppendLine("```");
+
+
+        sb.AppendLine();
+        sb.AppendLine("---");
+        sb.AppendLine();
+        sb.AppendLine("**Response Example:**");
+        sb.AppendLine("```json");
+        sb.AppendLine(responseExample);
+        sb.AppendLine("```");
+
 
         return sb.ToString();
     }
