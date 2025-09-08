@@ -5,11 +5,14 @@ namespace MealMind.Modules.Nutrition.Domain.UserProfile;
 
 public class NutritionTarget : Entity<Guid>
 {
+    private readonly List<DayOfWeek> _ActiveDays = [];
+
     public int Calories { get; private set; }
     public int Protein { get; private set; }
     public int Carbohydrates { get; private set; }
     public int Fats { get; private set; }
     public int WaterIntake { get; private set; }
+    public IReadOnlyList<DayOfWeek> ActiveDays => _ActiveDays;
     public bool IsActive { get; private set; }
     public DateOnly? DeactivatedAt { get; private set; }
     public UserId UserProfileId { get; private set; }
@@ -29,8 +32,8 @@ public class NutritionTarget : Entity<Guid>
         UserProfileId = userProfileId;
     }
 
-    public static NutritionTarget Create(Guid id, int calories, int protein, int carbohydrates, int fats, int waterIntake, Guid userProfileId)
-        => new(id, calories, protein, carbohydrates, fats, waterIntake, userProfileId);
+    public static NutritionTarget Create(int calories, int protein, int carbohydrates, int fats, int waterIntake, Guid userProfileId)
+        => new(Guid.NewGuid(), calories, protein, carbohydrates, fats, waterIntake, userProfileId);
 
     public void Deactivate()
     {
