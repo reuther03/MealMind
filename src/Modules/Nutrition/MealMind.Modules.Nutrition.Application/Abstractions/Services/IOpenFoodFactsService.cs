@@ -1,6 +1,8 @@
-﻿namespace MealMind.Modules.Nutrition.Application.Abstractions.Services;
+﻿using MealMind.Modules.Nutrition.Domain.Food;
 
-public class IOpenFoodFactsService
+namespace MealMind.Modules.Nutrition.Application.Abstractions.Services;
+
+public interface IOpenFoodFactsService
 {
-    
+    Task<List<Food>> SearchFoodByNameAsync(string name, int limit = 20, CancellationToken cancellationToken = default);
 }
