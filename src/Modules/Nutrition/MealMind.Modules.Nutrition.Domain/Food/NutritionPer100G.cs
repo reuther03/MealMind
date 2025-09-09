@@ -4,27 +4,29 @@ namespace MealMind.Modules.Nutrition.Domain.Food;
 
 public record NutritionPer100G : ValueObject
 {
-    public decimal Calories { get; private set; }
-    public decimal Protein { get; private set; }
-    public decimal Carbohydrates { get; private set; }
-    public decimal? Sugar { get; private set; }
+    public decimal Calories { get; }
+    public decimal Protein { get; }
+    public decimal Fat { get; }
 
-    public decimal Fat { get; private set; }
+    public decimal? SaturatedFat { get; }
+    public decimal Carbohydrates { get; }
+    public decimal? Sugar { get; }
 
-    public decimal? SaturatedFat { get; private set; }
 
-    public decimal? Fiber { get; private set; }
-    public decimal? Sodium { get; private set; }
+    public decimal? Fiber { get; }
+    public decimal? Sodium { get; }
+    public decimal? Cholesterol { get; }
 
     protected override IEnumerable<object> GetAtomicValues()
     {
         yield return Calories;
         yield return Protein;
         yield return Carbohydrates;
-        yield return Sugar;
+        yield return Sugar ?? 0;
         yield return Fat;
-        yield return SaturatedFat;
-        yield return Fiber;
-        yield return Sodium;
+        yield return SaturatedFat ?? 0;
+        yield return Fiber ?? 0;
+        yield return Sodium ?? 0;
+        yield return Cholesterol ?? 0;
     }
 }

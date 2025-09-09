@@ -12,7 +12,7 @@ public class NutritionTarget : Entity<Guid>
     public int Carbohydrates { get; private set; }
     public int Fats { get; private set; }
     public int WaterIntake { get; private set; }
-    public IReadOnlyList<DayOfWeek> ActiveDays => _ActiveDays;
+    public IReadOnlyList<DayOfWeek> ActiveDays => _ActiveDays.AsReadOnly();
     public bool IsActive { get; private set; }
     public DateOnly? DeactivatedAt { get; private set; }
     public UserId UserProfileId { get; private set; }
