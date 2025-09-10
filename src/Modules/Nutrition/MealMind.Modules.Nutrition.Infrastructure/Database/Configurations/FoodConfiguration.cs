@@ -64,5 +64,24 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
             npg.Property(x => x.Cholesterol)
                 .HasPrecision(6, 2);
         });
+
+        builder.Property(x => x.ImageUrl)
+            .HasMaxLength(2048)
+            .IsRequired(false);
+
+        builder.Property(x => x.Brand)
+            .HasMaxLength(300)
+            .IsRequired(false);
+
+        builder.Property(x => x.CreatedAt)
+            .IsRequired();
+
+        builder.Property(x => x.IsCustom)
+            .IsRequired();
+
+        //todo: make it enum
+        builder.Property(x => x.Source)
+            .HasMaxLength(100)
+            .IsRequired();
     }
 }
