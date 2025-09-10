@@ -4,7 +4,7 @@ namespace MealMind.Modules.Nutrition.Domain.Food;
 
 public record FoodId : EntityId
 {
-    public FoodId(Guid value) : base(value)
+    private FoodId(Guid value) : base(value)
     {
     }
 

@@ -4,7 +4,7 @@ namespace MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 public record UserId : EntityId
 {
-    public UserId(Guid value) : base(value)
+    private UserId(Guid value) : base(value)
     {
     }
 
