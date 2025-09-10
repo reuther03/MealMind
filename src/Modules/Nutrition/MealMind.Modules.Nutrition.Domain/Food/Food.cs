@@ -39,10 +39,9 @@ public class Food : AggregateRoot<FoodId>
             ImageUrl = imageUrl,
             Brand = brand
         };
+
         if (tags != null)
-        {
             food._tags.AddRange(tags);
-        }
 
         return food;
     }
