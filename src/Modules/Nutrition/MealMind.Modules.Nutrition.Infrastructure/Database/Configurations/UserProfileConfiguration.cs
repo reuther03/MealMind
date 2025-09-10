@@ -46,7 +46,7 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 
             pd.Property(x => x.Weight)
                 .HasColumnName("Weight")
-                .HasPrecision(6, 3)
+                .HasPrecision(6, 2)
                 .IsRequired();
 
             pd.Property(x => x.Height)

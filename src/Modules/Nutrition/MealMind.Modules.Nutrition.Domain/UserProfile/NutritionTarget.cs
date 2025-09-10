@@ -7,11 +7,11 @@ public class NutritionTarget : Entity<Guid>
 {
     private readonly List<DayOfWeek> _ActiveDays = [];
 
-    public int Calories { get; private set; }
-    public int Protein { get; private set; }
-    public int Carbohydrates { get; private set; }
-    public int Fats { get; private set; }
-    public int WaterIntake { get; private set; }
+    public decimal Calories { get; private set; }
+    public decimal Protein { get; private set; }
+    public decimal Carbohydrates { get; private set; }
+    public decimal Fats { get; private set; }
+    public decimal WaterIntake { get; private set; }
     public IReadOnlyList<DayOfWeek> ActiveDays => _ActiveDays.AsReadOnly();
     public bool IsActive { get; private set; }
     public DateOnly? DeactivatedAt { get; private set; }
@@ -21,7 +21,7 @@ public class NutritionTarget : Entity<Guid>
     {
     }
 
-    private NutritionTarget(Guid id, int calories, int protein, int carbohydrates, int fats, int waterIntake, Guid userProfileId) : base(id)
+    private NutritionTarget(Guid id, decimal calories, decimal protein, decimal carbohydrates, decimal fats, decimal waterIntake, Guid userProfileId) : base(id)
     {
         Calories = calories;
         Protein = protein;
@@ -32,7 +32,7 @@ public class NutritionTarget : Entity<Guid>
         UserProfileId = userProfileId;
     }
 
-    public static NutritionTarget Create(int calories, int protein, int carbohydrates, int fats, int waterIntake, Guid userProfileId)
+    public static NutritionTarget Create(decimal calories, decimal protein, decimal carbohydrates, decimal fats, decimal waterIntake, Guid userProfileId)
         => new(Guid.NewGuid(), calories, protein, carbohydrates, fats, waterIntake, userProfileId);
 
     public void Deactivate()

@@ -16,18 +16,23 @@ public class NutritionTargetConfiguration : IEntityTypeConfiguration<NutritionTa
             .ValueGeneratedNever();
 
         builder.Property(x => x.Calories)
+            .HasPrecision(8, 2)
             .IsRequired();
 
         builder.Property(x => x.Protein)
+            .HasPrecision(6, 2)
             .IsRequired();
 
         builder.Property(x => x.Carbohydrates)
+            .HasPrecision(6, 2)
             .IsRequired();
 
         builder.Property(x => x.Fats)
+            .HasPrecision(6, 2)
             .IsRequired();
 
         builder.Property(x => x.WaterIntake)
+            .HasPrecision(6, 2)
             .IsRequired();
 
         builder.Property(x => x.IsActive)
