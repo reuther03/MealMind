@@ -76,12 +76,20 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 
-        builder.Property(x => x.IsCustom)
+        builder.Property(x => x.Source)
+            .HasConversion<string>()
             .IsRequired();
 
-        //todo: make it enum
-        builder.Property(x => x.Source)
-            .HasMaxLength(100)
-            .IsRequired();
+        builder.HasMany(x => x.Categories)
+            .WithOne()
+            .HasForeignKey(x => x.FoodId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.DietaryTags)
+            .WithOne()
+            .HasForeignKey(x => x.FoodId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(x => x.Barcode).IsUnique();
     }
 }

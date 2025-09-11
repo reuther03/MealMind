@@ -1,71 +1,22 @@
-﻿namespace MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 
-public enum FoodCategory
+namespace MealMind.Modules.Nutrition.Domain.Food;
+
+public class FoodCategory : Entity<Guid>
 {
-    // Protein sources
-    Meat = 1,
-    Poultry,
-    Fish,
-    Seafood,
-    Dairy,
-    Yogurt,
-    Cheese,
-    Eggs,
-    PlantProtein, // e.g., tofu, tempeh, seitan
+    public FoodId FoodId { get; private set; }
+    public Category Category { get; private set; }
 
-    // Carbohydrates
-    Grains,
-    Bread,
-    Pasta,
-    Rice,
-    Cereals,
-    Legumes, // beans, lentils, chickpeas
-    Potatoes,
-    SweetPotatoes,
+    private FoodCategory()
+    {
+    }
 
-    // Vegetables & Fruits
-    Vegetables,
-    LeafyGreens,
-    Fruits,
-    Berries,
-    Nuts,
-    Seeds,
+    private FoodCategory(Guid id, FoodId foodId, Category category) : base(id)
+    {
+        FoodId = foodId;
+        Category = category;
+    }
 
-    // Fats & Oils
-    Oils,
-    Butters,
-    Avocados,
-
-    // Beverages
-    Water,
-    Coffee,
-    Tea,
-    Juice,
-    Soda,
-    Alcohol,
-
-    // Snacks & Sweets
-    Chocolate,
-    Candy,
-    Biscuits,
-    Chips,
-    IceCream,
-
-    // Prepared Meals
-    Soup,
-    Salad,
-    FastFood,
-    FrozenMeal,
-    RestaurantMeal,
-
-    // Supplements
-    ProteinPowder,
-    Creatine,
-    Vitamins,
-
-    // Other / Misc
-    Condiments,
-    Sauces,
-    Spices,
-    Other
+    public static FoodCategory Create(FoodId foodId, Category category)
+        => new(Guid.NewGuid(), foodId, category);
 }
