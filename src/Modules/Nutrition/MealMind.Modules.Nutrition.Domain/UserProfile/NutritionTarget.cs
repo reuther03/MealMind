@@ -56,7 +56,7 @@ public class NutritionTarget : Entity<Guid>
         // Validate that macro calories match total calories within a tolerance
         // Protein and Carbs: 4 calories per gram, Fats: 9 calories
         var calculatedCalories = proteinGrams * 4 + carbohydrateGrams * 4 + fatGrams * 9;
-        var tolerance = calories * 0.05m; // 5% tolerance
+        var tolerance = calories * 0.1m; //
         if (Math.Abs(calculatedCalories - calories) > tolerance)
             throw new DomainException($"Macro calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
 
@@ -82,7 +82,7 @@ public class NutritionTarget : Entity<Guid>
     {
         // Validate percentages sum to 100
         var totalPercent = proteinPercentage + carbohydratesPercentage + fatsPercentage;
-        if (Math.Abs(totalPercent - 100) > 0.05m) // Allow a small tolerance
+        if (Math.Abs(totalPercent - 100) > 0.04m ) // Allowing a small tolerance for rounding
             throw new DomainException($"Percentages must sum to 100% (currently {totalPercent}%)");
 
         // Calculate grams from percentages
