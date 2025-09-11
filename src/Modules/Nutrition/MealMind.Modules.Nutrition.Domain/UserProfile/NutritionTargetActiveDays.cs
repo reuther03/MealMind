@@ -18,6 +18,6 @@ public class NutritionTargetActiveDays : Entity<Guid>
     }
 
 
-    public static NutritionTargetActiveDays Create(Guid id, Guid nutritionTargetId, DayOfWeek dayOfWeek)
-        => new(id, nutritionTargetId, dayOfWeek);
+    public static NutritionTargetActiveDays Create(Guid nutritionTargetId, DayOfWeek dayOfWeek)
+        => new(Guid.NewGuid(), nutritionTargetId, dayOfWeek);
 }
