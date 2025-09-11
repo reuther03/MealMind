@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    partial class NutritionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250911011734_AddNutritionTargetActiveDays")]
+    partial class AddNutritionTargetActiveDays
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,15 +283,6 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.UserProfile.NutritionTargetActiveDays", b =>
-                {
-                    b.HasOne("MealMind.Modules.Nutrition.Domain.UserProfile.NutritionTarget", null)
-                        .WithMany("ActiveDays")
-                        .HasForeignKey("NutritionTargetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.UserProfile.UserProfile", b =>
                 {
                     b.OwnsOne("MealMind.Modules.Nutrition.Domain.UserProfile.PersonalData", "PersonalData", b1 =>
@@ -342,11 +336,6 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                     b.Navigation("Categories");
 
                     b.Navigation("DietaryTags");
-                });
-
-            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.UserProfile.NutritionTarget", b =>
-                {
-                    b.Navigation("ActiveDays");
                 });
 
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.UserProfile.UserProfile", b =>

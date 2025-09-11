@@ -44,5 +44,10 @@ public class NutritionTargetConfiguration : IEntityTypeConfiguration<NutritionTa
         builder.Property(x => x.UserProfileId)
             .HasConversion(x => x.Value, x => UserId.From(x))
             .IsRequired();
+
+        builder.HasMany(x => x.ActiveDays)
+            .WithOne()
+            .HasForeignKey(x => x.NutritionTargetId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

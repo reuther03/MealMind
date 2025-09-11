@@ -54,6 +54,11 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                 .HasPrecision(5, 2)
                 .IsRequired();
 
+            pd.Property(x => x.WeightTarget)
+                .HasColumnName("WeightTarget")
+                .HasPrecision(6, 2)
+                .IsRequired();
+
             pd.Property(x => x.ActivityLevel)
                 .HasColumnName("ActivityLevel")
                 .HasConversion<string>()
