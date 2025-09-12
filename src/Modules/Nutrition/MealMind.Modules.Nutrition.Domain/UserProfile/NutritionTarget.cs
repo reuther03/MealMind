@@ -6,7 +6,7 @@ namespace MealMind.Modules.Nutrition.Domain.UserProfile;
 
 public class NutritionTarget : Entity<Guid>
 {
-    private readonly List<NutritionTargetActiveDays> _ActiveDays = [];
+    private readonly List<NutritionTargetActiveDays> _activeDays = [];
 
     public decimal Calories { get; private set; }
     public decimal ProteinGrams { get; private set; }
@@ -16,7 +16,7 @@ public class NutritionTarget : Entity<Guid>
     public decimal CarbohydratesPercentage => CalculatePercentage(CarbohydratesGrams * 4);
     public decimal FatsPercentage => CalculatePercentage(FatsGrams * 9);
     public decimal WaterIntake { get; private set; }
-    public IReadOnlyList<NutritionTargetActiveDays> ActiveDays => _ActiveDays.AsReadOnly();
+    public IReadOnlyList<NutritionTargetActiveDays> ActiveDays => _activeDays.AsReadOnly();
     public bool IsActive { get; private set; }
     public DateOnly? DeactivatedAt { get; private set; }
     public UserId UserProfileId { get; private set; }
@@ -82,7 +82,7 @@ public class NutritionTarget : Entity<Guid>
     {
         // Validate percentages sum to 100
         var totalPercent = proteinPercentage + carbohydratesPercentage + fatsPercentage;
-        if (Math.Abs(totalPercent - 100) > 0.04m ) // Allowing a small tolerance for rounding
+        if (Math.Abs(totalPercent - 100) > 0.04m) // Allowing a small tolerance for rounding
             throw new DomainException($"Percentages must sum to 100% (currently {totalPercent}%)");
 
         // Calculate grams from percentages
@@ -106,13 +106,13 @@ public class NutritionTarget : Entity<Guid>
 
     public void AddActiveDay(DayOfWeek dayOfWeek)
     {
-        if (_ActiveDays.Any(ad => ad.DayOfWeek == dayOfWeek))
+        if (_activeDays.Any(ad => ad.DayOfWeek == dayOfWeek))
         {
             throw new InvalidOperationException($"Active day for {dayOfWeek} already exists.");
         }
 
         var activeDay = NutritionTargetActiveDays.Create(Id, dayOfWeek);
-        _ActiveDays.Add(activeDay);
+        _activeDays.Add(activeDay);
     }
 
     private decimal CalculatePercentage(decimal calories)

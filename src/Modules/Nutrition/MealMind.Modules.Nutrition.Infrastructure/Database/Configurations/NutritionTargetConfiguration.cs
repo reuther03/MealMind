@@ -19,15 +19,15 @@ public class NutritionTargetConfiguration : IEntityTypeConfiguration<NutritionTa
             .HasPrecision(8, 2)
             .IsRequired();
 
-        builder.Property(x => x.Protein)
+        builder.Property(x => x.ProteinGrams)
             .HasPrecision(6, 2)
             .IsRequired();
 
-        builder.Property(x => x.Carbohydrates)
+        builder.Property(x => x.CarbohydratesGrams)
             .HasPrecision(6, 2)
             .IsRequired();
 
-        builder.Property(x => x.Fats)
+        builder.Property(x => x.FatsGrams)
             .HasPrecision(6, 2)
             .IsRequired();
 
