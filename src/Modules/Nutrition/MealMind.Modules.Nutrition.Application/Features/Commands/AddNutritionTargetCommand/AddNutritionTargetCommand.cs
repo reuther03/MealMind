@@ -6,9 +6,15 @@ using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 
-namespace MealMind.Modules.Nutrition.Application.Features.Commands;
+namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddNutritionTargetCommand;
 
-public record AddNutritionTargetCommand(int Calories, int ProteinPercentage, int CarbohydratesPercentage, int FatsPercentage, int WaterIntake) : ICommand<Guid>
+public record AddNutritionTargetCommand(
+    decimal Calories,
+    NutritionInGramsPayload? NutritionInGramsPayload,
+    NutritionInPercentPayload? NutritionInPercentPayload,
+    decimal WaterIntake,
+    List<DayOfWeek> ActiveDays
+) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddNutritionTargetCommand, Guid>
     {
@@ -28,15 +34,42 @@ public record AddNutritionTargetCommand(int Calories, int ProteinPercentage, int
             var userProfile = await _userProfileRepository.GetByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(userProfile);
 
-            if (command.FatsPercentage + command.ProteinPercentage + command.CarbohydratesPercentage != 100)
-                return Result<Guid>.BadRequest("The sum of fats, protein, and carbohydrates percentages must equal 100.");
+            if (command.NutritionInGramsPayload is null && command.NutritionInPercentPayload is null)
+                return Result<Guid>.BadRequest("Either Nutrition in grams or Nutrition in percent must be provided.");
 
-            var protein = (int)Math.Round(command.Calories * (command.ProteinPercentage / 4.0) / 100);
-            var carbohydrates = (int)Math.Round(command.Calories * (command.CarbohydratesPercentage / 4.0) / 100);
-            var fats = (int)Math.Round(command.Calories * (command.FatsPercentage / 9.0) / 100);
+            if (command.NutritionInGramsPayload is not null && command.NutritionInPercentPayload is not null)
+                return Result<Guid>.BadRequest("Only one of Nutrition in grams or Nutrition in percent can be provided.");
 
-            var nutritionTarget =
-                NutritionTarget.Create(command.Calories, protein, carbohydrates, fats, command.WaterIntake, _userService.UserId);
+            var nutritionTarget = command.NutritionInGramsPayload is not null
+                ? NutritionTarget.CreateFromGrams(
+                    command.Calories,
+                    command.NutritionInGramsPayload.ProteinInGrams,
+                    command.NutritionInGramsPayload.CarbohydratesInGrams,
+                    command.NutritionInGramsPayload.FatsInGrams,
+                    command.WaterIntake,
+                    _userService.UserId)
+                : NutritionTarget.CreateFromPercentages(
+                    command.Calories,
+                    command.NutritionInPercentPayload!.ProteinPercentage,
+                    command.NutritionInPercentPayload.CarbohydratesPercentage,
+                    command.NutritionInPercentPayload.FatsPercentage,
+                    command.WaterIntake,
+                    _userService.UserId);
+
+            var userActiveDays = userProfile.NutritionTargets
+                .Where(x => x.IsActive)
+                .SelectMany(x => x.ActiveDays)
+                .Select(x => x.DayOfWeek);
+
+            if (command.ActiveDays.Any(ad => userActiveDays.Contains(ad)))
+                return Result<Guid>.BadRequest("One or more of the selected active days are already in use by another nutrition target.");
+
+            nutritionTarget.AddActiveDay(command.ActiveDays);
+
+            userProfile.AddNutritionTarget(nutritionTarget);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
+            return Result<Guid>.Ok(nutritionTarget.Id);
         }
     }
 }
