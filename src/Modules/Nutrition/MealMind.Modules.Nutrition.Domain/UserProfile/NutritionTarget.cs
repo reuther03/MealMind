@@ -104,15 +104,15 @@ public class NutritionTarget : Entity<Guid>
         );
     }
 
-    public void AddActiveDay(DayOfWeek dayOfWeek)
+    public void AddActiveDay(List<DayOfWeek> dayOfWeek)
     {
-        if (_activeDays.Any(ad => ad.DayOfWeek == dayOfWeek))
-        {
+        if (_activeDays.Any(ad => dayOfWeek.Contains(ad.DayOfWeek)))
             throw new InvalidOperationException($"Active day for {dayOfWeek} already exists.");
-        }
 
-        var activeDay = NutritionTargetActiveDays.Create(Id, dayOfWeek);
-        _activeDays.Add(activeDay);
+        foreach (var activeDay in dayOfWeek)
+        {
+            _activeDays.Add(NutritionTargetActiveDays.Create(Id, activeDay));
+        }
     }
 
     private decimal CalculatePercentage(decimal calories)
