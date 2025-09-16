@@ -18,4 +18,33 @@ public class FoodEntry : Entity<Guid>
     public decimal TotalSaturatedFats { get; private set; }
     public decimal TotalFiber { get; private set; }
     public decimal TotalSodium { get; private set; }
+
+    private FoodEntry()
+    {
+    }
+
+    private FoodEntry(Guid id, FoodId foodId, Name foodName, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
+        decimal totalCarbohydrates, decimal totalSugars, decimal totalFats, decimal totalSaturatedFats, decimal totalFiber,
+        decimal totalSodium, Name? foodBrand = null
+    ) : base(id)
+    {
+        FoodId = foodId;
+        FoodName = foodName;
+        QuantityInGrams = quantityInGrams;
+        TotalCalories = totalCalories;
+        TotalProteins = totalProteins;
+        TotalCarbohydrates = totalCarbohydrates;
+        TotalSugars = totalSugars;
+        TotalFats = totalFats;
+        TotalSaturatedFats = totalSaturatedFats;
+        TotalFiber = totalFiber;
+        TotalSodium = totalSodium;
+        FoodBrand = foodBrand;
+    }
+
+    public static FoodEntry Create(Guid id, FoodId foodId, Name foodName, decimal quantityInGrams, decimal totalCalories,
+        decimal totalProteins, decimal totalCarbohydrates, decimal totalSugars, decimal totalFats, decimal totalSaturatedFats,
+        decimal totalFiber, decimal totalSodium, Name? foodBrand = null
+    ) => new(id, foodId, foodName, quantityInGrams, totalCalories, totalProteins, totalCarbohydrates, totalSugars,
+        totalFats, totalSaturatedFats, totalFiber, totalSodium, foodBrand);
 }
