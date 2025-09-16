@@ -1,4 +1,4 @@
-﻿namespace MealMind.Modules.Nutrition.Domain.UserProfile;
+﻿namespace MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 
 public enum ActivityLevel
 {
