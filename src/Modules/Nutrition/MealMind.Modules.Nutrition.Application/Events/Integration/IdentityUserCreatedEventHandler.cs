@@ -22,6 +22,18 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
         var userProfile = UserProfile.Create(notification.Id, notification.Username, notification.Email);
 
         await _userProfileRepository.AddAsync(userProfile, cancellationToken);
+
+        var personalData = PersonalData.Create(
+            notification.Gender,
+            notification.DateOfBirth,
+            notification.Weight,
+            notification.Height,
+            notification.WeightTarget,
+            notification.ActivityLevel
+        );
+
+        userProfile.SetPersonalData(personalData);
+
         await _unitOfWork.CommitAsync(cancellationToken);
     }
 }

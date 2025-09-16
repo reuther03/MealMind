@@ -4,12 +4,22 @@ using MealMind.Modules.Identity.Domain.IdentityUser;
 using MealMind.Shared.Abstractions.Events.Integration;
 using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 
 namespace MealMind.Modules.Identity.Application.Features.Commands.SignUpCommand;
 
-public record SignUpCommand(string Username, string Email, string InputPassword) : ICommand<Guid>
+public record SignUpCommand(
+    string Username,
+    string Email,
+    string InputPassword,
+    Gender Gender,
+    DateOnly DateOfBirth,
+    decimal Weight,
+    decimal Height,
+    decimal WeightTarget,
+    ActivityLevel ActivityLevel) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<SignUpCommand, Guid>
     {
@@ -34,7 +44,18 @@ public record SignUpCommand(string Username, string Email, string InputPassword)
             await _identityUserRepository.AddAsync(identityUser, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            await _publisher.Publish(new IdentityUserCreatedEvent(identityUser.Id.Value, identityUser.Username, identityUser.Email), cancellationToken);
+            await _publisher.Publish(
+                new IdentityUserCreatedEvent(
+                    identityUser.Id.Value,
+                    identityUser.Username,
+                    identityUser.Email,
+                    command.Gender,
+                    command.DateOfBirth,
+                    command.Weight,
+                    command.Height,
+                    command.WeightTarget,
+                    command.ActivityLevel
+                ), cancellationToken);
 
             return Result.Ok(identityUser.Id.Value);
         }
