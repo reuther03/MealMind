@@ -40,4 +40,7 @@ public class Meal : Entity<Guid>
 
     public static Meal Create(Guid id, MealType mealType, UserId userId, Name? name = null, DateTime? consumedAt = null, string? notes = null)
         => new(id, mealType, userId, name, consumedAt, notes);
+
+    public void AddFood(FoodEntry foodEntry)
+        => _foods.Add(foodEntry);
 }
