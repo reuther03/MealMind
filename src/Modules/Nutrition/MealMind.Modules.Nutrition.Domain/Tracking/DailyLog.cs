@@ -27,15 +27,16 @@ public class DailyLog : AggregateRoot<DailyLogId>
     {
     }
 
-    private DailyLog(DailyLogId id, decimal currentWeight, decimal caloriesGoal) : base(id)
+    private DailyLog(DailyLogId id, decimal currentWeight, decimal caloriesGoal, UserId userId) : base(id)
     {
         CurrentDate = DateOnly.FromDateTime(DateTime.UtcNow);
         CurrentWeight = currentWeight;
         CaloriesGoal = caloriesGoal;
+        UserId = userId;
     }
 
-    public static DailyLog Create(DailyLogId id, decimal currentWeight, decimal caloriesGoal) =>
-        new(id, currentWeight, caloriesGoal);
+    public static DailyLog Create(DailyLogId id, decimal currentWeight, decimal caloriesGoal, UserId userId) =>
+        new(id, currentWeight, caloriesGoal, userId);
 
     public void AddMeal(Meal meal)
     {
