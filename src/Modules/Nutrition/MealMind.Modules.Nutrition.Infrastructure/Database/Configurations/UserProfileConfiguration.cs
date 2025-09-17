@@ -28,7 +28,7 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 
         builder.OwnsOne(x => x.PersonalData, pd =>
         {
-            pd.ToTable("UserProfile_PersonalData");
+            pd.ToTable("PersonalData");
 
             pd.WithOwner()
                 .HasForeignKey("UserProfileId");
