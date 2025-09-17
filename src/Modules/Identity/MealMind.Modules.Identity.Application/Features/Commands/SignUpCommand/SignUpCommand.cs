@@ -2,6 +2,7 @@
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Domain.IdentityUser;
 using MealMind.Shared.Abstractions.Events.Integration;
+using MealMind.Shared.Abstractions.Kernel.Payloads;
 using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
@@ -14,12 +15,7 @@ public record SignUpCommand(
     string Username,
     string Email,
     string InputPassword,
-    Gender Gender,
-    DateOnly DateOfBirth,
-    decimal Weight,
-    decimal Height,
-    decimal WeightTarget,
-    ActivityLevel ActivityLevel) : ICommand<Guid>
+    PersonalDataPayload PersonalData) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<SignUpCommand, Guid>
     {
@@ -49,12 +45,7 @@ public record SignUpCommand(
                     identityUser.Id.Value,
                     identityUser.Username,
                     identityUser.Email,
-                    command.Gender,
-                    command.DateOfBirth,
-                    command.Weight,
-                    command.Height,
-                    command.WeightTarget,
-                    command.ActivityLevel
+                    command.PersonalData
                 ), cancellationToken);
 
             return Result.Ok(identityUser.Id.Value);

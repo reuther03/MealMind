@@ -24,12 +24,12 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
         await _userProfileRepository.AddAsync(userProfile, cancellationToken);
 
         var personalData = PersonalData.Create(
-            notification.Gender,
-            notification.DateOfBirth,
-            notification.Weight,
-            notification.Height,
-            notification.WeightTarget,
-            notification.ActivityLevel
+            notification.PersonalData.Gender,
+            notification.PersonalData.DateOfBirth,
+            notification.PersonalData.Weight,
+            notification.PersonalData.Height,
+            notification.PersonalData.WeightTarget,
+            notification.PersonalData.ActivityLevel
         );
 
         userProfile.SetPersonalData(personalData);
