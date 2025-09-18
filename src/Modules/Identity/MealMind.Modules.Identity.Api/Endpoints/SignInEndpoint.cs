@@ -16,7 +16,7 @@ internal sealed class SignInEndpoint : EndpointBase
                 async (SignInCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
-                    return Result.Ok(result);
+                    return result;
                 })
             .AllowAnonymous()
             .WithDocumentation("Sign In",
@@ -38,6 +38,7 @@ internal sealed class SignInEndpoint : EndpointBase
                   "isSuccessful": true,
                   "errors": []
                 }
-                """);
+                """
+            );
     }
 }

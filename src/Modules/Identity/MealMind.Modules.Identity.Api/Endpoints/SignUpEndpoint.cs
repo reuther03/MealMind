@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Identity.Application.Features.Commands.SignUpCommand;
 using MealMind.Shared.Abstractions.Api;
+using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ internal sealed class SignUpEndpoint : EndpointBase
                 async (SignUpCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
-                    return Results.Ok(result);
+                    return result;
                 })
             .AllowAnonymous()
             .WithDocumentation("Sign Up",
@@ -41,6 +42,7 @@ internal sealed class SignUpEndpoint : EndpointBase
                   "isSuccessful": true,
                   "errors": []
                 }
-                """);
+                """
+            );
     }
 }

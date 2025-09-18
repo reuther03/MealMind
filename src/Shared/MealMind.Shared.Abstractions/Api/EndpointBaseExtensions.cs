@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
@@ -19,11 +20,17 @@ public static class EndpointBaseExtensions
         [StringSyntax(StringSyntaxAttribute.Json)]
         string responseExample
     )
-        => builder
+    {
+        var assembly = Assembly.GetCallingAssembly();
+        var moduleName = assembly.GetName().Name?.Split('.')[2] ?? "Unknown"; // Gets "Nutrition" from "MealMind.Modules.Nutrition.Api"
+
+        return builder
             .WithName(name) // Sets the endpoint name displayed in Swagger
             .WithSummary(description) // Sets the summary shown at the top of the endpoint
             .WithDescription(CreateDescription(name, description, requestExample, responseExample)) // Sets the description (using summary for consistency)
+            .WithTags(moduleName) // Tags the endpoint with the module name for grouping in Swagger
             .WithOpenApi();
+    }
 
 
     private static string CreateDescription(string name, string description, string requestExample, string responseExample)
