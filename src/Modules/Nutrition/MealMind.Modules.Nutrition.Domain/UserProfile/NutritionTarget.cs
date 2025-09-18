@@ -56,7 +56,7 @@ public class NutritionTarget : Entity<Guid>
         // Validate that macro calories match total calories within a tolerance
         // Protein and Carbs: 4 calories per gram, Fats: 9 calories
         var calculatedCalories = proteinGrams * 4 + carbohydrateGrams * 4 + fatGrams * 9;
-        var tolerance = calories * 0.1m; //
+        var tolerance = calories * 0.05m;
         if (Math.Abs(calculatedCalories - calories) > tolerance)
             throw new DomainException($"Macro calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
 
