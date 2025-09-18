@@ -31,7 +31,7 @@ public record AddNutritionTargetCommand(
 
         public async Task<Result<Guid>> Handle(AddNutritionTargetCommand command, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetByIdAsync(_userService.UserId, cancellationToken);
+            var userProfile = await _userProfileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(userProfile);
 
             if (command.NutritionInGramsPayload is null && command.NutritionInPercentPayload is null)
@@ -47,22 +47,14 @@ public record AddNutritionTargetCommand(
                     command.NutritionInGramsPayload.CarbohydratesInGrams,
                     command.NutritionInGramsPayload.FatsInGrams,
                     command.WaterIntake,
-                    _userService.UserId)
+                    userProfile.Id)
                 : NutritionTarget.CreateFromPercentages(
                     command.Calories,
                     command.NutritionInPercentPayload!.ProteinPercentage,
                     command.NutritionInPercentPayload.CarbohydratesPercentage,
                     command.NutritionInPercentPayload.FatsPercentage,
                     command.WaterIntake,
-                    _userService.UserId);
-
-            var userActiveDays = userProfile.NutritionTargets
-                .Where(x => x.IsActive)
-                .SelectMany(x => x.ActiveDays)
-                .Select(x => x.DayOfWeek);
-
-            if (command.ActiveDays.Any(ad => userActiveDays.Contains(ad)))
-                return Result<Guid>.BadRequest("One or more of the selected active days are already in use by another nutrition target.");
+                    userProfile.Id);
 
             nutritionTarget.AddActiveDay(command.ActiveDays);
 

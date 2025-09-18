@@ -7,4 +7,5 @@ namespace MealMind.Modules.Nutrition.Application.Abstractions.Database;
 public interface IUserProfileRepository : IRepository<UserProfile>
 {
     Task<UserProfile?> GetByIdAsync(UserId userId, CancellationToken cancellationToken = default);
+    Task<UserProfile?> GetWithIncludesByIdAsync(UserId userId, CancellationToken cancellationToken = default);
 }

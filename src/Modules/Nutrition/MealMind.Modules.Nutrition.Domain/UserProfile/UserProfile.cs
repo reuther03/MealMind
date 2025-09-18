@@ -29,5 +29,10 @@ public class UserProfile : AggregateRoot<UserId>
         => PersonalData = personalData;
 
     public void AddNutritionTarget(NutritionTarget nutritionTarget)
-        => _nutritionTargets.Add(nutritionTarget);
+    {
+        if(_nutritionTargets.Any(x => x.ActiveDays.Any(z => nutritionTarget.ActiveDays.Select(c => c.DayOfWeek).Contains(z.DayOfWeek))))
+            throw new InvalidOperationException("A nutrition target with overlapping active days already exists.");
+
+        _nutritionTargets.Add(nutritionTarget);
+    }
 }
