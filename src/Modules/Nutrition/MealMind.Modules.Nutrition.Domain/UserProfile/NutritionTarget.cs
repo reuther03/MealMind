@@ -15,6 +15,7 @@ public class NutritionTarget : Entity<Guid>
     public decimal ProteinPercentage => CalculatePercentage(ProteinGrams * 4);
     public decimal CarbohydratesPercentage => CalculatePercentage(CarbohydratesGrams * 4);
     public decimal FatsPercentage => CalculatePercentage(FatsGrams * 9);
+    private decimal ActualCalories => ProteinGrams * 4 + CarbohydratesGrams * 4 + FatsGrams * 9;
     public decimal WaterIntake { get; private set; }
     public IReadOnlyList<NutritionTargetActiveDays> ActiveDays => _activeDays.AsReadOnly();
     public bool IsActive { get; private set; }
@@ -53,11 +54,10 @@ public class NutritionTarget : Entity<Guid>
         UserId userProfileId
     )
     {
-        // Validate that macro calories match total calories within a tolerance
-        // Protein and Carbs: 4 calories per gram, Fats: 9 calories
         var calculatedCalories = proteinGrams * 4 + carbohydrateGrams * 4 + fatGrams * 9;
-        var tolerance = calories * 0.05m;
-        if (Math.Abs(calculatedCalories - calories) > tolerance)
+        const decimal calorieMargin = 12m;
+
+        if (Math.Abs(calculatedCalories - calories) > calorieMargin)
             throw new DomainException($"Macro calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
 
         return new NutritionTarget(
@@ -80,18 +80,19 @@ public class NutritionTarget : Entity<Guid>
         UserId userProfileId
     )
     {
-        // Validate percentages sum to 100
         var totalPercent = proteinPercentage + carbohydratesPercentage + fatsPercentage;
-        if (Math.Abs(totalPercent - 100) > 0.04m) // Allowing a small tolerance for rounding
+        if (totalPercent != 100)
             throw new DomainException($"Percentages must sum to 100% (currently {totalPercent}%)");
 
-        // Calculate grams from percentages
-        // Protein and Carbs: 4 calories per gram, Fats: 9 calories
-        // Example: For 2000 calories and 30% protein -> (30/100)*2000/4 = 150 grams of protein
-        // Rounding to 1 decimal place for practicality
         var proteinGrams = Math.Round(proteinPercentage * calories / 400, 1);
         var carbohydratesGrams = Math.Round(carbohydratesPercentage * calories / 400, 1);
         var fatsGrams = Math.Round(fatsPercentage * calories / 900, 1);
+
+        var calculatedCalories = proteinGrams * 4 + carbohydratesGrams * 4 + fatsGrams * 9;
+        const decimal calorieMargin = 12m;
+
+        if (Math.Abs(calculatedCalories - calories) > calorieMargin)
+            throw new DomainException($"Calculated calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
 
         return new NutritionTarget(
             Guid.NewGuid(),
@@ -116,5 +117,5 @@ public class NutritionTarget : Entity<Guid>
     }
 
     private decimal CalculatePercentage(decimal calories)
-        => Calories > 0 ? Math.Round(calories / Calories * 100, 1) : 0;
+        => ActualCalories > 0 ? Math.Round(calories / ActualCalories * 100, 0, MidpointRounding.ToEven) : 0;
 }

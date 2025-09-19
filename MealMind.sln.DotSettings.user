@@ -9,4 +9,19 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUpdateDelegates_002EGenerated_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fmicha_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F7107522deb0c52b277e342ebf329969f0622a144e19e6874a66a843ee4fecbf_003FUpdateDelegates_002EGenerated_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.openapi\1.6.25\lib\netstandard2.0\Microsoft.OpenApi.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=505f4dc1_002Ded16_002D4487_002D9fca_002D9a39fce81d8e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateNutritionTargetInGrams_ValidInput_ShouldCreateInstance #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net9.0::MealMind.Modules.Nutrition.Tests.Unit.NutritionTargetTest.1.1.CreateNutritionTargetInGrams_ValidInput_ShouldCreateInstance.1.1.0&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=805975f2_002D7205_002D4afd_002D9356_002D95b8a677c6e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateNutritionTargetInGrams_ValidInput_ShouldCreateInstance" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net9.0::MealMind.Modules.Nutrition.Tests.Unit.NutritionTargetTest.1.1.CreateNutritionTargetInGrams_ValidInput_ShouldCreateInstance.1.1.0&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d434537f_002Da65a_002D4770_002Db114_002D0b863d7018ba/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateNutritionTargetInGrams_ValidInput_ShouldCreateInstance #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net9.0::MealMind.Modules.Nutrition.Tests.Unit.NutritionTargetTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
