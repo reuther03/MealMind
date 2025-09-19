@@ -15,7 +15,7 @@ public class NutritionTarget : Entity<Guid>
     public decimal ProteinPercentage => CalculatePercentage(ProteinGrams * 4);
     public decimal CarbohydratesPercentage => CalculatePercentage(CarbohydratesGrams * 4);
     public decimal FatsPercentage => CalculatePercentage(FatsGrams * 9);
-    private decimal ActualCalories => ProteinGrams * 4 + CarbohydratesGrams * 4 + FatsGrams * 9;
+    public decimal ActualCalories => ProteinGrams * 4 + CarbohydratesGrams * 4 + FatsGrams * 9;
     public decimal WaterIntake { get; private set; }
     public IReadOnlyList<NutritionTargetActiveDays> ActiveDays => _activeDays.AsReadOnly();
     public bool IsActive { get; private set; }
@@ -80,6 +80,8 @@ public class NutritionTarget : Entity<Guid>
         UserId userProfileId
     )
     {
+        const decimal calorieMargin = 12m;
+
         var totalPercent = proteinPercentage + carbohydratesPercentage + fatsPercentage;
         if (totalPercent != 100)
             throw new DomainException($"Percentages must sum to 100% (currently {totalPercent}%)");
@@ -89,7 +91,6 @@ public class NutritionTarget : Entity<Guid>
         var fatsGrams = Math.Round(fatsPercentage * calories / 900, 1);
 
         var calculatedCalories = proteinGrams * 4 + carbohydratesGrams * 4 + fatsGrams * 9;
-        const decimal calorieMargin = 12m;
 
         if (Math.Abs(calculatedCalories - calories) > calorieMargin)
             throw new DomainException($"Calculated calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
