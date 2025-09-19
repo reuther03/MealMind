@@ -123,4 +123,23 @@ public class NutritionTargetTest
             userId
         )).Throws<DomainException>().WithMessage($"Percentages must sum to 100% (currently {proteinPercentage + carbsPercentage + fatsPercentage}%)");
     }
+
+    [Test]
+    public async Task UserProfile_AddNutritionTarget_WithOverlappingDays_ShouldThrow()
+    {
+        // Arrange
+        var userProfile = UserProfile.Create(UserId.New(), "test", "test@test.com");
+        var target1 = NutritionTarget.CreateFromGrams(2000, 150, 200, 67, 3, UserId.New());
+        target1.AddActiveDay([DayOfWeek.Monday, DayOfWeek.Tuesday]);
+
+        var target2 = NutritionTarget.CreateFromGrams(2200, 160, 225, 72, 3, UserId.New());
+        target2.AddActiveDay([DayOfWeek.Tuesday, DayOfWeek.Wednesday]);
+
+        userProfile.AddNutritionTarget(target1);
+
+        // Act & Assert
+        await Assert.That(() => userProfile.AddNutritionTarget(target2))
+            .Throws<InvalidOperationException>()
+            .WithMessage("A nutrition target with overlapping active days already exists.");
+    }
 }
