@@ -16,7 +16,7 @@ public class Food : AggregateRoot<FoodId>
     public IReadOnlyList<FoodCategory> Categories => _categories.AsReadOnly();
     public IReadOnlyList<FoodDietaryTag> DietaryTags => _dietaryTags.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
-    public Source Source { get; private set; } // e.g., "OpenFoodFacts", "User", appSeeded
+    public Source Source { get; private set; }
 
     private Food()
     {
