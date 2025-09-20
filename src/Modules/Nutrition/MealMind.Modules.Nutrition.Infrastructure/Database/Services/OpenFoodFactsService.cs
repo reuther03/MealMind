@@ -24,8 +24,17 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         };
     }
 
-    public Task<List<Food>> SearchFoodByNameAsync(string name, int limit = 20, CancellationToken cancellationToken = default)
+    public async Task<List<Food>> SearchFoodByNameAsync(string name, int limit = 20, CancellationToken cancellationToken = default)
     {
+        var url = $"/cgi/search.pl?search_terms={Uri.EscapeDataString(name)}&search_simple=1&action=process&json=1&page_size={limit}";
+
+        var response = await _httpClient.GetAsync(url, cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var searchResult = JsonSerializer.Deserialize<Food>(content, _jsonSerializerOptions);
+
         throw new NotImplementedException();
     }
 }
