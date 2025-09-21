@@ -4,8 +4,9 @@ namespace MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts;
 
 public class OpenFoodFactsResponseDto
 {
+    // Total number of products found
     [JsonPropertyName("count")]
-    public int Count { get; init; } // Total number of products found
+    public int ProductCount { get; init; }
 
     [JsonPropertyName("page")]
     public int Page { get; init; }
