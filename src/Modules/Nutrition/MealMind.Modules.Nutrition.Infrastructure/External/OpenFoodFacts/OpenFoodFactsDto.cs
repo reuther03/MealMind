@@ -20,7 +20,7 @@ public class OpenFoodFactsDto
 
     public NutrimentsDto Nutriments { get; init; } = null!;
 
-    private Food MapToFood(OpenFoodFactsDto dto)
+    public Food MapToFood(OpenFoodFactsDto dto)
     {
         return Food.Create(
             new Name(dto.ProductName),

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts;
 using Microsoft.Extensions.Logging;
 
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Services;
@@ -27,14 +28,24 @@ public class OpenFoodFactsService : IOpenFoodFactsService
     public async Task<List<Food>> SearchFoodByNameAsync(string name, int limit = 20, CancellationToken cancellationToken = default)
     {
         var url = $"/cgi/search.pl?search_terms={Uri.EscapeDataString(name)}&search_simple=1&action=process&json=1&page_size={limit}";
-
         var response = await _httpClient.GetAsync(url, cancellationToken);
 
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.LogError("Failed to fetch data from OpenFoodFacts API. Status Code: {StatusCode}", response.StatusCode);
+            return [];
+        }
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        var searchResult = JsonSerializer.Deserialize<Food>(content, _jsonSerializerOptions);
+        var searchResult = JsonSerializer.Deserialize<List<OpenFoodFactsDto>>(content, _jsonSerializerOptions);
 
-        throw new NotImplementedException();
+        if (searchResult == null)
+        {
+            _logger.LogInformation("No products found for search term: {SearchTerm}", name);
+            return [];
+        }
+
+        var foods = searchResult.Select(x => x.MapToFood(x)).ToList();
+        return foods;
     }
 }
