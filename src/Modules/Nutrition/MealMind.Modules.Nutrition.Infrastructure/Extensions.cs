@@ -1,7 +1,9 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
+using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Repositories;
+using MealMind.Modules.Nutrition.Infrastructure.Database.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +17,9 @@ public static class Extensions
             .AddPostgres<NutritionDbContext>()
             .AddScoped<INutritionDbContext, NutritionDbContext>()
             .AddScoped<IUserProfileRepository, UserProfileRepository>()
-            .AddUnitOfWork<IUnitOfWork, UnitOfWork>();
+            .AddScoped<IOpenFoodFactsService, OpenFoodFactsService>()
+            .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
+            .AddHttpClient<OpenFoodFactsService>();
 
         return services;
     }
