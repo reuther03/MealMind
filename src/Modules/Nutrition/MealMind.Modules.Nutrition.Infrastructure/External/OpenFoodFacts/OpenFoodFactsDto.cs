@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 
@@ -38,5 +39,11 @@ public class OpenFoodFactsDto
             dto.Code,
             dto.ImageUrl,
             dto.Brand);
+    }
+
+    public static FoodDto MapFoodDto(OpenFoodFactsDto dto)
+    {
+        var food = MapToFood(dto);
+        return FoodDto.AsDto(food);
     }
 }

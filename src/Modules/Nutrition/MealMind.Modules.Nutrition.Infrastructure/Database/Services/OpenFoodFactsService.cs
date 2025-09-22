@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
+using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts;
 using Microsoft.Extensions.Logging;
@@ -25,9 +26,9 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         };
     }
 
-    public async Task<List<Food>> SearchFoodByNameAsync(string name, int limit = 20, CancellationToken cancellationToken = default)
+    public async Task<List<FoodDto>> SearchFoodByNameAsync(string name, int pageSize = 10, int page = 1, CancellationToken cancellationToken = default)
     {
-        var url = $"/cgi/search.pl?search_terms={Uri.EscapeDataString(name)}&search_simple=1&action=process&json=1&page_size={limit}";
+        var url = $"/cgi/search.pl?search_terms={Uri.EscapeDataString(name)}&search_simple=1&action=process&json=1&page_size={pageSize}&page={page}";
         var response = await _httpClient.GetAsync(url, cancellationToken);
 
         if (!response.IsSuccessStatusCode)
@@ -46,7 +47,7 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         }
 
         var foods = searchResult.Products
-            .Select(OpenFoodFactsDto.MapToFood)
+            .Select(OpenFoodFactsDto.MapFoodDto)
             .ToList();
 
         return foods;

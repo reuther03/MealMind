@@ -9,7 +9,7 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Queries;
 
-public record GetFoodByNameQuery(string SearchTerm, int PageSize = 20, int Page = 1) : IQuery<PaginatedList<FoodDto>>
+public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page = 1) : IQuery<PaginatedList<FoodDto>>
 {
     public sealed class Handler : IQueryHandler<GetFoodByNameQuery, PaginatedList<FoodDto>>
     {
@@ -24,15 +24,10 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 20, int Page 
 
         public async Task<Result<PaginatedList<FoodDto>>> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken = default)
         {
-            var foods = await _openFoodFactsService.SearchFoodByNameAsync(query.SearchTerm, query.PageSize, cancellationToken);
+            var foods = await _openFoodFactsService.SearchFoodByNameAsync(query.SearchTerm, query.PageSize, query.Page, cancellationToken);
 
-            var foodsDto = foods
-                .Skip((query.Page - 1) * query.PageSize)
-                .Take(query.PageSize)
-                .Select(FoodDto.AsDto)
-                .ToList();
 
-            return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foods.Count, foodsDto);
+            return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foods.Count, foods);
         }
     }
 }
