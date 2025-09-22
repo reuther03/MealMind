@@ -65,5 +65,6 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
         builder.Property(x => x.TotalSodium)
             .HasPrecision(8, 2)
             .IsRequired();
+
     }
 }

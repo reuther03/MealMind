@@ -15,11 +15,11 @@ public class DailyLog : AggregateRoot<DailyLogId>
     public decimal TotalCalories => _meals.Sum(m => m.TotalCalories);
     public decimal TotalProteins => _meals.Sum(m => m.TotalProteins);
     public decimal TotalCarbohydrates => _meals.Sum(m => m.TotalCarbohydrates);
-    public decimal TotalSugars => _meals.Sum(m => m.TotalSugars);
+    public decimal? TotalSugars => _meals.Sum(m => m.TotalSugars);
     public decimal TotalFats => _meals.Sum(m => m.TotalFats);
-    public decimal TotalSaturatedFats => _meals.Sum(m => m.TotalSaturatedFats);
-    public decimal TotalFiber => _meals.Sum(m => m.TotalFiber);
-    public decimal TotalSodium => _meals.Sum(m => m.TotalSodium);
+    public decimal? TotalSaturatedFats => _meals.Sum(m => m.TotalSaturatedFats);
+    public decimal? TotalFiber => _meals.Sum(m => m.TotalFiber);
+    public decimal? TotalSodium => _meals.Sum(m => m.TotalSodium);
     public UserId UserId { get; private set; }
 
 

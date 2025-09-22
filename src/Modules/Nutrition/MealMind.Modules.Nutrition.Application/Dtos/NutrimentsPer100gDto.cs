@@ -1,8 +1,8 @@
 using MealMind.Modules.Nutrition.Domain.Food;
 
-namespace MealMind.Modules.Nutrition.Application.Features.Queries.Dtos;
+namespace MealMind.Modules.Nutrition.Application.Dtos;
 
-public class NutrimentsPer100gDto
+public class NutrimentsPer100GDto
 {
     public decimal Calories { get; init; }
     public decimal Protein { get; init; }
@@ -12,10 +12,13 @@ public class NutrimentsPer100gDto
     public decimal? Sugar { get; init; }
     public decimal? SaturatedFat { get; init; }
     public decimal? Sodium { get; init; }
+    public decimal? Salt { get; init; }
+    public decimal? Cholesterol { get; init; }
 
-    public static NutrimentsPer100gDto AsDto(NutritionPer100G nutrition)
+
+    public static NutrimentsPer100GDto AsDto(NutritionPer100G nutrition)
     {
-        return new NutrimentsPer100gDto
+        return new NutrimentsPer100GDto
         {
             Calories = nutrition.Calories,
             Protein = nutrition.Protein,
@@ -24,7 +27,9 @@ public class NutrimentsPer100gDto
             Fiber = nutrition.Fiber,
             Sugar = nutrition.Sugar,
             SaturatedFat = nutrition.SaturatedFat,
-            Sodium = nutrition.Sodium
+            Sodium = nutrition.Sodium,
+            Salt = nutrition.Salt,
+            Cholesterol = nutrition.Cholesterol
         };
     }
 }

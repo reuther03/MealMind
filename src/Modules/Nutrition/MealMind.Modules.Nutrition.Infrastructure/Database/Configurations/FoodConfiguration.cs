@@ -61,6 +61,9 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
             npg.Property(x => x.Sodium)
                 .HasPrecision(8, 2);
 
+            npg.Property(x => x.Salt)
+                .HasPrecision(8, 2);
+
             npg.Property(x => x.Cholesterol)
                 .HasPrecision(6, 2);
         });

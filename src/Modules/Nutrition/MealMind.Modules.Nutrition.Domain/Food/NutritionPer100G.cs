@@ -12,9 +12,10 @@ public record NutritionPer100G : ValueObject
     public decimal? Sugar { get; }
     public decimal? Fiber { get; }
     public decimal? Sodium { get; }
+    public decimal? Salt { get; }
     public decimal? Cholesterol { get; }
 
-    public NutritionPer100G(decimal calories, decimal protein, decimal fat, decimal carbohydrates, decimal? sugar = null,
+    public NutritionPer100G(decimal calories, decimal protein, decimal fat, decimal carbohydrates, decimal? salt, decimal? sugar = null,
         decimal? saturatedFat = null, decimal? fiber = null, decimal? sodium = null, decimal? cholesterol = null)
     {
         if (calories < 0) throw new ArgumentException("Calories cannot be negative", nameof(calories));
@@ -25,6 +26,7 @@ public record NutritionPer100G : ValueObject
         if (saturatedFat < 0) throw new ArgumentException("Saturated fat cannot be negative", nameof(saturatedFat));
         if (fiber < 0) throw new ArgumentException("Fiber cannot be negative", nameof(fiber));
         if (sodium < 0) throw new ArgumentException("Sodium cannot be negative", nameof(sodium));
+        if (salt < 0) throw new ArgumentException("Salt cannot be negative", nameof(salt));
         if (cholesterol < 0) throw new ArgumentException("Cholesterol cannot be negative", nameof(cholesterol));
 
         var calculatedCalories = protein * 4 + carbohydrates * 4 + fat * 9;
@@ -35,10 +37,12 @@ public record NutritionPer100G : ValueObject
         Protein = protein;
         Fat = fat;
         Carbohydrates = carbohydrates;
+        Salt = salt;
         Sugar = sugar;
         SaturatedFat = saturatedFat;
         Fiber = fiber;
         Sodium = sodium;
+        Salt = salt;
         Cholesterol = cholesterol;
     }
 
@@ -52,6 +56,7 @@ public record NutritionPer100G : ValueObject
         yield return SaturatedFat ?? 0;
         yield return Fiber ?? 0;
         yield return Sodium ?? 0;
+        yield return Salt ?? 0;
         yield return Cholesterol ?? 0;
     }
 }

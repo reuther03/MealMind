@@ -1,6 +1,6 @@
 using MealMind.Modules.Nutrition.Domain.Food;
 
-namespace MealMind.Modules.Nutrition.Application.Features.Queries.Dtos;
+namespace MealMind.Modules.Nutrition.Application.Dtos;
 
 public class FoodDto
 {
@@ -9,7 +9,7 @@ public class FoodDto
     public string? Barcode { get; init; }
     public string? Brand { get; init; }
     public string? ImageUrl { get; init; }
-    public NutrimentsPer100gDto NutritionPer100G { get; init; } = null!;
+    public NutrimentsPer100GDto NutritionPer100G { get; init; } = null!;
     public DateTime CreatedAt { get; init; }
     public string Source { get; init; } = null!;
 
@@ -22,7 +22,7 @@ public class FoodDto
             Barcode = food.Barcode,
             Brand = food.Brand,
             ImageUrl = food.ImageUrl,
-            NutritionPer100G = NutrimentsPer100gDto.AsDto(food.NutritionPer100G),
+            NutritionPer100G = NutrimentsPer100GDto.AsDto(food.NutritionPer100G),
             CreatedAt = food.CreatedAt,
             Source = food.Source.ToString()
         };

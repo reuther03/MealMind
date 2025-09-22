@@ -22,6 +22,8 @@ public class NutritionTarget : Entity<Guid>
     public DateOnly? DeactivatedAt { get; private set; }
     public UserId UserProfileId { get; private set; }
 
+    //Todo: add sodium, sugar, fiber, saturated fat, cholesterol targets?
+
     private NutritionTarget()
     {
     }

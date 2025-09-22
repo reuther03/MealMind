@@ -15,11 +15,11 @@ public class Meal : Entity<Guid>
     public decimal TotalCalories => _foods.Sum(f => f.TotalCalories);
     public decimal TotalProteins => _foods.Sum(f => f.TotalProteins);
     public decimal TotalCarbohydrates => _foods.Sum(f => f.TotalCarbohydrates);
-    public decimal TotalSugars => _foods.Sum(f => f.TotalSugars);
+    public decimal? TotalSugars => _foods.Sum(f => f.TotalSugars);
     public decimal TotalFats => _foods.Sum(f => f.TotalFats);
-    public decimal TotalSaturatedFats => _foods.Sum(f => f.TotalSaturatedFats);
-    public decimal TotalFiber => _foods.Sum(f => f.TotalFiber);
-    public decimal TotalSodium => _foods.Sum(f => f.TotalSodium);
+    public decimal? TotalSaturatedFats => _foods.Sum(f => f.TotalSaturatedFats);
+    public decimal? TotalFiber => _foods.Sum(f => f.TotalFiber);
+    public decimal? TotalSodium => _foods.Sum(f => f.TotalSodium);
     public UserId UserId { get; private set; }
     public DateTime? ConsumedAt { get; private set; }
     public string? Notes { get; private set; }

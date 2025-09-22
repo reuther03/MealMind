@@ -37,15 +37,18 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         }
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        var searchResult = JsonSerializer.Deserialize<List<OpenFoodFactsDto>>(content, _jsonSerializerOptions);
+        var searchResult = JsonSerializer.Deserialize<OpenFoodFactsResponseDto>(content, _jsonSerializerOptions);
 
-        if (searchResult == null)
+        if (searchResult is null || searchResult.Products is null || searchResult.Products.Count == 0)
         {
             _logger.LogInformation("No products found for search term: {SearchTerm}", name);
             return [];
         }
 
-        var foods = searchResult.Select(x => x.MapToFood(x)).ToList();
+        var foods = searchResult.Products
+            .Select(OpenFoodFactsDto.MapToFood)
+            .ToList();
+
         return foods;
     }
 }
