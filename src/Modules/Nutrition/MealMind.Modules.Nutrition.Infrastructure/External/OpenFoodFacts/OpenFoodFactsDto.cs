@@ -20,23 +20,23 @@ public class OpenFoodFactsDto
 
     public NutrimentsDto Nutriments { get; init; } = null!;
 
-    public Food MapToFood(OpenFoodFactsDto dto)
+    public static Food MapToFood(OpenFoodFactsDto dto)
     {
         return Food.Create(
             new Name(dto.ProductName),
             new NutritionPer100G(
-                dto.Nutriments.EnergyKcal100g,
-                dto.Nutriments.Proteins100g,
-                dto.Nutriments.Fat100g,
-                dto.Nutriments.Carbohydrates100g,
-                dto.Nutriments.Sugars100g,
-                dto.Nutriments.SaturatedFat100g,
-                dto.Nutriments.Fiber100g,
-                dto.Nutriments.Sodium100g,
-                dto.Nutriments.Cholesterol100g),
+                dto.Nutriments.EnergyKcal100G,
+                dto.Nutriments.Proteins100G,
+                dto.Nutriments.Fat100G,
+                dto.Nutriments.Carbohydrates100G,
+                dto.Nutriments.Sugars100G,
+                dto.Nutriments.SaturatedFat100G,
+                dto.Nutriments.Fiber100G,
+                dto.Nutriments.Sodium100G,
+                dto.Nutriments.Cholesterol100G),
             Source.ExternalApi,
-            dto.ImageUrl,
             dto.Code,
+            dto.ImageUrl,
             dto.Brand);
     }
 }

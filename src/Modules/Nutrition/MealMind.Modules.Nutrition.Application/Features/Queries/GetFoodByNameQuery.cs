@@ -1,6 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
-using MealMind.Modules.Nutrition.Application.Features.Queries.Dtos;
+using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Shared.Abstractions.Kernel.Pagination;
 using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
@@ -27,9 +27,9 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 20, int Page 
             var foods = await _openFoodFactsService.SearchFoodByNameAsync(query.SearchTerm, query.PageSize, cancellationToken);
 
             var foodsPage = await foods
-                .AsQueryable()
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize)
+                .AsQueryable()
                 .ToPagedListAsync<Food, FoodDto>(query.Page, query.PageSize, x => FoodDto.AsDto(x), cancellationToken);
 
             return Result.Ok(foodsPage);
