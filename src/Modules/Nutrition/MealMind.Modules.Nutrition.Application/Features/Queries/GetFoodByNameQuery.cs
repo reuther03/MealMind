@@ -26,13 +26,13 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 20, int Page 
         {
             var foods = await _openFoodFactsService.SearchFoodByNameAsync(query.SearchTerm, query.PageSize, cancellationToken);
 
-            var foodsPage = await foods
+            var foodsDto = foods
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .AsQueryable()
-                .ToPagedListAsync<Food, FoodDto>(query.Page, query.PageSize, x => FoodDto.AsDto(x), cancellationToken);
+                .Select(FoodDto.AsDto)
+                .ToList();
 
-            return Result.Ok(foodsPage);
+            return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foods.Count, foodsDto);
         }
     }
 }
