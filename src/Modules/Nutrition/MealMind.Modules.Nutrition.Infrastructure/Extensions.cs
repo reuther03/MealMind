@@ -1,4 +1,5 @@
-﻿using MealMind.Modules.Nutrition.Application.Abstractions;
+﻿using System.Text.Json;
+using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
@@ -19,7 +20,12 @@ public static class Extensions
             .AddScoped<IUserProfileRepository, UserProfileRepository>()
             .AddScoped<IOpenFoodFactsService, OpenFoodFactsService>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
-            .AddHttpClient<OpenFoodFactsService>();
+            .AddHttpClient<IOpenFoodFactsService, OpenFoodFactsService>(opt =>
+            {
+                opt.BaseAddress = new Uri("https://world.openfoodfacts.net");
+                opt.DefaultRequestHeaders.Add("User-Agent", "MealMind/1.0");
+                opt.Timeout = TimeSpan.FromSeconds(10);
+            });
 
         return services;
     }

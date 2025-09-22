@@ -16,8 +16,6 @@ public class OpenFoodFactsService : IOpenFoodFactsService
     public OpenFoodFactsService(HttpClient httpClient, ILogger<OpenFoodFactsService> logger)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://world.openfoodfacts.net");
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", "MealMind/1.0");
         _logger = logger;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
