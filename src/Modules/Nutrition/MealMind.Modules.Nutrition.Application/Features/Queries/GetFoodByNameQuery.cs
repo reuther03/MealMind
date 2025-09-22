@@ -26,7 +26,6 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
         {
             var foods = await _openFoodFactsService.SearchFoodByNameAsync(query.SearchTerm, query.PageSize, query.Page, cancellationToken);
 
-
             return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foods.Count, foods);
         }
     }

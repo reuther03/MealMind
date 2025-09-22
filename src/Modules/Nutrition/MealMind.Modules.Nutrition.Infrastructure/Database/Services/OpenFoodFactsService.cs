@@ -19,7 +19,7 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         _logger = logger;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+
             WriteIndented = true
         };
     }
