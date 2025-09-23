@@ -1,5 +1,4 @@
-﻿using MealMind.Modules.Nutrition.Domain.Food;
-using MealMind.Shared.Abstractions.Exception;
+﻿using MealMind.Shared.Abstractions.Exception;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 

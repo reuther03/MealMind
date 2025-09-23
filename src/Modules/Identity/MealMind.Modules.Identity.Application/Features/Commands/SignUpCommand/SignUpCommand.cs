@@ -5,7 +5,6 @@ using MealMind.Shared.Abstractions.Events.Integration;
 using MealMind.Shared.Abstractions.Kernel.Payloads;
 using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 

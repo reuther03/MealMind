@@ -32,4 +32,20 @@ public class NutrimentsPer100GDto
             Cholesterol = nutrition.Cholesterol
         };
     }
+
+    public NutritionPer100G ToEntity(NutrimentsPer100GDto dto)
+    {
+        return new NutritionPer100G(
+            dto.Calories,
+            dto.Protein,
+            dto.Carbohydrates,
+            dto.Fat,
+            dto.Fiber,
+            dto.Sugar,
+            dto.SaturatedFat,
+            dto.Sodium,
+            dto.Salt,
+            dto.Cholesterol
+        );
+    }
 }

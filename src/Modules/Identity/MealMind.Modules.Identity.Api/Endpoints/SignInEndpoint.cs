@@ -1,9 +1,7 @@
 ﻿using MealMind.Modules.Identity.Application.Features.Commands.SignInCommand;
 using MealMind.Shared.Abstractions.Api;
-using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
 namespace MealMind.Modules.Identity.Api.Endpoints;

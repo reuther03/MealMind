@@ -1,6 +1,4 @@
 ﻿using MealMind.Modules.Nutrition.Application.Dtos;
-using MealMind.Modules.Nutrition.Domain.Food;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MealMind.Modules.Nutrition.Application.Abstractions.Services;
 

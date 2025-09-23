@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Application.Dtos;
-using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts;
 using Microsoft.Extensions.Logging;
 

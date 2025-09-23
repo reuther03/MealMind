@@ -1,6 +1,5 @@
 ﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
-using Microsoft.Extensions.Logging;
 
 namespace MealMind.Modules.Nutrition.Domain.Food;
 

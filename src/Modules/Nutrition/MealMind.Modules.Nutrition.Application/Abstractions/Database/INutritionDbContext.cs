@@ -8,4 +8,6 @@ public interface INutritionDbContext
 {
     DbSet<UserProfile> UserProfiles { get; }
     DbSet<Food> Foods { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

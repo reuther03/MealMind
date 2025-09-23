@@ -1,9 +1,7 @@
 ﻿using MealMind.Modules.Nutrition.Application.Features.Commands.AddNutritionTargetCommand;
 using MealMind.Shared.Abstractions.Api;
-using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
 namespace MealMind.Modules.Nutrition.Api.Endpoints;
