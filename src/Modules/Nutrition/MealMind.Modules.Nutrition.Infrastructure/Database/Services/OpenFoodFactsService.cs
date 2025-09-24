@@ -18,7 +18,6 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         _logger = logger;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
-
             WriteIndented = true
         };
     }
@@ -48,5 +47,18 @@ public class OpenFoodFactsService : IOpenFoodFactsService
             .ToList();
 
         return foods;
+    }
+
+    public Task<List<FoodDto>> SearchFoodByNameWithoutDuplicatesAsync(string name, int pageSize, int page, List<FoodDto> existingFoods,
+        CancellationToken cancellationToken = default)
+    {
+        return SearchFoodByNameAsync(name, pageSize, page, cancellationToken)
+            .ContinueWith(task =>
+            {
+                var newFoods = task.Result;
+                var filteredFoods = newFoods
+                    .Where(f => !existingFoods.Any(ef => ef.Name.Equals(f.Name, StringComparison.OrdinalIgnoreCase) && ef.Brand == f.Brand)).ToList();
+                return filteredFoods;
+            }, cancellationToken);
     }
 }

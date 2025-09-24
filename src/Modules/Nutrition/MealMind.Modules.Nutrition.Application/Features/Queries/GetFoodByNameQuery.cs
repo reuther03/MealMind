@@ -45,21 +45,10 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                 var needed = query.PageSize - foodsDto.Count;
 
                 var externalFoods = await _openFoodFactsService
-                    .SearchFoodByNameAsync(query.SearchTerm, needed, 1, cancellationToken);
-
-                var existingBarcodes = foodsDto.Where(f => f.Barcode != null)
-                    .Select(f => f.Barcode)
-                    .ToHashSet();
-
-                var newFoods = externalFoods
-                    .Where(ef => ef.Barcode != null && !existingBarcodes.Contains(ef.Barcode))
-                    .Select(FoodDto.ToEntity);
-
-                _context.Foods.AddRange(newFoods);
-                await _context.SaveChangesAsync(cancellationToken);
+                    .SearchFoodByNameWithoutDuplicatesAsync(query.SearchTerm, needed, 1, foodsDto, cancellationToken);
 
                 var combinedFoods = foodsDto
-                    .Union(externalFoods)
+                    .Concat(externalFoods)
                     .Take(query.PageSize)
                     .ToList();
 
@@ -67,10 +56,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
             }
 
             var foods = await _openFoodFactsService
-                .SearchFoodByNameAsync(query.SearchTerm, query.PageSize, query.Page, cancellationToken);
-
-            _context.Foods.AddRange(foods.Select(FoodDto.ToEntity));
-            await _context.SaveChangesAsync(cancellationToken);
+                .SearchFoodByNameAsync(query.SearchTerm, query.PageSize, 1, cancellationToken);
 
             return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foods.Count, foods);
         }
