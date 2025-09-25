@@ -4,7 +4,7 @@ namespace MealMind.Modules.Nutrition.Application.Dtos;
 
 public class FoodDto
 {
-    public Guid Id { get; init; }
+    public Guid? Id { get; init; }
     public string Name { get; init; } = null!;
     public string? Barcode { get; init; }
     public string? Brand { get; init; }
@@ -17,7 +17,7 @@ public class FoodDto
     {
         return new FoodDto
         {
-            Id = food.Id.Value,
+            Id = food.Id,
             Name = food.Name.Value,
             Barcode = food.Barcode,
             Brand = food.Brand,

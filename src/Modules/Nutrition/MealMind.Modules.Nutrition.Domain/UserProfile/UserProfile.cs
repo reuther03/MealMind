@@ -12,6 +12,7 @@ public class UserProfile : AggregateRoot<UserId>
     public PersonalData PersonalData { get; private set; }
     public IReadOnlyList<NutritionTarget> NutritionTargets => _nutritionTargets.AsReadOnly();
 
+
     private UserProfile()
     {
     }
