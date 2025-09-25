@@ -3,7 +3,8 @@
     "allow": [
       "Bash(dotnet build:*)",
       "Bash(find:*)",
-      "WebFetch(domain:world.openfoodfacts.org)"
+      "WebFetch(domain:world.openfoodfacts.org)",
+      "Bash(touch:*)"
     ]
   },
   "outputStyle": "default"
