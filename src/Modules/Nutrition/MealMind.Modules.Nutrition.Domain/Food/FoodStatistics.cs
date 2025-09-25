@@ -1,15 +1,12 @@
-﻿using MealMind.Modules.Nutrition.Domain.Food;
-using MealMind.Shared.Abstractions.Kernel.Primitives;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
+﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
 
-namespace MealMind.Modules.Nutrition.Domain.UserProfile;
+namespace MealMind.Modules.Nutrition.Domain.Food;
 
 public class FoodStatistics : Entity<Guid>
 {
     public FoodId FoodId { get; private set; }
     public int TotalUsageCount { get; private set; }
     public int FavoriteCount { get; private set; }
-
     public double AverageRating { get; private set; }
     public int RatingCount { get; private set; }
     public DateTime? LastUsedAt { get; private set; }

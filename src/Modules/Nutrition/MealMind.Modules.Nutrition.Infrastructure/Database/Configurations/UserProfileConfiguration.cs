@@ -65,9 +65,25 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                 .IsRequired();
         });
 
+
         builder.HasMany(x => x.NutritionTargets)
             .WithOne()
             .HasForeignKey(x => x.UserProfileId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.OwnsMany(x => x.FavoriteFoods, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("UserProfileId");
+            ownedBuilder.ToTable("FavoriteFoods");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("FoodId");
+
+            builder.Metadata
+                .FindNavigation(nameof(UserProfile.FavoriteFoods))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
     }
 }
