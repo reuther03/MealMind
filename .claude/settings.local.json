@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(dotnet build:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebFetch(domain:world.openfoodfacts.org)"
     ]
   },
   "outputStyle": "default"

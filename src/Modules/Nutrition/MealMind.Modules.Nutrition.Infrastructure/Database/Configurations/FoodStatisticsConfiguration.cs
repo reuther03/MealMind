@@ -1,16 +1,15 @@
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Configurations;
 
-public class UserFoodDataConfiguration : IEntityTypeConfiguration<UserFoodData>
+public class FoodStatisticsConfiguration : IEntityTypeConfiguration<FoodStatistics>
 {
-    public void Configure(EntityTypeBuilder<UserFoodData> builder)
+    public void Configure(EntityTypeBuilder<FoodStatistics> builder)
     {
-        builder.ToTable("UserFoodData");
+        builder.ToTable("FoodStatistics");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
@@ -20,24 +19,32 @@ public class UserFoodDataConfiguration : IEntityTypeConfiguration<UserFoodData>
             .HasConversion(x => x.Value, x => FoodId.From(x))
             .IsRequired();
 
-        builder.Property(x => x.UserId)
-            .HasConversion(x => x.Value, x => UserId.From(x))
+        builder.Property(x => x.TotalUsageCount)
             .IsRequired();
 
-        builder.Property(x => x.Rating)
-            .IsRequired(false);
-
-        builder.Property(x => x.IsFavorite)
+        builder.Property(x => x.FavoriteCount)
             .IsRequired();
 
-        builder.Property(x => x.TimesUsed)
+        builder.Property(x => x.AverageRating)
+            .HasPrecision(3, 2)
+            .IsRequired();
+
+        builder.Property(x => x.RatingCount)
             .IsRequired();
 
         builder.Property(x => x.LastUsedAt)
             .IsRequired(false);
 
-        builder.HasIndex(x => new { x.UserId, x.FoodId })
+        builder.Property(x => x.SearchCount)
+            .IsRequired();
+
+        // Unique index on FoodId - one statistics record per food
+        builder.HasIndex(x => x.FoodId)
             .IsUnique();
+
+        // Index for sorting by popularity or { TotalUsageCount, FavoriteCount }
+        // builder.HasIndex(x => x.TotalUsageCount);
+        // builder.HasIndex(x => x.FavoriteCount);
 
         builder.HasOne<Food>()
             .WithMany()

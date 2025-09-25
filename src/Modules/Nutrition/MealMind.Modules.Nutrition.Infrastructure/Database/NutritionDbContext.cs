@@ -9,7 +9,7 @@ internal class NutritionDbContext : DbContext, INutritionDbContext
 {
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
     public DbSet<Food> Foods => Set<Food>();
-    public DbSet<UserFoodData> UserFoodData => Set<UserFoodData>();
+    public DbSet<FoodStatistics> UserFoodData => Set<FoodStatistics>();
 
     public NutritionDbContext(DbContextOptions<NutritionDbContext> options) : base(options)
     {
