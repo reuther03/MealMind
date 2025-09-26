@@ -8,7 +8,8 @@ public interface INutritionDbContext
 {
     DbSet<UserProfile> UserProfiles { get; }
     DbSet<Food> Foods { get; }
-    DbSet<FoodStatistics> UserFoodData { get; }
+    DbSet<FoodStatistics> FoodStatistics { get; }
+    DbSet<FoodReview> FoodReviews { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

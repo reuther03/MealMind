@@ -27,6 +27,13 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
             var databaseFoods = await _context.Foods.WhereIf(!string.IsNullOrWhiteSpace(query.SearchTerm),
                     x => EF.Functions.Like(x.Name.Value, $"%{query.SearchTerm}%") ||
                         EF.Functions.Like(x.Brand, $"%{query.SearchTerm}%"))
+                .Join(_context.FoodStatistics,
+                    food => food.Id,
+                    stats => stats.FoodId,
+                    (food, stats) => new { Food = food, Stats = stats })
+                .OrderByDescending(x => x.Stats.PopularityScore)
+                .ThenByDescending(x => x.Stats.AverageRating)
+                .Select(x => x.Food)
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize + 1)
                 .ToListAsync(cancellationToken);
@@ -36,9 +43,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                 .ToList();
 
             if (foodsDto.Count > query.PageSize)
-            {
                 return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foodsDto.Count, foodsDto.Take(query.PageSize).ToList());
-            }
 
             if (foodsDto.Count < query.PageSize && foodsDto.Count != 0)
             {

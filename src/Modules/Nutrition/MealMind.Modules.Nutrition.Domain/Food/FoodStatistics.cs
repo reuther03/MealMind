@@ -11,6 +11,7 @@ public class FoodStatistics : Entity<Guid>
     public int RatingCount { get; private set; }
     public DateTime? LastUsedAt { get; private set; }
     public int SearchCount { get; private set; }
+    public double PopularityScore => TotalUsageCount * 0.5 + FavoriteCount * 2 + SearchCount * 0.05;
 
     private FoodStatistics()
     {
@@ -29,7 +30,5 @@ public class FoodStatistics : Entity<Guid>
     }
 
     public static FoodStatistics Create(FoodId foodId)
-    {
-        return new FoodStatistics(Guid.NewGuid(), foodId, 0, 0, 0, 0, null, 0);
-    }
+        => new(Guid.NewGuid(), foodId, 0, 0, 0, 0, null, 0);
 }
