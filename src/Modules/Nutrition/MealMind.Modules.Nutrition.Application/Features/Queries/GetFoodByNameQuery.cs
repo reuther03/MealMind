@@ -24,7 +24,8 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
 
         public async Task<Result<PaginatedList<FoodDto>>> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken = default)
         {
-            var databaseFoods = await _context.Foods.WhereIf(!string.IsNullOrWhiteSpace(query.SearchTerm),
+            var databaseFoods = await _context.Foods
+                .WhereIf(!string.IsNullOrWhiteSpace(query.SearchTerm),
                     x => EF.Functions.Like(x.Name.Value, $"%{query.SearchTerm}%") ||
                         EF.Functions.Like(x.Brand, $"%{query.SearchTerm}%"))
                 .Join(_context.FoodStatistics,

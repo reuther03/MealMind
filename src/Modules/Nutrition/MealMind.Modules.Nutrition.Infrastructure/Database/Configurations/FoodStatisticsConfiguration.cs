@@ -38,6 +38,15 @@ public class FoodStatisticsConfiguration : IEntityTypeConfiguration<FoodStatisti
         builder.Property(x => x.SearchCount)
             .IsRequired();
 
+        builder.Property(x => x.PopularityScore)
+            .HasPrecision(10, 4)
+            .IsRequired();
+
+        builder.Property(x => x.WeightedRating)
+            .HasPrecision(10, 4)
+            .HasComputedColumnSql()
+            .IsRequired();
+
         // Unique index on FoodId - one statistics record per food
         builder.HasIndex(x => x.FoodId)
             .IsUnique();
