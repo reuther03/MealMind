@@ -32,7 +32,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                     stats => stats.FoodId,
                     (food, stats) => new { Food = food, Stats = stats })
                 .OrderByDescending(x => x.Stats.PopularityScore)
-                .ThenByDescending(x => x.Stats.AverageRating)
+                .ThenByDescending(x => x.Stats.WeightedRating)
                 .Select(x => x.Food)
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize + 1)

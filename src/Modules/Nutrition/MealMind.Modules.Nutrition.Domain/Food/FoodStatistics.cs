@@ -12,6 +12,7 @@ public class FoodStatistics : Entity<Guid>
     public DateTime? LastUsedAt { get; private set; }
     public int SearchCount { get; private set; }
     public double PopularityScore => TotalUsageCount * 0.5 + FavoriteCount * 2 + SearchCount * 0.05;
+    public double WeightedRating => RatingCount == 0 ? 0 : (AverageRating * RatingCount) / (RatingCount + 5.0);
 
     private FoodStatistics()
     {
