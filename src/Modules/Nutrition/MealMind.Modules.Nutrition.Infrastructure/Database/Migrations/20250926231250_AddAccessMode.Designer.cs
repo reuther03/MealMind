@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    partial class NutritionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250926231250_AddAccessMode")]
+    partial class AddAccessMode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,6 +161,10 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                     b.Property<DateTime?>("LastUsedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<double>("PopularityScore")
+                        .HasPrecision(10, 4)
+                        .HasColumnType("double precision");
+
                     b.Property<int>("RatingCount")
                         .HasColumnType("integer");
 
@@ -166,6 +173,10 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 
                     b.Property<int>("TotalUsageCount")
                         .HasColumnType("integer");
+
+                    b.Property<double>("WeightedRating")
+                        .HasPrecision(10, 4)
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 

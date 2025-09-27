@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts.Converters;
 
 namespace MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts;
 
@@ -9,6 +10,7 @@ public class OpenFoodFactsResponseDto
     public int ProductCount { get; init; }
 
     [JsonPropertyName("page")]
+    [JsonConverter(typeof(FlexibleNumberConverter))]
     public int Page { get; init; }
 
     [JsonPropertyName("page_count")]

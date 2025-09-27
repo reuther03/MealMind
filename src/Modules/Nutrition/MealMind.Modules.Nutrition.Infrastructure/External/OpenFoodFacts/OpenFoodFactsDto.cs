@@ -19,6 +19,7 @@ public class OpenFoodFactsDto
     [JsonPropertyName("image_url")]
     public string? ImageUrl { get; init; }
 
+    [JsonPropertyName("nutriments")]
     public NutrimentsDto Nutriments { get; init; } = null!;
 
     public static Food MapToFood(OpenFoodFactsDto dto)
@@ -34,6 +35,7 @@ public class OpenFoodFactsDto
                 dto.Nutriments.SaturatedFat100G,
                 dto.Nutriments.Fiber100G,
                 dto.Nutriments.Sodium100G,
+                dto.Nutriments.Salt100G,
                 dto.Nutriments.Cholesterol100G),
             Source.ExternalApi,
             dto.Code,

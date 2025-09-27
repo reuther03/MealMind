@@ -26,14 +26,14 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
         {
             var databaseFoods = await _context.Foods
                 .WhereIf(!string.IsNullOrWhiteSpace(query.SearchTerm),
-                    x => EF.Functions.Like(x.Name.Value, $"%{query.SearchTerm}%") ||
+                    x => EF.Functions.Like(x.Name, $"%{query.SearchTerm}%") ||
                         EF.Functions.Like(x.Brand, $"%{query.SearchTerm}%"))
                 .Join(_context.FoodStatistics,
                     food => food.Id,
                     stats => stats.FoodId,
                     (food, stats) => new { Food = food, Stats = stats })
-                .OrderByDescending(x => x.Stats.PopularityScore)
-                .ThenByDescending(x => x.Stats.WeightedRating)
+                .OrderByDescending(x => x.Stats.TotalUsageCount * 0.5 + x.Stats.FavoriteCount * 2 + x.Stats.SearchCount * 0.05)
+                .ThenByDescending(x => x.Stats.AverageRating * x.Stats.RatingCount / (x.Stats.RatingCount + 5.0))
                 .Select(x => x.Food)
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize + 1)
