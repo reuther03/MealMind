@@ -41,5 +41,7 @@ public class DailyLog : AggregateRoot<DailyLogId>
     {
         if (_meals.Any(m => m.MealType == meal.MealType))
             throw new DomainException($"Meal of type {meal.MealType} already exists for this day.");
+
+        _meals.Add(meal);
     }
 }
