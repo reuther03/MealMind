@@ -85,5 +85,20 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                 .FindNavigation(nameof(UserProfile.FavoriteFoods))
                 ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
+
+        builder.OwnsMany(x => x.FavoriteMeals, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("UserProfileId");
+            ownedBuilder.ToTable("FavoriteFoods");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("FoodId");
+
+            builder.Metadata
+                .FindNavigation(nameof(UserProfile.FavoriteFoods))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Modules.Nutrition.Domain.Meal;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
@@ -9,11 +10,13 @@ public class UserProfile : AggregateRoot<UserId>
 {
     private readonly List<NutritionTarget> _nutritionTargets = [];
     private readonly List<FoodId> _favoriteFoods = [];
+    private readonly List<MealId> _favoriteMeals = [];
     public Name Username { get; private set; }
     public Email Email { get; private set; }
     public PersonalData PersonalData { get; private set; }
     public IReadOnlyList<NutritionTarget> NutritionTargets => _nutritionTargets.AsReadOnly();
     public IReadOnlyList<FoodId> FavoriteFoods => _favoriteFoods.AsReadOnly();
+    public IReadOnlyList<MealId> FavoriteMeals => _favoriteMeals.AsReadOnly();
 
 
     private UserProfile()
@@ -46,5 +49,13 @@ public class UserProfile : AggregateRoot<UserId>
             throw new InvalidOperationException("Food is already in favorites.");
 
         _favoriteFoods.Add(foodId);
+    }
+
+    public void AddFavoriteMeal(Guid mealId)
+    {
+        if (_favoriteMeals.Contains(mealId))
+            throw new InvalidOperationException("Meal is already in favorites.");
+
+        _favoriteMeals.Add(mealId);
     }
 }

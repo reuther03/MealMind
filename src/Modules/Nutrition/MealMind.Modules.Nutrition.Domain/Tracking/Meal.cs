@@ -1,11 +1,12 @@
 ﻿using MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Modules.Nutrition.Domain.Meal;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 namespace MealMind.Modules.Nutrition.Domain.Tracking;
 
-public class Meal : Entity<Guid>
+public class Meal : Entity<MealId>
 {
     private readonly List<FoodEntry> _foods = [];
 
@@ -38,8 +39,8 @@ public class Meal : Entity<Guid>
         Notes = notes;
     }
 
-    public static Meal Create(Guid id, MealType mealType, UserId userId, Name? name = null, DateTime? consumedAt = null, string? notes = null)
-        => new(id, mealType, userId, name, consumedAt, notes);
+    public static Meal Create(MealType mealType, UserId userId, Name? name = null, DateTime? consumedAt = null, string? notes = null)
+        => new(MealId.New(), mealType, userId, name, consumedAt, notes);
 
     public void AddFood(FoodEntry foodEntry)
         => _foods.Add(foodEntry);
