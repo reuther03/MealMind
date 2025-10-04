@@ -1,5 +1,4 @@
 using MealMind.Modules.Nutrition.Domain.Food;
-using MealMind.Modules.Nutrition.Domain.UserProfile;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

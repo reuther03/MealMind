@@ -24,7 +24,7 @@ public static class Extensions
             {
                 opt.BaseAddress = new Uri("https://world.openfoodfacts.net");
                 opt.DefaultRequestHeaders.Add("User-Agent", "MealMind/1.0");
-                opt.Timeout = TimeSpan.FromSeconds(10);
+                opt.Timeout = TimeSpan.FromSeconds(20);
             });
 
         return services;

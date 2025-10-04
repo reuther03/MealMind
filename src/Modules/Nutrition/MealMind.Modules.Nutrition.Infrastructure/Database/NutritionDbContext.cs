@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ internal class NutritionDbContext : DbContext, INutritionDbContext
 {
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
     public DbSet<Food> Foods => Set<Food>();
+    public DbSet<DailyLog> DailyLogs => Set<DailyLog>();
     public DbSet<FoodStatistics> FoodStatistics => Set<FoodStatistics>();
     public DbSet<FoodReview> FoodReviews => Set<FoodReview>();
 

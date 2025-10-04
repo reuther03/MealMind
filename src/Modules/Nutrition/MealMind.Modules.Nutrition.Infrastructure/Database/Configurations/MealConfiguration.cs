@@ -1,5 +1,4 @@
-﻿using MealMind.Modules.Nutrition.Domain.Meal;
-using MealMind.Modules.Nutrition.Domain.Tracking;
+﻿using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;

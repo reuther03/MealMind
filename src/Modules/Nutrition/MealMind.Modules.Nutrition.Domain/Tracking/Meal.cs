@@ -1,5 +1,4 @@
 ﻿using MealMind.Modules.Nutrition.Domain.Food;
-using MealMind.Modules.Nutrition.Domain.Meal;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
@@ -22,6 +21,7 @@ public class Meal : Entity<MealId>
     public decimal? TotalFiber => _foods.Sum(f => f.TotalFiber);
     public decimal? TotalSodium => _foods.Sum(f => f.TotalSodium);
     public UserId UserId { get; private set; }
+    //todo: nie powinno byc timeonly aby bylo mniej walidacji z datami z dailylog?
     public DateTime? ConsumedAt { get; private set; }
     public string? Notes { get; private set; }
 
