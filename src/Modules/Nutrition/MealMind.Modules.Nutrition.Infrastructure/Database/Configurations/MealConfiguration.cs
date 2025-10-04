@@ -1,4 +1,5 @@
-﻿using MealMind.Modules.Nutrition.Domain.Tracking;
+﻿using MealMind.Modules.Nutrition.Domain.Meal;
+using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public class MealConfiguration : IEntityTypeConfiguration<Meal>
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
+            .HasConversion(x => x.Value, x => MealId.From(x))
             .ValueGeneratedNever();
 
         builder.Property(x => x.MealType)

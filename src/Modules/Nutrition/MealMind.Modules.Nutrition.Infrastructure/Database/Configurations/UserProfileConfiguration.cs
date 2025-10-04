@@ -89,15 +89,15 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
         builder.OwnsMany(x => x.FavoriteMeals, ownedBuilder =>
         {
             ownedBuilder.WithOwner().HasForeignKey("UserProfileId");
-            ownedBuilder.ToTable("FavoriteFoods");
+            ownedBuilder.ToTable("FavoriteMeals");
             ownedBuilder.HasKey("Id");
 
             ownedBuilder.Property(x => x.Value)
                 .ValueGeneratedNever()
-                .HasColumnName("FoodId");
+                .HasColumnName("MealId");
 
             builder.Metadata
-                .FindNavigation(nameof(UserProfile.FavoriteFoods))
+                .FindNavigation(nameof(UserProfile.FavoriteMeals))
                 ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
     }

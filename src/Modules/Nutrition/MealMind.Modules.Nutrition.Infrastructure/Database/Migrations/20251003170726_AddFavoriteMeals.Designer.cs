@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    partial class NutritionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251003170726_AddFavoriteMeals")]
+    partial class AddFavoriteMeals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -543,31 +546,6 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 
                             b1.Property<Guid>("Value")
                                 .HasColumnType("uuid")
-                                .HasColumnName("FoodId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("UserProfileId");
-
-                            b1.ToTable("FavoriteFoods", "nutrition");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserProfileId");
-                        });
-
-                    b.OwnsMany("MealMind.Modules.Nutrition.Domain.Meal.MealId", "FavoriteMeals", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("UserProfileId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
                                 .HasColumnName("MealId");
 
                             b1.HasKey("Id");
@@ -623,8 +601,6 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                         });
 
                     b.Navigation("FavoriteFoods");
-
-                    b.Navigation("FavoriteMeals");
 
                     b.Navigation("PersonalData")
                         .IsRequired();
