@@ -1,6 +1,6 @@
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 
-namespace MealMind.Modules.Nutrition.Domain.Meal;
+namespace MealMind.Modules.Nutrition.Domain.Food;
 
 public record MealId : EntityId
 {
