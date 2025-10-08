@@ -6,7 +6,7 @@ networks:
 
 services:
   mealmind.postgres:
-    image: postgres:latest
+    image: pgvector/pgvector:0.8.1-pg18-trixie
     container_name: MealMind.Postgres
     hostname: MealMind.Postgres
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./pg_data:/var/lib/postgresql/data
+      - ./.container/postgres:/var/lib/postgresql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres -d MealMind" ]
       interval: 5s
