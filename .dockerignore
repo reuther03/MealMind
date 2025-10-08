@@ -7,10 +7,12 @@
 .idea/
 .claude/
 .container/
-CLAUDE.md
+.gitignore
+.git
 
 # User-specific files
 LearningMaterials
+CLAUDE.md
 
 # Tests
 **/[Tt]ests/

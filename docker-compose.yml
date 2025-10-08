@@ -13,11 +13,33 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - "5433:5433"
+      - "5432:5432"
     volumes:
-      - ./.container/mealmind.postgres:/var/lib/postgresql
-      - ./.container/mealmind.postgres:/var/log/postgresql
-    command: -p 5433
+      - ./pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d MealMind" ]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    networks:
+      - MealMind.Network
+
+  mealmind.api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DOTNET_VERSION: "9.0"
+        BUILD_CONFIGURATION: "Release"
+    container_name: MealMind.Api
+    depends_on:
+      mealmind.postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      postgres__connectionString: "Host=mealmind.postgres;Port=5432;Database=MealMind;Username=postgres;Password="
+    ports:
+      - "8080:8080"
     networks:
       - MealMind.Network
 
