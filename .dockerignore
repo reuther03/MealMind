@@ -1,0 +1,16 @@
+﻿# Build outputs
+**/[b|B]in/
+**/[O|o]bj/
+
+# IDE / tooling
+.vscode/
+.idea/
+.claude/
+.container/
+CLAUDE.md
+
+# User-specific files
+LearningMaterials
+
+# Tests
+**/[Tt]ests/
