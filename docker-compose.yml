@@ -3,6 +3,8 @@
 networks:
   MealMind.Network:
     name: MealMind.Network
+  ai-net:
+    external: true
 
 services:
   mealmind.postgres:
