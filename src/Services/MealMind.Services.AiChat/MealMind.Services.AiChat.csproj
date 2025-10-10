@@ -7,7 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj" />
+        <PackageReference Include="Microsoft.Extensions.AI" Version="9.9.1" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.66.0-alpha"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\MealMind.Shared.Abstractions\MealMind.Shared.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: InternalsVisibleTo("MealMind.Bootstrapper")]
+[assembly: InternalsVisibleTo("MealMind.Services.AiChat")]
 
 namespace MealMind.Shared.Infrastructure;
 

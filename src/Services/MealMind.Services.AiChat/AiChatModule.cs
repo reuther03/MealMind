@@ -6,11 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MealMind.Services.AiChat;
 
-public class AIChatModule : IModule
+public class AiChatModule : IModule
 {
-    public const string BasePath = "AIChat-module";
+    public const string BasePath = "AiChat-module";
 
-    public string Name => "AIChat";
+    public string Name => "AiChat";
     public string Path => BasePath;
 
     public void Register(IServiceCollection services)
