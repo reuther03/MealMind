@@ -1,6 +1,11 @@
-﻿namespace MealMind.Services.AiChat.Services;
+﻿using MealMind.Shared.Abstractions.Services;
 
-public class AiChatService
+namespace MealMind.Services.AiChat.Services;
+
+public class AiChatService : IAiChatService
 {
-    
+    public Task<string> GenerateHashtags(string postContent, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
 }
