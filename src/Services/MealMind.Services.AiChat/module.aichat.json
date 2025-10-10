@@ -1,8 +1,0 @@
-{
-  "AIChat": {
-    "module": {
-      "name": "AIChat",
-      "enabled": true
-    }
-  }
-}
