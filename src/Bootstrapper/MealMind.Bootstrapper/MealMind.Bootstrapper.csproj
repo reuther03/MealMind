@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Modules\AiChat\MealMind.Modules.AiChat.Api\MealMind.Modules.AiChat.Api.csproj" />
         <ProjectReference Include="..\..\Modules\Identity\MealMind.Modules.Identity.Api\MealMind.Modules.Identity.Api.csproj"/>
         <ProjectReference Include="..\..\Modules\Nutrition\MealMind.Modules.Nutrition.Api\MealMind.Modules.Nutrition.Api.csproj" />
     </ItemGroup>

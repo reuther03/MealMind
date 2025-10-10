@@ -62,6 +62,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{F0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Services.AiChat", "src\Services\MealMind.Services.AiChat\MealMind.Services.AiChat.csproj", "{48B71C89-BCE6-484F-9EF6-8F7B24601417}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AiChat", "AiChat", "{C728170F-D4F8-46AE-AB86-A9586FEF0C91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.AiChat.Api", "src\Modules\AiChat\MealMind.Modules.AiChat.Api\MealMind.Modules.AiChat.Api.csproj", "{643EAD87-2A4F-45CC-871A-A0D0316F0E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.AiChat.Application", "src\Modules\AiChat\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj", "{F0F5FA3C-5DD5-4094-AE13-AE08FF728470}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.AiChat.Domain", "src\Modules\AiChat\MealMind.Modules.AiChat.Domain\MealMind.Modules.AiChat.Domain.csproj", "{AF4D5082-2C30-4888-A276-5A0A4544EA32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Modules.AiChat.Infrastructure", "src\Modules\AiChat\MealMind.Modules.AiChat.Infrastructure\MealMind.Modules.AiChat.Infrastructure.csproj", "{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +107,11 @@ Global
 		{C6236B95-DDC4-41F8-BDA0-D715730CC0DB} = {6362FD21-0AAB-45A7-B342-68D0DFFCBD69}
 		{F0054A30-E5A0-4810-94CF-AD9FCE1C0772} = {D2B5906E-0B53-4969-A3C9-85AF37F9100B}
 		{48B71C89-BCE6-484F-9EF6-8F7B24601417} = {F0054A30-E5A0-4810-94CF-AD9FCE1C0772}
+		{C728170F-D4F8-46AE-AB86-A9586FEF0C91} = {8596FE12-16D3-4102-9E14-5D43A612F4AD}
+		{643EAD87-2A4F-45CC-871A-A0D0316F0E47} = {C728170F-D4F8-46AE-AB86-A9586FEF0C91}
+		{F0F5FA3C-5DD5-4094-AE13-AE08FF728470} = {C728170F-D4F8-46AE-AB86-A9586FEF0C91}
+		{AF4D5082-2C30-4888-A276-5A0A4544EA32} = {C728170F-D4F8-46AE-AB86-A9586FEF0C91}
+		{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA} = {C728170F-D4F8-46AE-AB86-A9586FEF0C91}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -167,5 +182,21 @@ Global
 		{48B71C89-BCE6-484F-9EF6-8F7B24601417}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48B71C89-BCE6-484F-9EF6-8F7B24601417}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48B71C89-BCE6-484F-9EF6-8F7B24601417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{643EAD87-2A4F-45CC-871A-A0D0316F0E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{643EAD87-2A4F-45CC-871A-A0D0316F0E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{643EAD87-2A4F-45CC-871A-A0D0316F0E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{643EAD87-2A4F-45CC-871A-A0D0316F0E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F5FA3C-5DD5-4094-AE13-AE08FF728470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F5FA3C-5DD5-4094-AE13-AE08FF728470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F5FA3C-5DD5-4094-AE13-AE08FF728470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F5FA3C-5DD5-4094-AE13-AE08FF728470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF4D5082-2C30-4888-A276-5A0A4544EA32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4D5082-2C30-4888-A276-5A0A4544EA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF4D5082-2C30-4888-A276-5A0A4544EA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF4D5082-2C30-4888-A276-5A0A4544EA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

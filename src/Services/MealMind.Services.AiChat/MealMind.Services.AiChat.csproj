@@ -16,4 +16,9 @@
         <ProjectReference Include="..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Database\" />
+      <Folder Include="Endpoints\" />
+    </ItemGroup>
+
 </Project>
