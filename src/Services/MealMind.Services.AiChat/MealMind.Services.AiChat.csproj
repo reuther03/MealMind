@@ -17,8 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Database\" />
-      <Folder Include="Endpoints\" />
+      <Folder Include="Domain\" />
     </ItemGroup>
 
 </Project>
