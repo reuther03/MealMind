@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Configurations;
 
-public class ChatMessageConfiguration : IEntityTypeConfiguration<ChatMessage>
+public class ChatMessageConfiguration : IEntityTypeConfiguration<AiChatMessage>
 {
-    public void Configure(EntityTypeBuilder<ChatMessage> builder)
+    public void Configure(EntityTypeBuilder<AiChatMessage> builder)
     {
         builder.ToTable("ChatMessages");
 

@@ -6,5 +6,5 @@ namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
 public interface IAiChatDbContext
 {
     DbSet<Conversation> ChatConversations { get; }
-    DbSet<ChatMessage> ChatMessages { get; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
