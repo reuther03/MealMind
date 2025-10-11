@@ -1,6 +1,7 @@
-﻿namespace MealMind.Modules.AiChat.Infrastructure.Services;
+﻿using MealMind.Shared.Abstractions.Services;
 
-public class EmbeddingService
+namespace MealMind.Modules.AiChat.Infrastructure.Services;
+
+public class EmbeddingService : IEmbeddingService
 {
-    
 }

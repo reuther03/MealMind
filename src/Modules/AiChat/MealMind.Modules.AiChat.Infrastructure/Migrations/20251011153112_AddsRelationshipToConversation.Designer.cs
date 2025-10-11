@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.AiChat.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pgvector;
@@ -12,9 +13,11 @@ using Pgvector;
 namespace MealMind.Modules.AiChat.Infrastructure.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
-    partial class AiChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251011153112_AddsRelationshipToConversation")]
+    partial class AddsRelationshipToConversation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
