@@ -1,5 +1,6 @@
-﻿// ReSharper disable ClassNeverInstantiated.Global
-
+﻿using MealMind.Modules.AiChat.Application;
+using MealMind.Modules.AiChat.Domain;
+using MealMind.Modules.AiChat.Infrastructure;
 using MealMind.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,10 @@ public class AiChatModule : IModule
 
     public void Register(IServiceCollection services)
     {
+        services
+            .AddApplication()
+            .AddDomain()
+            .AddInfrastructure();
     }
 
     public void Use(WebApplication app)
