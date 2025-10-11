@@ -7,11 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.66.0-alpha"/>
-        <PackageReference Include="Pgvector" Version="0.3.2"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj"/>
         <ProjectReference Include="..\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj"/>
     </ItemGroup>

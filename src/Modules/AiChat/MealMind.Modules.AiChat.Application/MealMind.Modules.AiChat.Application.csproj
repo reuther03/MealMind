@@ -10,4 +10,9 @@
       <ProjectReference Include="..\MealMind.Modules.AiChat.Domain\MealMind.Modules.AiChat.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Commands\" />
+      <Folder Include="Features\Queries\" />
+    </ItemGroup>
+
 </Project>
