@@ -30,7 +30,12 @@ public class ChatConversationConfiguration : IEntityTypeConfiguration<Conversati
         builder.Property(x => x.LastUsedAt)
             .IsRequired();
 
+        builder.HasMany(x => x.ChatMessages)
+            .WithOne()
+            .HasForeignKey(x => x.ConversationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         // Composite index for listing user's conversations sorted by most recent
-        builder.HasIndex(x => new { UserId = x.UserId, x.LastUsedAt });
+        builder.HasIndex(x => new { x.UserId, x.LastUsedAt });
     }
 }

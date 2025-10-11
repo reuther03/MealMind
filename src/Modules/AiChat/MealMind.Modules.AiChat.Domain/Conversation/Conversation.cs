@@ -10,7 +10,7 @@ public class Conversation : AggregateRoot<ConversationId>
     public string? Title { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime LastUsedAt { get; private set; }
-    public IReadOnlyList<ChatMessage> ChatMessages => _chatMessages.ToList().AsReadOnly();
+    public IReadOnlyList<ChatMessage> ChatMessages => _chatMessages.AsReadOnly();
 
     private Conversation()
     {
