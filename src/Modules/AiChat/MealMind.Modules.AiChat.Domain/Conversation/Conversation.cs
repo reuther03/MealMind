@@ -5,12 +5,12 @@ namespace MealMind.Modules.AiChat.Domain.Conversation;
 
 public class Conversation : AggregateRoot<ConversationId>
 {
-    private readonly IList<ChatMessage> _chatMessages = [];
+    private readonly IList<AiChatMessage> _chatMessages = [];
     public UserId UserId { get; private set; }
     public string? Title { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime LastUsedAt { get; private set; }
-    public IReadOnlyList<ChatMessage> ChatMessages => _chatMessages.AsReadOnly();
+    public IReadOnlyList<AiChatMessage> ChatMessages => _chatMessages.AsReadOnly();
 
     private Conversation()
     {
@@ -27,7 +27,7 @@ public class Conversation : AggregateRoot<ConversationId>
     public static Conversation Create(UserId userId, string? title, DateTime createdAt, DateTime lastUsedAt)
         => new(ConversationId.New(), userId, title, createdAt, lastUsedAt);
 
-    public void AddMessage(ChatMessage message)
+    public void AddMessage(AiChatMessage message)
     {
         ArgumentNullException.ThrowIfNull(message);
         if (message.ConversationId != Id)
@@ -35,5 +35,12 @@ public class Conversation : AggregateRoot<ConversationId>
 
         _chatMessages.Add(message);
         LastUsedAt = DateTime.UtcNow;
+    }
+
+    public AiChatMessage GetRecentMessage()
+    {
+        return !_chatMessages.Any()
+            ? throw new InvalidOperationException("No messages in the conversation.")
+            : _chatMessages.Where(x => x.Role == AiChatRole.Assistant).OrderByDescending(x => x.CreatedAt).First();
     }
 }
