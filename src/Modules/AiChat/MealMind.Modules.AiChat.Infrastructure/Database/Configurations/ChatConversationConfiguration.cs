@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Configurations;
 
-public class ChatConversationConfiguration : IEntityTypeConfiguration<ChatConversation>
+public class ChatConversationConfiguration : IEntityTypeConfiguration<Conversation>
 {
-    public void Configure(EntityTypeBuilder<ChatConversation> builder)
+    public void Configure(EntityTypeBuilder<Conversation> builder)
     {
         builder.ToTable("ChatConversations");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
+            .HasConversion(x => x.Value, x => ConversationId.From(x))
             .ValueGeneratedNever();
 
         builder.Property(x => x.UserId)
@@ -30,6 +31,6 @@ public class ChatConversationConfiguration : IEntityTypeConfiguration<ChatConver
             .IsRequired();
 
         // Composite index for listing user's conversations sorted by most recent
-        builder.HasIndex(x => new { x.UserId, x.LastUsedAt });
+        builder.HasIndex(x => new { UserId = x.UserId, x.LastUsedAt });
     }
 }

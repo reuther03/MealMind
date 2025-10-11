@@ -5,6 +5,6 @@ namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
 
 public interface IAiChatDbContext
 {
-    DbSet<ChatConversation> ChatConversations { get; }
+    DbSet<Conversation> ChatConversations { get; }
     DbSet<ChatMessage> ChatMessages { get; }
 }

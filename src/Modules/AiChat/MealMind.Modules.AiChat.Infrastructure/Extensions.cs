@@ -19,8 +19,6 @@ public static class Extensions
         services.AddOllamaChatClient(options.ChatModel, new Uri(options.Uri));
         services.AddOllamaEmbeddingGenerator(options.EmbedModel, new Uri(options.Uri));
 
-        services.AddSingleton<IAiChatService, AiChatService>();
-
         services.AddPostgres<AiChatDbContext>()
             .AddScoped<IAiChatDbContext, AiChatDbContext>()
             .AddScoped<IAiChatService, AiChatService>();

@@ -1,11 +1,10 @@
-﻿
-using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
 
 namespace MealMind.Modules.AiChat.Domain.Conversation;
 
 public class ChatMessage : Entity<Guid>
 {
-    public Guid ConversationId { get; private set; }
+    public ConversationId ConversationId { get; private set; }
     public ChatRole Role { get; private set; }
     public string Content { get; private set; }
     public Guid ReplyToMessageId { get; private set; }

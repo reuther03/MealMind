@@ -15,6 +15,7 @@ public class ChatMessageConfiguration : IEntityTypeConfiguration<ChatMessage>
             .ValueGeneratedNever();
 
         builder.Property(x => x.ConversationId)
+            .HasConversion(x => x.Value, x => ConversationId.From(x))
             .IsRequired();
 
         builder.Property(x => x.Role)
