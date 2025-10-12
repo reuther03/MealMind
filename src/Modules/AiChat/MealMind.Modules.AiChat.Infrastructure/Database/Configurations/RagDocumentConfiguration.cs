@@ -1,7 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Domain.Rag;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Configurations;

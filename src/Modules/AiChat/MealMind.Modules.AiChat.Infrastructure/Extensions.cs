@@ -14,13 +14,6 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-        var options = new AiChatOptions();
-        configuration.GetSection(AiChatOptions.SectionName).Bind(options);
-
-        services.AddOllamaChatClient(options.ChatModel, new Uri(options.Uri));
-        services.AddOllamaEmbeddingGenerator(options.EmbedModel, new Uri(options.Uri));
-
         services.AddPostgres<AiChatDbContext>()
             .AddScoped<IAiChatDbContext, AiChatDbContext>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
