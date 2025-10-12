@@ -16,16 +16,32 @@ public class Conversation : AggregateRoot<ConversationId>
     {
     }
 
-    private Conversation(ConversationId id, UserId userId, string? title, DateTime createdAt, DateTime lastUsedAt) : base(id)
+    private Conversation(ConversationId id, UserId userId, string? title) : base(id)
     {
         UserId = userId;
         Title = title;
-        CreatedAt = createdAt;
-        LastUsedAt = lastUsedAt;
+        CreatedAt = DateTime.UtcNow;
+        LastUsedAt = CreatedAt;
     }
 
-    public static Conversation Create(UserId userId, string? title, DateTime createdAt, DateTime lastUsedAt)
-        => new(ConversationId.New(), userId, title, createdAt, lastUsedAt);
+    public static Conversation Create(UserId userId, string? title)
+        => new(ConversationId.New(), userId, title);
+
+    public void SetTitle(string title)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            throw new ArgumentException("Title cannot be null or whitespace.", nameof(title));
+
+        Title = title;
+    }
+
+    public void SetLastUsedAt(DateTime lastUsedAt)
+    {
+        if (lastUsedAt < CreatedAt)
+            throw new ArgumentException("Last used date cannot be earlier than creation date.", nameof(lastUsedAt));
+
+        LastUsedAt = lastUsedAt;
+    }
 
     public void AddMessage(AiChatMessage message)
     {
