@@ -1,6 +1,7 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Infrastructure.Database;
+using MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
 using MealMind.Modules.AiChat.Infrastructure.Services;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
@@ -24,7 +25,8 @@ public static class Extensions
             .AddScoped<IAiChatDbContext, AiChatDbContext>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
             .AddScoped<IAiChatService, AiChatService>()
-            .AddScoped<IEmbeddingService, EmbeddingService>();
+            .AddScoped<IEmbeddingService, EmbeddingService>()
+            .AddScoped<IConversationRepository, ConversationRepository>();
 
         return services;
     }
