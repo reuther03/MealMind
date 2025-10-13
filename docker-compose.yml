@@ -3,8 +3,6 @@
 networks:
   MealMind.Network:
     name: MealMind.Network
-  ai-net:
-    external: true
 
 services:
   mealmind.postgres:
@@ -45,6 +43,21 @@ services:
     networks:
       - MealMind.Network
 
+  mealmind.ollama:
+    image: ollama/ollama:latest
+    container_name: MealMind.Ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - MealMind.Network
+
 volumes:
   postgres:
+    driver: local
+  ollama_data:
     driver: local
