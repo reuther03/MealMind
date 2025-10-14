@@ -33,8 +33,8 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
             NullValidator.ValidateNotNull(conversation);
 
             var chatMessages = conversation.ChatMessages
-                .Select(x => new ChatMessage(new ChatRole(x.Role.ToString()), x.Content))
                 .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new ChatMessage(new ChatRole(x.Role.ToString()), x.Content))
                 .ToList();
 
             NullValidator.ValidateNotNull(chatMessages);

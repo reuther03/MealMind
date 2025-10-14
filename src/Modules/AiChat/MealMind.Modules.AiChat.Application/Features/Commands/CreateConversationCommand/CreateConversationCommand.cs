@@ -44,6 +44,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<string>
             // creates initial message of type AiChatMessage which is type used to store messages in the database
             var aiChatSystemMessage = AiChatMessage.Create(conversation.Id, AiChatRole.System, systemInstruction.Text, Guid.Empty);
 
+
             // user message - the prompt provided by the user to IChatClient
             var userMessage = new ChatMessage(ChatRole.User, command.Prompt);
             // user message - the prompt provided by the user to be stored in the database
