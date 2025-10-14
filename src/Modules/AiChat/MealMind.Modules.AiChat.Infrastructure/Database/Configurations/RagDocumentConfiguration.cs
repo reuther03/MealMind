@@ -17,6 +17,7 @@ public class RagDocumentConfiguration : IEntityTypeConfiguration<RagDocument>
             .IsRequired();
 
         builder.Property(x => x.Content)
+            .HasMaxLength(5000)
             .IsRequired();
 
         builder.Property(x => x.Embedding)
