@@ -29,6 +29,9 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
 
         public async Task<Result<string>> Handle(GetChatResponseCommand request, CancellationToken cancellationToken)
         {
+            if (!_userService.IsAuthenticated)
+                return Result<string>.BadRequest("User is not authenticated");
+
             var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId, cancellationToken);
             NullValidator.ValidateNotNull(conversation);
 
