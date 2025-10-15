@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.AiChat.Domain.Conversation;
+using MealMind.Modules.AiChat.Domain.Rag;
 using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
@@ -6,5 +7,7 @@ namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
 public interface IAiChatDbContext
 {
     DbSet<Conversation> ChatConversations { get; }
+    DbSet<RagDocument> RagDocuments { get; }
+    DbSet<ConversationDocument> ConversationDocuments { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

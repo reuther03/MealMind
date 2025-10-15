@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.AiChat.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pgvector;
@@ -12,9 +13,11 @@ using Pgvector;
 namespace MealMind.Modules.AiChat.Infrastructure.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
-    partial class AiChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251015000754_RefactorsDocuments")]
+    partial class RefactorsDocuments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,7 +88,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
                     b.ToTable("ChatConversations", "aichat");
                 });
 
-            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Rag.ConversationDocument", b =>
+            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Rag.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -100,76 +103,37 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(5000)
                         .HasColumnType("character varying(5000)");
+
+                    b.Property<Guid>("DocumentGroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Vector>("Embedding")
+                        .IsRequired()
+                        .HasColumnType("vector(768)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents", "aichat");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Rag.ConversationDocument", b =>
+                {
+                    b.HasBaseType("MealMind.Modules.AiChat.Domain.Rag.Document");
 
                     b.Property<Guid>("ConversationId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("DocumentGroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Vector>("Embedding")
-                        .HasColumnType("vector(768)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Embedding");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Embedding"), "hnsw");
-                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Embedding"), new[] { "vector_cosine_ops" });
-
-                    b.HasIndex("ConversationId", "DocumentGroupId", "ChunkIndex");
-
                     b.ToTable("ConversationDocuments", "aichat");
-                });
-
-            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Rag.RagDocument", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("AttachedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("ChunkIndex")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
-
-                    b.Property<Guid>("DocumentGroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Vector>("Embedding")
-                        .HasColumnType("vector(768)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Embedding");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Embedding"), "hnsw");
-                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Embedding"), new[] { "vector_cosine_ops" });
-
-                    b.HasIndex("DocumentGroupId", "ChunkIndex");
-
-                    b.ToTable("RagDocuments", "aichat");
                 });
 
             modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Conversation.AiChatMessage", b =>
@@ -177,6 +141,15 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
                     b.HasOne("MealMind.Modules.AiChat.Domain.Conversation.Conversation", null)
                         .WithMany("ChatMessages")
                         .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Rag.ConversationDocument", b =>
+                {
+                    b.HasOne("MealMind.Modules.AiChat.Domain.Rag.Document", null)
+                        .WithOne()
+                        .HasForeignKey("MealMind.Modules.AiChat.Domain.Rag.ConversationDocument", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

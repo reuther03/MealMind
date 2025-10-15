@@ -2,18 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Configurations;
 
 public class RagDocumentConfiguration : IEntityTypeConfiguration<RagDocument>
 {
     public void Configure(EntityTypeBuilder<RagDocument> builder)
     {
-        builder.ToTable("RagDocument");
+        builder.ToTable("RagDocuments");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
             .ValueGeneratedNever()
+            .IsRequired();
+
+        builder.Property(x => x.Title)
+            .HasMaxLength(255)
             .IsRequired();
 
         builder.Property(x => x.Content)
@@ -21,10 +24,24 @@ public class RagDocumentConfiguration : IEntityTypeConfiguration<RagDocument>
             .IsRequired();
 
         builder.Property(x => x.Embedding)
-            .HasColumnType("vector(768)") // Assuming 768 dimensions for the embedding
+            .HasColumnType("vector(768)");
+
+        builder.Property(x => x.ChunkIndex)
             .IsRequired();
 
-        builder.Property(x => x.CreatedAt)
+        builder.Property(x => x.DocumentGroupId)
+            .ValueGeneratedNever()
             .IsRequired();
+
+        builder.Property(x => x.AttachedAt)
+            .IsRequired();
+
+        // Index for semantic search
+        builder.HasIndex(x => x.Embedding)
+            .HasMethod("hnsw")
+            .HasOperators("vector_cosine_ops");
+
+        // Index for grouping chunks
+        builder.HasIndex(x => new { x.DocumentGroupId, x.ChunkIndex });
     }
 }

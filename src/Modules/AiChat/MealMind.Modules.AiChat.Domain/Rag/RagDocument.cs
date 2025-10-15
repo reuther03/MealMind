@@ -1,25 +1,18 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
-using Pgvector;
+﻿using Pgvector;
 
 namespace MealMind.Modules.AiChat.Domain.Rag;
 
-public class RagDocument : Entity<Guid>
+public class RagDocument : Document
 {
-    public string Content { get; private set; }
-    public Vector? Embedding { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-
     private RagDocument()
     {
     }
 
-    private RagDocument(Guid id, string content, Vector? embedding) : base(id)
+    private RagDocument(Guid id, string title, string content, Vector? embedding, int chunkIndex, Guid documentGroupId)
+        : base(id, title, content, embedding, chunkIndex, documentGroupId)
     {
-        Content = content;
-        Embedding = embedding;
-        CreatedAt = DateTime.UtcNow;
     }
 
-    public static RagDocument Create(string content, Vector? embedding)
-        => new(Guid.NewGuid(), content, embedding);
+    public static RagDocument Create(string title, string content, Vector? embedding, int chunkIndex, Guid documentGroupId)
+        => new(Guid.NewGuid(), title, content, embedding, chunkIndex, documentGroupId);
 }
