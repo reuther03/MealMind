@@ -1,7 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.SemanticKernel;
 
 namespace MealMind.Modules.AiChat.Application;
 
