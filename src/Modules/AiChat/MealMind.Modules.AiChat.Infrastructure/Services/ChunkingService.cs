@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using MealMind.Modules.AiChat.Application.Abstractions.Database;
+﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using Microsoft.SemanticKernel.Text;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Services;

@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MealMind.Modules.AiChat.Domain\MealMind.Modules.AiChat.Domain.csproj" />
+        <ProjectReference Include="..\MealMind.Modules.AiChat.Domain\MealMind.Modules.AiChat.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Queries\" />
+        <Folder Include="Features\Queries\"/>
     </ItemGroup>
 
 </Project>

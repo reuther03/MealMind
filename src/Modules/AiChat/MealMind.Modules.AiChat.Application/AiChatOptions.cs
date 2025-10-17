@@ -1,4 +1,4 @@
-﻿namespace MealMind.Modules.AiChat.Infrastructure;
+﻿namespace MealMind.Modules.AiChat.Application;
 
 public class AiChatOptions
 {
