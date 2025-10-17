@@ -2,7 +2,9 @@
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Infrastructure.Database;
 using MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
+using MealMind.Modules.AiChat.Infrastructure.Database.Seeders;
 using MealMind.Modules.AiChat.Infrastructure.Services;
+using MealMind.Shared.Abstractions.Modules;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +21,8 @@ public static class Extensions
             .AddScoped<IAiChatService, AiChatService>()
             .AddScoped<IEmbeddingService, EmbeddingService>()
             .AddScoped<IChunkingService, ChunkingService>()
-            .AddScoped<IConversationRepository, ConversationRepository>();
+            .AddScoped<IConversationRepository, ConversationRepository>()
+            .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
         return services;
     }
