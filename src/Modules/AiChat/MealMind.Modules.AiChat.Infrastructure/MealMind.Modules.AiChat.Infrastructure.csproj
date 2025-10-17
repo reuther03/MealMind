@@ -11,4 +11,8 @@
         <ProjectReference Include="..\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj"/>
     </ItemGroup>
 
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);SKEXP0050</NoWarn>
+    </PropertyGroup>
+
 </Project>
