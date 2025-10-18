@@ -12,6 +12,7 @@ MealMind is a modular .NET 9 application built with clean architecture principle
 - **Modules**: Feature-specific implementations following vertical slice architecture
   - Identity: User authentication and management
   - Nutrition: User profiles and nutrition tracking
+  - AiChat: Conversational AI with RAG (Retrieval-Augmented Generation)
 - **Shared**: Cross-cutting concerns and abstractions
 
 ### Key Patterns
@@ -47,9 +48,10 @@ docker-compose down
 ```
 
 ## Database
-- PostgreSQL on port 5433 (configured in docker-compose.yml)
+- PostgreSQL with pgvector extension on port 5432 (configured in docker-compose.yml)
 - Connection string in appsettings.json
 - Each module manages its own DbContext and migrations
+- pgvector extension used for AI embeddings and semantic search in AiChat module
 
 ## Module Development
 When adding features to a module:
@@ -115,6 +117,94 @@ await _unitOfWork.CommitAsync(cancellationToken);
 ```csharp
 // Publishes events for other modules to consume
 await _publisher.Publish(new IdentityUserCreatedEvent(...));
+```
+
+## AI Chat Module (RAG Implementation)
+
+### Architecture
+The AiChat module implements RAG (Retrieval-Augmented Generation) using:
+- **Ollama** for local LLM inference (llama3.2:3b) and embeddings (nomic-embed-text)
+- **pgvector** for storing and querying 768-dimensional embeddings
+- **Microsoft.SemanticKernel.Connectors.Ollama** for AI integration
+- **Table Per Concrete Type (TPC)** inheritance mapping for document entities
+
+### Document Storage
+Two types of documents for RAG context:
+- **RagDocument**: Global knowledge base (nutrition facts, cooking tips) - searchable across all conversations
+- **ConversationDocument**: User-specific documents (diet summaries, workout logs) - attached to specific conversations
+
+Both use TPC inheritance from abstract `Document` base class:
+```csharp
+public abstract class Document : Entity<Guid>
+{
+    public Guid DocumentGroupId { get; }  // Logical grouping for chunks from same document
+    public int ChunkIndex { get; }        // Position in original document (0, 1, 2...)
+    public string Title { get; }
+    public string Content { get; }         // Individual chunk text
+    public Vector Embedding { get; }       // 768-dim vector for semantic search
+    public DateTime AttachedAt { get; }
+}
+```
+
+### Chunking & Embedding Flow
+1. **Chunking**: `IChunkingService` splits documents into ~500 token chunks using `Microsoft.SemanticKernel.Text.TextChunker`
+2. **Embedding**: `IEmbeddingService` generates 768-dim vectors using Ollama's `nomic-embed-text` model
+3. **Storage**: Each chunk stored as separate row with embedding in pgvector column
+4. **Semantic Search**: cosine similarity search finds relevant chunks for user questions
+
+### Cross-Module Communication
+Other modules (Nutrition, Training) can attach documents to conversations:
+```csharp
+// Nutrition Module generates diet summary
+var dietDoc = GenerateDietSummary(userId);
+
+// Send to AiChat Module
+await _sender.Send(new AttachDocumentCommand(
+    conversationId,
+    "Diet Summary",
+    dietDoc,
+    DocumentSource.NutritionData
+));
+
+// AiChat chunks, embeds, and stores
+// User's chat AI now has access to diet data via semantic search
+```
+
+### Learning Resources
+See `docs/learning/` for detailed explanations:
+- `RAG-Chunking-Strategies.md` - Overview of chunking strategies
+- `RAG-Document-Chunking-Approaches.md` - Comparison of storage approaches (logical grouping vs full document + chunks)
+
+## Ollama Configuration
+
+### Running Locally (Development)
+```bash
+# API runs on host (dotnet run), connects to containers via localhost
+# appsettings.json:
+"llm": {
+  "ChatModel": "llama3.2:3b",
+  "EmbedModel": "nomic-embed-text",
+  "Uri": "http://localhost:11434"
+}
+```
+
+### Running in Docker (Production)
+```bash
+# API runs in container, connects via service names
+# docker-compose.yml environment variables:
+llm__Uri: "http://mealmind.ollama:11434"
+```
+
+### Managing Ollama Container
+```bash
+# Pull model into container
+docker exec -it MealMind.Ollama ollama pull llama3.2:3b
+
+# List available models
+docker exec -it MealMind.Ollama ollama list
+
+# Keep model loaded (optional, OLLAMA_KEEP_ALIVE handles this)
+docker exec -it MealMind.Ollama ollama run llama3.2:3b
 ```
 
 ## Testing
