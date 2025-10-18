@@ -20,6 +20,9 @@ public class AiChatModuleSeeder : IModuleSeeder
 
     public async Task SeedAsync(IConfiguration configuration, CancellationToken cancellationToken)
     {
+        if (_dbContext.RagDocuments.Any())
+            return;
+
         var filesToSeed = Directory.GetFiles(@"C:\Repos\MealMind\seed-data", "*.md");
 
         foreach (var file in filesToSeed)
