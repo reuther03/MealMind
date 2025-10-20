@@ -22,6 +22,7 @@ public static class Extensions
             .AddScoped<IEmbeddingService, EmbeddingService>()
             .AddScoped<IChunkingService, ChunkingService>()
             .AddScoped<IConversationRepository, ConversationRepository>()
+            .AddScoped<IDocumentRepository, DocumentRepository>()
             .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
         return services;

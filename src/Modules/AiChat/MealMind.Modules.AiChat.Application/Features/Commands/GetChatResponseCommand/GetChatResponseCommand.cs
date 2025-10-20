@@ -16,14 +16,19 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
         private readonly IChatClient _chatClient;
         private readonly IConversationRepository _conversationRepository;
         private readonly IUserService _userService;
+        private readonly IEmbeddingService _embeddingService;
+        private readonly IChunkingService _chunkingService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public Handler(IChatClient chatClient, IConversationRepository conversationRepository, IUserService userService, IUnitOfWork unitOfWork)
+        public Handler(IChatClient chatClient, IConversationRepository conversationRepository, IUserService userService, IEmbeddingService embeddingService,
+            IChunkingService chunkingService, IUnitOfWork unitOfWork)
         {
             _chatClient = chatClient;
             _conversationRepository = conversationRepository;
             _userService = userService;
+            _embeddingService = embeddingService;
+            _chunkingService = chunkingService;
             _unitOfWork = unitOfWork;
         }
 
@@ -42,11 +47,13 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
 
             NullValidator.ValidateNotNull(chatMessages);
 
-            var userMessage = new ChatMessage(new ChatRole("user"), request.Prompt);
+            var userMessage = new ChatMessage(ChatRole.User, request.Prompt);
             var aiChatMessage = AiChatMessage.Create(conversation.Id, AiChatRole.User, request.Prompt, conversation.GetRecentMessage().Id);
 
             chatMessages.Add(userMessage);
             conversation.AddMessage(aiChatMessage);
+
+
 
             var response = await _chatClient.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
 
