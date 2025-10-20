@@ -15,20 +15,21 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
     {
         private readonly IChatClient _chatClient;
         private readonly IConversationRepository _conversationRepository;
+        private readonly IDocumentRepository _documentRepository;
         private readonly IUserService _userService;
         private readonly IEmbeddingService _embeddingService;
-        private readonly IChunkingService _chunkingService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public Handler(IChatClient chatClient, IConversationRepository conversationRepository, IUserService userService, IEmbeddingService embeddingService,
-            IChunkingService chunkingService, IUnitOfWork unitOfWork)
+        public Handler(IChatClient chatClient, IConversationRepository conversationRepository, IDocumentRepository documentRepository, IUserService userService,
+            IEmbeddingService embeddingService,
+            IUnitOfWork unitOfWork)
         {
             _chatClient = chatClient;
             _conversationRepository = conversationRepository;
+            _documentRepository = documentRepository;
             _userService = userService;
             _embeddingService = embeddingService;
-            _chunkingService = chunkingService;
             _unitOfWork = unitOfWork;
         }
 
@@ -53,7 +54,24 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
             chatMessages.Add(userMessage);
             conversation.AddMessage(aiChatMessage);
 
+            var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(aiChatMessage.Content, cancellationToken);
 
+            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken);
+
+            if (!relevantDocuments.Any())
+                return Result<string>.BadRequest("No relevant documents found.");
+
+            var documentsText = string.Join("\n", relevantDocuments.Select(d => d.Content));
+
+            var systemPrompt =
+                $"Use the following documents to answer the user's question:\n {relevantDocuments.Select(x => new { x.Content, x.DocumentGroupId, x.ChunkIndex })}" +
+                $"for test purposes at the end of your answer include the document group ids and chunk indexes used in the following format: [DocumentGroupId:ChunkIndex, DocumentGroupId:ChunkIndex].";
+
+            var systemMessage = new ChatMessage(ChatRole.System, systemPrompt);
+            var aiSystemMessage = AiChatMessage.Create(conversation.Id, AiChatRole.System, systemPrompt, aiChatMessage.Id);
+
+            chatMessages.Add(systemMessage);
+            conversation.AddMessage(aiSystemMessage);
 
             var response = await _chatClient.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
 

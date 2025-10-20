@@ -22,4 +22,15 @@ public class EmbeddingService : IEmbeddingService
 
         return new Vector(embedding.Vector.ToArray());
     }
+
+    // public Task<Vector> GenerateEmbeddingsAsync(IEnumerable<string> chunks, CancellationToken cancellationToken = default)
+    // {
+    //     if (!chunks.Any())
+    //         throw new ArgumentException("Chunks collection cannot be empty.", nameof(chunks));
+    //
+    //     foreach (var chunk in chunks)
+    //     {
+    //
+    //     }
+    // }
 }
