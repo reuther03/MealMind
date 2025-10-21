@@ -1,10 +1,10 @@
-# 🤱 Micronutrients Overview
+#  Micronutrients Overview
 
 A concise guide to the **key vitamins and minerals**, their main **functions**, **deficiency symptoms**, and **best food sources**.
 
 ---
 
-## 🍏 Vitamins
+##  Vitamins
 
 | Vitamin | Function | Deficiency Symptoms | Best Sources |
 |----------|-----------|--------------------|---------------|
@@ -22,7 +22,7 @@ A concise guide to the **key vitamins and minerals**, their main **functions**, 
 
 ---
 
-## ⚒️ Minerals
+##  Minerals
 
 | Mineral | Function | Deficiency Symptoms | Best Sources |
 |----------|-----------|--------------------|---------------|
@@ -39,7 +39,7 @@ A concise guide to the **key vitamins and minerals**, their main **functions**, 
 
 ---
 
-## 💧 Electrolytes & Hydration Minerals
+##  Electrolytes & Hydration Minerals
 
 | Nutrient | Role | Signs of Imbalance | Common Sources |
 |-----------|------|--------------------|----------------|
@@ -50,7 +50,7 @@ A concise guide to the **key vitamins and minerals**, their main **functions**, 
 
 ---
 
-## 🔍 Supplement Notes
+##  Supplement Notes
 
 - Supplement **only if deficiency or medical advice** suggests it.  
 - Common helpful supplements: **Vitamin D**, **Omega-3**, **Magnesium**, **B12 (for vegans)**.  
@@ -58,7 +58,7 @@ A concise guide to the **key vitamins and minerals**, their main **functions**, 
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. Eat a **colorful, varied diet** for micronutrient diversity.  
 2. Deficiencies are often linked to **low variety or restrictive diets**.  
@@ -67,4 +67,3 @@ A concise guide to the **key vitamins and minerals**, their main **functions**, 
 5. Micronutrients power **everything from energy to immunity**.
 
 ---
-

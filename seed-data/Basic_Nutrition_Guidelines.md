@@ -1,11 +1,11 @@
-﻿# 🥗 Basic Nutrition Guidelines
+﻿# Basic Nutrition Guidelines
 
 A simple evidence-based reference for daily nutrition, including protein, fats, and carbohydrate needs — split by
 activity level.
 
 ---
 
-## ⚖️ General Principles
+##  General Principles
 
 - **Calories** determine body weight changes:
     - **Surplus** → gain weight / muscle
@@ -15,7 +15,7 @@ activity level.
 
 ---
 
-## 🥩 Protein
+##  Protein
 
 | Category                                  | Recommended Intake                | Purpose                                   |
 |-------------------------------------------|-----------------------------------|-------------------------------------------|
@@ -24,12 +24,12 @@ activity level.
 | **Strength or hypertrophy training**      | **1.6–2.2 g per kg**              | Maximizes muscle growth and repair        |
 | **Cutting phase (fat loss)**              | **2.0–2.4 g per kg**              | Preserves lean mass under calorie deficit |
 
-✅ Aim to spread protein across **3–5 meals** per day.  
-✅ Prefer **complete protein sources**: eggs, meat, fish, dairy, soy, or blended plant proteins.
+ Aim to spread protein across **3–5 meals** per day.  
+ Prefer **complete protein sources**: eggs, meat, fish, dairy, soy, or blended plant proteins.
 
 ---
 
-## 🥑 Fats
+##  Fats
 
 | Category                         | Recommended Intake   | Purpose                                            |
 |----------------------------------|----------------------|----------------------------------------------------|
@@ -37,12 +37,12 @@ activity level.
 | **Athletes / strength training** | **0.6–1.0 g per kg** | Energy and nutrient absorption                     |
 | **Cutting phase**                | **0.5–0.8 g per kg** | Lower fat to save calories, but not below 0.5 g/kg |
 
-✅ Focus on **unsaturated fats** (olive oil, avocados, nuts, fatty fish).  
-❌ Limit trans fats and excessive processed vegetable oils.
+ Focus on **unsaturated fats** (olive oil, avocados, nuts, fatty fish).  
+ Limit trans fats and excessive processed vegetable oils.
 
 ---
 
-## 🍚 Carbohydrates
+##  Carbohydrates
 
 | Category                          | Recommended Intake | Purpose                                                 |
 |-----------------------------------|--------------------|---------------------------------------------------------|
@@ -50,12 +50,12 @@ activity level.
 | **Moderate exercise (3–5x/week)** | **3–5 g per kg**   | Energy for training and recovery                        |
 | **Heavy training or endurance**   | **5–7 g per kg**   | Primary fuel for performance and glycogen replenishment |
 
-✅ Prefer **complex carbs** (rice, oats, whole grains, fruit, veggies).  
-✅ Adjust carb intake depending on training intensity and calorie goals.
+ Prefer **complex carbs** (rice, oats, whole grains, fruit, veggies).  
+ Adjust carb intake depending on training intensity and calorie goals.
 
 ---
 
-## 🧂 Micronutrients & Hydration
+## Micronutrients & Hydration
 
 | Category                  | Recommendation                                                          |
 |---------------------------|-------------------------------------------------------------------------|
@@ -68,7 +68,7 @@ Supplement *only if deficient* (common: vitamin D, magnesium, omega-3, B12 for v
 
 ---
 
-## 🧮 Example for a 75 kg Person
+##  Example for a 75 kg Person
 
 | Category               | Sedentary | Strength Training |
 |------------------------|-----------|-------------------|
@@ -79,7 +79,7 @@ Supplement *only if deficient* (common: vitamin D, magnesium, omega-3, B12 for v
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. **Prioritize protein** for body composition.
 2. **Balance fats** for hormones and brain health.

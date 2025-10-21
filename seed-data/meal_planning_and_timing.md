@@ -1,10 +1,10 @@
-# 🍰 Meal Planning & Timing
+#  Meal Planning & Timing
 
 A practical guide to **structuring meals across the day**, optimizing **pre- and post-workout nutrition**, and creating **balanced daily meal plans** for energy, recovery, and health.
 
 ---
 
-## ⏱️ Why Meal Timing Matters
+##  Why Meal Timing Matters
 
 Meal timing isn’t just about eating at set hours — it’s about **fueling your body strategically** to match your energy demands and recovery needs.
 
@@ -15,7 +15,7 @@ Meal timing isn’t just about eating at set hours — it’s about **fueling yo
 
 ---
 
-## 🍔 General Meal Structure
+##  General Meal Structure
 
 | Meal | Timing | Focus | Example |
 |------|---------|--------|----------|
@@ -24,11 +24,11 @@ Meal timing isn’t just about eating at set hours — it’s about **fueling yo
 | **Dinner** | 4–5 hrs after lunch | Protein + veggies + healthy fats | Salmon with quinoa and spinach |
 | **Snacks (optional)** | Between meals | Protein or fruit-based | Greek yogurt, boiled eggs, apple with peanut butter |
 
-✅ **Tip:** Eat every 3–5 hours to maintain energy and stable blood sugar.
+ **Tip:** Eat every 3–5 hours to maintain energy and stable blood sugar.
 
 ---
 
-## 🏋️ Pre-Workout Nutrition
+##  Pre-Workout Nutrition
 
 **Goal:** Maximize energy and endurance during training.
 
@@ -37,12 +37,12 @@ Meal timing isn’t just about eating at set hours — it’s about **fueling yo
 | **2–3 hrs before** | Balanced meal with carbs, protein, low fat | Chicken with rice and veggies; oatmeal with berries and whey |
 | **30–60 min before (optional)** | Quick carbs, low fat/fiber | Banana, rice cakes, small smoothie |
 
-✅ Include **easily digestible carbs** and **moderate protein**.  
-❌ Avoid high fat or heavy meals right before exercise.
+ Include **easily digestible carbs** and **moderate protein**.  
+ Avoid high fat or heavy meals right before exercise.
 
 ---
 
-## 🏃 Post-Workout Nutrition
+##  Post-Workout Nutrition
 
 **Goal:** Rebuild muscle and replenish glycogen.
 
@@ -50,21 +50,21 @@ Meal timing isn’t just about eating at set hours — it’s about **fueling yo
 |---------|---------------------|----------------|
 | **Within 30–90 min** | Fast-digesting protein + carbs | Whey shake + banana; rice with tuna; eggs + toast |
 
-✅ Aim for **20–40 g of protein** and **1–1.5 g carbs/kg body weight** after training.  
-⚠️ Don’t skip post-workout meals — it slows recovery.
+ Aim for **20–40 g of protein** and **1–1.5 g carbs/kg body weight** after training.  
+ Don’t skip post-workout meals — it slows recovery.
 
 ---
 
-## 🍎 Sample Daily Layouts
+##  Sample Daily Layouts
 
-### 💪 Strength Training Day (High Energy)
+###  Strength Training Day (High Energy)
 - **Breakfast:** Oats with protein powder, berries, almond butter  
 - **Lunch:** Chicken breast, rice, broccoli, olive oil  
 - **Snack:** Yogurt with nuts or protein bar  
 - **Dinner:** Salmon, quinoa, spinach  
 - **Post-workout:** Whey + banana
 
-### 💪 Rest / Light Activity Day (Lower Energy)
+###  Rest / Light Activity Day (Lower Energy)
 - **Breakfast:** Greek yogurt, oats, mixed berries  
 - **Lunch:** Turkey wrap with veggies and hummus  
 - **Snack:** Apple with peanut butter  
@@ -72,7 +72,7 @@ Meal timing isn’t just about eating at set hours — it’s about **fueling yo
 
 ---
 
-## 🧠 Practical Tips
+##  Practical Tips
 
 1. **Plan ahead** – Prep ingredients or cook in batches.  
 2. **Front-load calories** if training early, or **back-load** if training later.  
@@ -82,7 +82,7 @@ Meal timing isn’t just about eating at set hours — it’s about **fueling yo
 
 ---
 
-## 🌟 Key Takeaways
+##  Key Takeaways
 
 - Distribute protein evenly (20–40 g/meal).  
 - Match carb intake to **training times**.  

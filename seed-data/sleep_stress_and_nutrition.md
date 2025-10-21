@@ -1,10 +1,10 @@
-# 💤 Sleep, Stress, and Nutrition
+# Sleep, Stress, and Nutrition
 
 A guide to how **sleep quality**, **stress levels**, and **nutrition** interact to influence **metabolism, hunger, and body composition**.
 
 ---
 
-## 🧠 How Sleep Affects Metabolism
+##  How Sleep Affects Metabolism
 
 Sleep isn’t just recovery — it’s a major **metabolic regulator**.
 
@@ -15,12 +15,12 @@ Sleep isn’t just recovery — it’s a major **metabolic regulator**.
 | **Muscle recovery** | Slower repair and growth |
 | **Energy and focus** | Fatigue lowers workout intensity and food discipline |
 
-✅ Aim for **7–9 hours of quality sleep** per night.  
-✅ Keep a consistent bedtime routine (same sleep/wake times).
+ Aim for **7–9 hours of quality sleep** per night.  
+ Keep a consistent bedtime routine (same sleep/wake times).
 
 ---
 
-## 😣 The Stress–Metabolism Connection
+##  The Stress–Metabolism Connection
 
 Chronic stress triggers **cortisol**, the body’s main stress hormone. While short-term increases are normal, long-term elevation can harm metabolism and appetite control.
 
@@ -31,12 +31,12 @@ Chronic stress triggers **cortisol**, the body’s main stress hormone. While sh
 | **Fat storage** | Promotes abdominal fat retention |
 | **Poor digestion** | Stress reduces stomach acid and nutrient absorption |
 
-✅ Manage stress through exercise, breathing techniques, mindfulness, and regular downtime.  
-⚠️ Overtraining can *increase* cortisol — balance training load and recovery.
+ Manage stress through exercise, breathing techniques, mindfulness, and regular downtime.  
+ Overtraining can *increase* cortisol — balance training load and recovery.
 
 ---
 
-## 🥗 Nutrition Strategies to Support Sleep & Stress Balance
+##  Nutrition Strategies to Support Sleep & Stress Balance
 
 | Goal | Nutritional Approach | Examples |
 |------|----------------------|-----------|
@@ -44,12 +44,12 @@ Chronic stress triggers **cortisol**, the body’s main stress hormone. While sh
 | **Reduce stress response** | Prioritize omega-3s, antioxidants, and stable blood sugar | Salmon, berries, nuts, olive oil |
 | **Stabilize energy** | Eat balanced meals with protein, fiber, and healthy fats | Chicken + quinoa + veggies; eggs + toast |
 
-✅ Avoid caffeine after mid-afternoon and limit alcohol — both reduce sleep quality.  
-✅ Stay hydrated; dehydration increases stress hormone release.
+ Avoid caffeine after mid-afternoon and limit alcohol — both reduce sleep quality.  
+ Stay hydrated; dehydration increases stress hormone release.
 
 ---
 
-## 💡 Lifestyle Habits for Better Hormonal Balance
+##  Lifestyle Habits for Better Hormonal Balance
 
 1. **Sleep 7–9 hours** consistently — quantity and regularity both matter.  
 2. **Wind down** before bed: avoid screens, heavy meals, and blue light exposure.  
@@ -59,7 +59,7 @@ Chronic stress triggers **cortisol**, the body’s main stress hormone. While sh
 
 ---
 
-## 🧘 Supplement Support (Optional)
+##  Supplement Support (Optional)
 
 | Supplement | Benefit | Notes |
 |-------------|----------|-------|
@@ -70,7 +70,7 @@ Chronic stress triggers **cortisol**, the body’s main stress hormone. While sh
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. Sleep and stress are **as important as diet and training** for body composition.  
 2. Poor sleep disrupts hunger hormones and encourages overeating.  

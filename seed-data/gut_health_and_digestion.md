@@ -1,10 +1,10 @@
-# 🦠 Gut Health and Digestion
+#  Gut Health and Digestion
 
 A guide to supporting a healthy gut through **fiber intake**, **probiotics**, and **balanced nutrition** — essential for digestion, immunity, and overall wellbeing.
 
 ---
 
-## 🧠 Why Gut Health Matters
+##  Why Gut Health Matters
 
 A healthy gut microbiome influences:
 - **Digestion and nutrient absorption**  
@@ -15,7 +15,7 @@ Poor gut health can lead to bloating, irregular digestion, fatigue, and nutrient
 
 ---
 
-## 🌾 Types of Fiber
+##  Types of Fiber
 
 Dietary fiber supports bowel health and feeds beneficial gut bacteria. There are **two main types**:
 
@@ -24,24 +24,24 @@ Dietary fiber supports bowel health and feeds beneficial gut bacteria. There are
 | **Soluble fiber** | Forms a gel, slows digestion, stabilizes blood sugar | Oats, apples, beans, carrots, flaxseed |
 | **Insoluble fiber** | Adds bulk, speeds bowel movement | Whole grains, nuts, seeds, leafy greens |
 
-✅ **Daily target:** 25–35 g of total fiber.  
-⚠️ Increase fiber intake gradually to avoid bloating and drink enough water.
+ **Daily target:** 25–35 g of total fiber.  
+ Increase fiber intake gradually to avoid bloating and drink enough water.
 
 ---
 
-## 🧫 Probiotics and Prebiotics
+##  Probiotics and Prebiotics
 
 | Category | Function | Examples |
 |-----------|-----------|-----------|
 | **Probiotics** | Live beneficial bacteria that improve gut balance | Yogurt, kefir, sauerkraut, kimchi, miso |
 | **Prebiotics** | Feed probiotics and stimulate their growth | Bananas, onions, garlic, oats, asparagus |
 
-✅ Combine both — e.g., yogurt (probiotic) + oats/banana (prebiotic).  
-⚠️ Avoid excessive processed foods and artificial sweeteners — they may disrupt microbiota.
+ Combine both — e.g., yogurt (probiotic) + oats/banana (prebiotic).  
+ Avoid excessive processed foods and artificial sweeteners — they may disrupt microbiota.
 
 ---
 
-## 🥗 Foods that Support Gut Health
+##  Foods that Support Gut Health
 
 | Category | Examples | Benefits |
 |-----------|-----------|-----------|
@@ -52,7 +52,7 @@ Dietary fiber supports bowel health and feeds beneficial gut bacteria. There are
 
 ---
 
-## 🚫 Common Gut Irritants
+##  Common Gut Irritants
 
 | Irritant | Examples | Potential Issue |
 |-----------|-----------|-----------------|
@@ -63,7 +63,7 @@ Dietary fiber supports bowel health and feeds beneficial gut bacteria. There are
 
 ---
 
-## 💧 Digestion Optimization Tips
+##  Digestion Optimization Tips
 
 1. **Eat slowly and chew thoroughly.**  
 2. **Stay hydrated** — fiber needs water to function properly.  
@@ -73,7 +73,7 @@ Dietary fiber supports bowel health and feeds beneficial gut bacteria. There are
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. A diverse, fiber-rich diet supports a strong and diverse microbiome.  
 2. Combine **probiotics + prebiotics** for optimal results.  

@@ -53,7 +53,7 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
             if (!relevantDocuments.Any())
                 return Result<string>.BadRequest("No relevant documents found.");
 
-            var documentsText = string.Join("\n", relevantDocuments.Select(d => new { d.Content }));
+            var documentsText = string.Join("\n\n", relevantDocuments.Select(d => d.Content));
 
             var systemPrompt =
                 $"Use the following documents to answer the user's question:\n {documentsText}, response should be short but informative.";

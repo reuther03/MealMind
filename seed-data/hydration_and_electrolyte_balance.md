@@ -1,10 +1,10 @@
-# 💧 Hydration and Electrolyte Balance
+#  Hydration and Electrolyte Balance
 
 A guide to understanding **how water intake, electrolytes, and physical activity interact**, and how to maintain optimal hydration for health and performance.
 
 ---
 
-## 🌊 Why Hydration Matters
+## Why Hydration Matters
 
 Water is essential for every physiological process:
 
@@ -15,7 +15,7 @@ Water is essential for every physiological process:
 
 ---
 
-## 💧 Daily Water Intake Recommendations
+##  Daily Water Intake Recommendations
 
 | Activity Level | Recommended Water Intake |
 |----------------|---------------------------|
@@ -23,13 +23,13 @@ Water is essential for every physiological process:
 | **Moderately active (3–5x/week)** | 35–40 ml per kg |
 | **High training volume or hot climate** | 45–50 ml per kg |
 
-✅ Example: A 75 kg person → ~2.5–3.5 liters daily.
+ Example: A 75 kg person → ~2.5–3.5 liters daily.
 
-⚠️ Adjust for **environment**, **diet (high protein/salt)**, and **sweat rate**.
+ Adjust for **environment**, **diet (high protein/salt)**, and **sweat rate**.
 
 ---
 
-## ⚡ Electrolytes Overview
+##  Electrolytes Overview
 
 Electrolytes are minerals that help maintain fluid balance, muscle contraction, and nerve function.
 
@@ -43,7 +43,7 @@ Electrolytes are minerals that help maintain fluid balance, muscle contraction, 
 
 ---
 
-## 🏃 Hydration During Exercise
+##  Hydration During Exercise
 
 | Duration | Recommendation |
 |-----------|----------------|
@@ -51,12 +51,12 @@ Electrolytes are minerals that help maintain fluid balance, muscle contraction, 
 | **60–90 minutes (moderate-heavy)** | Add small electrolyte dose (pinch of salt or tablet). |
 | **>90 minutes or intense heat** | Use sports drink with sodium, potassium, and carbs (6–8% solution). |
 
-✅ Aim to **start workouts hydrated** (urine light yellow).  
-✅ Rehydrate with **1.5x fluid lost** (weigh before/after training).
+ Aim to **start workouts hydrated** (urine light yellow).  
+ Rehydrate with **1.5x fluid lost** (weigh before/after training).
 
 ---
 
-## 🌊 Dehydration Warning Signs
+##  Dehydration Warning Signs
 
 - Dark yellow urine  
 - Headache or dizziness  
@@ -68,7 +68,7 @@ If these occur, **increase fluids and electrolytes** gradually.
 
 ---
 
-## 🧠 Practical Hydration Tips
+##  Practical Hydration Tips
 
 1. **Spread water intake** evenly through the day.  
 2. Use **electrolyte tablets** only when sweating heavily or training long.  
@@ -78,7 +78,7 @@ If these occur, **increase fluids and electrolytes** gradually.
 
 ---
 
-## 🌟 Key Takeaways
+##  Key Takeaways
 
 - Hydration is about **balance between water and electrolytes**, not just drinking more water.  
 - Listen to your body: thirst is a good baseline guide.  

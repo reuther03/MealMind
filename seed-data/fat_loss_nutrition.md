@@ -1,10 +1,10 @@
-# 💪 Fat Loss Nutrition
+#  Fat Loss Nutrition
 
 A practical, evidence-based guide to losing fat through a **calorie deficit**, managing **hunger and satiety**, and avoiding **common dieting mistakes**.
 
 ---
 
-## ⚖️ The Goal: Sustainable Calorie Deficit
+##  The Goal: Sustainable Calorie Deficit
 
 Fat loss occurs only when you consistently consume **fewer calories than you burn**. The aim is a **moderate, sustainable deficit** — not starvation.
 
@@ -13,30 +13,30 @@ Fat loss occurs only when you consistently consume **fewer calories than you bur
 | **Moderate (recommended)** | 15–25% below maintenance | 0.5–1.0% of body weight per week |
 | **Aggressive (short term)** | 25–35% below maintenance | Faster loss, higher fatigue & muscle risk |
 
-✅ Small, steady progress preserves muscle and energy.  
-⚠️ Extreme restriction often leads to rebound weight gain.
+ Small, steady progress preserves muscle and energy.  
+ Extreme restriction often leads to rebound weight gain.
 
 ---
 
-## 🍽️ Macronutrient Ratios
+##  Macronutrient Ratios
 
-### 🥩 **Protein**
+###  **Protein**
 - **2.0–2.4 g per kg body weight**
 - Preserves lean muscle during deficit, improves satiety.
 
-### 🥑 **Fats**
+###  **Fats**
 - **0.5–0.8 g per kg body weight**
 - Supports hormones and brain function.
 
-### 🍚 **Carbohydrates**
+###  **Carbohydrates**
 - **2–4 g per kg body weight** (adjust to activity)
 - Fuels training performance and recovery.
 
-✅ Keep protein high, moderate carbs, and control fats for calorie flexibility.
+ Keep protein high, moderate carbs, and control fats for calorie flexibility.
 
 ---
 
-## 🍔 Managing Hunger & Satiety
+##  Managing Hunger & Satiety
 
 | Strategy | Description |
 |-----------|--------------|
@@ -46,11 +46,11 @@ Fat loss occurs only when you consistently consume **fewer calories than you bur
 | **Choose whole foods** | Fiber and low energy density improve fullness. |
 | **Sleep 7–9 hours** | Lack of sleep increases appetite hormones (ghrelin). |
 
-✅ Slow eating and mindful meals also reduce overeating.
+ Slow eating and mindful meals also reduce overeating.
 
 ---
 
-## 💡 Common Pitfalls
+##  Common Pitfalls
 
 | Mistake | Consequence | Fix |
 |----------|--------------|-----|
@@ -62,18 +62,18 @@ Fat loss occurs only when you consistently consume **fewer calories than you bur
 
 ---
 
-## 🏃 Pre- and Post-Workout Nutrition (in Deficit)
+##  Pre- and Post-Workout Nutrition (in Deficit)
 
 | Timing | Focus | Example |
 |---------|--------|----------|
 | **Pre-workout** | Energy & focus | Banana, Greek yogurt, coffee |
 | **Post-workout** | Recovery | Whey + fruit; chicken + rice |
 
-✅ Keep workouts fueled to preserve muscle and strength.
+ Keep workouts fueled to preserve muscle and strength.
 
 ---
 
-## 📈 Example Day (2000 kcal)
+##  Example Day (2000 kcal)
 
 | Meal | Example | Calories |
 |------|----------|-----------|
@@ -86,7 +86,7 @@ Fat loss occurs only when you consistently consume **fewer calories than you bur
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. Fat loss = consistent calorie deficit, not short-term restriction.  
 2. High **protein + fiber** diets make staying full easier.  

@@ -1,10 +1,10 @@
-# 💪 Muscle Gain Nutrition
+#  Muscle Gain Nutrition
 
 A practical guide to building muscle through a structured **caloric surplus**, balanced **macronutrient ratios**, and consistent **meal planning**.
 
 ---
 
-## ⚖️ The Goal: Controlled Surplus
+##  The Goal: Controlled Surplus
 
 To gain lean muscle, you need a **caloric surplus** — eating slightly more calories than your body burns.
 
@@ -13,26 +13,26 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 | **Beginner** | +300–500 kcal/day | 0.5–1.0 kg/month |
 | **Intermediate/Advanced** | +200–300 kcal/day | 0.25–0.5 kg/month |
 
-✅ Slow, steady gain = more muscle, less fat.  
-⚠️ Large surpluses often lead to excessive fat gain.
+ Slow, steady gain = more muscle, less fat.  
+ Large surpluses often lead to excessive fat gain.
 
 ---
 
-## 🍽️ Macronutrient Ratios
+##  Macronutrient Ratios
 
-### 🥩 **Protein**
+###  **Protein**
 - **1.6–2.2 g per kg body weight**
 - Builds and repairs muscle tissue.
 
-### 🍚 **Carbohydrates**
+###  **Carbohydrates**
 - **4–6 g per kg body weight**
 - Primary energy source for intense training.
 
-### 🥑 **Fats**
+###  **Fats**
 - **0.8–1.0 g per kg body weight**
 - Supports hormones, brain function, and recovery.
 
-### ⚙️ Example (for 75 kg person)
+###  Example (for 75 kg person)
 | Nutrient | Amount | Calories |
 |-----------|---------|-----------|
 | Protein | 150 g | 600 kcal |
@@ -42,7 +42,7 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 
 ---
 
-## 🔄 Meal Timing & Frequency
+##  Meal Timing & Frequency
 
 | Time | Focus | Example Meal |
 |------|--------|---------------|
@@ -53,12 +53,12 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 | **Dinner** | Protein + complex carbs | Salmon, sweet potato, broccoli |
 | **Snack (optional)** | Calorie top-up | Nuts, cottage cheese, smoothie |
 
-✅ Spread protein across 3–5 meals/day.  
-✅ Eat a carb-heavy meal before and after workouts.
+ Spread protein across 3–5 meals/day.  
+ Eat a carb-heavy meal before and after workouts.
 
 ---
 
-## 💡 Food Quality Matters
+##  Food Quality Matters
 
 - Choose **whole, nutrient-dense foods** (meat, fish, grains, fruit, dairy, nuts).  
 - Use **liquid calories** (smoothies, milk, shakes) if appetite is low.  
@@ -66,7 +66,7 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 
 ---
 
-## 🧪 Tracking & Adjustments
+##  Tracking & Adjustments
 
 1. Track your **body weight** 2–3× per week (morning, fasted).  
 2. If you’re not gaining → increase calories by **150–200 kcal/day**.  
@@ -75,7 +75,7 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 
 ---
 
-## 📈 Example 1-Day Muscle Gain Plan (2700 kcal)
+##  Example 1-Day Muscle Gain Plan (2700 kcal)
 
 | Meal | Example | Calories |
 |------|----------|-----------|
@@ -89,7 +89,7 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. Eat in a **small, consistent surplus** (200–500 kcal above maintenance).  
 2. **Prioritize protein and carbs** for muscle growth.  
@@ -98,4 +98,3 @@ To gain lean muscle, you need a **caloric surplus** — eating slightly more cal
 5. Sleep, hydration, and recovery are equally critical for muscle gain.
 
 ---
-

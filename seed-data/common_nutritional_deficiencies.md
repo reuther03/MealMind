@@ -1,10 +1,10 @@
-# 🩺 Common Nutritional Deficiencies
+# Common Nutritional Deficiencies
 
 A reference guide to the **most frequent nutrient deficiencies**, how to **recognize their symptoms**, and **address them through diet or supplementation**.
 
 ---
 
-## ⚙️ Why Deficiencies Happen
+##  Why Deficiencies Happen
 
 Even balanced diets can fall short on key nutrients due to:
 - Limited food variety or restrictive diets (e.g., vegan, keto)  
@@ -14,9 +14,9 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-## 🧠 Most Common Deficiencies
+##  Most Common Deficiencies
 
-### 🧩 **1. Vitamin D**
+###  **1. Vitamin D**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Bone health, immune system, hormone regulation |
@@ -27,7 +27,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 💪 **2. Iron**
+###  **2. Iron**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Oxygen transport, energy metabolism |
@@ -38,7 +38,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 💧 **3. Magnesium**
+###  **3. Magnesium**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Muscle relaxation, sleep, nerve function |
@@ -48,7 +48,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 🩸 **4. Vitamin B12**
+###  **4. Vitamin B12**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Red blood cell production, nerve health, DNA synthesis |
@@ -59,7 +59,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 🦷 **5. Calcium**
+###  **5. Calcium**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Bone and teeth strength, muscle contraction, nerve signaling |
@@ -69,7 +69,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 💡 **6. Zinc**
+###  **6. Zinc**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Immune function, wound healing, testosterone production |
@@ -79,7 +79,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 🫐 **7. Omega-3 Fatty Acids (EPA/DHA)**
+###  **7. Omega-3 Fatty Acids (EPA/DHA)**
 | Aspect | Details |
 |---------|----------|
 | **Function** | Heart, brain, and joint health; reduces inflammation |
@@ -89,7 +89,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-### 🥦 **8. Folate (Vitamin B9)**
+###  **8. Folate (Vitamin B9)**
 | Aspect | Details |
 |---------|----------|
 | **Function** | DNA synthesis, red blood cell formation |
@@ -99,7 +99,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-## 🧩 Testing & Diagnosis
+##  Testing & Diagnosis
 
 | Method | What It Shows |
 |--------|----------------|
@@ -107,11 +107,11 @@ Even balanced diets can fall short on key nutrients due to:
 | **Advanced test** | Omega-3 index, zinc, B vitamins, hormone markers |
 | **Symptoms-based check** | Useful for early detection before testing |
 
-✅ Always confirm suspected deficiencies with lab tests before supplementing heavily.
+ Always confirm suspected deficiencies with lab tests before supplementing heavily.
 
 ---
 
-## 🧠 Prevention & Long-Term Strategies
+##  Prevention & Long-Term Strategies
 
 1. Eat a **diverse diet** rich in fruits, vegetables, whole grains, nuts, and protein.  
 2. Include **fortified foods** if on a restricted diet (vegan, vegetarian).  
@@ -121,7 +121,7 @@ Even balanced diets can fall short on key nutrients due to:
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 - Deficiencies are common even in developed diets — prevention is easier than correction.  
 - Combine **whole foods + smart supplementation** for balance.  
@@ -130,4 +130,3 @@ Even balanced diets can fall short on key nutrients due to:
 - The goal: **optimal nutrition**, not just “not deficient.”
 
 ---
-

@@ -1,10 +1,10 @@
-# 🧬 Hormonal Health & Fats
+#  Hormonal Health & Fats
 
 A focused guide on how **dietary fats** and **cholesterol** influence hormone production, balance, and overall metabolic health.
 
 ---
 
-## ⚖️ The Role of Fats in Hormone Production
+##  The Role of Fats in Hormone Production
 
 Fats are more than just an energy source — they’re vital for **hormone synthesis**, especially **steroid hormones** (e.g., testosterone, estrogen, cortisol).
 
@@ -14,12 +14,12 @@ Fats are more than just an energy source — they’re vital for **hormone synth
 | **Monounsaturated fats** | Improve insulin sensitivity and heart health | Olive oil, avocado, almonds, cashews |
 | **Polyunsaturated fats (Omega-3 & 6)** | Regulate inflammation and cell membrane health | Fatty fish, flaxseed, chia, walnuts |
 
-✅ Balanced fat intake helps maintain stable hormone levels.  
-⚠️ Extremely low-fat diets can impair testosterone, thyroid function, and mood.
+ Balanced fat intake helps maintain stable hormone levels.  
+ Extremely low-fat diets can impair testosterone, thyroid function, and mood.
 
 ---
 
-## 🧠 Cholesterol: The Hormone Precursor
+##  Cholesterol: The Hormone Precursor
 
 Cholesterol is the **starting molecule** for all major steroid hormones, including:
 - **Testosterone** (muscle growth, libido, mood)
@@ -29,12 +29,12 @@ Cholesterol is the **starting molecule** for all major steroid hormones, includi
 
 Without adequate cholesterol, your body struggles to produce these hormones efficiently.
 
-✅ Dietary cholesterol (from eggs, meat, dairy) doesn’t significantly raise blood cholesterol in most people.  
-⚠️ Inflammation and poor diet — not dietary cholesterol — are the primary risks for heart disease.
+ Dietary cholesterol (from eggs, meat, dairy) doesn’t significantly raise blood cholesterol in most people.  
+ Inflammation and poor diet — not dietary cholesterol — are the primary risks for heart disease.
 
 ---
 
-## 🥑 Optimal Fat Intake for Hormone Support
+##  Optimal Fat Intake for Hormone Support
 
 | Goal | Fat Intake (per kg body weight) | Focus |
 |------|----------------------------------|--------|
@@ -42,12 +42,12 @@ Without adequate cholesterol, your body struggles to produce these hormones effi
 | **Strength / muscle gain** | 0.6–1.0 g/kg | Slightly lower to allow more carbs |
 | **Fat loss phase** | 0.5–0.8 g/kg | Keep enough fat to support hormones |
 
-✅ Include healthy fats at every meal.  
-✅ Rotate fat sources for nutrient diversity (omega-3, omega-6, MUFAs, SFAs).
+ Include healthy fats at every meal.  
+ Rotate fat sources for nutrient diversity (omega-3, omega-6, MUFAs, SFAs).
 
 ---
 
-## 🧂 Micronutrients that Support Hormonal Balance
+##  Micronutrients that Support Hormonal Balance
 
 | Nutrient | Role | Sources |
 |-----------|------|----------|
@@ -58,7 +58,7 @@ Without adequate cholesterol, your body struggles to produce these hormones effi
 
 ---
 
-## 🚫 What Harms Hormonal Health
+##  What Harms Hormonal Health
 
 | Factor | Effect |
 |---------|--------|
@@ -70,7 +70,7 @@ Without adequate cholesterol, your body struggles to produce these hormones effi
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. **Healthy fats = healthy hormones.** Don’t fear fat — balance it.  
 2. **Cholesterol** is essential for hormone synthesis, not the enemy.  

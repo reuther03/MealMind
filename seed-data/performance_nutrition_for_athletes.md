@@ -1,10 +1,10 @@
-# 🏃 Performance Nutrition for Athletes
+#  Performance Nutrition for Athletes
 
 A focused guide on fueling athletic performance through **carb cycling**, **intra-workout nutrition**, and **recovery strategies** to optimize energy, endurance, and adaptation.
 
 ---
 
-## 📊 Core Principles
+##  Core Principles
 
 Athletic nutrition aims to **match energy intake with output** — providing the right fuel at the right time.
 
@@ -15,7 +15,7 @@ Athletic nutrition aims to **match energy intake with output** — providing the
 
 ---
 
-## 🍎 Carb Cycling Explained
+##  Carb Cycling Explained
 
 Carb cycling adjusts carbohydrate intake based on training intensity and recovery needs.
 
@@ -25,11 +25,11 @@ Carb cycling adjusts carbohydrate intake based on training intensity and recover
 | **Moderate training** | Support energy, recovery | 3–5 g/kg | Balanced intake through the day |
 | **Rest / light training** | Aid recovery, avoid excess | 2–3 g/kg | Focus on protein, healthy fats, veggies |
 
-✅ Adjust fats inversely to carbs: higher carbs → lower fats, and vice versa.
+ Adjust fats inversely to carbs: higher carbs → lower fats, and vice versa.
 
 ---
 
-## ⚡ Pre-Workout Nutrition
+##  Pre-Workout Nutrition
 
 **Goal:** Optimize energy and focus for performance.
 
@@ -38,11 +38,11 @@ Carb cycling adjusts carbohydrate intake based on training intensity and recover
 | **2–3 hrs before** | Carbs + lean protein | Rice with chicken and veggies, oatmeal with whey and banana |
 | **30–60 min before** | Quick-digesting carbs | Banana, sports drink, rice cakes |
 
-✅ Avoid high-fat or high-fiber meals right before training to prevent GI distress.
+ Avoid high-fat or high-fiber meals right before training to prevent GI distress.
 
 ---
 
-## 🏋️ Intra-Workout Fuel
+##  Intra-Workout Fuel
 
 **Goal:** Sustain energy and delay fatigue during long or intense sessions.
 
@@ -52,12 +52,12 @@ Carb cycling adjusts carbohydrate intake based on training intensity and recover
 | **60–90 min** | 30–45 g carbs/hour (e.g., sports drink, gels, or chews) |
 | **>90 min** | 45–75 g carbs/hour + electrolytes |
 
-✅ Combine **glucose + fructose** sources for better absorption.  
-✅ Maintain fluid intake: **~500–1000 ml/hour** depending on sweat rate.
+ Combine **glucose + fructose** sources for better absorption.  
+ Maintain fluid intake: **~500–1000 ml/hour** depending on sweat rate.
 
 ---
 
-## 🏋 Post-Workout Recovery
+##  Post-Workout Recovery
 
 **Goal:** Replenish glycogen and rebuild muscle.
 
@@ -67,11 +67,11 @@ Carb cycling adjusts carbohydrate intake based on training intensity and recover
 | **Protein** | 20–40 g high-quality | Whey shake, chicken, eggs |
 | **Fluids** | 1.5x fluid lost in training | Water + electrolytes |
 
-✅ Add a bit of sodium to meals/drinks to improve rehydration.
+ Add a bit of sodium to meals/drinks to improve rehydration.
 
 ---
 
-## 💡 Recovery Enhancers
+##  Recovery Enhancers
 
 | Strategy | Benefit |
 |-----------|----------|
@@ -82,7 +82,7 @@ Carb cycling adjusts carbohydrate intake based on training intensity and recover
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. Periodize carbs — **fuel hard on hard days**, rest on light ones.  
 2. Pre- and post-workout meals are **non-negotiable** for athletes.  

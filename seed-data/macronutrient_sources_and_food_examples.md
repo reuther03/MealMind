@@ -1,10 +1,10 @@
-# 🍽️ Macronutrient Sources and Food Examples
+#  Macronutrient Sources and Food Examples
 
 A practical reference for identifying **high-quality sources** of protein, carbohydrates, and fats — with examples across different dietary preferences.
 
 ---
 
-## 🥩 Protein Sources
+##  Protein Sources
 
 | Type | Food Examples | Notes |
 |------|----------------|-------|
@@ -13,12 +13,12 @@ A practical reference for identifying **high-quality sources** of protein, carbo
 | **Plant-based** | Lentils, chickpeas, tofu, tempeh, edamame, quinoa, peas, seitan | Combine legumes + grains for full amino acid profile. |
 | **Convenient options** | Protein powder, bars, high-protein yogurts | Useful for meeting daily targets; not a replacement for meals. |
 
-✅ **Tip:** Distribute protein evenly across meals (20–40 g each).  
-⚠️ **Watch for:** Processed meats and low-quality bars with excess sugar or oils.
+ **Tip:** Distribute protein evenly across meals (20–40 g each).  
+ **Watch for:** Processed meats and low-quality bars with excess sugar or oils.
 
 ---
 
-## 🥞 Carbohydrate Sources
+##  Carbohydrate Sources
 
 | Type | Food Examples | Notes |
 |------|----------------|-------|
@@ -27,12 +27,12 @@ A practical reference for identifying **high-quality sources** of protein, carbo
 | **Simple / fast-digesting** | White rice, honey, rice cakes, sports drinks | Useful for intra- or post-workout carb replenishment. |
 | **High-fiber carbs** | Beans, lentils, chia seeds, flaxseed, whole grains | Improve gut health and satiety. |
 
-✅ **Tip:** Base most carbs on whole foods, not processed sources.  
-⚠️ **Watch for:** Added sugars in sauces, cereals, and drinks.
+ **Tip:** Base most carbs on whole foods, not processed sources.  
+ **Watch for:** Added sugars in sauces, cereals, and drinks.
 
 ---
 
-## 🥑 Fat Sources
+##  Fat Sources
 
 | Type | Food Examples | Notes |
 |------|----------------|-------|
@@ -41,12 +41,12 @@ A practical reference for identifying **high-quality sources** of protein, carbo
 | **Saturated fats (in moderation)** | Eggs, cheese, butter, coconut oil, dark chocolate | Useful in small amounts for hormone support. |
 | **Avoid / limit** | Trans fats, deep-fried foods, margarine, hydrogenated oils | Linked to heart disease and inflammation. |
 
-✅ **Tip:** Keep fats balanced — too low may impact hormones.  
-⚠️ **Watch for:** High-calorie density; fats add up quickly.
+ **Tip:** Keep fats balanced — too low may impact hormones.  
+ **Watch for:** High-calorie density; fats add up quickly.
 
 ---
 
-## 🥮 Quick Summary Table
+##  Quick Summary Table
 
 | Macronutrient | Primary Function | Best Sources |
 |----------------|------------------|---------------|
@@ -56,7 +56,7 @@ A practical reference for identifying **high-quality sources** of protein, carbo
 
 ---
 
-## 🧠 Key Takeaways
+##  Key Takeaways
 
 1. Combine **varied sources** to cover all nutrients.  
 2. Choose **minimally processed** foods.  
@@ -65,4 +65,3 @@ A practical reference for identifying **high-quality sources** of protein, carbo
 5. Think of macros not just as numbers — but as *nutrient quality*.
 
 ---
-
