@@ -55,6 +55,13 @@ services:
       - ollama_data:/root/.ollama
     networks:
       - MealMind.Network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
 volumes:
   postgres:
