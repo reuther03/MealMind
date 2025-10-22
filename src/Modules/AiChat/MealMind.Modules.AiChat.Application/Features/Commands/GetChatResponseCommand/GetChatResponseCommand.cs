@@ -1,5 +1,7 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
+using MealMind.Modules.AiChat.Application.Abstractions.Services;
+using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Domain.Conversation;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
@@ -9,34 +11,33 @@ using Microsoft.Extensions.AI;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
 
-public record GetChatResponseCommand(Guid ConversationId, string Prompt) : ICommand<string>
+public record GetChatResponseCommand(Guid ConversationId, string Prompt) : ICommand<StructuredResponse>
 {
-    public sealed class Handler : ICommandHandler<GetChatResponseCommand, string>
+    public sealed class Handler : ICommandHandler<GetChatResponseCommand, StructuredResponse>
     {
-        private readonly IChatClient _chatClient;
         private readonly IConversationRepository _conversationRepository;
         private readonly IDocumentRepository _documentRepository;
         private readonly IUserService _userService;
         private readonly IEmbeddingService _embeddingService;
+        private readonly IResponseManager _responseManager;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public Handler(IChatClient chatClient, IConversationRepository conversationRepository, IDocumentRepository documentRepository, IUserService userService,
-            IEmbeddingService embeddingService,
-            IUnitOfWork unitOfWork)
+        public Handler(IConversationRepository conversationRepository, IDocumentRepository documentRepository, IUserService userService,
+            IEmbeddingService embeddingService, IResponseManager responseManager, IUnitOfWork unitOfWork)
         {
-            _chatClient = chatClient;
             _conversationRepository = conversationRepository;
             _documentRepository = documentRepository;
             _userService = userService;
             _embeddingService = embeddingService;
+            _responseManager = responseManager;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<string>> Handle(GetChatResponseCommand request, CancellationToken cancellationToken)
+        public async Task<Result<StructuredResponse>> Handle(GetChatResponseCommand request, CancellationToken cancellationToken)
         {
             if (!_userService.IsAuthenticated)
-                return Result<string>.BadRequest("User is not authenticated");
+                return Result<StructuredResponse>.BadRequest("User is not authenticated");
 
             var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId, cancellationToken);
             NullValidator.ValidateNotNull(conversation);
@@ -47,37 +48,27 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
                 .ToList();
 
             var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(request.Prompt, cancellationToken);
-
             var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken);
 
             if (!relevantDocuments.Any())
-                return Result<string>.BadRequest("No relevant documents found.");
+                return Result<StructuredResponse>.BadRequest("No relevant documents found.");
 
-            var documentsText = string.Join("\n\n", relevantDocuments.Select(x => x.Content));
+            var documentsText = string.Join("\n\n", relevantDocuments.Select(x => $"Title: {x.Title}\nContent: {x.Content}"));
 
-            var systemPrompt =
-                $"You MUST answer ONLY using the following documents. If the answer is not in the documents, say 'I don't have that information in my knowledge base'.\n\nDocuments:\n{documentsText}\n\nAnswer the user's" +
-                "question based STRICTLY on these documents.";
+            //should aichatmessage be created before or after response manager call?
 
-            var systemMessage = new ChatMessage(ChatRole.System, systemPrompt);
-            chatMessages.Add(systemMessage);
+            var response = await _responseManager.GenerateStructuredResponseAsync(request.Prompt, documentsText, chatMessages, cancellationToken);
 
-            var userMessage = new ChatMessage(ChatRole.User, request.Prompt);
+            //keep it here or move to response manager?
             var aiChatMessage = AiChatMessage.Create(conversation.Id, AiChatRole.User, request.Prompt, conversation.GetRecentMessage().Id);
-
-            chatMessages.Add(userMessage);
             conversation.AddMessage(aiChatMessage);
 
-            NullValidator.ValidateNotNull(chatMessages);
-
-            var response = await _chatClient.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
-
-            var assistantMessage = AiChatMessage.Create(conversation.Id, AiChatRole.Assistant, response.Text, aiChatMessage.Id);
+            var assistantMessage = AiChatMessage.Create(conversation.Id, AiChatRole.Assistant, response.ToString(), aiChatMessage.Id);
             conversation.AddMessage(assistantMessage);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return Result.Ok(response.Text);
+            return Result.Ok(response);
         }
     }
 }
