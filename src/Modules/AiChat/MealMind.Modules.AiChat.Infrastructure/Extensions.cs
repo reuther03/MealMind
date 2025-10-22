@@ -18,7 +18,6 @@ public static class Extensions
         services.AddPostgres<AiChatDbContext>()
             .AddScoped<IAiChatDbContext, AiChatDbContext>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
-            .AddScoped<IAiChatService, AiChatService>()
             .AddScoped<IEmbeddingService, EmbeddingService>()
             .AddScoped<IChunkingService, ChunkingService>()
             .AddScoped<IConversationRepository, ConversationRepository>()
