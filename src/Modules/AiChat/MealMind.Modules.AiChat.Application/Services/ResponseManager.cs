@@ -8,8 +8,8 @@ namespace MealMind.Modules.AiChat.Application.Services;
 
 internal sealed class ResponseManager : IResponseManager
 {
-    private const float TemperatureSetting = 0.2f;
-    private const int MaxTokensSetting = 900;
+    private const float TemperatureSetting = 0.0f;
+    private const int MaxTokensSetting = 800;
 
     private readonly IChatClient _chatClient;
 
@@ -23,33 +23,35 @@ internal sealed class ResponseManager : IResponseManager
     {
         const string systemPrompt =
             """
-             You are a JSON-only response bot. You MUST respond with valid JSON and nothing else.
+            You are a nutrition assistant. Follow these rules EXACTLY:
 
-             STRICT RULES:
-             1. Output ONLY raw JSON - NO markdown code blocks (no ```json or ```)
-             2. NO explanatory text before or after the JSON
-             3. NO additional keys beyond those specified
-             4. ALL fields are REQUIRED (use empty arrays if needed)
-             5. Follow the exact field names and types
+            CONTENT RULES:
+            1. Use ONLY information from the documents below
+            2. Quote specific numbers, facts, and recommendations from documents
+            3. If answer not in documents, respond: {{"Title":"Information Not Available","Paragraphs":["I don't have that information in my knowledge base."],"KeyPoints":[],"Sources":[]}}
+            4. DO NOT use generic placeholder text like "This is a summary"
+            5. DO NOT make up information
 
-             JSON SCHEMA (exact format):
-             {
-               "Title": "string - max 100 chars, single sentence summary",
-               "Paragraphs": ["array of 2-5 strings", "each paragraph 50-150 words"],
-               "KeyPoints": ["array of 3-7 strings", "each point is one short sentence"],
-               "Sources": ["array of 0-5 strings", "document titles or references only"]
-             }
+            OUTPUT FORMAT - CRITICAL:
+            Return ONLY valid JSON matching this EXACT schema:
+            {{"Title":"specific title from content","Paragraphs":["actual paragraph 1","actual paragraph 2"],"KeyPoints":["actual point 1","actual point 2","actual point 3"],"Sources":["document name 1","document
+            name 2"]}}
 
-             EXAMPLES OF CORRECT OUTPUT:
-             {"Title":"Protein Requirements","Paragraphs":["First paragraph...","Second paragraph..."],"KeyPoints":["Point 1","Point 2"],"Sources":["Basic Nutrition Guidelines"]}
+            VALIDATION CHECKLIST:
+            ✓ First character is {{
+            ✓ Last character is }}
+            ✓ No markdown fences (no ```json)
+            ✓ Title is specific (not "This is a summary")
+            ✓ Paragraphs contain actual facts from documents
+            ✓ KeyPoints contain specific information
+            ✓ Sources list document names you used
 
-             INVALID OUTPUTS (DO NOT DO THIS):
-                ```json {...}```
-                Here is the answer: {...}
-                Adding extra fields like "Summary" or "Notes"
-                null values (use [] for empty arrays)
+            EXAMPLE OF CORRECT OUTPUT:
+            {{"Title":"Protein Requirements for Muscle Gain","Paragraphs":["For muscle gain and hypertrophy training, protein intake should be 1.6-2.2 grams per kilogram of body weight according to the Basic
+            Nutrition Guidelines.","This higher protein intake supports muscle protein synthesis and recovery after resistance training."],"KeyPoints":["Aim for 1.6-2.2 g/kg for muscle gain","Spread protein across
+            3-5 meals daily","Prefer complete protein sources like eggs, meat, fish"],"Sources":["Basic Nutrition Guidelines"]}}
 
-             YOUR RESPONSE MUST START WITH { AND END WITH }
+            NOW ANSWER THE USER'S QUESTION USING THE DOCUMENTS:
             """;
 
         var systemDocumentsPrompt =
@@ -61,6 +63,7 @@ internal sealed class ResponseManager : IResponseManager
              - If the answer is not in the documents, say "I don't have that information" and nothing else
              - Quote specific numbers and facts from the documents or even quote them directly as reference below your answer
              - Do NOT use your general knowledge or make assumptions beyond the documents
+             - Sources must be actual document titles provided below, at the start of each chunk look for Title: "Actual Document Title"
 
              DOCUMENTS:
              {documentsText}

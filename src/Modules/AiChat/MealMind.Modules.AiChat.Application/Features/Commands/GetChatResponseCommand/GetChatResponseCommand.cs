@@ -58,12 +58,13 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
             //should aichatmessage be created before or after response manager call?
 
             var response = await _responseManager.GenerateStructuredResponseAsync(request.Prompt, documentsText, chatMessages, cancellationToken);
+            var responseString = System.Text.Json.JsonSerializer.Serialize(response);
 
             //keep it here or move to response manager?
             var aiChatMessage = AiChatMessage.Create(conversation.Id, AiChatRole.User, request.Prompt, conversation.GetRecentMessage().Id);
             conversation.AddMessage(aiChatMessage);
 
-            var assistantMessage = AiChatMessage.Create(conversation.Id, AiChatRole.Assistant, response.ToString(), aiChatMessage.Id);
+            var assistantMessage = AiChatMessage.Create(conversation.Id, AiChatRole.Assistant, responseString, aiChatMessage.Id);
             conversation.AddMessage(assistantMessage);
 
             await _unitOfWork.CommitAsync(cancellationToken);
