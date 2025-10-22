@@ -7,4 +7,6 @@ public class AiChatOptions
     public string ChatModel { get; init; } = null!;
     public string EmbedModel { get; init; } = null!;
     public string Uri { get; init; } = null!;
+    public float Temperature { get; init; }
+    public int MaxOutputTokens { get; init; }
 }

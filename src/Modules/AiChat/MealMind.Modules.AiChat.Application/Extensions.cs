@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+using MealMind.Modules.AiChat.Application.Abstractions.Services;
+using MealMind.Modules.AiChat.Application.Services;
+using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MealMind.Modules.AiChat.Application;
@@ -13,6 +16,8 @@ public static class Extensions
 
         services.AddOllamaChatClient(options.ChatModel, new Uri(options.Uri));
         services.AddOllamaEmbeddingGenerator(options.EmbedModel, new Uri(options.Uri));
+
+        services.AddScoped<IResponseManager, ResponseManager>();
 
         return services;
     }
