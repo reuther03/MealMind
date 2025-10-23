@@ -1,0 +1,81 @@
+Macro Tracking and Adjustment
+
+A practical guide to tracking macronutrients (protein, carbs, and fats) and adjusting intake based on real-world progress — for muscle gain, fat loss, or maintenance.
+
+Step 1: Understand the Macros
+
+- Macronutrient: Protein | Calories per gram: 4 kcal | Main Role: Builds and repairs tissue, preserves muscle mass
+- Macronutrient: Carbohydrates | Calories per gram: 4 kcal | Main Role: Main energy source for training and brain function
+- Macronutrient: Fats | Calories per gram: 9 kcal | Main Role: Hormone production, cell health, and nutrient absorption
+
+ Alcohol has 7 kcal/g but isn’t a macronutrient.
+
+Step 2: Set Your Starting Macros
+
+Base your intake on your TDEE (Total Daily Energy Expenditure) and goal:
+
+- Goal: Fat Loss | Protein: 2.0–2.4 g/kg | Carbs: 2–4 g/kg | Fats: 0.5–0.8 g/kg | Example Split: 35P / 40C / 25F
+- Goal: Muscle Gain | Protein: 1.6–2.2 g/kg | Carbs: 4–6 g/kg | Fats: 0.8–1.0 g/kg | Example Split: 25P / 55C / 20F
+- Goal: Maintenance | Protein: 1.6–2.0 g/kg | Carbs: 3–5 g/kg | Fats: 0.8–1.0 g/kg | Example Split: 30P / 45C / 25F
+
+ Start with these targets for 2–3 weeks before making changes.
+
+Step 3: Track Your Intake
+
+- Tool: Apps | Description: MyFitnessPal, Cronometer, MacroFactor, Yazio
+- Tool: Manual method | Description: Log meals with kitchen scale and nutrition labels
+
+ Track protein and calories most closely — they have the biggest impact.
+ Allow a margin of error (~5–10%) — perfection isn’t required.
+
+Step 4: Evaluate Progress
+
+Track your data weekly:
+
+- Metric: Body weight | How to Measure: Morning, fasted, 3x/week average | Goal Trend: Stable for maintenance, up for gain, down for loss
+- Metric: Body composition | How to Measure: Photos, tape measure, mirror | Goal Trend: Visible change every 2–4 weeks
+- Metric: Performance | How to Measure: Strength, endurance, recovery | Goal Trend: Maintain or improve over time
+- Metric: Energy & hunger | How to Measure: Subjective feedback | Goal Trend: Stable and manageable
+
+ Make only one change at a time and reassess after 10–14 days.
+
+Step 5: Adjust Macros Based on Results
+
+- Scenario: No weight change (2+ weeks) | Adjustment Strategy: Increase or decrease calories by 150–200/day
+- Scenario: Too fast fat loss (>1% BW/week) | Adjustment Strategy: Add 150–200 kcal/day, mostly carbs/fats
+- Scenario: Too slow fat loss (<0.25% BW/week) | Adjustment Strategy: Reduce 150–200 kcal/day, usually carbs
+- Scenario: Muscle gain too fast (>1 kg/month) | Adjustment Strategy: Reduce +100–200 kcal/day, mainly carbs/fats
+- Scenario: Low energy / poor recovery | Adjustment Strategy: Add carbs or fats to improve performance
+
+ Keep protein constant — adjust carbs and fats for calorie changes.
+
+Step 6: Use Adaptive Tracking
+
+As you lose or gain weight, your TDEE changes. Recalculate every 3–5 kg or monthly:
+- Fat loss phase: metabolism adapts ↓ → lower intake needed over time.
+- Muscle gain: higher weight → higher calorie needs.
+
+ Dynamic tracking prevents stalls or excessive gain.
+
+Advanced Tips
+
+1. Carb cycling – raise carbs on training days, lower them on rest days.
+2. Refeed days – occasional high-carb days to restore glycogen & hormones.
+3. Diet breaks – 1–2 weeks at maintenance to reset metabolism during long cuts.
+4. Macro flexibility – focus on weekly averages, not daily perfection.
+5. Meal consistency – eating similar foods simplifies tracking and accuracy.
+
+Key Takeaways
+
+1. Macros are adjustable levers — not fixed rules.
+2. Track progress weekly and make small, data-driven tweaks.
+3. Keep protein high and steady across all goals.
+4. Adapt macros with changing activity, goals, or body composition.
+5. Long-term success = consistency + gradual refinement.
+
+Added Notes:
+- Use weekly averages to account for daily weight fluctuations.
+- Avoid cutting below 1,200 kcal for women or 1,500 kcal for men unless supervised.
+- Adjust macros slowly; large swings cause fatigue and loss of adherence.
+- Combine tracking with step counts or training logs for better context.
+- Reassess hunger, sleep, and recovery before lowering calories further.

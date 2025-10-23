@@ -1,0 +1,87 @@
+Calorie Calculation & TDEE
+
+A step-by-step, evidence-based guide to estimating Total Daily Energy Expenditure (TDEE) — your daily calorie needs. Multiple calculation methods are included for better accuracy and comparison.
+
+Step 1: Understand the Components of Energy Expenditure
+
+Your total daily energy use = the sum of four parts:
+
+- Component: BMR (Basal Metabolic Rate) | Description: Energy used at rest for essential functions (breathing, organs, etc.) | % of Total: 60–75%
+- Component: TEF (Thermic Effect of Food) | Description: Energy used to digest and process food (~10% of calories) | % of Total: 10%
+- Component: EAT (Exercise Activity Thermogenesis) | Description: Calories burned during workouts | % of Total: 5–15%
+- Component: NEAT (Non-Exercise Activity Thermogenesis) | Description: Movement, walking, posture, fidgeting | % of Total: 10–20%
+
+ Increasing NEAT (daily activity) can meaningfully raise TDEE without more gym time.
+
+Step 2: Estimate Your Basal Metabolic Rate (BMR)
+
+Here are the three most common and accurate BMR equations:
+Mifflin–St Jeor Equation (modern standard)
+Harris–Benedict Equation (revised) (older but still useful)
+Katch–McArdle Formula (best if you know body fat %)
+
+Where:
+
+ For athletes or lean individuals, Katch–McArdle is typically most precise.
+
+Step 3: Apply Your Activity Multiplier
+
+Multiply your BMR by one of the following activity levels to estimate TDEE:
+
+- Activity Level: Sedentary | Description: Little to no exercise | Multiplier: × 1.2
+- Activity Level: Lightly active | Description: Exercise 1–3x/week | Multiplier: × 1.375
+- Activity Level: Moderately active | Description: Exercise 3–5x/week | Multiplier: × 1.55
+- Activity Level: Very active | Description: Hard exercise 6–7x/week | Multiplier: × 1.725
+- Activity Level: Extra active | Description: Intense training + physical job | Multiplier: × 1.9
+
+ TDEE = BMR × Activity Multiplier
+
+Step 4: Compare & Cross-Check Methods
+
+You can average results from 2–3 methods for higher accuracy.
+
+Example (30-year-old male, 75 kg, 180 cm, moderate activity)
+
+- Formula: Mifflin–St Jeor | BMR: 1,739 kcal | TDEE: 2,695 kcal
+- Formula: Harris–Benedict | BMR: 1,782 kcal | TDEE: 2,762 kcal
+- Formula: Katch–McArdle (15% BF) | BMR: 1,727 kcal | TDEE: 2,677 kcal
+
+ Average TDEE ≈ 2,710 kcal/day
+
+Step 5: Adjust Based on Goal
+
+- Goal: Muscle Gain | Strategy: Eat in a small surplus | Adjustment: +200–500 kcal/day
+- Goal: Fat Loss | Strategy: Create a calorie deficit | Adjustment: –300–500 kcal/day
+- Goal: Maintenance | Strategy: Match intake to TDEE | Adjustment: ±0 kcal
+
+ Reassess every 2–3 weeks — metabolism adapts over time.
+
+Step 6: Validate with Real-World Tracking
+
+1. Track body weight trends (same time each morning, 2–3x/week).
+2. If weight is stable → you’re at maintenance.
+3. If gaining/losing too fast → adjust calories by 100–200/day.
+4. Use progress, energy, and training performance to fine-tune.
+
+Bonus: Quick Estimation Formula (for Speed)
+
+- Category: Sedentary | Shortcut Formula: Bodyweight (kg) × 28–30
+- Category: Moderately active | Shortcut Formula: Bodyweight (kg) × 33–36
+- Category: Very active / athlete | Shortcut Formula: Bodyweight (kg) × 38–42
+
+ Example: 75 kg × 35 = 2,625 kcal/day (approx.)
+
+Key Takeaways
+
+1. Use multiple TDEE methods (Mifflin–St Jeor + Katch–McArdle) for accuracy.
+2. Remember: equations give estimates, not exact values.
+3. Recalculate as body composition or activity changes.
+4. Long-term success depends on tracking and adjusting, not static formulas.
+5. Your TDEE is dynamic — lifestyle, NEAT, and recovery all matter.
+
+Added Notes:
+- Adaptive thermogenesis: prolonged deficits can lower TDEE beyond equation estimates; expect 5–15% drops and adjust based on real-world tracking.
+- Menstrual cycle: energy expenditure and appetite may rise slightly in the late luteal phase—small calorie increases can aid adherence.
+- Illness and stress can temporarily raise or lower NEAT; recheck maintenance after recovery.
+- Diet breaks (7–14 days at true maintenance) can restore training quality during long cuts.
+- Step counts are a practical NEAT proxy; setting a baseline (e.g., 7–12k/day) improves TDEE predictability.

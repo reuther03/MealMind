@@ -1,0 +1,57 @@
+Micronutrients Overview
+
+A concise guide to the key vitamins and minerals, their main functions, deficiency symptoms, and best food sources.
+
+Vitamins
+
+- Vitamin: Vitamin A | Function: Vision, immune health, skin repair | Deficiency Symptoms: Night blindness, dry skin | Best Sources: Carrots, sweet potatoes, liver, spinach
+- Vitamin: Vitamin B1 (Thiamine) | Function: Energy metabolism, nerve function | Deficiency Symptoms: Fatigue, irritability, poor coordination | Best Sources: Whole grains, pork, legumes
+- Vitamin: Vitamin B2 (Riboflavin) | Function: Energy production, skin health | Deficiency Symptoms: Cracked lips, mouth sores | Best Sources: Dairy, eggs, lean meat, almonds
+- Vitamin: Vitamin B3 (Niacin) | Function: Energy metabolism, DNA repair | Deficiency Symptoms: Dermatitis, diarrhea, dementia | Best Sources: Chicken, tuna, peanuts, brown rice
+- Vitamin: Vitamin B6 (Pyridoxine) | Function: Amino acid metabolism, mood regulation | Deficiency Symptoms: Anemia, depression, confusion | Best Sources: Chickpeas, bananas, potatoes, salmon
+- Vitamin: Vitamin B9 (Folate) | Function: DNA synthesis, red blood cell formation | Deficiency Symptoms: Fatigue, poor growth, anemia | Best Sources: Leafy greens, lentils, citrus fruits
+- Vitamin: Vitamin B12 (Cobalamin) | Function: Nerve function, blood cell formation | Deficiency Symptoms: Anemia, nerve damage, fatigue | Best Sources: Meat, fish, eggs, dairy, fortified foods
+- Vitamin: Vitamin C | Function: Antioxidant, collagen formation, immunity | Deficiency Symptoms: Weak immunity, bleeding gums, slow healing | Best Sources: Citrus, berries, kiwi, peppers
+- Vitamin: Vitamin D | Function: Calcium absorption, bone health, immunity | Deficiency Symptoms: Weak bones, fatigue, low mood | Best Sources: Sunlight, fatty fish, egg yolks, fortified milk
+- Vitamin: Vitamin E | Function: Antioxidant, skin protection | Deficiency Symptoms: Muscle weakness, nerve issues | Best Sources: Nuts, seeds, vegetable oils, spinach
+- Vitamin: Vitamin K | Function: Blood clotting, bone metabolism | Deficiency Symptoms: Easy bruising, bleeding | Best Sources: Kale, broccoli, Brussels sprouts
+
+Minerals
+
+- Mineral: Calcium | Function: Bone strength, nerve signaling | Deficiency Symptoms: Weak bones, muscle cramps | Best Sources: Dairy, tofu, leafy greens, sardines
+- Mineral: Iron | Function: Oxygen transport, energy | Deficiency Symptoms: Fatigue, pale skin, shortness of breath | Best Sources: Red meat, lentils, spinach, fortified cereals
+- Mineral: Magnesium | Function: Muscle & nerve function, enzyme activity | Deficiency Symptoms: Muscle cramps, anxiety, poor sleep | Best Sources: Nuts, seeds, whole grains, dark chocolate
+- Mineral: Zinc | Function: Immune function, wound healing | Deficiency Symptoms: Poor healing, hair loss, low immunity | Best Sources: Meat, shellfish, pumpkin seeds, beans
+- Mineral: Potassium | Function: Muscle contraction, fluid balance | Deficiency Symptoms: Fatigue, cramps, irregular heartbeat | Best Sources: Bananas, potatoes, beans, avocados
+- Mineral: Sodium | Function: Fluid balance, nerve function | Deficiency Symptoms: Dizziness, low blood pressure | Best Sources: Salt, soups, pickled foods (in moderation)
+- Mineral: Iodine | Function: Thyroid hormone production | Deficiency Symptoms: Goiter, fatigue, weight gain | Best Sources: Iodized salt, seafood, dairy
+- Mineral: Selenium | Function: Antioxidant, thyroid function | Deficiency Symptoms: Weak immunity, fatigue | Best Sources: Brazil nuts, fish, eggs, brown rice
+- Mineral: Phosphorus | Function: Bone structure, energy metabolism | Deficiency Symptoms: Weak muscles, poor appetite | Best Sources: Meat, dairy, nuts, beans
+- Mineral: Copper | Function: Red blood cell production, iron absorption | Deficiency Symptoms: Fatigue, weak immunity | Best Sources: Shellfish, nuts, seeds, whole grains
+
+Electrolytes & Hydration Minerals
+
+- Nutrient: Sodium (Na) | Role: Maintains fluid balance | Signs of Imbalance: Low: fatigue, cramps / High: bloating, high BP | Common Sources: Salt, soups, sports drinks
+- Nutrient: Potassium (K) | Role: Nerve and muscle function | Signs of Imbalance: Irregular heartbeat, weakness | Common Sources: Bananas, potatoes, spinach
+- Nutrient: Magnesium (Mg) | Role: Muscle relaxation, energy | Signs of Imbalance: Cramps, anxiety, insomnia | Common Sources: Nuts, dark chocolate, greens
+- Nutrient: Calcium (Ca) | Role: Nerve signaling, bone health | Signs of Imbalance: Numbness, cramps | Common Sources: Dairy, fortified plant milk
+
+Supplement Notes
+
+- Supplement only if deficiency or medical advice suggests it.
+- Common helpful supplements: Vitamin D, Omega-3, Magnesium, B12 (for vegans).
+- Whole foods are still the best primary source of micronutrients.
+
+Key Takeaways
+
+1. Eat a colorful, varied diet for micronutrient diversity.
+2. Deficiencies are often linked to low variety or restrictive diets.
+3. Pair fat-soluble vitamins (A, D, E, K) with healthy fats for absorption.
+4. Don’t over-supplement — balance matters.
+5. Micronutrients power everything from energy to immunity.
+
+Added Notes:
+- Vitamin K2 (found in fermented foods and eggs) complements vitamin D for bone health.
+- Pair non-heme iron (from plants) with vitamin C to improve absorption.
+- Chronic low intake of magnesium and potassium contributes to fatigue; monitor if training intensely.
+- Zinc competes with copper for absorption; avoid long-term high-dose zinc supplementation.
