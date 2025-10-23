@@ -55,10 +55,7 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");
 
             var documentsText = string.Join("\n\n",
-                relevantDocuments.Select(x =>
-                    $"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +
-                    $"\nTitle: {x.Title}" +
-                    $"\nContent: {x.Content}"));
+                relevantDocuments.Select(x => $"Title: {x.Title}\nContent: {x.Content}"));
             var documentTitles = relevantDocuments.Select(x => x.Title).ToList();
 
             //should aichatmessage be created before or after response manager call?

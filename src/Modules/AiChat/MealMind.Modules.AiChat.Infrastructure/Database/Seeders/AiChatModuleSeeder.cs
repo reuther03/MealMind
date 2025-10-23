@@ -23,7 +23,7 @@ public class AiChatModuleSeeder : IModuleSeeder
         if (_dbContext.RagDocuments.Any())
             return;
 
-        var filesToSeed = Directory.GetFiles(@"C:\Repos\MealMind\seed-data", "*.md");
+        var filesToSeed = Directory.GetFiles(@"C:\Repos\MealMind\seed-data", "*.txt");
 
         foreach (var file in filesToSeed)
         {

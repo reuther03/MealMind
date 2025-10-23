@@ -7,8 +7,8 @@ namespace MealMind.Modules.AiChat.Application.Services;
 
 internal sealed class ResponseManager : IResponseManager
 {
-    private const float TemperatureSetting = 0.1f;
-    private const int MaxTokensSetting = 800;
+    private const float TemperatureSetting = 0.2f;
+    private const int MaxTokensSetting = 1500;
 
     private readonly IChatClient _chatClient;
 
@@ -28,89 +28,81 @@ internal sealed class ResponseManager : IResponseManager
 
         var systemPrompt =
             $$"""
-              You are a nutrition knowledge assistant. Answer questions using ONLY the provided reference documents.
+              You are a nutrition knowledge assistant. Answer questions **using ONLY** the reference documents below. Never invent or summarize generically.
 
               ═══════════════════════════════════════════════════════════════
               📚 REFERENCE DOCUMENTS
               ═══════════════════════════════════════════════════════════════
-
               {{documentsText}}
 
               ═══════════════════════════════════════════════════════════════
-              ✅ EXAMPLE: Learn from this pattern
+              🎯 TASK
               ═══════════════════════════════════════════════════════════════
+              Answer the user's question by extracting *factual, numeric, and explanatory details* from the documents. 
+              Return ONLY valid JSON matching this exact schema:
 
-              User asks: "How much protein for cutting?"
-
-              You respond with THIS JSON (using facts from documents):
-
-              {"Title":"Protein Requirements for Fat Loss Phase","Paragraphs":["During a cutting phase, protein intake should be 2.0-2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.","This is higher than the muscle gain recommendation of 1.6-2.2 g/kg because protein helps prevent muscle breakdown when calories are restricted."],"KeyPoints":["Cutting phase: 2.0-2.4 g/kg body weight daily","Spread protein across 3-5 meals for best absorption","Use complete protein sources like eggs, meat, fish, dairy","Higher than muscle gain phase to preserve muscle mass"],"Sources":["Basic Nutrition Guidelines"]}
-
-              Notice:
-              - Title is SPECIFIC to the question (NOT "This is a summary")
-              - Title should reference the CONTEXT of the question not be generic
-              - Paragraphs contain ACTUAL FACTS with NUMBERS from documents (NOT "The first paragraph contains...")
-              - Paragraphs are DETAILED and COMPREHENSIVE (100-250 words each)
-              - Paragraphs include ALL relevant details: numbers, percentages, ranges, recommendations, explanations
-              - KeyPoints are SHORT summaries (one sentence each, 10-30 words)
-              - Sources use EXACT document titles
-
-              PARAGRAPH vs KEY POINTS:
-              ✓ Paragraphs = DETAILED explanations with context, numbers, reasoning
-              ✓ KeyPoints = BRIEF bullet summaries of main takeaways
-              ✓ Paragraphs should be MUCH LONGER than KeyPoints
+              {
+                "Title": "string",
+                "Paragraphs": ["string", "string", ...],
+                "KeyPoints": ["string", "string", ...],
+                "Sources": ["string", "string", ...]
+              }
 
               ═══════════════════════════════════════════════════════════════
-              🎯 YOUR TASK
+              ✅ EXAMPLE OUTPUT
               ═══════════════════════════════════════════════════════════════
-
-              Answer the user's question the SAME WAY as the example above:
-
-              1. Extract ALL SPECIFIC facts, numbers, recommendations from documents
-              2. Create a DESCRIPTIVE title related to the question
-              3. Write 2-4 DETAILED paragraphs (100-250 words each):
-                 - Include specific numbers, ranges, percentages from documents
-                 - Explain WHY and HOW (mechanisms, reasons, context)
-                 - Cover multiple aspects of the topic
-                 - Use transitional phrases between ideas
-              4. List 3-7 SHORT key points (one sentence each):
-                 - Each point = ONE main takeaway in 10-30 words
-                 - Summarize the detailed info from paragraphs
-                 - Do NOT add new details here
-              5. Include EXACT document titles you used
-
-              Available document titles (use these EXACTLY in Sources field):
-              ["{{availableSourcesList}}"]
-
-              CRITICAL:
-              - Use ONLY information directly stated in the documents above
-              - Extract EVERY relevant detail from documents into paragraphs
-              - If answer NOT in documents: {"Title":"Information Not Available","Paragraphs":["I don't have that information in my knowledge base."],"KeyPoints":[],"Sources":[]}
-              - Quote specific numbers and details (e.g., "1.6-2.2 g/kg", "7-9 hours")
-              - Do NOT make up sources or use titles not in the list
-              - Document titles are shown above each chunk in REFERENCE DOCUMENTS section
+              User: "How much protein for cutting?"
+              Assistant:
+              {
+                "Title": "Protein Requirements for Fat Loss Phase",
+                "Paragraphs": [
+                  "During a cutting phase, protein intake should be 2.0–2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.",
+                  "This range is higher than the muscle gain recommendation (1.6–2.2 g/kg) because protein helps prevent muscle breakdown when calories are restricted."
+                ],
+                "KeyPoints": [
+                  "Cutting phase: 2.0–2.4 g/kg body weight",
+                  "Spread protein across 3–5 meals daily",
+                  "Use complete protein sources like eggs, meat, fish, dairy"
+                ],
+                "Sources": ["Basic Nutrition Guidelines"]
+              }
 
               ═══════════════════════════════════════════════════════════════
-              ❌ WRONG EXAMPLE (Do NOT copy this)
+              🧩 STRUCTURE REQUIREMENTS
               ═══════════════════════════════════════════════════════════════
+              - **Title** → descriptive and specific to the user question.
+              - **Paragraphs** → 2–4 detailed paragraphs (100–250 words each). Must include concrete data, ranges, or mechanisms.
+              - **KeyPoints** → 3–7 concise one-sentence summaries of main facts (10–30 words).
+              - **Sources** → exact document titles from:
+                ["{{availableSourcesList}}"]
 
-              {"Title":"This is a summary","Paragraphs":["The first paragraph contains information about the topic.","The second paragraph provides additional details."],"KeyPoints":["Point 1: This is a short sentence.","Point 2: Another short sentence."],"Sources":["Source 1","Source 2"]}
-
-              This is WRONG because it uses placeholder text instead of actual facts from documents.
+              If information is missing:
+              {
+                "Title": "Information Not Available",
+                "Paragraphs": ["I don't have that information in my knowledge base."],
+                "KeyPoints": [],
+                "Sources": []
+              }
 
               ═══════════════════════════════════════════════════════════════
-              🚨 FORMAT REQUIREMENTS
+              🚫 RESTRICTIONS
               ═══════════════════════════════════════════════════════════════
-
-              1. First character MUST be {
-              2. Last character MUST be }
-              3. NO markdown fences (```json is forbidden)
-              4. NO explanatory text before or after JSON
-              5. Sources MUST be exact titles from the list above
+              - Do NOT create placeholder text (e.g. “The first paragraph contains…”).
+              - Do NOT include generic summaries (“This document explains...”).
+              - Do NOT output anything except JSON.
+              - No ```json fences or markdown.
+              - First character must be '{' and last character must be '}'.
+              - Output must be valid, parseable JSON.
 
               ═══════════════════════════════════════════════════════════════
+              ⚠️ FINAL REMINDER
+              ═══════════════════════════════════════════════════════════════
+              Before finishing, check:
+              1. JSON is syntactically valid.
+              2. All fields match schema.
+              3. Every paragraph and key point uses *actual data* from documents.
 
-              Now answer the user's question with a JSON response containing ACTUAL INFORMATION from the documents:
+              Now output your final answer in pure JSON:
               """;
 
         var systemMessage = new ChatMessage(ChatRole.System, systemPrompt);
@@ -127,11 +119,11 @@ internal sealed class ResponseManager : IResponseManager
             ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken);
 
-        var json = response.Text;
-
         try
         {
-            var structuredResponse = JsonSerializer.Deserialize<StructuredResponse>(json)!;
+            var structuredResponse = JsonSerializer.Deserialize<StructuredResponse>(response.Text)!;
+
+            // if (!response.Text.StartsWith('{') ||  !response.Text.EndsWith('}'))
 
             return structuredResponse;
         }
