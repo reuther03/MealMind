@@ -18,6 +18,7 @@ public class EmbeddingService : IEmbeddingService
         if (string.IsNullOrWhiteSpace(text))
             throw new ArgumentException("Text cannot be null or empty.", nameof(text));
 
+        // if needed apply Embedding options here and set demensions to 768
         var embedding = await _embeddingGenerator.GenerateAsync(text, cancellationToken: cancellationToken);
 
         return new Vector(embedding.Vector.ToArray());

@@ -25,7 +25,7 @@ public class ConversationDocumentConfiguration : IEntityTypeConfiguration<Conver
             .IsRequired();
 
         builder.Property(x => x.Embedding)
-            .HasColumnType("vector(768)");
+            .HasColumnType("vector(1024)");
 
         builder.Property(x => x.ChunkIndex)
             .IsRequired();

@@ -8,7 +8,7 @@ namespace MealMind.Modules.AiChat.Application.Services;
 internal sealed class ResponseManager : IResponseManager
 {
     private const float TemperatureSetting = 0.2f;
-    private const int MaxTokensSetting = 1500;
+    private const int MaxTokensSetting = 800;
 
     private readonly IChatClient _chatClient;
 
