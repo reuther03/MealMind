@@ -119,53 +119,117 @@ internal sealed class ResponseManager : IResponseManager
             ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken);
 
-        try
+        if (!response.Text.StartsWith('{') ||
+            !response.Text.EndsWith('}'))
         {
-            var structuredResponse = JsonSerializer.Deserialize<StructuredResponse>(response.Text)!;
-
-            // if (!response.Text.StartsWith('{') ||  !response.Text.EndsWith('}'))
-
-            return structuredResponse;
+            var repairedJson = await AttemptJsonCorrectionAsync(userPrompt, response.Text, documentsText, documentTitles, cancellationToken);
+            return repairedJson;
         }
-        catch
-        {
-            const string systemRepairPrompt =
-                """
-                 The following JSON is malformed. Fix it to be valid JSON that adheres to the specified schema.
 
-                 RULES:
-                 1. Output ONLY raw JSON - NO markdown code blocks
-                 2. NO explanatory text before or after the JSON
-                 3. ALL fields are REQUIRED
-                 4. Follow the exact field names and types
+        var structuredResponse = JsonSerializer.Deserialize<StructuredResponse>(response.Text)!;
 
-                 JSON SCHEMA:
-                 {
-                   "Title": "string - max 100 chars, single sentence summary",
-                   "Paragraphs": ["array of 2-5 strings", "each paragraph 50-150 words"],
-                   "KeyPoints": ["array of 3-7 strings", "each point is one short sentence"],
-                   "Sources": ["array of 0-5 strings", "document titles or references only"]
-                 }
-
-                 Here is the malformed JSON:
-                """;
-
-            var repairJson = await _chatClient.GetResponseAsync(systemRepairPrompt, new ChatOptions
-            {
-                Temperature = TemperatureSetting,
-                MaxOutputTokens = MaxTokensSetting,
-                ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
-            }, cancellationToken: cancellationToken);
-
-            var repairedJsonText = repairJson.Text;
-
-            return JsonSerializer.Deserialize<StructuredResponse>(repairedJsonText)!;
-        }
+        return structuredResponse;
+        // thing about 2 phase reasoning with finally block
     }
 
-    public Task<string> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
+    private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
+        List<string> documentTitles,
         CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var systemPrompt =
+            $$"""
+              You are a JSON correction assistant. Your task is to fix malformed JSON responses based on the user's original question and reference documents.
+
+              ═══════════════════════════════════════════════════════════════
+              📚 REFERENCE DOCUMENTS
+              ═══════════════════════════════════════════════════════════════
+              {{documentsText}}
+
+              ═══════════════════════════════════════════════════════════════
+              🧩 TASK
+              ═══════════════════════════════════════════════════════════════
+              The user asked: "{{originalQuestion}}"
+
+              The following JSON response is malformed. Correct it to be valid JSON that adheres to the specified schema.
+
+              RULES:
+              1. Output ONLY raw JSON - NO markdown code blocks
+              2. NO explanatory text before or after the JSON
+              3. ALL fields are REQUIRED
+              4. Follow the exact field names and types
+
+              Answer the user's question by extracting *factual, numeric, and explanatory details* from the documents. 
+              Return ONLY valid JSON matching this exact schema:
+
+              {
+                "Title": "string",
+                "Paragraphs": ["string", "string", ...],
+                "KeyPoints": ["string", "string", ...],
+                "Sources": ["string", "string", ...]
+              }
+
+              ═══════════════════════════════════════════════════════════════
+              ✅ EXAMPLE OUTPUT
+              ═══════════════════════════════════════════════════════════════
+              User: "How much protein for cutting?"
+              Assistant:
+              {
+                "Title": "Protein Requirements for Fat Loss Phase",
+                "Paragraphs": [
+                  "During a cutting phase, protein intake should be 2.0–2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.",
+                  "This range is higher than the muscle gain recommendation (1.6–2.2 g/kg) because protein helps prevent muscle breakdown when calories are restricted."
+                ],
+                "KeyPoints": [
+                  "Cutting phase: 2.0–2.4 g/kg body weight",
+                  "Spread protein across 3–5 meals daily",
+                  "Use complete protein sources like eggs, meat, fish, dairy"
+                ],
+                "Sources": ["Basic Nutrition Guidelines"]
+              }
+
+              ═══════════════════════════════════════════════════════════════
+              🧩 STRUCTURE REQUIREMENTS
+              ═══════════════════════════════════════════════════════════════
+              - **Title** → descriptive and specific to the user question.
+              - **Paragraphs** → 2–4 detailed paragraphs (100–250 words each). Must include concrete data, ranges, or mechanisms.
+              - **KeyPoints** → 3–7 concise one-sentence summaries of main facts (10–30 words).
+              - **Sources** → exact document titles from:
+                ["{{documentTitles}}"]
+
+              If information is missing:
+              {
+                "Title": "Information Not Available",
+                "Paragraphs": ["I don't have that information in my knowledge base."],
+                "KeyPoints": [],
+                "Sources": []
+              }
+
+              ═══════════════════════════════════════════════════════════════
+              🚫 RESTRICTIONS
+              ═══════════════════════════════════════════════════════════════
+              - Do NOT create placeholder text (e.g. “The first paragraph contains…”).
+              - Do NOT include generic summaries (“This document explains...”).
+              - Do NOT output anything except JSON.
+              - No ```json fences or markdown.
+              - First character must be '{' and last character must be '}'.
+              - Output must be valid, parseable JSON.
+
+
+              Here is the malformed JSON:
+              {{malformedJson}}
+
+              Now output your corrected JSON:
+              """;
+
+        var repairJson = await _chatClient.GetResponseAsync(systemPrompt, new ChatOptions
+        {
+            Temperature = TemperatureSetting,
+            MaxOutputTokens = MaxTokensSetting,
+            ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
+        }, cancellationToken: cancellationToken);
+
+        var repairedJson = JsonSerializer.Deserialize<StructuredResponse>(repairJson.Text)!;
+
+        return repairedJson;
     }
 }

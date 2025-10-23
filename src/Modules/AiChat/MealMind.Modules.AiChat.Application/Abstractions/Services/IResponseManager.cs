@@ -11,7 +11,4 @@ public interface IResponseManager
         List<string> documentTitles,
         List<ChatMessage> chatMessages,
         CancellationToken cancellationToken = default);
-
-    Task<string> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
-        CancellationToken cancellationToken = default);
 }
