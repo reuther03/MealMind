@@ -123,11 +123,11 @@ internal sealed class ResponseManager : IResponseManager
         var response = await _chatClient.GetResponseAsync(chatMessages, new ChatOptions
         {
             Temperature = TemperatureSetting,
-            MaxOutputTokens = MaxTokensSetting
+            MaxOutputTokens = MaxTokensSetting,
+            ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken);
 
         var json = response.Text;
-
 
         try
         {
@@ -161,7 +161,8 @@ internal sealed class ResponseManager : IResponseManager
             var repairJson = await _chatClient.GetResponseAsync(systemRepairPrompt, new ChatOptions
             {
                 Temperature = TemperatureSetting,
-                MaxOutputTokens = MaxTokensSetting
+                MaxOutputTokens = MaxTokensSetting,
+                ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
             }, cancellationToken: cancellationToken);
 
             var repairedJsonText = repairJson.Text;
