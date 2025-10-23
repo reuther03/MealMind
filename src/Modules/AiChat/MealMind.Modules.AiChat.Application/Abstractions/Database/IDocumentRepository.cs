@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using MealMind.Modules.AiChat.Domain.Rag;
+﻿using MealMind.Modules.AiChat.Domain.Rag;
 using MealMind.Shared.Abstractions.Kernel.Database;
 using Document = MealMind.Modules.AiChat.Domain.Rag.Document;
 

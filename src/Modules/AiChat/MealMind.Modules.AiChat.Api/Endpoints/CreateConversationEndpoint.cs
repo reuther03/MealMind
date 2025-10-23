@@ -1,5 +1,4 @@
 ﻿using MealMind.Modules.AiChat.Application.Features.Commands.CreateConversationCommand;
-using MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;

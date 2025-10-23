@@ -43,6 +43,7 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
             NullValidator.ValidateNotNull(conversation);
 
             var chatMessages = conversation.ChatMessages
+                .Where(x => x.Role != AiChatRole.System)
                 .OrderBy(x => x.CreatedAt)
                 .Select(x => new ChatMessage(new ChatRole(x.Role.ToString()), x.Content))
                 .ToList();
@@ -54,10 +55,12 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");
 
             var documentsText = string.Join("\n\n", relevantDocuments.Select(x => $"Title: {x.Title}\nContent: {x.Content}"));
+            var documentTitles = relevantDocuments.Select(x => x.Title).ToList();
 
             //should aichatmessage be created before or after response manager call?
 
-            var response = await _responseManager.GenerateStructuredResponseAsync(request.Prompt, documentsText, chatMessages, cancellationToken);
+            var response = await _responseManager.GenerateStructuredResponseAsync(request.Prompt, documentsText, documentTitles, chatMessages,
+                cancellationToken);
             var responseString = System.Text.Json.JsonSerializer.Serialize(response);
 
             //keep it here or move to response manager?

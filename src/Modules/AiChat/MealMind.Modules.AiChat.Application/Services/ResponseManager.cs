@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using Microsoft.Extensions.AI;
@@ -8,7 +7,7 @@ namespace MealMind.Modules.AiChat.Application.Services;
 
 internal sealed class ResponseManager : IResponseManager
 {
-    private const float TemperatureSetting = 0.0f;
+    private const float TemperatureSetting = 0.1f;
     private const int MaxTokensSetting = 800;
 
     private readonly IChatClient _chatClient;
@@ -18,62 +17,105 @@ internal sealed class ResponseManager : IResponseManager
         _chatClient = chatClient;
     }
 
-    public async Task<StructuredResponse> GenerateStructuredResponseAsync(string userPrompt, string documentsText, List<ChatMessage> chatMessages,
+    public async Task<StructuredResponse> GenerateStructuredResponseAsync(
+        string userPrompt,
+        string documentsText,
+        List<string> documentTitles,
+        List<ChatMessage> chatMessages,
         CancellationToken cancellationToken = default)
     {
-        const string systemPrompt =
-            """
-            You are a nutrition assistant. Follow these rules EXACTLY:
+        var availableSourcesList = string.Join("\", \"", documentTitles);
 
-            CONTENT RULES:
-            1. Use ONLY information from the documents below
-            2. Quote specific numbers, facts, and recommendations from documents
-            3. If answer not in documents, respond: {{"Title":"Information Not Available","Paragraphs":["I don't have that information in my knowledge base."],"KeyPoints":[],"Sources":[]}}
-            4. DO NOT use generic placeholder text like "This is a summary"
-            5. DO NOT make up information
+        var systemPrompt =
+            $$"""
+              You are a nutrition knowledge assistant. Answer questions using ONLY the provided reference documents.
 
-            OUTPUT FORMAT - CRITICAL:
-            Return ONLY valid JSON matching this EXACT schema:
-            {{"Title":"specific title from content","Paragraphs":["actual paragraph 1","actual paragraph 2"],"KeyPoints":["actual point 1","actual point 2","actual point 3"],"Sources":["document name 1","document
-            name 2"]}}
+              ═══════════════════════════════════════════════════════════════
+              📚 REFERENCE DOCUMENTS
+              ═══════════════════════════════════════════════════════════════
 
-            VALIDATION CHECKLIST:
-            ✓ First character is {{
-            ✓ Last character is }}
-            ✓ No markdown fences (no ```json)
-            ✓ Title is specific (not "This is a summary")
-            ✓ Paragraphs contain actual facts from documents
-            ✓ KeyPoints contain specific information
-            ✓ Sources list document names you used
+              {{documentsText}}
 
-            EXAMPLE OF CORRECT OUTPUT:
-            {{"Title":"Protein Requirements for Muscle Gain","Paragraphs":["For muscle gain and hypertrophy training, protein intake should be 1.6-2.2 grams per kilogram of body weight according to the Basic
-            Nutrition Guidelines.","This higher protein intake supports muscle protein synthesis and recovery after resistance training."],"KeyPoints":["Aim for 1.6-2.2 g/kg for muscle gain","Spread protein across
-            3-5 meals daily","Prefer complete protein sources like eggs, meat, fish"],"Sources":["Basic Nutrition Guidelines"]}}
+              ═══════════════════════════════════════════════════════════════
+              ✅ EXAMPLE: Learn from this pattern
+              ═══════════════════════════════════════════════════════════════
 
-            NOW ANSWER THE USER'S QUESTION USING THE DOCUMENTS:
-            """;
+              User asks: "How much protein for cutting?"
 
-        var systemDocumentsPrompt =
-            $"""
-             You are a nutrition assistant. Answer using ONLY the information in these documents.
+              You respond with THIS JSON (using facts from documents):
 
-             RULES:
-             - Base your answer STRICTLY on the documents below
-             - If the answer is not in the documents, say "I don't have that information" and nothing else
-             - Quote specific numbers and facts from the documents or even quote them directly as reference below your answer
-             - Do NOT use your general knowledge or make assumptions beyond the documents
-             - Sources must be actual document titles provided below, at the start of each chunk look for Title: "Actual Document Title"
+              {"Title":"Protein Requirements for Fat Loss Phase","Paragraphs":["During a cutting phase, protein intake should be 2.0-2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.","This is higher than the muscle gain recommendation of 1.6-2.2 g/kg because protein helps prevent muscle breakdown when calories are restricted."],"KeyPoints":["Cutting phase: 2.0-2.4 g/kg body weight daily","Spread protein across 3-5 meals for best absorption","Use complete protein sources like eggs, meat, fish, dairy","Higher than muscle gain phase to preserve muscle mass"],"Sources":["Basic Nutrition Guidelines"]}
 
-             DOCUMENTS:
-             {documentsText}
-             """;
+              Notice:
+              - Title is SPECIFIC to the question (NOT "This is a summary")
+              - Title should reference the CONTEXT of the question not be generic
+              - Paragraphs contain ACTUAL FACTS with NUMBERS from documents (NOT "The first paragraph contains...")
+              - Paragraphs are DETAILED and COMPREHENSIVE (100-250 words each)
+              - Paragraphs include ALL relevant details: numbers, percentages, ranges, recommendations, explanations
+              - KeyPoints are SHORT summaries (one sentence each, 10-30 words)
+              - Sources use EXACT document titles
+
+              PARAGRAPH vs KEY POINTS:
+              ✓ Paragraphs = DETAILED explanations with context, numbers, reasoning
+              ✓ KeyPoints = BRIEF bullet summaries of main takeaways
+              ✓ Paragraphs should be MUCH LONGER than KeyPoints
+
+              ═══════════════════════════════════════════════════════════════
+              🎯 YOUR TASK
+              ═══════════════════════════════════════════════════════════════
+
+              Answer the user's question the SAME WAY as the example above:
+
+              1. Extract ALL SPECIFIC facts, numbers, recommendations from documents
+              2. Create a DESCRIPTIVE title related to the question
+              3. Write 2-4 DETAILED paragraphs (100-250 words each):
+                 - Include specific numbers, ranges, percentages from documents
+                 - Explain WHY and HOW (mechanisms, reasons, context)
+                 - Cover multiple aspects of the topic
+                 - Use transitional phrases between ideas
+              4. List 3-7 SHORT key points (one sentence each):
+                 - Each point = ONE main takeaway in 10-30 words
+                 - Summarize the detailed info from paragraphs
+                 - Do NOT add new details here
+              5. Include EXACT document titles you used
+
+              Available document titles (use these EXACTLY in Sources field):
+              ["{{availableSourcesList}}"]
+
+              CRITICAL:
+              - Use ONLY information directly stated in the documents above
+              - Extract EVERY relevant detail from documents into paragraphs
+              - If answer NOT in documents: {"Title":"Information Not Available","Paragraphs":["I don't have that information in my knowledge base."],"KeyPoints":[],"Sources":[]}
+              - Quote specific numbers and details (e.g., "1.6-2.2 g/kg", "7-9 hours")
+              - Do NOT make up sources or use titles not in the list
+              - Document titles are shown above each chunk in REFERENCE DOCUMENTS section
+
+              ═══════════════════════════════════════════════════════════════
+              ❌ WRONG EXAMPLE (Do NOT copy this)
+              ═══════════════════════════════════════════════════════════════
+
+              {"Title":"This is a summary","Paragraphs":["The first paragraph contains information about the topic.","The second paragraph provides additional details."],"KeyPoints":["Point 1: This is a short sentence.","Point 2: Another short sentence."],"Sources":["Source 1","Source 2"]}
+
+              This is WRONG because it uses placeholder text instead of actual facts from documents.
+
+              ═══════════════════════════════════════════════════════════════
+              🚨 FORMAT REQUIREMENTS
+              ═══════════════════════════════════════════════════════════════
+
+              1. First character MUST be {
+              2. Last character MUST be }
+              3. NO markdown fences (```json is forbidden)
+              4. NO explanatory text before or after JSON
+              5. Sources MUST be exact titles from the list above
+
+              ═══════════════════════════════════════════════════════════════
+
+              Now answer the user's question with a JSON response containing ACTUAL INFORMATION from the documents:
+              """;
 
         var systemMessage = new ChatMessage(ChatRole.System, systemPrompt);
-        var documentsMessage = new ChatMessage(ChatRole.System, systemDocumentsPrompt);
 
         chatMessages.Add(systemMessage);
-        chatMessages.Add(documentsMessage);
 
         var userMessage = new ChatMessage(ChatRole.User, userPrompt);
         chatMessages.Add(userMessage);
@@ -85,6 +127,7 @@ internal sealed class ResponseManager : IResponseManager
         }, cancellationToken);
 
         var json = response.Text;
+
 
         try
         {
@@ -125,5 +168,11 @@ internal sealed class ResponseManager : IResponseManager
 
             return JsonSerializer.Deserialize<StructuredResponse>(repairedJsonText)!;
         }
+    }
+
+    public Task<string> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
+        CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }

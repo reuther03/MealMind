@@ -4,7 +4,6 @@ using MealMind.Modules.AiChat.Infrastructure.Database;
 using MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
 using MealMind.Modules.AiChat.Infrastructure.Database.Seeders;
 using MealMind.Modules.AiChat.Infrastructure.Services;
-using MealMind.Shared.Abstractions.Modules;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.DependencyInjection;
