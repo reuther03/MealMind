@@ -49,7 +49,7 @@ public record SignUpCommand(
 
             await _publisher.Publish(
                 new SubscriptionTierAddedEvent(
-                    identityUser.Id.Value,
+                    identityUser.Id,
                     identityUser.Tier
                 ), cancellationToken);
 

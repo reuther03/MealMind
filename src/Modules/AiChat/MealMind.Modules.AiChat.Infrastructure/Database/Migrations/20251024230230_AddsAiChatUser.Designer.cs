@@ -3,18 +3,21 @@ using System;
 using MealMind.Modules.AiChat.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pgvector;
 
 #nullable disable
 
-namespace MealMind.Modules.AiChat.Infrastructure.Migrations
+namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
-    partial class AiChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251024230230_AddsAiChatUser")]
+    partial class AddsAiChatUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,16 +36,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
                     b.Property<int>("ActiveConversations")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("CanExportData")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CanUseAdvancedPrompts")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("ConversationsLimit")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ConversationsMessagesHistoryDaysLimit")
                         .HasColumnType("integer");
 
                     b.Property<int>("DailyPromptsLimit")
