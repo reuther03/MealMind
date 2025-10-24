@@ -128,8 +128,8 @@ internal sealed class ResponseManager : IResponseManager
 
         var structuredResponse = JsonSerializer.Deserialize<StructuredResponse>(response.Text)!;
 
-        return structuredResponse;
         // thing about 2 phase reasoning with finally block
+        return structuredResponse;
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,

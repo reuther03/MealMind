@@ -30,6 +30,10 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
             .HasConversion(x => x.Value, x => new Password(x))
             .IsRequired();
 
+        builder.Property(x => x.Tier)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.HasIndex(x => x.Email).IsUnique();
     }
 }

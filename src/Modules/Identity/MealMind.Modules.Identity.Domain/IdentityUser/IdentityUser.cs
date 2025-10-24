@@ -9,6 +9,7 @@ public class IdentityUser : AggregateRoot<UserId>
     public Name Username { get; private set; }
     public Email Email { get; private set; }
     public Password Password { get; private set; }
+    public SubscriptionTier Tier { get; private set; }
 
     private IdentityUser()
     {
@@ -19,6 +20,7 @@ public class IdentityUser : AggregateRoot<UserId>
         Username = username;
         Email = email;
         Password = password;
+        Tier = SubscriptionTier.Free;
     }
 
     public static IdentityUser Create(Name username, Email email, Password password)
