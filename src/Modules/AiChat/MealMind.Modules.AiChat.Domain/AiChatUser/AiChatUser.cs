@@ -61,10 +61,63 @@ public class AiChatUser : AggregateRoot<UserId>
             2,
             7,
             1,
-            250,
-            300,
+            200,
+            200,
             10,
             false,
             false,
             DateTime.UtcNow);
+
+    public AiChatUser ChangeTier(SubscriptionTier tier) => tier switch
+    {
+        SubscriptionTier.Free => new AiChatUser(
+            Id,
+            tier,
+            ActiveConversations,
+            2,
+            7,
+            0,
+            200,
+            200,
+            10,
+            false,
+            false,
+            StartDate,
+            EndDate
+        ),
+
+        SubscriptionTier.Standard => new AiChatUser(
+            Id,
+            tier,
+            ActiveConversations,
+            5,
+            30,
+            5,
+            500,
+            500,
+            50,
+            true,
+            false,
+            StartDate,
+            EndDate
+        ),
+
+        SubscriptionTier.Premium => new AiChatUser(
+            Id,
+            tier,
+            ActiveConversations,
+            20,
+            90,
+            20,
+            1000,
+            1000,
+            -1,
+            true,
+            true,
+            StartDate,
+            EndDate
+        ),
+
+        _ => this
+    };
 }
