@@ -1,4 +1,4 @@
-﻿namespace MealMind.Modules.Identity.Domain.IdentityUser;
+﻿namespace MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 
 public enum SubscriptionTier
 {

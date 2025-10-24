@@ -47,6 +47,12 @@ public record SignUpCommand(
                     command.PersonalData
                 ), cancellationToken);
 
+            await _publisher.Publish(
+                new SubscriptionTierAddedEvent(
+                    identityUser.Id.Value,
+                    identityUser.Tier
+                ), cancellationToken);
+
             return Result.Ok(identityUser.Id.Value);
         }
     }
