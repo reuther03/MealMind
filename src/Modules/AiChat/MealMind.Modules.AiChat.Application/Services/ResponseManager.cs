@@ -8,7 +8,6 @@ namespace MealMind.Modules.AiChat.Application.Services;
 internal sealed class ResponseManager : IResponseManager
 {
     private const float TemperatureSetting = 0.2f;
-    private const int MaxTokensSetting = 800;
 
     private readonly IChatClient _chatClient;
 
@@ -22,6 +21,7 @@ internal sealed class ResponseManager : IResponseManager
         string documentsText,
         List<string> documentTitles,
         List<ChatMessage> chatMessages,
+        int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
         var availableSourcesList = string.Join("\", \"", documentTitles);
@@ -106,7 +106,6 @@ internal sealed class ResponseManager : IResponseManager
               """;
 
         var systemMessage = new ChatMessage(ChatRole.System, systemPrompt);
-
         chatMessages.Add(systemMessage);
 
         var userMessage = new ChatMessage(ChatRole.User, userPrompt);
@@ -115,14 +114,16 @@ internal sealed class ResponseManager : IResponseManager
         var response = await _chatClient.GetResponseAsync(chatMessages, new ChatOptions
         {
             Temperature = TemperatureSetting,
-            MaxOutputTokens = MaxTokensSetting,
+            MaxOutputTokens = responseTokensLimit,
             ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken);
 
         if (!response.Text.StartsWith('{') ||
             !response.Text.EndsWith('}'))
         {
-            var repairedJson = await AttemptJsonCorrectionAsync(userPrompt, response.Text, documentsText, documentTitles, cancellationToken);
+            var repairedJson =
+                await AttemptJsonCorrectionAsync(userPrompt, response.Text, documentsText, documentTitles, responseTokensLimit, cancellationToken);
+
             return repairedJson;
         }
 
@@ -133,7 +134,7 @@ internal sealed class ResponseManager : IResponseManager
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
-        List<string> documentTitles,
+        List<string> documentTitles, int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
         var systemPrompt =
@@ -218,13 +219,13 @@ internal sealed class ResponseManager : IResponseManager
               Here is the malformed JSON:
               {{malformedJson}}
 
-              Now output your corrected JSON:
+              Now output your corrected JSON but nothing else changing the content:
               """;
 
         var repairJson = await _chatClient.GetResponseAsync(systemPrompt, new ChatOptions
         {
             Temperature = TemperatureSetting,
-            MaxOutputTokens = MaxTokensSetting,
+            MaxOutputTokens = responseTokensLimit,
             ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken: cancellationToken);
 

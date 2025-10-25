@@ -10,5 +10,6 @@ public interface IResponseManager
         string documentsText,
         List<string> documentTitles,
         List<ChatMessage> chatMessages,
+        int responseTokensLimit,
         CancellationToken cancellationToken = default);
 }

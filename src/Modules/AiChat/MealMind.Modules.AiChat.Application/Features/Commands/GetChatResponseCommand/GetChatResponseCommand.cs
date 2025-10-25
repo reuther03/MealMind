@@ -1,4 +1,6 @@
-﻿using MealMind.Modules.AiChat.Application.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
@@ -8,10 +10,12 @@ using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.Extensions.AI;
+using Microsoft.SemanticKernel.Text;
+using SharpToken;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
 
-public record GetChatResponseCommand(Guid ConversationId, string Prompt) : ICommand<StructuredResponse>
+public record GetChatResponseCommand(Guid ConversationId, string Prompt, UserLimitsPayload LimitsPayload) : ICommand<StructuredResponse>
 {
     public sealed class Handler : ICommandHandler<GetChatResponseCommand, StructuredResponse>
     {
@@ -42,11 +46,21 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
             var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId, cancellationToken);
             NullValidator.ValidateNotNull(conversation);
 
+            if (request.LimitsPayload.DailyPromptsLimit != -1 &&
+                conversation.ChatMessages.Count(x => x.CreatedAt >= DateTime.UtcNow.Date) >= request.LimitsPayload.DailyPromptsLimit)
+                return Result<StructuredResponse>.BadRequest("Daily prompts limit exceeded.");
+
             var chatMessages = conversation.ChatMessages
                 .Where(x => x.Role != AiChatRole.System)
                 .OrderBy(x => x.CreatedAt)
+                .Where(x => x.CreatedAt >= DateTime.UtcNow.AddDays(-request.LimitsPayload.ConversationsMessagesHistoryDaysLimit)) // check if this is correct
                 .Select(x => new ChatMessage(new ChatRole(x.Role.ToString()), x.Content))
                 .ToList();
+
+            var encoding = GptEncoding.GetEncoding("o200k_base");
+
+            if (encoding.CountTokens(request.Prompt) > request.LimitsPayload.PromptTokensLimit)
+                return Result<StructuredResponse>.BadRequest("Prompt exceeds the token limit.");
 
             var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(request.Prompt, cancellationToken);
             var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken);
@@ -56,13 +70,20 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
 
             var documentsText = string.Join("\n\n",
                 relevantDocuments.Select(x => $"Title: {x.Title}\nContent: {x.Content}"));
+
             var documentTitles = relevantDocuments.Select(x => x.Title).ToList();
 
             //should aichatmessage be created before or after response manager call?
 
-            var response = await _responseManager.GenerateStructuredResponseAsync(request.Prompt, documentsText, documentTitles, chatMessages,
-                cancellationToken);
-            var responseString = System.Text.Json.JsonSerializer.Serialize(response);
+            var response = await _responseManager.GenerateStructuredResponseAsync(
+                request.Prompt,
+                documentsText,
+                documentTitles,
+                chatMessages,
+                request.LimitsPayload.ResponseTokensLimit,
+                cancellationToken
+            );
+            var responseString = JsonSerializer.Serialize(response);
 
             //keep it here or move to response manager?
             var aiChatMessage = AiChatMessage.Create(conversation.Id, AiChatRole.User, request.Prompt, conversation.GetRecentMessage().Id);

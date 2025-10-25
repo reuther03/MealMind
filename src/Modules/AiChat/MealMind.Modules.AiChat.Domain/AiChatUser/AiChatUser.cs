@@ -7,15 +7,15 @@ namespace MealMind.Modules.AiChat.Domain.AiChatUser;
 public class AiChatUser : AggregateRoot<UserId>
 {
     public SubscriptionTier Tier { get; private set; }
-    public int ActiveConversations { get; private set; }
-    public int ConversationsLimit { get; private set; }
-    public int ConversationsMessagesHistoryDaysLimit { get; private set; }
-    public int DocumentsLimit { get; private set; }
-    public int PromptTokensLimit { get; private set; }
-    public int ResponseTokensLimit { get; private set; }
-    public int DailyPromptsLimit { get; private set; }
-    public bool CanExportData { get; private set; }
-    public bool CanUseAdvancedPrompts { get; private set; }
+    public int ActiveConversations { get; private set; } // unchecked
+    public int ConversationsLimit { get; private set; } // checked
+    public int ConversationsMessagesHistoryDaysLimit { get; private set; } // checked
+    public int DocumentsLimit { get; private set; } // not implemented yet
+    public int PromptTokensLimit { get; private set; } // checked
+    public int ResponseTokensLimit { get; private set; } // checked
+    public int DailyPromptsLimit { get; private set; } // checked
+    public bool CanExportData { get; private set; } // idk how to check this
+    public bool CanUseAdvancedPrompts { get; private set; } // not implemented yet
     public DateTime StartDate { get; private set; }
     public DateTime? EndDate { get; private set; }
 
@@ -68,6 +68,7 @@ public class AiChatUser : AggregateRoot<UserId>
             false,
             DateTime.UtcNow);
 
+    // updates not creation of the user
     public AiChatUser ChangeTier(SubscriptionTier tier) => tier switch
     {
         SubscriptionTier.Free => new AiChatUser(
