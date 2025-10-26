@@ -487,3 +487,20 @@ $RECYCLE.BIN/
 .container/
 pg_data/
 pg_data_backup/
+
+##
+## Blazor WebAssembly specific
+##
+
+# Blazor WASM build artifacts (auto-generated)
+service-worker-assets.js
+
+# Blazor debugging
+**/.dotnet/
+.dotnet/
+
+# Blazor compiled output (already covered by bin/obj but being explicit)
+**/wwwroot/dist/
+
+# Blazor hot reload temp files
+*.razor.g.cs
