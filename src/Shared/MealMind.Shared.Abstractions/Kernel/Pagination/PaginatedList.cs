@@ -1,4 +1,4 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
+﻿using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Shared.Abstractions.Kernel.Pagination;
 

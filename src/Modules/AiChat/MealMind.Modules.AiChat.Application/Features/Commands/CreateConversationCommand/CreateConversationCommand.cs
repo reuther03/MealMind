@@ -1,9 +1,9 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Domain.Conversation;
-using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
+using MealMind.Shared.Contracts.Result;
 using Microsoft.Extensions.AI;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.CreateConversationCommand;

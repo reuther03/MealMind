@@ -1,4 +1,4 @@
-﻿namespace MealMind.Shared.Abstractions.Kernel.Primitives.Result;
+﻿namespace MealMind.Shared.Contracts.Result;
 
 public class Result
 {

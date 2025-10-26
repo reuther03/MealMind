@@ -1,8 +1,8 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Shared.Abstractions.Auth;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
-using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
+using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Identity.Application.Features.Commands.SignInCommand;
 

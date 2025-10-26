@@ -1,5 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Requests;
+﻿using MealMind.Shared.Abstractions.QueriesAndCommands.Requests;
+using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Shared.Abstractions.Services;
 

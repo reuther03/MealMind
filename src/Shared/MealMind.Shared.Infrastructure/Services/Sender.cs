@@ -1,9 +1,9 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
+﻿using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Requests;
 using MealMind.Shared.Abstractions.Services;
+using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Shared.Infrastructure.Services;
 

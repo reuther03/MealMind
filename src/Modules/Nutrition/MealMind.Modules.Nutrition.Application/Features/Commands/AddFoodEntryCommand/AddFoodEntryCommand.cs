@@ -1,7 +1,7 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.Food;
-using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
+using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodEntryCommand;
 

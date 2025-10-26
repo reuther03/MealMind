@@ -1,7 +1,7 @@
 using MealMind.Shared.Abstractions.Kernel.Database;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
-using MealMind.Shared.Abstractions.Kernel.Primitives.Result;
 using MealMind.Shared.Abstractions.Services;
+using MealMind.Shared.Contracts.Result;
 using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Shared.Infrastructure.Postgres;

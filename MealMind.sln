@@ -72,6 +72,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{DC8862
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Client", "client\MealMind.Client\MealMind.Client.csproj", "{527B43D5-6D56-4478-AEC9-1FEECC198A1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Shared.Contracts", "src\Shared\MealMind.Shared.Contracts\MealMind.Shared.Contracts.csproj", "{CD6D5B65-9B47-4959-A394-CF9160D6DB0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,7 @@ Global
 		{AF4D5082-2C30-4888-A276-5A0A4544EA32} = {C728170F-D4F8-46AE-AB86-A9586FEF0C91}
 		{A86DF442-E650-4DA1-B6EF-6CF6DB7AE0BA} = {C728170F-D4F8-46AE-AB86-A9586FEF0C91}
 		{527B43D5-6D56-4478-AEC9-1FEECC198A1C} = {DC886290-E6D2-4F2F-95A8-5EE1885058DD}
+		{CD6D5B65-9B47-4959-A394-CF9160D6DB0B} = {C94A819F-5484-46CD-857B-2E32C9C1E81B}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AADD7986-166C-47F2-8FB4-58D2F211B955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -197,5 +200,9 @@ Global
 		{527B43D5-6D56-4478-AEC9-1FEECC198A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{527B43D5-6D56-4478-AEC9-1FEECC198A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{527B43D5-6D56-4478-AEC9-1FEECC198A1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD6D5B65-9B47-4959-A394-CF9160D6DB0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD6D5B65-9B47-4959-A394-CF9160D6DB0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD6D5B65-9B47-4959-A394-CF9160D6DB0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD6D5B65-9B47-4959-A394-CF9160D6DB0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
