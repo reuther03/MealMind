@@ -40,14 +40,12 @@ internal static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                // x.WithOrigins("http://localhost:5000", "https://localhost:5000","http://localhost:50001", "https://localhost:5001")
-                //     .WithMethods("GET", "POST", "PUT", "DELETE")
-                //     .AllowAnyOrigin()
-                //     .AllowAnyHeader()
-                //     .AllowCredentials();
-                x.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                x.WithOrigins("http://localhost:5001", "https://localhost:5001")
+                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                    .AllowCredentials();
+                // x.AllowAnyOrigin()
+                //     .AllowAnyMethod()
+                //     .AllowAnyHeader();
             });
         });
 
@@ -61,24 +59,6 @@ internal static class Extensions
         services.AddMediatrWithFilters(assemblies);
         services.AddDecorators();
 
-        services.AddControllers()
-            .ConfigureApplicationPartManager(manager =>
-            {
-                var removedParts = new List<ApplicationPart>();
-                foreach (var disabledModule in disabledModules)
-                {
-                    var parts = manager.ApplicationParts.Where(x => x.Name.Contains(disabledModule, StringComparison.InvariantCultureIgnoreCase));
-                    removedParts.AddRange(parts);
-                }
-
-                foreach (var part in removedParts)
-                {
-                    manager.ApplicationParts.Remove(part);
-                }
-
-                manager.FeatureProviders.Add(new InternalControllerFeatureProvider());
-            });
-
         return services;
     }
 
@@ -88,7 +68,6 @@ internal static class Extensions
         app.UseCors(CorsPolicy);
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         app.UseSwagger();
         app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MealMind API"); });
         return app;
