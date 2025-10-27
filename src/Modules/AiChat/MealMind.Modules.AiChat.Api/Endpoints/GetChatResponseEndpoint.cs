@@ -15,6 +15,48 @@ public class GetChatResponseEndpoint : EndpointBase
             {
                 var result = await sender.Send(request);
                 return result;
-            });
+            })
+            .WithDocumentation("Get Chat Response",
+                "Sends a message to an existing conversation and receives a structured AI response with RAG (Retrieval-Augmented Generation). The response includes relevant sources from the knowledge base. Requires authentication and respects user subscription limits.",
+                """
+                {
+                  "conversationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                  "prompt": "What are good protein sources for vegetarians?",
+                  "limitsPayload": {
+                    "conversationsLimit": 10,
+                    "conversationsMessagesHistoryDaysLimit": 30,
+                    "documentsLimit": 5,
+                    "promptTokensLimit": 1000,
+                    "responseTokensLimit": 2000,
+                    "dailyPromptsLimit": 50,
+                    "canExportData": true,
+                    "canUseAdvancedPrompts": true
+                  }
+                }
+                """,
+                """
+                {
+                  "value": {
+                    "title": "Vegetarian Protein Sources",
+                    "paragraphs": [
+                      "Vegetarians have many excellent protein options available...",
+                      "Legumes such as lentils, chickpeas, and beans are outstanding sources..."
+                    ],
+                    "keyPoints": [
+                      "Legumes provide 15-20g protein per cup",
+                      "Quinoa is a complete protein with all essential amino acids",
+                      "Greek yogurt and cottage cheese are high in protein"
+                    ],
+                    "sources": [
+                      "Nutritional Guide to Plant-Based Proteins",
+                      "Complete Protein Sources for Vegetarians"
+                    ]
+                  },
+                  "isSuccess": true,
+                  "statusCode": 200,
+                  "message": null
+                }
+                """
+            );
     }
 }
