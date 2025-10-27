@@ -14,7 +14,7 @@ var services = builder.Services;
 
 services.AddScoped(_ => new HttpClient
 {
-    BaseAddress = new Uri("http://localhost:8080")
+    BaseAddress = new Uri("http://localhost:5000/")
 });
 
 #region Extensions

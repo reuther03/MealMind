@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using MealMind.Client.Application.State
 @inject AuthState AuthState
+@inject NavigationManager Navigation
 
 <div>
     <h1>Welcome to MealMind!</h1>
@@ -9,6 +10,7 @@
         <p>You are logged in as: <strong>@AuthState.CurrentUser?.UserName</strong></p>
         <p>Email: @AuthState.CurrentUser?.Email</p>
         <p>Subscription: @AuthState.CurrentUser?.SubscriptionTier</p>
+        <button @onclick="HandleLogout">Logout</button>
     }
     else
     {
@@ -18,5 +20,11 @@
 </div>
 
 @code {
+
+    private async Task HandleLogout()
+    {
+        await AuthState.LogoutAsync();
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
 
 }
