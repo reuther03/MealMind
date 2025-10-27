@@ -1,6 +1,6 @@
 ﻿using MealMind.Shared.Abstractions.Exception;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
+using MealMind.Shared.Contracts.Types;
 
 namespace MealMind.Modules.Nutrition.Domain.UserProfile;
 

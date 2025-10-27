@@ -1,4 +1,4 @@
-﻿namespace MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
+﻿namespace MealMind.Shared.Contracts.Types;
 
 public enum ActivityLevel
 {

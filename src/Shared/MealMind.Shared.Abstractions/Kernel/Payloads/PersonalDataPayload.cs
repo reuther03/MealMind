@@ -1,4 +1,4 @@
-﻿using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
+﻿using MealMind.Shared.Contracts.Types;
 
 namespace MealMind.Shared.Abstractions.Kernel.Payloads;
 
