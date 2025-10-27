@@ -38,6 +38,10 @@ services:
     environment:
       ASPNETCORE_URLS: "http://+:8080"
       postgres__connectionString: "Host=mealmind.postgres;Port=5432;Database=MealMind;Username=postgres;Password="
+      jwt__issuer: "MealMind"
+      jwt__audience: "MealMind"
+      jwt__SecretKey: "27D719E2-0077-4574-ACFC-063304D71069"
+      jwt__expiry: "12:00:00"
     ports:
       - "8080:8080"
     networks:

@@ -1,4 +1,4 @@
-﻿namespace MealMind.Shared.Abstractions.Auth;
+﻿namespace MealMind.Shared.Contracts.Dto.Identity;
 
 public class AccessToken
 {

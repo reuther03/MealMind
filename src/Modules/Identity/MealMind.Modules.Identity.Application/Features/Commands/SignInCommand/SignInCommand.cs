@@ -2,6 +2,7 @@
 using MealMind.Shared.Abstractions.Auth;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
+using MealMind.Shared.Contracts.Dto.Identity;
 using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Identity.Application.Features.Commands.SignInCommand;
