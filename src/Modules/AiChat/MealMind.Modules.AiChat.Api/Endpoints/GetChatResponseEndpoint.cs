@@ -11,27 +11,18 @@ public class GetChatResponseEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("get-chat-response",
-            async (GetChatResponseCommand request, ISender sender) =>
-            {
-                var result = await sender.Send(request);
-                return result;
-            })
-            .WithDocumentation("Get Chat Response",
-                "Sends a message to an existing conversation and receives a structured AI response with RAG (Retrieval-Augmented Generation). The response includes relevant sources from the knowledge base. Requires authentication and respects user subscription limits.",
+                async (GetChatResponseCommand request, ISender sender) =>
+                {
+                    var result = await sender.Send(request);
+                    return result;
+                })
+            .WithDocumentation(
+                "Get Chat Response",
+                "Sends a message to an existing conversation and receives a structured AI response with RAG (Retrieval-Augmented Generation). The response includes relevant sources from the knowledge base. Requires authentication.",
                 """
                 {
                   "conversationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                  "prompt": "What are good protein sources for vegetarians?",
-                  "limitsPayload": {
-                    "conversationsLimit": 10,
-                    "conversationsMessagesHistoryDaysLimit": 30,
-                    "documentsLimit": 5,
-                    "promptTokensLimit": 1000,
-                    "responseTokensLimit": 2000,
-                    "dailyPromptsLimit": 50,
-                    "canExportData": true,
-                    "canUseAdvancedPrompts": true
-                  }
+                  "prompt": "What are good protein sources for vegetarians?"
                 }
                 """,
                 """
