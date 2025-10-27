@@ -12,7 +12,7 @@ public static class EndpointBaseExtensions
         this RouteHandlerBuilder builder,
         string name,
         string description,
-        [StringSyntax(StringSyntaxAttribute.Json)]
+        [StringSyntax(StringSyntaxAttribute.Json, StringSyntaxAttribute.Uri)]
         string requestExample,
         [StringSyntax(StringSyntaxAttribute.Json)]
         string responseExample
