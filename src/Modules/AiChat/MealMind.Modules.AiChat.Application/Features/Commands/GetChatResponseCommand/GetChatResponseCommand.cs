@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
+﻿using System.Text.Json;
 using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
@@ -10,7 +9,6 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.Extensions.AI;
-using Microsoft.SemanticKernel.Text;
 using SharpToken;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
