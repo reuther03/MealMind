@@ -6,6 +6,11 @@ public class Result
     public int StatusCode { get; init; }
     public string? Message { get; init; }
 
+    // Parameterless constructor for JSON deserialization
+    protected Result()
+    {
+    }
+
     protected Result(bool isSuccess, int statusCode, string? message)
     {
         IsSuccess = isSuccess;

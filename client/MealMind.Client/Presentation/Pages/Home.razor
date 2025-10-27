@@ -1,5 +1,22 @@
-﻿<h3>Home</h3>
+﻿@page "/"
+@using MealMind.Client.Application.State
+@inject AuthState AuthState
+
+<div>
+    <h1>Welcome to MealMind!</h1>
+    @if (AuthState.IsAuthenticated)
+    {
+        <p>You are logged in as: <strong>@AuthState.CurrentUser?.UserName</strong></p>
+        <p>Email: @AuthState.CurrentUser?.Email</p>
+        <p>Subscription: @AuthState.CurrentUser?.SubscriptionTier</p>
+    }
+    else
+    {
+        <p>Please log in to access your meal plans.</p>
+        <a href="/login">Go to Login Page</a>
+    }
+</div>
 
 @code {
-    
+
 }

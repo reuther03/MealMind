@@ -1,13 +1,11 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using MealMind.Shared.Abstractions.Modules;
-using MealMind.Shared.Infrastructure.Api;
 using MealMind.Shared.Infrastructure.Auth;
 using MealMind.Shared.Infrastructure.Postgres;
 using MealMind.Shared.Infrastructure.Services;
 using MealMind.Shared.Infrastructure.Swagger;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -40,12 +38,9 @@ internal static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("http://localhost:5001", "https://localhost:5001")
-                    .WithMethods("GET", "POST", "PUT", "DELETE")
-                    .AllowCredentials();
-                // x.AllowAnyOrigin()
-                //     .AllowAnyMethod()
-                //     .AllowAnyHeader();
+                x.WithOrigins("http://localhost:5001", "https://localhost:5001", "http://localhost:5002", "https://localhost:5002")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
         });
 

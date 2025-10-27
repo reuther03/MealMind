@@ -1,0 +1,103 @@
+@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using MealMind.Shared.Contracts.Dto.Identity
+@using MealMind.Client.Infrastructure.Abstractions
+@using MealMind.Client.Application.State
+@inject IApiClient ApiClient
+@inject AuthState AuthState
+@inject NavigationManager Navigation
+
+<h1>Login</h1>
+
+<EditForm Model="@model" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="model.Email"/>
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <InputText @bind-Value="model.Password" type="password"/>
+    </div>
+
+    <button type="submit" disabled="@isLoading">
+        @(isLoading ? "Loading..." : "Login")
+    </button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color: red;">@errorMessage</p>
+}
+
+@if (AuthState.IsAuthenticated)
+{
+    <div>
+        <h3>Logged in successfully!</h3>
+        <p>Token: @AuthState.GetToken()</p>
+    </div>
+}
+
+@code {
+    private LoginModel model = new();
+    private bool isLoading = false;
+    private string? errorMessage;
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            var result = await ApiClient.PostAsync<AccessToken>("/sign-in", new
+            {
+                email = model.Email,
+                password = model.Password
+            });
+
+            if (result is { IsSuccess: true, Value: not null })
+            {
+                // Store authentication state
+                var identity = new IdentityDto
+                {
+                    Id = result.Value.UserId.ToString(),
+                    UserName = result.Value.Username,
+                    Email = result.Value.Email,
+                    SubscriptionTier = "Free" // Default tier
+                };
+
+                await AuthState.LoginAsync(identity, result.Value.Token);
+
+                // Optionally redirect to home page
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                errorMessage = result.Message ?? "Login failed";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; } = "";
+    }
+
+}

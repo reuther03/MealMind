@@ -4,6 +4,11 @@ public class Result<T> : Result
 {
     public T? Value { get; init; }
 
+    // Parameterless constructor for JSON deserialization
+    public Result() : base()
+    {
+    }
+
     private Result(bool isSuccess, int statusCode, string? message, T? value)
         : base(isSuccess, statusCode, message)
     {
