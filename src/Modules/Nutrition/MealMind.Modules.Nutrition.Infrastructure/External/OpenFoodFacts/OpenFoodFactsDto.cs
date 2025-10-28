@@ -45,7 +45,28 @@ public class OpenFoodFactsDto
 
     public static FoodDto MapFoodDto(OpenFoodFactsDto dto)
     {
-        var food = MapToFood(dto);
-        return FoodDto.AsDto(food);
+        return new FoodDto
+        {
+            Id = null,
+            Name = dto.ProductName,
+            Barcode = dto.Code,
+            Brand = dto.Brand,
+            ImageUrl = dto.ImageUrl,
+            NutritionPer100G = new NutrimentsPer100GDto
+            {
+                Calories = dto.Nutriments.EnergyKcal100G,
+                Protein = dto.Nutriments.Proteins100G,
+                Fat = dto.Nutriments.Fat100G,
+                Carbohydrates = dto.Nutriments.Carbohydrates100G,
+                Sugar = dto.Nutriments.Sugars100G,
+                SaturatedFat = dto.Nutriments.SaturatedFat100G,
+                Fiber = dto.Nutriments.Fiber100G,
+                Sodium = dto.Nutriments.Sodium100G,
+                Salt = dto.Nutriments.Salt100G,
+                Cholesterol = dto.Nutriments.Cholesterol100G
+            },
+            CreatedAt = DateTime.UtcNow,
+            FoodSource = nameof(Source.ExternalApi)
+        };
     }
 }

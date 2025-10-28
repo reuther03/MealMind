@@ -17,6 +17,7 @@ public static class Extensions
             .AddPostgres<NutritionDbContext>()
             .AddScoped<INutritionDbContext, NutritionDbContext>()
             .AddScoped<IUserProfileRepository, UserProfileRepository>()
+            .AddScoped<IDailyLogRepository, DailyLogRepository>()
             .AddScoped<IFoodRepository, FoodRepository>()
             .AddScoped<IOpenFoodFactsService, OpenFoodFactsService>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()

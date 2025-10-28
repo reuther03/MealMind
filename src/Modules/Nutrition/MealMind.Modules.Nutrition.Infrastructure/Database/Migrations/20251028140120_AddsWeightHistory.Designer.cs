@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    partial class NutritionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251028140120_AddsWeightHistory")]
+    partial class AddsWeightHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,9 +201,6 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId", "CurrentDate")
-                        .IsUnique();
 
                     b.ToTable("DailyLog", "nutrition");
                 });
@@ -423,7 +423,7 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("WeightHistory", "nutrition");
+                    b.ToTable("WeightHistories", "nutrition");
                 });
 
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Food.Food", b =>

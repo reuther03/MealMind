@@ -34,8 +34,8 @@ public class DailyLog : AggregateRoot<DailyLogId>
         UserId = userId;
     }
 
-    public static DailyLog Create(DailyLogId id, decimal currentWeight, decimal caloriesGoal, UserId userId) =>
-        new(id, currentWeight, caloriesGoal, userId);
+    public static DailyLog Create(decimal currentWeight, decimal caloriesGoal, UserId userId) =>
+        new(DailyLogId.New(), currentWeight, caloriesGoal, userId);
 
     public void AddMeal(Meal meal)
     {

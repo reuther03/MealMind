@@ -5,5 +5,5 @@ namespace MealMind.Modules.Nutrition.Application.Abstractions.Database;
 
 public interface IDailyLogRepository : IRepository<DailyLog>
 {
-    Task<DailyLog?> GetByIdAsync(DailyLogId id, CancellationToken cancellationToken);
+    Task<DailyLog?> GetByDateAsync(DateOnly date, Guid userId, CancellationToken cancellationToken = default);
 }

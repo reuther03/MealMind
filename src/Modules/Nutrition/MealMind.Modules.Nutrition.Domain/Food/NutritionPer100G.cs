@@ -29,9 +29,20 @@ public record NutritionPer100G : ValueObject
         if (salt < 0) throw new ArgumentException("Salt cannot be negative", nameof(salt));
         if (cholesterol < 0) throw new ArgumentException("Cholesterol cannot be negative", nameof(cholesterol));
 
+        // Validate calories are reasonably consistent with macros
+        // Allow 30% margin due to:
+        // - Fiber (not always subtracted from carbs)
+        // - Alcohol content
+        // - Rounding errors in external data sources
+        // - User-submitted data quality in OpenFoodFacts
         var calculatedCalories = protein * 4 + carbohydrates * 4 + fat * 9;
-        if (calculatedCalories > calories * 1.1m)
-            throw new ArgumentException("Macro calories exceed total calories by more than 10%");
+        var lowerBound = calories * 0.7m;
+        var upperBound = calories * 1.3m;
+
+        if (calculatedCalories < lowerBound || calculatedCalories > upperBound)
+            throw new ArgumentException(
+                $"Calories value ({calories}) is inconsistent with macronutrient values (calculated: {calculatedCalories:F1})",
+                nameof(calories));
 
         Calories = calories;
         Protein = protein;

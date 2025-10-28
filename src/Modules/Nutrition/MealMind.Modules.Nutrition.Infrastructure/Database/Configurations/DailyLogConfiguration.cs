@@ -35,5 +35,7 @@ public class DailyLogConfiguration : IEntityTypeConfiguration<DailyLog>
             .WithOne()
             .HasForeignKey("DailyLogId")
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(x => new { x.UserId, x.CurrentDate }).IsUnique();
     }
 }

@@ -49,6 +49,11 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         return foods;
     }
 
+    public Task<FoodDto> GetFoodByBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<List<FoodDto>> SearchFoodByNameWithoutDuplicatesAsync(string name, int pageSize, int page, List<FoodDto> existingFoods,
         CancellationToken cancellationToken = default)
     {

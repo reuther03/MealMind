@@ -14,6 +14,9 @@ internal class DailyLogRepository : Repository<DailyLog, NutritionDbContext>, ID
         _context = dbContext;
     }
 
-    public async Task<DailyLog?> GetByIdAsync(DailyLogId id, CancellationToken cancellationToken)
-        => await _context.DailyLogs.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public async Task<DailyLog?> GetByDateAsync(DateOnly date, Guid userId, CancellationToken cancellationToken = default)
+        => await _context.DailyLogs
+            .Include(x => x.Meals)
+            .ThenInclude(x => x.Foods)
+            .FirstOrDefaultAsync(x => x.CurrentDate == date && x.UserId.Value == userId, cancellationToken);
 }

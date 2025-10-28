@@ -20,7 +20,9 @@ public class Meal : Entity<MealId>
     public decimal? TotalSaturatedFats => _foods.Sum(f => f.TotalSaturatedFats);
     public decimal? TotalFiber => _foods.Sum(f => f.TotalFiber);
     public decimal? TotalSodium => _foods.Sum(f => f.TotalSodium);
+
     public UserId UserId { get; private set; }
+
     //todo: nie powinno byc timeonly aby bylo mniej walidacji z datami z dailylog?
     public DateTime? ConsumedAt { get; private set; }
     public string? Notes { get; private set; }
@@ -39,8 +41,8 @@ public class Meal : Entity<MealId>
         Notes = notes;
     }
 
-    public static Meal Create(MealType mealType, UserId userId, Name? name = null, DateTime? consumedAt = null, string? notes = null)
-        => new(MealId.New(), mealType, userId, name, consumedAt, notes);
+    public static Meal Initialize(MealType mealType, UserId userId)
+        => new(MealId.New(), mealType, userId);
 
     public void AddFood(FoodEntry foodEntry)
         => _foods.Add(foodEntry);

@@ -8,12 +8,14 @@ namespace MealMind.Modules.Nutrition.Domain.UserProfile;
 
 public class UserProfile : AggregateRoot<UserId>
 {
+    private readonly List<WeightHistory> _weightHistory = [];
     private readonly List<NutritionTarget> _nutritionTargets = [];
     private readonly List<FoodId> _favoriteFoods = [];
     private readonly List<MealId> _favoriteMeals = [];
     public Name Username { get; private set; }
     public Email Email { get; private set; }
     public PersonalData PersonalData { get; private set; }
+    public IReadOnlyList<WeightHistory> WeightHistory => _weightHistory.AsReadOnly();
     public IReadOnlyList<NutritionTarget> NutritionTargets => _nutritionTargets.AsReadOnly();
     public IReadOnlyList<FoodId> FavoriteFoods => _favoriteFoods.AsReadOnly();
     public IReadOnlyList<MealId> FavoriteMeals => _favoriteMeals.AsReadOnly();
@@ -43,6 +45,15 @@ public class UserProfile : AggregateRoot<UserId>
         _nutritionTargets.Add(nutritionTarget);
     }
 
+    public WeightHistory GetWeightHistory(DateOnly date)
+    {
+        var weightEntry = _weightHistory.FirstOrDefault(w => w.Date == date);
+
+        return weightEntry == null
+            ? throw new InvalidOperationException("No weight entry found for the specified date.")
+            : weightEntry;
+    }
+
     public void AddFavoriteFood(FoodId foodId)
     {
         if (_favoriteFoods.Contains(foodId))
@@ -57,5 +68,13 @@ public class UserProfile : AggregateRoot<UserId>
             throw new InvalidOperationException("Meal is already in favorites.");
 
         _favoriteMeals.Add(mealId);
+    }
+
+    public void AddWeightHistory(WeightHistory weightHistory)
+    {
+        if (_weightHistory.Any(w => w.Date == weightHistory.Date))
+            throw new InvalidOperationException("Weight entry for this date already exists.");
+
+        _weightHistory.Add(weightHistory);
     }
 }
