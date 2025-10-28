@@ -13,7 +13,7 @@ public record AddNutritionTargetCommand(
     NutritionInGramsPayload? NutritionInGramsPayload,
     NutritionInPercentPayload? NutritionInPercentPayload,
     decimal WaterIntake,
-    List<DayOfWeek> ActiveDays
+    List<DayOfWeek>? ActiveDays
 ) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddNutritionTargetCommand, Guid>
@@ -56,7 +56,7 @@ public record AddNutritionTargetCommand(
                     command.WaterIntake,
                     userProfile.Id);
 
-            nutritionTarget.AddActiveDay(command.ActiveDays);
+            nutritionTarget.AddActiveDay(command.ActiveDays ?? Enum.GetValues<DayOfWeek>().ToList());
 
             userProfile.AddNutritionTarget(nutritionTarget);
             await _unitOfWork.CommitAsync(cancellationToken);
