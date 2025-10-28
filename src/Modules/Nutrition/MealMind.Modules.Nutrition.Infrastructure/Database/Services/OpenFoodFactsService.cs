@@ -49,9 +49,26 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         return foods;
     }
 
-    public Task<FoodDto> GetFoodByBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
+    public async Task<FoodDto> GetFoodByBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var url = $"/cgi/api/v2/product/{barcode}.json";
+
+        var response = await _httpClient.GetAsync(url, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.LogError("Failed to fetch data from OpenFoodFacts API. Status Code: {StatusCode}", response.StatusCode);
+            return null!;
+        }
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var searchResult = JsonSerializer.Deserialize<OpenFoodFactsResponseDto>(content, _jsonSerializerOptions);
+
+        if (searchResult?.Products != null && searchResult.Products.Count != 0)
+            return OpenFoodFactsDto.MapFoodDto(searchResult.Products.First());
+
+        _logger.LogInformation("No products found for search term: {SearchTerm}", barcode);
+        return null!;
     }
 
     public Task<List<FoodDto>> SearchFoodByNameWithoutDuplicatesAsync(string name, int pageSize, int page, List<FoodDto> existingFoods,
