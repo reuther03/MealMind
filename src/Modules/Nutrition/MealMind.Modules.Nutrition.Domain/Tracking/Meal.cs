@@ -36,7 +36,7 @@ public class Meal : Entity<MealId>
     {
         MealType = mealType;
         UserId = userId;
-        Name = name ?? nameof(mealType);
+        Name = name ?? mealType.ToString();
         ConsumedAt = consumedAt;
         Notes = notes;
     }

@@ -51,7 +51,7 @@ public class OpenFoodFactsService : IOpenFoodFactsService
 
     public async Task<FoodDto> GetFoodByBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
     {
-        var url = $"/cgi/api/v2/product/{barcode}.json";
+        var url = $"/api/v2/product/{barcode}.json";
 
         var response = await _httpClient.GetAsync(url, cancellationToken);
 
@@ -62,10 +62,10 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         }
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        var searchResult = JsonSerializer.Deserialize<OpenFoodFactsResponseDto>(content, _jsonSerializerOptions);
+        var searchResult = JsonSerializer.Deserialize<OpenFoodFactsBarcodeResponseDto>(content, _jsonSerializerOptions);
 
-        if (searchResult?.Products != null && searchResult.Products.Count != 0)
-            return OpenFoodFactsDto.MapFoodDto(searchResult.Products.First());
+        if (searchResult?.Product is not null)
+            return OpenFoodFactsDto.MapFoodDto(searchResult.Product);
 
         _logger.LogInformation("No products found for search term: {SearchTerm}", barcode);
         return null!;

@@ -27,16 +27,16 @@ public class OpenFoodFactsDto
         return Food.Create(
             new Name(dto.ProductName),
             new NutritionPer100G(
-                dto.Nutriments.EnergyKcal100G,
-                dto.Nutriments.Proteins100G,
-                dto.Nutriments.Fat100G,
-                dto.Nutriments.Carbohydrates100G,
-                dto.Nutriments.Sugars100G,
-                dto.Nutriments.SaturatedFat100G,
-                dto.Nutriments.Fiber100G,
-                dto.Nutriments.Sodium100G,
-                dto.Nutriments.Salt100G,
-                dto.Nutriments.Cholesterol100G),
+                dto.Nutriments.EnergyKcal100G,     // calories
+                dto.Nutriments.Proteins100G,       // protein
+                dto.Nutriments.Fat100G,            // fat
+                dto.Nutriments.Carbohydrates100G,  // carbohydrates
+                dto.Nutriments.Salt100G,           // salt
+                dto.Nutriments.Sugars100G,         // sugar
+                dto.Nutriments.SaturatedFat100G,   // saturatedFat
+                dto.Nutriments.Fiber100G,          // fiber
+                dto.Nutriments.Sodium100G,         // sodium
+                dto.Nutriments.Cholesterol100G),   // cholesterol
             Source.ExternalApi,
             dto.Code,
             dto.ImageUrl,

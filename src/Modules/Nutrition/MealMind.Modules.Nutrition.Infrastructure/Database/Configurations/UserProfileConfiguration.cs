@@ -65,11 +65,6 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                 .IsRequired();
         });
 
-        builder.HasMany(x => x.WeightHistory)
-            .WithOne()
-            .HasForeignKey(x => x.UserProfileId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(x => x.NutritionTargets)
             .WithOne()
             .HasForeignKey(x => x.UserProfileId)

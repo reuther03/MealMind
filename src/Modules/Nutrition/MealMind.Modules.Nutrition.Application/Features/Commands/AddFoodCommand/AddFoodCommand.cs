@@ -11,7 +11,8 @@ using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodCommand;
 
-public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams) : ICommand<Guid>
+public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams, decimal CurrentWeight)
+    : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddFoodCommand, Guid>
     {
@@ -46,7 +47,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             if (!await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, user.Id, cancellationToken)) //or check ExistsWithDate and if else
             {
                 dailyLog = DailyLog.Create(
-                    user.GetWeightHistory(request.DailyLogDate).Weight,
+                    request.CurrentWeight,
                     user.NutritionTargets
                         .Where(x => x.ActiveDays
                             .Any(z => z.DayOfWeek == request.DailyLogDate.DayOfWeek))

@@ -20,7 +20,6 @@ internal class UserProfileRepository : Repository<UserProfile, NutritionDbContex
 
     public Task<UserProfile?> GetWithIncludesByIdAsync(UserId userId, CancellationToken cancellationToken = default)
         => _dbContext.UserProfiles
-            .Include(x => x.WeightHistory)
             .Include(x => x.NutritionTargets)
             .ThenInclude(x => x.ActiveDays)
             .FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
