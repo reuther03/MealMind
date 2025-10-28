@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    [Migration("20250916164155_AddedDailyLog")]
-    partial class AddedDailyLog
+    [Migration("20251028234223_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,6 +111,73 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                     b.ToTable("FoodDietaryTags", "nutrition");
                 });
 
+            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Food.FoodReview", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<Guid>("FoodId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("FoodReviews", "nutrition");
+                });
+
+            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Food.FoodStatistics", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("AverageRating")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("FavoriteCount")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("FoodId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUsedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SearchCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TotalUsageCount")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId")
+                        .IsUnique();
+
+                    b.ToTable("FoodStatistics", "nutrition");
+                });
+
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Tracking.DailyLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -134,6 +201,9 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId", "CurrentDate")
+                        .IsUnique();
 
                     b.ToTable("DailyLog", "nutrition");
                 });
@@ -165,36 +235,44 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                         .HasColumnType("numeric(8,2)");
 
                     b.Property<decimal>("TotalCalories")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<decimal>("TotalCarbohydrates")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
-
-                    b.Property<decimal>("TotalFats")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
-
-                    b.Property<decimal>("TotalFiber")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
-
-                    b.Property<decimal>("TotalProteins")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
-
-                    b.Property<decimal>("TotalSaturatedFats")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
-
-                    b.Property<decimal>("TotalSodium")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal>("TotalSugars")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
+                    b.Property<decimal?>("TotalCholesterol")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
+
+                    b.Property<decimal>("TotalFats")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
+
+                    b.Property<decimal?>("TotalFiber")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
+
+                    b.Property<decimal>("TotalProteins")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
+
+                    b.Property<decimal?>("TotalSalt")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal?>("TotalSaturatedFats")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
+
+                    b.Property<decimal?>("TotalSodium")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal?>("TotalSugars")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
 
                     b.HasKey("Id");
 
@@ -329,6 +407,28 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                     b.ToTable("UserProfile", "nutrition");
                 });
 
+            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.UserProfile.WeightHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WeightHistory", "nutrition");
+                });
+
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Food.Food", b =>
                 {
                     b.OwnsOne("MealMind.Modules.Nutrition.Domain.Food.NutritionPer100G", "NutritionPer100G", b1 =>
@@ -359,6 +459,10 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                             b1.Property<decimal>("Protein")
                                 .HasPrecision(6, 2)
                                 .HasColumnType("numeric(6,2)");
+
+                            b1.Property<decimal?>("Salt")
+                                .HasPrecision(8, 2)
+                                .HasColumnType("numeric(8,2)");
 
                             b1.Property<decimal?>("SaturatedFat")
                                 .HasPrecision(6, 2)
@@ -402,6 +506,24 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Food.FoodReview", b =>
+                {
+                    b.HasOne("MealMind.Modules.Nutrition.Domain.Food.Food", null)
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Food.FoodStatistics", b =>
+                {
+                    b.HasOne("MealMind.Modules.Nutrition.Domain.Food.Food", null)
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.Tracking.FoodEntry", b =>
                 {
                     b.HasOne("MealMind.Modules.Nutrition.Domain.Tracking.Meal", null)
@@ -438,6 +560,56 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("MealMind.Modules.Nutrition.Domain.UserProfile.UserProfile", b =>
                 {
+                    b.OwnsMany("MealMind.Modules.Nutrition.Domain.Food.FoodId", "FavoriteFoods", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("UserProfileId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("FoodId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("UserProfileId");
+
+                            b1.ToTable("FavoriteFoods", "nutrition");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserProfileId");
+                        });
+
+                    b.OwnsMany("MealMind.Modules.Nutrition.Domain.Tracking.MealId", "FavoriteMeals", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("UserProfileId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("MealId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("UserProfileId");
+
+                            b1.ToTable("FavoriteMeals", "nutrition");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserProfileId");
+                        });
+
                     b.OwnsOne("MealMind.Modules.Nutrition.Domain.UserProfile.PersonalData", "PersonalData", b1 =>
                         {
                             b1.Property<Guid>("UserProfileId")
@@ -474,11 +646,15 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 
                             b1.HasKey("UserProfileId");
 
-                            b1.ToTable("UserProfile_PersonalData", "nutrition");
+                            b1.ToTable("PersonalData", "nutrition");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserProfileId");
                         });
+
+                    b.Navigation("FavoriteFoods");
+
+                    b.Navigation("FavoriteMeals");
 
                     b.Navigation("PersonalData")
                         .IsRequired();

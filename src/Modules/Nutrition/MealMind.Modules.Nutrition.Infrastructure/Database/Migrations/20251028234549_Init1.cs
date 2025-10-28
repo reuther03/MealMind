@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace MealMind.Modules.Identity.Infrastructure.Database.Migrations
+namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

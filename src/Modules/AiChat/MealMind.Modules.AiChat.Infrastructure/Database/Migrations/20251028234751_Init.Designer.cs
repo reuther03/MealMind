@@ -10,11 +10,11 @@ using Pgvector;
 
 #nullable disable
 
-namespace MealMind.Modules.AiChat.Infrastructure.Migrations
+namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
-    [Migration("20251015002445_RefactoredToProperTPC")]
-    partial class RefactoredToProperTPC
+    [Migration("20251028234751_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,56 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "vector");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.AiChatUser.AiChatUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ActiveConversations")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("CanExportData")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanUseAdvancedPrompts")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("ConversationsLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ConversationsMessagesHistoryDaysLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DailyPromptsLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DocumentsLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("PromptTokensLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ResponseTokensLimit")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Tier")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AiChatUsers", "aichat");
+                });
 
             modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Conversation.AiChatMessage", b =>
                 {
@@ -111,7 +161,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Vector>("Embedding")
-                        .HasColumnType("vector(768)");
+                        .HasColumnType("vector(1024)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -153,7 +203,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Vector>("Embedding")
-                        .HasColumnType("vector(768)");
+                        .HasColumnType("vector(1024)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
+namespace MealMind.Modules.Identity.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -12,31 +12,39 @@ namespace MealMind.Modules.Nutrition.Infrastructure.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "nutrition");
+                name: "identity");
 
             migrationBuilder.CreateTable(
-                name: "UserProfile",
-                schema: "nutrition",
+                name: "IdentityUsers",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Username = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Tier = table.Column<string>(type: "text", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProfile", x => x.Id);
+                    table.PrimaryKey("PK_IdentityUsers", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IdentityUsers_Email",
+                schema: "identity",
+                table: "IdentityUsers",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserProfile",
-                schema: "nutrition");
+                name: "IdentityUsers",
+                schema: "identity");
         }
     }
 }

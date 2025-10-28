@@ -9,7 +9,7 @@ using Pgvector;
 
 #nullable disable
 
-namespace MealMind.Modules.AiChat.Infrastructure.Migrations
+namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
     partial class AiChatDbContextModelSnapshot : ModelSnapshot

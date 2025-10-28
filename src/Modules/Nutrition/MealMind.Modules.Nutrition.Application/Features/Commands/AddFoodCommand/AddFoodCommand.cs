@@ -37,7 +37,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
 
         public async Task<Result<Guid>> Handle(AddFoodCommand request, CancellationToken cancellationToken)
         {
-            var user = await _profileRepository.GetByIdAsync(_userService.UserId, cancellationToken);
+            var user = await _profileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(user);
 
             if (request.Barcode is null && request.FoodId is null)
@@ -82,7 +82,6 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             var foodEntry = FoodEntry.Create(food, request.QuantityInGrams);
 
             requestMeal.AddFood(foodEntry);
-
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result<Guid>.Ok(foodEntry.Id);

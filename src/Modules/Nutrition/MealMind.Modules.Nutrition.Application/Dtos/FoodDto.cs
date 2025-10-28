@@ -35,8 +35,8 @@ public class FoodDto
             dto.NutritionPer100G.ToEntity(dto.NutritionPer100G),
             Source.ExternalApi,
             dto.Barcode,
-            dto.Brand,
-            dto.ImageUrl
+            dto.ImageUrl,
+            dto.Brand
         );
     }
 }

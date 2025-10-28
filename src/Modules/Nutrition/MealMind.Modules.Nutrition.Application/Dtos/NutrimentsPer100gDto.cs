@@ -22,8 +22,8 @@ public class NutrimentsPer100GDto
         {
             Calories = nutrition.Calories,
             Protein = nutrition.Protein,
-            Carbohydrates = nutrition.Carbohydrates,
             Fat = nutrition.Fat,
+            Carbohydrates = nutrition.Carbohydrates,
             Fiber = nutrition.Fiber,
             Sugar = nutrition.Sugar,
             SaturatedFat = nutrition.SaturatedFat,
@@ -36,16 +36,16 @@ public class NutrimentsPer100GDto
     public NutritionPer100G ToEntity(NutrimentsPer100GDto dto)
     {
         return new NutritionPer100G(
-            dto.Calories,
-            dto.Protein,
-            dto.Carbohydrates,
-            dto.Fat,
-            dto.Fiber,
-            dto.Sugar,
-            dto.SaturatedFat,
-            dto.Sodium,
-            dto.Salt,
-            dto.Cholesterol
+            dto.Calories,      // calories
+            dto.Protein,       // protein
+            dto.Fat,           // fat
+            dto.Carbohydrates, // carbohydrates
+            dto.Salt,          // salt (5th parameter!)
+            dto.Sugar,         // sugar
+            dto.SaturatedFat,  // saturatedFat
+            dto.Fiber,         // fiber
+            dto.Sodium,        // sodium
+            dto.Cholesterol    // cholesterol
         );
     }
 }

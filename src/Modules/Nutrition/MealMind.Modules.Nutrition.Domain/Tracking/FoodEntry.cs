@@ -25,9 +25,9 @@ public class FoodEntry : Entity<Guid>
     {
     }
 
-    private FoodEntry(FoodId foodId, Name foodName, Name? foodBrand, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
+    private FoodEntry(Guid id, FoodId foodId, Name foodName, Name? foodBrand, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
         decimal totalCarbohydrates, decimal? totalSugars, decimal totalFats, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
-        decimal? totalSalt, decimal? totalCholesterol)
+        decimal? totalSalt, decimal? totalCholesterol) : base(id)
     {
         FoodId = foodId;
         FoodName = foodName;
@@ -53,6 +53,7 @@ public class FoodEntry : Entity<Guid>
         var factor = quantityInGrams / 100m;
 
         return new FoodEntry(
+            Guid.NewGuid(),
             food.Id,
             food.Name,
             food.Brand != null ? new Name(food.Brand) : null,
