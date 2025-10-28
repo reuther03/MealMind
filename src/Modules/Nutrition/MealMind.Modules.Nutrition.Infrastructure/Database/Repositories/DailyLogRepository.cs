@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.Tracking;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,4 +20,8 @@ internal class DailyLogRepository : Repository<DailyLog, NutritionDbContext>, ID
             .Include(x => x.Meals)
             .ThenInclude(x => x.Foods)
             .FirstOrDefaultAsync(x => x.CurrentDate == date && x.UserId.Value == userId, cancellationToken);
+
+    public async Task<bool> ExistsWithDateAsync(DateOnly date, Guid userId, CancellationToken cancellationToken = default)
+        => await _context.DailyLogs
+            .AnyAsync(x => x.CurrentDate == date && x.UserId == UserId.From(userId), cancellationToken);
 }

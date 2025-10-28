@@ -1,5 +1,7 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
+using MealMind.Modules.Nutrition.Application.Abstractions.Services;
+using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
@@ -9,20 +11,26 @@ using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodCommand;
 
-public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType) : ICommand<Guid>
+public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddFoodCommand, Guid>
     {
         private readonly IDailyLogRepository _dailyLogRepository;
         private readonly IUserProfileRepository _profileRepository;
+        private readonly IFoodRepository _foodRepository;
         private readonly IUserService _userService;
+        private readonly IOpenFoodFactsService _factsService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IDailyLogRepository dailyLogRepository, IUserProfileRepository profileRepository, IUserService userService, IUnitOfWork unitOfWork)
+        public Handler(IDailyLogRepository dailyLogRepository, IUserProfileRepository profileRepository, IFoodRepository foodRepository,
+            IUserService userService,
+            IOpenFoodFactsService factsService, IUnitOfWork unitOfWork)
         {
             _dailyLogRepository = dailyLogRepository;
             _profileRepository = profileRepository;
+            _foodRepository = foodRepository;
             _userService = userService;
+            _factsService = factsService;
             _unitOfWork = unitOfWork;
         }
 
@@ -31,8 +39,11 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType) : IComman
             var user = await _profileRepository.GetByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(user);
 
-            var dailyLog = await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, _userService.UserId, cancellationToken);
-            if (dailyLog is null) //or check ExistsWithDate and if else
+            if (request.Barcode is null && request.FoodId is null)
+                return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
+
+            DailyLog dailyLog;
+            if (!await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, user.Id, cancellationToken)) //or check ExistsWithDate and if else
             {
                 dailyLog = DailyLog.Create(
                     user.GetWeightHistory(request.DailyLogDate).Weight,
@@ -52,9 +63,28 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType) : IComman
 
                 await _dailyLogRepository.AddAsync(dailyLog, cancellationToken);
             }
+            else
+            {
+                // without ! there is a warning even if we check ExistsWithDateAsync
+                dailyLog = (await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, _userService.UserId, cancellationToken))!;
+            }
 
+            var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
+            NullValidator.ValidateNotNull(requestMeal);
 
-            throw new NotImplementedException();
+            var food = request.FoodId is not null
+                ? await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken)
+                : FoodDto.ToEntity(await _factsService.GetFoodByBarcodeAsync(request.Barcode!, cancellationToken));
+
+            NullValidator.ValidateNotNull(food);
+
+            var foodEntry = FoodEntry.Create(food, request.QuantityInGrams);
+
+            requestMeal.AddFood(foodEntry);
+
+            await _unitOfWork.CommitAsync(cancellationToken);
+
+            return Result<Guid>.Ok(foodEntry.Id);
         }
     }
 }
