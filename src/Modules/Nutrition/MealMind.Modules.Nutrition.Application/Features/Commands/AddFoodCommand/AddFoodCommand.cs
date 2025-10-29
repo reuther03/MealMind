@@ -43,10 +43,6 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             if (request.Barcode is null && request.FoodId is null)
                 return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
 
-
-            var test = await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, _userService.UserId, cancellationToken);
-            var test2 = await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, _userService.UserId, cancellationToken);
-
             DailyLog dailyLog;
             if (!await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, user.Id, cancellationToken)) //or check ExistsWithDate and if else
             {
@@ -77,15 +73,15 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
             NullValidator.ValidateNotNull(requestMeal);
 
+            //TODO: if request.FoodId is null and is provided still check in database if there is food with such barcode to avoid fetching from external service
+
             var food = request.FoodId is not null
                 ? await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken)
                 : FoodDto.ToEntity(await _factsService.GetFoodByBarcodeAsync(request.Barcode!, cancellationToken));
 
             NullValidator.ValidateNotNull(food);
 
-            // idk if this is too little
-            if (request.FoodId is null)
-                await _foodRepository.AddAsync(food, cancellationToken);
+            await _foodRepository.AddIfNotExistsAsync(food, cancellationToken);
 
             var foodEntry = FoodEntry.Create(food, request.QuantityInGrams);
             requestMeal.AddFood(foodEntry);
