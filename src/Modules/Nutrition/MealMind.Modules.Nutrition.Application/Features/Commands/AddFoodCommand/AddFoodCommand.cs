@@ -67,7 +67,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             else
             {
                 // without ! there is a warning even if we check ExistsWithDateAsync
-                dailyLog = (await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, _userService.UserId, cancellationToken))!;
+                dailyLog = (await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, user.Id, cancellationToken))!;
             }
 
             var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
