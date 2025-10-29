@@ -6,5 +6,5 @@ namespace MealMind.Modules.Nutrition.Application.Abstractions.Database;
 public interface IFoodRepository : IRepository<Food>
 {
     Task<Food?> GetByIdAsync(FoodId id, CancellationToken cancellationToken);
-    
+    Task AddIfNotExistsAsync(Food food, CancellationToken cancellationToken);
 }

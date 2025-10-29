@@ -16,4 +16,13 @@ internal class FoodRepository : Repository<Food, NutritionDbContext>, IFoodRepos
 
     public async Task<Food?> GetByIdAsync(FoodId id, CancellationToken cancellationToken)
         => await _context.Foods.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+    public async Task AddIfNotExistsAsync(Food food, CancellationToken cancellationToken)
+    {
+        if (await _context.Foods.AnyAsync(x => x.Barcode == food.Barcode, cancellationToken) ||
+            await _context.Foods.AnyAsync(x => x.Id == food.Id, cancellationToken))
+            return;
+
+        await _context.Foods.AddAsync(food, cancellationToken);
+    }
 }
