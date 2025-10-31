@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
+using MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand2;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +12,7 @@ public class GetChatResponseEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("get-chat-response",
-                async (GetChatResponseCommand request, ISender sender) =>
+                async (GetChatResponse2Command request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
                     return result;
