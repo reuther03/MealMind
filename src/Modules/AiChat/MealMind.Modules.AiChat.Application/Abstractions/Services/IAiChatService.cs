@@ -1,6 +1,15 @@
-﻿namespace MealMind.Modules.AiChat.Application.Abstractions.Services;
+﻿using MealMind.Modules.AiChat.Application.Dtos;
+using Microsoft.Extensions.AI;
 
-public class IAiChatService
+namespace MealMind.Modules.AiChat.Application.Abstractions.Services;
+
+public interface IAiChatService
 {
-    
+    Task<StructuredResponse> GenerateStructuredResponseAsync(
+        string userPrompt,
+        string documentsText,
+        List<string> documentTitles,
+        List<ChatMessage> chatMessages,
+        int responseTokensLimit,
+        CancellationToken cancellationToken = default);
 }

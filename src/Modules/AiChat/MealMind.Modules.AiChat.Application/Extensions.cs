@@ -1,4 +1,5 @@
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
+using MealMind.Modules.AiChat.Application.Options;
 using MealMind.Modules.AiChat.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +11,8 @@ public static class Extensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-        var options = new AiChatOptions();
-        configuration.GetSection(AiChatOptions.SectionName).Bind(options);
+        var options = new OllamaAiChatOptions();
+        configuration.GetSection(OllamaAiChatOptions.SectionName).Bind(options);
 
         services.AddOllamaChatClient(options.ChatModel, new Uri(options.Uri));
         services.AddOllamaEmbeddingGenerator(options.EmbedModel, new Uri(options.Uri));
