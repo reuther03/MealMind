@@ -34,7 +34,6 @@ public static class Extensions
             {
                 opt.BaseAddress = new Uri(options.BaseUrl);
                 opt.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.ApiKey}");
-                opt.DefaultRequestHeaders.Add("Content-Type", "application/json");
             });
 
         return services;

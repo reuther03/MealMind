@@ -1,4 +1,4 @@
-﻿namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
+﻿namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand2;
 
 public record UserLimitsPayload(
     int ConversationsLimit,
