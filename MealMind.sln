@@ -5,6 +5,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{273F753C-1DA6-4F32-B609-D21559437AE1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrapper", "Bootstrapper", "{E23BA669-06B0-422B-87AA-E4AB5CF4B9FE}"
+	ProjectSection(SolutionItems) = preProject
+		src\Bootstrapper\.env = src\Bootstrapper\.env
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealMind.Bootstrapper", "src\Bootstrapper\MealMind.Bootstrapper\MealMind.Bootstrapper.csproj", "{AADD7986-166C-47F2-8FB4-58D2F211B955}"
 EndProject

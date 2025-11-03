@@ -11,6 +11,12 @@
         <ProjectReference Include="..\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Agents.AI.Hosting" Version="1.0.0-preview.251028.1" />
+      <PackageReference Include="Microsoft.Agents.AI.Hosting.OpenAI" Version="1.0.0-alpha.251028.1" />
+      <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-preview.251028.1" />
+    </ItemGroup>
+
     <PropertyGroup>
         <NoWarn>$(NoWarn);SKEXP0050</NoWarn>
     </PropertyGroup>

@@ -3,8 +3,14 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
-# dotenv files
+# dotenv files - NEVER commit these!
 .env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+.env.test
 
 # User-specific files
 *.rsuser

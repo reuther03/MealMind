@@ -1,11 +1,10 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
-using MealMind.Modules.AiChat.Application;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Application.Options;
-using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
+using ChatMessage = Microsoft.Extensions.AI.ChatMessage;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Services;
 
