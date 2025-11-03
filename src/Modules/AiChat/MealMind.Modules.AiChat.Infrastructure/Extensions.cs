@@ -9,12 +9,11 @@ using MealMind.Modules.AiChat.Infrastructure.Database.Seeders;
 using MealMind.Modules.AiChat.Infrastructure.Services;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
-using Microsoft.Agents.AI;
-using Microsoft.Agents.AI.Hosting;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenAI;
+using OpenAI.Chat;
 
 namespace MealMind.Modules.AiChat.Infrastructure;
 
@@ -32,6 +31,23 @@ public static class Extensions
             .AddScoped<IAiChatUserRepository, AiChatUserRepository>()
             .AddScoped<IAiChatService, AiChatService>()
             .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
+
+        services.AddSingleton<IChatClient>(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<OpenRouterModelOptions>>().Value;
+
+            var openAiClient = new OpenAIClient(
+                credential: new ApiKeyCredential(options.ApiKey),
+                options: new OpenAIClientOptions
+                {
+                    Endpoint = new Uri(options.BaseUrl)
+                }
+            );
+
+            var chatClient = openAiClient.GetChatClient(options.BaseModel);
+
+            return chatClient.AsIChatClient();
+        });
 
         return services;
     }
