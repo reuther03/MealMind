@@ -1,3 +1,4 @@
+using DotNetEnv;
 using MealMind.Bootstrapper;
 using MealMind.Shared.Infrastructure;
 using MealMind.Shared.Infrastructure.Modules;
@@ -8,7 +9,6 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 builder.ConfigureModules();
-
 services.AddEndpointsApiExplorer();
 
 var assemblies = ModuleLoader.LoadAssemblies(services, configuration);

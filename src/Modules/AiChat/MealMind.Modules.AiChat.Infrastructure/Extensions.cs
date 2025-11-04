@@ -13,7 +13,6 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenAI;
-using OpenAI.Chat;
 
 namespace MealMind.Modules.AiChat.Infrastructure;
 

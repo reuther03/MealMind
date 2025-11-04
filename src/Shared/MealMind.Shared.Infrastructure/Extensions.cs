@@ -45,7 +45,6 @@ internal static class Extensions
         });
 
         services.ConfigureHttpJsonOptions(opt => { opt.SerializerOptions.PropertyNameCaseInsensitive = true; });
-
         services.AddSwagger();
         services.AddAuth(configuration);
         services.AddHostedService<AppInitializer>();
