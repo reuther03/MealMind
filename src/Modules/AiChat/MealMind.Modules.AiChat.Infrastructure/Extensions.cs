@@ -10,6 +10,7 @@ using MealMind.Modules.AiChat.Infrastructure.Services;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenAI;
@@ -20,6 +21,11 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+        var options = new OpenRouterModelOptions();
+        configuration.GetSection(OpenRouterModelOptions.SectionName).Bind(options);
+
+
         services.AddPostgres<AiChatDbContext>()
             .AddScoped<IAiChatDbContext, AiChatDbContext>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
@@ -33,8 +39,6 @@ public static class Extensions
 
         services.AddSingleton<IChatClient>(sp =>
         {
-            var options = sp.GetRequiredService<IOptions<OpenRouterModelOptions>>().Value;
-
             var openAiClient = new OpenAIClient(
                 credential: new ApiKeyCredential(options.ApiKey),
                 options: new OpenAIClientOptions
@@ -43,7 +47,7 @@ public static class Extensions
                 }
             );
 
-            var chatClient = openAiClient.GetChatClient(options.BaseModel);
+            var chatClient = openAiClient.GetChatClient(options.VisionModel);
 
             return chatClient.AsIChatClient();
         });

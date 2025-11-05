@@ -10,14 +10,12 @@ namespace MealMind.Modules.AiChat.Infrastructure.Services;
 
 public class AiChatService : IAiChatService
 {
-    private readonly IOptions<OpenRouterModelOptions> _openRouterModelOptions;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private readonly IChatClient _chatClient;
     private static readonly string[] Value = ["title", "paragraphs", "keyPoints", "sources"];
 
-    public AiChatService(IOptions<OpenRouterModelOptions> openRouterModelOptions, IChatClient chatClient)
+    public AiChatService(IChatClient chatClient)
     {
-        _openRouterModelOptions = openRouterModelOptions;
         _chatClient = chatClient;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
