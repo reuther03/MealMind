@@ -80,7 +80,7 @@ public record GetChatResponse2Command(Guid ConversationId, string Prompt) : ICom
             var documentTitles = relevantDocuments.Select(x => x.Title).ToList();
 
             //should aichatmessage be created before or after response manager call?
-
+            // think about reasoning of response for example free vs paid user free have low all the time and paid can choose
             var response = await _responseManager.GenerateStructuredResponseAsync(
                 request.Prompt,
                 documentsText,
