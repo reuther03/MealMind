@@ -9,6 +9,8 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.Extensions.AI;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 using SharpToken;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand2;
@@ -60,7 +62,7 @@ public record GetChatResponse2Command(Guid ConversationId, string Prompt) : ICom
                 .Where(x => x.Role != AiChatRole.System)
                 .OrderBy(x => x.CreatedAt)
                 .Where(x => x.CreatedAt >= DateTime.UtcNow.AddDays(-aiUser.ConversationsMessagesHistoryDaysLimit)) // check if this is correct
-                .Select(x => new ChatMessage(new ChatRole(x.Role.ToString()), x.Content))
+                .Select(x => new ChatMessageContent(new AuthorRole(x.Role.ToString()), x.Content))
                 .ToList();
 
             var encoding = GptEncoding.GetEncoding("o200k_base");

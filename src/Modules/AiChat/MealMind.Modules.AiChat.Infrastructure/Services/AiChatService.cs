@@ -1,23 +1,28 @@
-﻿using System.Net.Http.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Json;
 using System.Text.Json;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Application.Options;
-using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using OpenAI.Chat;
+using ChatMessageContent = Microsoft.SemanticKernel.ChatMessageContent;
+using ChatResponseFormat = Microsoft.Extensions.AI.ChatResponseFormat;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Services;
 
 public class AiChatService : IAiChatService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IChatCompletionService _chatCompletionService;
     private readonly IOptions<OpenRouterModelOptions> _options;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private static readonly string[] Value = ["title", "paragraphs", "keyPoints", "sources"];
 
-    public AiChatService(HttpClient httpClient, IOptions<OpenRouterModelOptions> options)
+    public AiChatService(IChatCompletionService chatCompletionService, IOptions<OpenRouterModelOptions> options)
     {
-        _httpClient = httpClient;
+        _chatCompletionService = chatCompletionService;
         _options = options;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
@@ -26,7 +31,7 @@ public class AiChatService : IAiChatService
     }
 
     public async Task<StructuredResponse> GenerateStructuredResponseAsync(string userPrompt, string documentsText, List<string> documentTitles,
-        List<ChatMessage> chatMessages, int responseTokensLimit,
+        List<ChatMessageContent> chatMessages, int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
         var availableSourcesList = string.Join("\", \"", documentTitles);
@@ -110,26 +115,32 @@ public class AiChatService : IAiChatService
               Now output your final answer in pure JSON:
               """;
 
-        var systemMessage = new ChatMessage(ChatRole.System, systemPrompt);
+        var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
         chatMessages.Add(systemMessage);
 
-        var userMessage = new ChatMessage(ChatRole.User, userPrompt);
+        var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
         chatMessages.Add(userMessage);
 
-        var response = await _httpClient.PostAsJsonAsync("chat/completions", new
+        var chatHistory = new ChatHistory(chatMessages);
+
+        chatHistory.AddRange(chatMessages);
+
+        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
         {
-            model = _options.Value.VisionModel,
-            messages = chatMessages,
-            // reasoning = new { effort = "medium" },
+            ChatSystemPrompt = systemPrompt,
+            MaxTokens = responseTokensLimit,
+            Temperature = 0.5f,
+            ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>(),
+            // WebSearchOptions = null
+            // ReasoningEffort = ChatReasoningEffortLevel.Medium
+            // ReasoningEffort = "medium"
+        }, cancellationToken: cancellationToken);
 
-            max_tokens = responseTokensLimit,
-        }, cancellationToken);
 
-        response.EnsureSuccessStatusCode();
-
-        var chatResponse = await response.Content.ReadFromJsonAsync<StructuredResponse>(cancellationToken: cancellationToken);
+        throw new NotImplementedException();
+        // var chatResponse = await response.Content.ReadFromJsonAsync<StructuredResponse>(cancellationToken: cancellationToken);
         // thing about 2 phase reasoning with finally block
-        return chatResponse ?? throw new Exception("Failed to get a response from the AI model.");
+        // return chatResponse ?? throw new Exception("Failed to get a response from the AI model.");
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,

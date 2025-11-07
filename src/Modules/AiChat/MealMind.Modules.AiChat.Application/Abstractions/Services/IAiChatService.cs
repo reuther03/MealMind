@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Application.Dtos;
 using Microsoft.Extensions.AI;
+using Microsoft.SemanticKernel;
 
 namespace MealMind.Modules.AiChat.Application.Abstractions.Services;
 
@@ -9,7 +10,7 @@ public interface IAiChatService
         string userPrompt,
         string documentsText,
         List<string> documentTitles,
-        List<ChatMessage> chatMessages,
+        List<ChatMessageContent> chatMessages,
         int responseTokensLimit,
         CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,3 @@
-using DotNetEnv;
 using MealMind.Bootstrapper;
 using MealMind.Shared.Infrastructure;
 using MealMind.Shared.Infrastructure.Modules;

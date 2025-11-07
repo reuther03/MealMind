@@ -1,4 +1,5 @@
-﻿using MealMind.Modules.AiChat.Application;
+﻿using System.Diagnostics.CodeAnalysis;
+using MealMind.Modules.AiChat.Application;
 using MealMind.Modules.AiChat.Domain;
 using MealMind.Modules.AiChat.Infrastructure;
 using MealMind.Shared.Abstractions.Modules;
@@ -14,6 +15,7 @@ public class AiChatModule : IModule
     public string Name => "AiChat";
     public string Path => BasePath;
 
+    [Experimental("SKEXP0010")]
     public void Register(IServiceCollection services)
     {
         services
