@@ -14,8 +14,7 @@ public class AiChatModule : IModule
 
     public string Name => "AiChat";
     public string Path => BasePath;
-
-    [Experimental("SKEXP0010")]
+    
     public void Register(IServiceCollection services)
     {
         services

@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj"/>
-        <ProjectReference Include="..\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj" />
+        <ProjectReference Include="..\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,6 +18,7 @@
 
     <PropertyGroup>
         <NoWarn>$(NoWarn);SKEXP0050</NoWarn>
+        <NoWarn>$(NoWarn);SKEXP0010</NoWarn>
     </PropertyGroup>
 
 </Project>

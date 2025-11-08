@@ -21,7 +21,6 @@ namespace MealMind.Modules.AiChat.Infrastructure;
 
 public static class Extensions
 {
-    [Experimental("SKEXP0010")]
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
