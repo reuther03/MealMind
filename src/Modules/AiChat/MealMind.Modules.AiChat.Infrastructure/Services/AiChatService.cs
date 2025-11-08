@@ -25,7 +25,7 @@ public class AiChatService : IAiChatService
         _chatCompletionService = chatCompletionService;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
-            WriteIndented = true,
+            WriteIndented = true
         };
     }
 
@@ -47,7 +47,7 @@ public class AiChatService : IAiChatService
               ═══════════════════════════════════════════════════════════════
               🎯 TASK
               ═══════════════════════════════════════════════════════════════
-              Answer the user's question by extracting *factual, numeric, and explanatory details* from the documents. 
+              Answer the user's question by extracting *factual, numeric, and explanatory details* from the REFERENCE DOCUMENTS. 
               Return ONLY valid JSON matching this exact schema:
 
               {
@@ -110,6 +110,7 @@ public class AiChatService : IAiChatService
               1. JSON is syntactically valid.
               2. All fields match schema.
               3. Every paragraph and key point uses *actual data* from documents.
+              4. If you put key points or sources in paragraphs section, they must also appear in their respective fields.
 
               Now output your final answer in pure JSON:
               """;
@@ -127,7 +128,7 @@ public class AiChatService : IAiChatService
             ChatSystemPrompt = systemPrompt,
             MaxTokens = responseTokensLimit,
             Temperature = 0.5f,
-            ResponseFormat = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
+            ResponseFormat = typeof(StructuredResponse)
             // WebSearchOptions = null
             // ReasoningEffort = ChatReasoningEffortLevel.Medium
             // ReasoningEffort = "medium"

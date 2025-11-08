@@ -33,13 +33,33 @@ public static class Extensions
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
             .AddScoped<IEmbeddingService, EmbeddingService>()
             .AddScoped<IChunkingService, ChunkingService>()
+            .AddScoped<IAiChatService, AiChatService>()
             .AddScoped<IConversationRepository, ConversationRepository>()
             .AddScoped<IDocumentRepository, DocumentRepository>()
             .AddScoped<IAiChatUserRepository, AiChatUserRepository>()
             .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
+        // services.AddSingleton<Kernel>(sp => Kernel.CreateBuilder()
+        //     .AddOpenAIChatCompletion(options.VisionModel, new Uri(options.BaseUrl), options.ApiKey)
+        //     .Build());
+
         services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
-            options.VisionModel, new Uri(options.BaseUrl), options.ApiKey));
+            modelId: options.VisionModel,
+            endpoint: new Uri(options.BaseUrl),
+            apiKey: options.ApiKey));
+
+        // services.AddSingleton<IChatCompletionService>(sp =>
+        // {
+        //     var kernel = sp.GetRequiredService<Kernel>();
+        //
+        //     return new OpenAIChatCompletionService(
+        //         modelId: options.BaseModel,
+        //         endpoint: new Uri(options.BaseUrl),
+        //         apiKey: options.ApiKey,
+        //         kernel
+        //         );
+        // })
+
 
         // services.AddSingleton<IChatCompletionService>(sp =>
         // {
@@ -51,10 +71,6 @@ public static class Extensions
         //         apiKey: options.ApiKey
         //     );
         // });
-
-        // services.AddSingleton<Kernel>(sp => Kernel.CreateBuilder()
-        //     .AddOpenAIChatCompletion(options.VisionModel, new Uri(options.BaseUrl), options.ApiKey)
-        //     .Build());
 
 
         return services;
