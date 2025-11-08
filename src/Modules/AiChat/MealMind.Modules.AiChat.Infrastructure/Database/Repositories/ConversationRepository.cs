@@ -23,7 +23,8 @@ internal class ConversationRepository : Repository<Conversation, AiChatDbContext
     public async Task<int> GetUserDailyConversationPromptsCountAsync(Guid aiChatUserId, CancellationToken cancellationToken = default)
         => await _dbContext.ChatConversations
             .Include(x => x.ChatMessages)
-            .Where(x => x.UserId == UserId.From(aiChatUserId) &&
-                x.ChatMessages.Any(z => z.CreatedAt.Date == DateTime.UtcNow.Date))
+            .Where(x => x.UserId == UserId.From(aiChatUserId))
+            .SelectMany(x => x.ChatMessages
+                .Where(z => z.Role == AiChatRole.User && z.CreatedAt.Date == DateTime.UtcNow.Date))
             .CountAsync(cancellationToken);
 }
