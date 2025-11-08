@@ -54,9 +54,13 @@ public record GetChatResponse2Command(Guid ConversationId, string Prompt) : ICom
             var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId, cancellationToken);
             NullValidator.ValidateNotNull(conversation);
 
+            var userDailyPromptsCount = await _conversationRepository.GetUserDailyConversationPromptsCountAsync(aiUser.Id, cancellationToken);
+
             if (aiUser.DailyPromptsLimit != -1 &&
-                conversation.ChatMessages.Count(x => x.CreatedAt >= DateTime.UtcNow.Date) >= aiUser.DailyPromptsLimit)
+                userDailyPromptsCount >= aiUser.DailyPromptsLimit)
+            {
                 return Result<StructuredResponse>.BadRequest("Daily prompts limit exceeded.");
+            }
 
             var chatMessages = conversation.ChatMessages
                 .Where(x => x.Role != AiChatRole.System)
