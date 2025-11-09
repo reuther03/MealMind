@@ -29,15 +29,13 @@ public class AiChatService : IAiChatService
         };
     }
 
-    public async Task<StructuredResponse> GenerateStructuredResponseAsync(string userPrompt, string documentsText, List<string> documentTitles,
+    public async Task<StructuredResponse> GenerateStructuredResponseAsync(string userPrompt, string documentsText,
         List<ChatMessageContent> chatMessages, int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
-        var availableSourcesList = string.Join("\", \"", documentTitles);
-
         var systemPrompt =
             $$"""
-              You are a nutrition knowledge assistant. Answer questions **using ONLY** the reference documents below. Never invent or summarize generically.
+              You are a nutrition assistant. Answer using facts from the reference documents below.
 
               ═══════════════════════════════════════════════════════════════
               📚 REFERENCE DOCUMENTS
@@ -45,23 +43,20 @@ public class AiChatService : IAiChatService
               {{documentsText}}
 
               ═══════════════════════════════════════════════════════════════
-              🎯 TASK
+              📋 RESPONSE REQUIREMENTS
               ═══════════════════════════════════════════════════════════════
-              Answer the user's question by extracting *factual, numeric, and explanatory details* from the REFERENCE DOCUMENTS. 
-              Return ONLY valid JSON matching this exact schema:
+              Answer with factual details from documents above. Include:
 
-              {
-                "Title": "string",
-                "Paragraphs": ["string", "string", ...],
-                "KeyPoints": ["string", "string", ...],
-                "Sources": ["string", "string", ...]
-              }
+              • Title: Specific and descriptive to the user's question
+              • Paragraphs: 2-4 detailed paragraphs (100-250 words each)
+                → Use concrete data, numbers, ranges, and mechanisms from documents
+                → Include specific nutritional values, scientific findings, or practical recommendations
+                → No generic summaries or placeholder text
+              • KeyPoints: 3-7 concise facts (10-30 words each)
+                → One-sentence summaries of the most important information
+                → Focus on actionable takeaways or key numbers
 
-              ═══════════════════════════════════════════════════════════════
-              ✅ EXAMPLE OUTPUT
-              ═══════════════════════════════════════════════════════════════
-              User: "How much protein for cutting?"
-              Assistant:
+              Example response:
               {
                 "Title": "Protein Requirements for Fat Loss Phase",
                 "Paragraphs": [
@@ -72,47 +67,18 @@ public class AiChatService : IAiChatService
                   "Cutting phase: 2.0–2.4 g/kg body weight",
                   "Spread protein across 3–5 meals daily",
                   "Use complete protein sources like eggs, meat, fish, dairy"
-                ],
-                "Sources": ["Basic Nutrition Guidelines"]
+                ]
               }
 
               ═══════════════════════════════════════════════════════════════
-              🧩 STRUCTURE REQUIREMENTS
+              ⚠️ BEFORE RESPONDING - VERIFY
               ═══════════════════════════════════════════════════════════════
-              - **Title** → descriptive and specific to the user question.
-              - **Paragraphs** → 2–4 detailed paragraphs (100–250 words each). Must include concrete data, ranges, or mechanisms.
-              - **KeyPoints** → 3–7 concise one-sentence summaries of main facts (10–30 words).
-              - **Sources** → exact document titles from:
-                ["{{availableSourcesList}}"]
+              1. Did I include specific factual data from documents (not generic statements)?
+              2. Are my paragraphs detailed with concrete numbers and explanations?
+              3. Are my key points concise and actionable?
+              4. Is my JSON valid (no markdown fences, proper formatting)?
 
-              If information is missing:
-              {
-                "Title": "Information Not Available",
-                "Paragraphs": ["I don't have that information in my knowledge base."],
-                "KeyPoints": [],
-                "Sources": []
-              }
-
-              ═══════════════════════════════════════════════════════════════
-              🚫 RESTRICTIONS
-              ═══════════════════════════════════════════════════════════════
-              - Do NOT create placeholder text (e.g. “The first paragraph contains…”).
-              - Do NOT include generic summaries (“This document explains...”).
-              - Do NOT output anything except JSON.
-              - No ```json fences or markdown.
-              - First character must be '{' and last character must be '}'.
-              - Output must be valid, parseable JSON.
-
-              ═══════════════════════════════════════════════════════════════
-              ⚠️ FINAL REMINDER
-              ═══════════════════════════════════════════════════════════════
-              Before finishing, check:
-              1. JSON is syntactically valid.
-              2. All fields match schema.
-              3. Every paragraph and key point uses *actual data* from documents.
-              4. If you put key points or sources in paragraphs section, they must also appear in their respective fields.
-
-              Now output your final answer in pure JSON:
+              Output pure JSON only (first character '{', last character '}'):
               """;
 
         var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
@@ -143,7 +109,7 @@ public class AiChatService : IAiChatService
             !responseText.EndsWith('}'))
         {
             var repairedJson =
-                await AttemptJsonCorrectionAsync(userPrompt, responseText, documentsText, documentTitles, responseTokensLimit, cancellationToken);
+                await AttemptJsonCorrectionAsync(userPrompt, responseText, documentsText, responseTokensLimit, cancellationToken);
 
             return repairedJson;
         }
@@ -154,12 +120,12 @@ public class AiChatService : IAiChatService
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
-        List<string> documentTitles, int responseTokensLimit,
+        int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
         var systemPrompt =
             $$"""
-              You are a JSON correction assistant. Your task is to fix malformed JSON responses based on the user's original question and reference documents.
+              You are a JSON correction assistant. Fix the malformed JSON response below.
 
               ═══════════════════════════════════════════════════════════════
               📚 REFERENCE DOCUMENTS
@@ -169,77 +135,40 @@ public class AiChatService : IAiChatService
               ═══════════════════════════════════════════════════════════════
               🧩 TASK
               ═══════════════════════════════════════════════════════════════
-              The user asked: "{{originalQuestion}}"
+              User question: "{{originalQuestion}}"
 
-              The following JSON response is malformed. Correct it to be valid JSON that adheres to the specified schema.
-
-              RULES:
-              1. Output ONLY raw JSON - NO markdown code blocks
-              2. NO explanatory text before or after the JSON
-              3. ALL fields are REQUIRED
-              4. Follow the exact field names and types
-
-              Answer the user's question by extracting *factual, numeric, and explanatory details* from the documents.
-              Return ONLY valid JSON matching this exact schema:
-
+              Fix the malformed JSON below to match this schema:
               {
                 "Title": "string",
                 "Paragraphs": ["string", "string", ...],
-                "KeyPoints": ["string", "string", ...],
-                "Sources": ["string", "string", ...]
+                "KeyPoints": ["string", "string", ...]
               }
 
-              ═══════════════════════════════════════════════════════════════
-              ✅ EXAMPLE OUTPUT
-              ═══════════════════════════════════════════════════════════════
-              User: "How much protein for cutting?"
-              Assistant:
+              RULES:
+              1. Output ONLY valid JSON - NO markdown, NO explanations
+              2. Keep the content meaning intact
+              3. Ensure proper escaping of quotes and special characters
+              4. Title: Specific to user question
+              5. Paragraphs: 2-4 detailed paragraphs with factual data from documents
+              6. KeyPoints: 3-7 concise bullet points
+
+              Example:
               {
-                "Title": "Protein Requirements for Fat Loss Phase",
+                "Title": "Protein Requirements for Fat Loss",
                 "Paragraphs": [
-                  "During a cutting phase, protein intake should be 2.0–2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.",
-                  "This range is higher than the muscle gain recommendation (1.6–2.2 g/kg) because protein helps prevent muscle breakdown when calories are restricted."
+                  "During a cutting phase, protein intake should be 2.0–2.4g per kg of body weight."
                 ],
                 "KeyPoints": [
-                  "Cutting phase: 2.0–2.4 g/kg body weight",
-                  "Spread protein across 3–5 meals daily",
-                  "Use complete protein sources like eggs, meat, fish, dairy"
-                ],
-                "Sources": ["Basic Nutrition Guidelines"]
+                  "Cutting phase: 2.0–2.4 g/kg body weight"
+                ]
               }
 
               ═══════════════════════════════════════════════════════════════
-              🧩 STRUCTURE REQUIREMENTS
+              MALFORMED JSON TO FIX:
               ═══════════════════════════════════════════════════════════════
-              - **Title** → descriptive and specific to the user question.
-              - **Paragraphs** → 2–4 detailed paragraphs (100–250 words each). Must include concrete data, ranges, or mechanisms.
-              - **KeyPoints** → 3–7 concise one-sentence summaries of main facts (10–30 words).
-              - **Sources** → exact document titles from:
-                ["{{documentTitles}}"]
-
-              If information is missing:
-              {
-                "Title": "Information Not Available",
-                "Paragraphs": ["I don't have that information in my knowledge base."],
-                "KeyPoints": [],
-                "Sources": []
-              }
-
-              ═══════════════════════════════════════════════════════════════
-              🚫 RESTRICTIONS
-              ═══════════════════════════════════════════════════════════════
-              - Do NOT create placeholder text (e.g. “The first paragraph contains…”).
-              - Do NOT include generic summaries (“This document explains...”).
-              - Do NOT output anything except JSON.
-              - No ```json fences or markdown.
-              - First character must be '{' and last character must be '}'.
-              - Output must be valid, parseable JSON.
-
-
-              Here is the malformed JSON:
               {{malformedJson}}
 
-              Now output your corrected JSON but nothing else changing the content:
+              Output corrected JSON (first character '{', last character '}'):
               """;
 
         var response = await _chatCompletionService.GetChatMessageContentAsync(systemPrompt, new OpenAIPromptExecutionSettings

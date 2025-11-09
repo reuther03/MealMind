@@ -9,7 +9,6 @@ public interface IAiChatService
     Task<StructuredResponse> GenerateStructuredResponseAsync(
         string userPrompt,
         string documentsText,
-        List<string> documentTitles,
         List<ChatMessageContent> chatMessages,
         int responseTokensLimit,
         CancellationToken cancellationToken = default);

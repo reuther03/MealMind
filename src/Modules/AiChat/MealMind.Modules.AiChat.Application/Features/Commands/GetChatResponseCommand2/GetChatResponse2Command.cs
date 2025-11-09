@@ -65,7 +65,7 @@ public record GetChatResponse2Command(Guid ConversationId, string Prompt) : ICom
             var chatMessages = conversation.ChatMessages
                 .Where(x => x.Role != AiChatRole.System)
                 .OrderBy(x => x.CreatedAt)
-                .Where(x => x.CreatedAt >= DateTime.UtcNow.AddDays(-aiUser.ConversationsMessagesHistoryDaysLimit)) // check if this is correct
+                .Where(x => x.CreatedAt >= DateTime.UtcNow.AddDays(-aiUser.ConversationsMessagesHistoryDaysLimit))
                 .Select(x => new ChatMessageContent(new AuthorRole(x.Role.ToString()), x.Content))
                 .ToList();
 
@@ -81,23 +81,18 @@ public record GetChatResponse2Command(Guid ConversationId, string Prompt) : ICom
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");
 
             var documentsText = string.Join("\n\n",
-                relevantDocuments.Select(x => $"Title: {x.Title}\nContent: {x.Content}"));
+                relevantDocuments.Select(x => $"Content: {x.Content}"));
 
-            var documentTitles = relevantDocuments.Select(x => x.Title).ToList();
-
-            //should aichatmessage be created before or after response manager call?
             // think about reasoning of response for example free vs paid user free have low all the time and paid can choose
             var response = await _responseManager.GenerateStructuredResponseAsync(
                 request.Prompt,
                 documentsText,
-                documentTitles,
                 chatMessages,
                 aiUser.ResponseTokensLimit,
                 cancellationToken
             );
             var responseString = JsonSerializer.Serialize(response);
 
-            //keep it here or move to response manager?
             var aiChatMessage = AiChatMessage.Create(conversation.Id, AiChatRole.User, request.Prompt, conversation.GetRecentMessage().Id);
             conversation.AddMessage(aiChatMessage);
 

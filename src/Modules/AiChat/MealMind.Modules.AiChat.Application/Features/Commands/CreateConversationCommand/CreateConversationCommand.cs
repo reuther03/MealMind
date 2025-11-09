@@ -57,7 +57,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
                 return Result<StructuredResponse>.BadRequest("Daily prompts limit exceeded.");
             }
 
-            var conversation = Conversation.Create(aiUser.Id, "New Conversation"); // enhance this by adding a title generation step
+            var conversation = Conversation.Create(aiUser.Id);
 
             var systemInstruction = new ChatMessageContent(AuthorRole.System,
                 """
@@ -80,9 +80,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");
 
             var documentsText = string.Join("\n\n",
-                relevantDocuments.Select(x => $"Title: {x.Title}\nContent: {x.Content}"));
-
-            var documentTitles = relevantDocuments.Select(x => x.Title).ToList();
+                relevantDocuments.Select(x => $"Content: {x.Content}"));
 
             var userMessage = new ChatMessageContent(AuthorRole.User, command.Prompt);
             var aiChatUserMessage = AiChatMessage.Create(conversation.Id, AiChatRole.User, command.Prompt, aiChatSystemMessage.Id);
@@ -98,7 +96,6 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
             var response = await _aiChatService.GenerateStructuredResponseAsync(
                 command.Prompt,
                 documentsText,
-                documentTitles,
                 messages,
                 aiUser.ResponseTokensLimit,
                 cancellationToken
@@ -108,6 +105,8 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
 
             var assistantMessage = AiChatMessage.Create(conversation.Id, AiChatRole.Assistant, responseString, aiChatUserMessage.Id);
             conversation.AddMessage(assistantMessage);
+
+            conversation.SetTitle(response.Title);
 
             await _conversationRepository.AddAsync(conversation, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

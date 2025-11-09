@@ -7,7 +7,7 @@ public class Conversation : AggregateRoot<ConversationId>
 {
     private readonly IList<AiChatMessage> _chatMessages = [];
     public UserId UserId { get; private set; }
-    public string? Title { get; private set; }
+    public string Title { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime LastUsedAt { get; private set; }
     public IReadOnlyList<AiChatMessage> ChatMessages => _chatMessages.AsReadOnly();
@@ -16,16 +16,16 @@ public class Conversation : AggregateRoot<ConversationId>
     {
     }
 
-    private Conversation(ConversationId id, UserId userId, string? title) : base(id)
+    private Conversation(ConversationId id, UserId userId) : base(id)
     {
         UserId = userId;
-        Title = title;
+        Title = "";
         CreatedAt = DateTime.UtcNow;
         LastUsedAt = CreatedAt;
     }
 
-    public static Conversation Create(UserId userId, string? title)
-        => new(ConversationId.New(), userId, title);
+    public static Conversation Create(UserId userId)
+        => new(ConversationId.New(), userId);
 
     public void SetTitle(string title)
     {

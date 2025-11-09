@@ -12,7 +12,4 @@ public sealed record StructuredResponse
 
     [JsonPropertyName("keyPoints")]
     public List<string> KeyPoints { get; init; } = [];
-
-    [JsonPropertyName("sources")]
-    public List<string> Sources { get; init; } = [];
 }
