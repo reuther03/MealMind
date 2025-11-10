@@ -8,7 +8,6 @@ using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
-using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using SharpToken;

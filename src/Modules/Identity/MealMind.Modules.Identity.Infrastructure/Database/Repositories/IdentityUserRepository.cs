@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Domain.IdentityUser;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,4 +20,7 @@ internal class IdentityUserRepository : Repository<IdentityUser, IdentityDbConte
 
     public Task<IdentityUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         => _context.IdentityUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+
+    public Task<IdentityUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        => _context.IdentityUsers.FirstOrDefaultAsync(x => x.Id == UserId.From(id), cancellationToken);
 }

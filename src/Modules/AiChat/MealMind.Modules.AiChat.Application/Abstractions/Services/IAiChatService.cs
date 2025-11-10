@@ -1,5 +1,4 @@
 ﻿using MealMind.Modules.AiChat.Application.Dtos;
-using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 
 namespace MealMind.Modules.AiChat.Application.Abstractions.Services;

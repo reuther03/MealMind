@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using MealMind.Modules.AiChat.Application.Abstractions;
+﻿using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Options;
@@ -11,8 +10,6 @@ using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 

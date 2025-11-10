@@ -1,14 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Http.Json;
-using System.Text.Json;
+﻿using System.Text.Json;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
-using MealMind.Modules.AiChat.Application.Options;
-using Microsoft.Extensions.AI;
-using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using OpenAI.Chat;
 using ChatMessageContent = Microsoft.SemanticKernel.ChatMessageContent;
 using ChatResponseFormat = Microsoft.Extensions.AI.ChatResponseFormat;
 

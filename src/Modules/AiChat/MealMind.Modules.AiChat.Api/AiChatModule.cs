@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using MealMind.Modules.AiChat.Application;
+﻿using MealMind.Modules.AiChat.Application;
 using MealMind.Modules.AiChat.Domain;
 using MealMind.Modules.AiChat.Infrastructure;
 using MealMind.Shared.Abstractions.Modules;
