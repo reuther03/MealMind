@@ -4,7 +4,7 @@ using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
-namespace MealMind.Modules.Identity.Api.Endpoints;
+namespace MealMind.Modules.Identity.Api.Endpoints.Stripe;
 
 public class CreateCheckoutSessionEndpoint : EndpointBase
 {
@@ -33,4 +33,5 @@ public class CreateCheckoutSessionEndpoint : EndpointBase
                 """
             );
     }
+
 }
