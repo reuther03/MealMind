@@ -21,8 +21,8 @@ public class StripeService : IStripeService
     {
         var amount = subscriptionTier switch
         {
-            SubscriptionTier.Standard => _stripeOptions.StandardMonthlyPrice,
-            SubscriptionTier.Premium => _stripeOptions.PremiumMonthlyPrice,
+            SubscriptionTier.Standard => _stripeOptions.StandardMonthly,
+            SubscriptionTier.Premium => _stripeOptions.PremiumMonthly,
             _ => throw new ArgumentOutOfRangeException(nameof(subscriptionTier), "Invalid subscription tier")
         };
 
@@ -47,8 +47,8 @@ public class StripeService : IStripeService
                 }
             ],
             Mode = "payment",
-            SuccessUrl = "https://mealmind.app/success",
-            CancelUrl = "https://mealmind.app/cancel",
+            SuccessUrl = "http://localhost:5000/payment-success",
+            CancelUrl = "http://localhost:5000/payment-cancel",
             Metadata = new Dictionary<string, string>
             {
                 { "userId", userId.ToString() },

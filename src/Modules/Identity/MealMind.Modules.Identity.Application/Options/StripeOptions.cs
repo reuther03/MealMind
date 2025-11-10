@@ -6,6 +6,6 @@ public class StripeOptions
 
     public string PublishableKey { get; init; } = null!;
     public string SecretKey { get; init; } = null!;
-    public double StandardMonthlyPrice { get; init; }
-    public double PremiumMonthlyPrice { get; init; }
+    public double StandardMonthly { get; init; }
+    public double PremiumMonthly { get; init; }
 }
