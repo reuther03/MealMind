@@ -26,4 +26,7 @@ public class IdentityUser : AggregateRoot<UserId>
 
     public static IdentityUser Create(Name username, Email email, Password password)
         => new(Guid.NewGuid(), username, email, password);
+
+    public void UpdateSubscriptionTier(SubscriptionTier tier)
+        => Tier = tier;
 }
