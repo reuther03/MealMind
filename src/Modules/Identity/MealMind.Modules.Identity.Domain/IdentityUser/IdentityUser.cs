@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
@@ -28,5 +29,10 @@ public class IdentityUser : AggregateRoot<UserId>
         => new(Guid.NewGuid(), username, email, password);
 
     public void UpdateSubscriptionTier(SubscriptionTier tier)
-        => Tier = tier;
+    {
+        if (Tier == tier)
+            throw new DomainException("The subscription tier is already set to the specified value.");
+
+        Tier = tier;
+    }
 }
