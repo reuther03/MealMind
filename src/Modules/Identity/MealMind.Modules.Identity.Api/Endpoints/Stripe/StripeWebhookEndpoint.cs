@@ -30,28 +30,40 @@ public class StripeWebhookEndpoint : EndpointBase
 
                         var stripeEvent = EventUtility.ConstructEvent(json, httpRequest.Headers["Stripe-Signature"], stripeOptions.WebhookSecret);
 
-                        if (stripeEvent.Type != EventTypes.CheckoutSessionCompleted)
-                            return Result.Ok();
+                        switch (stripeEvent.Type)
+                        {
+                            case EventTypes.CheckoutSessionCompleted:
+                                var session = stripeEvent.Data.Object as Session;
 
-                        var session = stripeEvent.Data.Object as Session;
+                                if (session is not { PaymentStatus: "paid" })
+                                    return Result.Ok();
 
-                        if (session?.PaymentStatus != "paid")
-                            return Result.Ok();
+                                var userId = Guid.Parse(session.Metadata["userId"]);
+                                var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
+                                var customerId = session.CustomerId;
+                                var subscriptionId = session.SubscriptionId;
 
-                        var userId = Guid.Parse(session.Metadata["userId"]);
-                        var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
+                                await sender.Send(new UpdateSubscriptionTierCommand(userId, tier, customerId, subscriptionId), cancellationToken);
+                                break;
 
-                        var command = new UpdateSubscriptionTierCommand(userId, tier);
-                        var result = await sender.Send(command, cancellationToken);
+                            case EventTypes.InvoicePaid:
+                                // Handle invoice paid event
+                                break;
 
-                        return result.IsSuccess
-                            ? Result.Ok()
-                            : Result.BadRequest(result.Message!);
+                            case EventTypes.CustomerSubscriptionDeleted:
+                                // Handle customer subscription deleted event
+                                break;
+
+                            default:
+                                return Result.BadRequest($"Unhandled event type: {stripeEvent.Type}");
+                        }
                     }
                     catch (Exception ex)
                     {
                         return Result.BadRequest(ex.Message);
                     }
+
+                    return Result.Ok();
                 })
             .AllowAnonymous()
             .WithDocumentation("Stripe Webhook Endpoint", "Handles Stripe webhook events for payment processing.",
@@ -60,7 +72,7 @@ public class StripeWebhookEndpoint : EndpointBase
                 {
                   "isSuccess": false,
                   "statusCode": 400,
-                  "message": "Object reference not set to an instance of an object."s
+                  "message": "Object reference not set to an instance of an object."
                 }
                 """
             );
