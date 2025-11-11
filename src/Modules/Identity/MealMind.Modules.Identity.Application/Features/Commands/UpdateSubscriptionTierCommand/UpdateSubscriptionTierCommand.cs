@@ -7,7 +7,8 @@ using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionTierCommand;
 
-public record UpdateSubscriptionTierCommand(Guid UserId, SubscriptionTier SubscriptionTier) : ICommand<Guid>
+public record UpdateSubscriptionTierCommand(Guid UserId, SubscriptionTier SubscriptionTier, string StripeCustomerId, string StripeSubscriptionId)
+    : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<UpdateSubscriptionTierCommand, Guid>
     {
@@ -26,6 +27,7 @@ public record UpdateSubscriptionTierCommand(Guid UserId, SubscriptionTier Subscr
             NullValidator.ValidateNotNull(user);
 
             user.UpdateSubscriptionTier(request.SubscriptionTier);
+            user.SetStripeDetails(request.StripeCustomerId, request.StripeSubscriptionId);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 

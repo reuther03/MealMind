@@ -34,6 +34,12 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
             .HasConversion<string>()
             .IsRequired();
 
+        builder.Property(x => x.StripeCustomerId)
+            .HasMaxLength(300);
+
+        builder.Property(x => x.StripeSubscriptionId)
+            .HasMaxLength(300);
+
         builder.HasIndex(x => x.Email).IsUnique();
     }
 }

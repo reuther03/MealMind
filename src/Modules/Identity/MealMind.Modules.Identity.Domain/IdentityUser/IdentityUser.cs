@@ -12,6 +12,9 @@ public class IdentityUser : AggregateRoot<UserId>
     public Email Email { get; private set; }
     public Password Password { get; private set; }
     public SubscriptionTier Tier { get; private set; }
+    public string? StripeCustomerId { get; private set; }
+    public string? StripeSubscriptionId { get; private set; }
+
 
     private IdentityUser()
     {
@@ -34,5 +37,11 @@ public class IdentityUser : AggregateRoot<UserId>
             throw new DomainException("The subscription tier is already set to the specified value.");
 
         Tier = tier;
+    }
+
+    public void SetStripeDetails(string customerId, string subscriptionId)
+    {
+        StripeCustomerId = customerId;
+        StripeSubscriptionId = subscriptionId;
     }
 }
