@@ -29,6 +29,8 @@ public record UpdateSubscriptionTierCommand(Guid UserId, SubscriptionTier Subscr
 
             await _unitOfWork.CommitAsync(cancellationToken);
 
+            // event here
+
             return Result.Ok(user.Id.Value);
         }
     }
