@@ -1,6 +1,6 @@
 ﻿using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 
-namespace MealMind.Modules.Identity.Api.Endpoints.Stripe;
+namespace MealMind.Modules.Identity.Application.Features.Payloads;
 
 public record UpdateSubscriptionTierPayload(
     Guid UserId,

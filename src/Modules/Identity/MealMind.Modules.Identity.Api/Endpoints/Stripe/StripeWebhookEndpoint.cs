@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Identity.Application.Features.Commands.CreateCheckoutSessionCommand;
 using MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionTierCommand;
+using MealMind.Modules.Identity.Application.Features.Payloads;
 using MealMind.Modules.Identity.Application.Options;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
@@ -36,14 +37,34 @@ public class StripeWebhookEndpoint : EndpointBase
                                 var session = stripeEvent.Data.Object as Session;
 
                                 if (session is not { PaymentStatus: "paid" })
-                                    return Result.Ok();
+                                    return Result.BadRequest("Payment not completed.");
+
+                                var subscriptionService = new SubscriptionService();
+                                var subscription = await subscriptionService.GetAsync(session.SubscriptionId, cancellationToken: cancellationToken);
+
+                                if (subscription == null)
+                                    return Result.BadRequest("Subscription not found.");
+
+                                var invoiceService = new InvoiceService();
+                                var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
 
                                 var userId = Guid.Parse(session.Metadata["userId"]);
                                 var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
                                 var customerId = session.CustomerId;
                                 var subscriptionId = session.SubscriptionId;
+                                var subscriptionStartedAt = subscription.StartDate;
+                                var subscriptionCurrentPeriodStart = invoice.PeriodStart;
+                                var subscriptionCurrentPeriodEnd = invoice.PeriodEnd;
+                                var subscriptionStatus = subscription.Status;
 
-                                await sender.Send(new UpdateSubscriptionTierCommand(userId, tier, customerId, subscriptionId), cancellationToken);
+                                await sender.Send(
+                                    new UpdateSubscriptionTierCommand(
+                                        new UpdateSubscriptionTierPayload(
+                                            userId, tier, customerId, subscriptionId,
+                                            subscriptionStartedAt, subscriptionCurrentPeriodStart,
+                                            subscriptionCurrentPeriodEnd, subscriptionStatus)
+                                    ), cancellationToken);
+
                                 break;
 
                             case EventTypes.InvoicePaid:

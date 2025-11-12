@@ -31,15 +31,18 @@ public record Subscription : ValueObject
     public static Subscription CreateFreeTier()
         => new(SubscriptionTier.Free, null, null, null, null, null, null, null);
 
-    public Subscription UpdateTier(SubscriptionTier tier)
-        => this with { Tier = tier };
-
-    public Subscription SetStripeDetails(string customerId, string subscriptionId)
+    public Subscription UpdateToPaidTier(SubscriptionTier tier, string stripeCustomerId, string stripeSubscriptionId,
+        DateTime subscriptionStartedAt, DateTime currentPeriodStart, DateTime currentPeriodEnd,
+        string subscriptionStatus)
         => this with
         {
-            StripeCustomerId = customerId,
-            StripeSubscriptionId = subscriptionId
+            Tier = tier, StripeCustomerId = stripeCustomerId, StripeSubscriptionId = stripeSubscriptionId,
+            SubscriptionStartedAt = subscriptionStartedAt, CurrentPeriodStart = currentPeriodStart, CurrentPeriodEnd = currentPeriodEnd,
+            SubscriptionStatus = subscriptionStatus
         };
+
+    public Subscription UpdateTier(SubscriptionTier tier)
+        => this with { Tier = tier };
 
 
     protected override IEnumerable<object> GetAtomicValues()
