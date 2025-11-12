@@ -27,7 +27,7 @@ public record UpdateSubscriptionTierCommand(Guid UserId, SubscriptionTier Subscr
             NullValidator.ValidateNotNull(user);
 
             user.UpdateSubscriptionTier(request.SubscriptionTier);
-            user.SetStripeDetails(request.StripeCustomerId, request.StripeSubscriptionId);
+            user.Subscription.SetStripeDetails(request.StripeCustomerId, request.StripeSubscriptionId);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 

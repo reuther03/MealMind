@@ -50,6 +50,10 @@ public class StripeWebhookEndpoint : EndpointBase
                                 // Handle invoice paid event
                                 break;
 
+                            case EventTypes.CustomerSubscriptionUpdated:
+                                // Handle customer subscription updated event
+                                break;
+
                             case EventTypes.CustomerSubscriptionDeleted:
                                 // Handle customer subscription deleted event
                                 break;

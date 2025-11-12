@@ -30,15 +30,31 @@ public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>
             .HasConversion(x => x.Value, x => new Password(x))
             .IsRequired();
 
-        builder.Property(x => x.Tier)
-            .HasConversion<string>()
-            .IsRequired();
+        builder.OwnsOne(x => x.Subscription, s =>
+        {
+            s.ToTable("Subscription");
 
-        builder.Property(x => x.StripeCustomerId)
-            .HasMaxLength(300);
+            s.WithOwner()
+                .HasForeignKey("IdentityUserId");
 
-        builder.Property(x => x.StripeSubscriptionId)
-            .HasMaxLength(300);
+            s.HasKey("IdentityUserId");
+
+            s.Property(x => x.Tier)
+                .HasConversion<string>()
+                .IsRequired();
+
+            s.Property(x => x.StripeCustomerId)
+                .HasMaxLength(300);
+
+            s.Property(x => x.StripeSubscriptionId)
+                .HasMaxLength(300);
+
+            s.Property(x => x.SubscriptionStartedAt);
+            s.Property(x => x.CurrentPeriodStart);
+            s.Property(x => x.CurrentPeriodEnd);
+            s.Property(x => x.CanceledAt);
+            s.Property(x => x.SubscriptionStatus);
+        });
 
         builder.HasIndex(x => x.Email).IsUnique();
     }

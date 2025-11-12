@@ -11,37 +11,28 @@ public class IdentityUser : AggregateRoot<UserId>
     public Name Username { get; private set; }
     public Email Email { get; private set; }
     public Password Password { get; private set; }
-    public SubscriptionTier Tier { get; private set; }
-    public string? StripeCustomerId { get; private set; }
-    public string? StripeSubscriptionId { get; private set; }
-
+    public Subscription Subscription { get; private set; }
 
     private IdentityUser()
     {
     }
 
-    private IdentityUser(UserId id, Name username, Email email, Password password) : base(id)
+    private IdentityUser(UserId id, Name username, Email email, Password password, Subscription subscription) : base(id)
     {
         Username = username;
         Email = email;
         Password = password;
-        Tier = SubscriptionTier.Free;
+        Subscription = subscription;
     }
 
     public static IdentityUser Create(Name username, Email email, Password password)
-        => new(Guid.NewGuid(), username, email, password);
+        => new(Guid.NewGuid(), username, email, password, Subscription.CreateFreeTier());
 
     public void UpdateSubscriptionTier(SubscriptionTier tier)
     {
-        if (Tier == tier)
+        if (Subscription.Tier == tier)
             throw new DomainException("The subscription tier is already set to the specified value.");
 
-        Tier = tier;
-    }
-
-    public void SetStripeDetails(string customerId, string subscriptionId)
-    {
-        StripeCustomerId = customerId;
-        StripeSubscriptionId = subscriptionId;
+        Subscription.UpdateTier(tier);
     }
 }
