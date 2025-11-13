@@ -11,11 +11,11 @@ public class CreateConversationEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("create-chat-response",
-            async (CreateConversationCommand request, ISender sender) =>
-            {
-                var result = await sender.Send(request);
-                return result;
-            })
+                async (CreateConversationCommand request, ISender sender) =>
+                {
+                    var result = await sender.Send(request);
+                    return result;
+                })
             .RequireAuthorization()
             .WithDocumentation("Create Chat Conversation",
                 "Creates a new AI chat conversation with an initial user prompt. Returns the AI's response to the first message. Requires authentication.",
@@ -26,10 +26,26 @@ public class CreateConversationEndpoint : EndpointBase
                 """,
                 """
                 {
-                  "value": "I'd be happy to help you with a healthy meal plan for weight loss! Here's a balanced approach...",
-                  "isSuccess": true,
-                  "statusCode": 200,
-                  "message": null
+                 "value": {
+                 "title": "Healthy Meal Plan for Weight Loss",
+                 "paragraphs": [
+                    "Here is a simple meal plan to help you get started on your journey to healthier eating and weight loss...",
+                    "Breakfast: Oatmeal with fresh berries and a sprinkle of chia seeds...",
+                    "Lunch: Grilled chicken salad with mixed greens, cherry tomatoes, cucumbers, and a light vinaigrette...",
+                    "Dinner: Baked salmon with steamed broccoli and quinoa...",
+                    "Snacks: Greek yogurt with honey, a handful of almonds, or carrot sticks with hummus..."
+                 ],
+                 "keyPoints": [
+                    "Incorporate a variety of fruits and vegetables into your meals.",
+                    "Choose lean proteins like chicken, fish, and legumes.",
+                    "Opt for whole grains over refined grains.",
+                    "Stay hydrated by drinking plenty of water throughout the day.",
+                    "Limit processed foods and sugary snacks."
+                 ]
+                },
+                "isSuccess": true,
+                "statusCode": 200,
+                "message": null
                 }
                 """
             );
