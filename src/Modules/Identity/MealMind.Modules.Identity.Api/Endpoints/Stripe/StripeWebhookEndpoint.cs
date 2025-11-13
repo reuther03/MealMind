@@ -34,36 +34,7 @@ public class StripeWebhookEndpoint : EndpointBase
                         switch (stripeEvent.Type)
                         {
                             case EventTypes.CheckoutSessionCompleted:
-                                var session = stripeEvent.Data.Object as Session;
-
-                                if (session is not { PaymentStatus: "paid" })
-                                    return Result.BadRequest("Payment not completed.");
-
-                                var subscriptionService = new SubscriptionService();
-                                var subscription = await subscriptionService.GetAsync(session.SubscriptionId, cancellationToken: cancellationToken);
-
-                                if (subscription == null)
-                                    return Result.BadRequest("Subscription not found.");
-
-                                var invoiceService = new InvoiceService();
-                                var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
-
-                                var userId = Guid.Parse(session.Metadata["userId"]);
-                                var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
-                                var customerId = session.CustomerId;
-                                var subscriptionId = session.SubscriptionId;
-                                var subscriptionStartedAt = subscription.StartDate;
-                                var subscriptionCurrentPeriodStart = invoice.PeriodStart;
-                                var subscriptionCurrentPeriodEnd = invoice.PeriodEnd;
-                                var subscriptionStatus = subscription.Status;
-
-                                await sender.Send(
-                                    new UpdateSubscriptionTierCommand(
-                                        new UpdateSubscriptionTierPayload(
-                                            userId, tier, customerId, subscriptionId,
-                                            subscriptionStartedAt, subscriptionCurrentPeriodStart,
-                                            subscriptionCurrentPeriodEnd, subscriptionStatus)
-                                    ), cancellationToken);
+                                await EventTypeCheckoutSessionCompleted(sender, stripeEvent, cancellationToken);
 
                                 break;
 
@@ -101,5 +72,39 @@ public class StripeWebhookEndpoint : EndpointBase
                 }
                 """
             );
+    }
+
+    private static async Task EventTypeCheckoutSessionCompleted(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    {
+        var session = stripeEvent.Data.Object as Session;
+
+        if (session is not { PaymentStatus: "paid" })
+            return;
+
+        var subscriptionService = new SubscriptionService();
+        var subscription = await subscriptionService.GetAsync(session.SubscriptionId, cancellationToken: cancellationToken);
+
+        if (subscription == null)
+            return;
+
+        var invoiceService = new InvoiceService();
+        var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
+
+        var userId = Guid.Parse(session.Metadata["userId"]);
+        var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
+        var customerId = session.CustomerId;
+        var subscriptionId = session.SubscriptionId;
+        var subscriptionStartedAt = subscription.StartDate;
+        var subscriptionCurrentPeriodStart = invoice.PeriodStart;
+        var subscriptionCurrentPeriodEnd = invoice.PeriodEnd;
+        var subscriptionStatus = subscription.Status;
+
+        await sender.Send(
+            new UpdateSubscriptionTierCommand(
+                new UpdateSubscriptionTierPayload(
+                    userId, tier, customerId, subscriptionId,
+                    subscriptionStartedAt, subscriptionCurrentPeriodStart,
+                    subscriptionCurrentPeriodEnd, subscriptionStatus)
+            ), cancellationToken);
     }
 }
