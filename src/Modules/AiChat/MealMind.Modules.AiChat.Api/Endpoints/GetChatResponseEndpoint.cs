@@ -11,7 +11,7 @@ public class GetChatResponseEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("get-chat-response",
-                async (GetChatResponse2Command request, ISender sender) =>
+                async (GetChatResponseCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
                     return result;
