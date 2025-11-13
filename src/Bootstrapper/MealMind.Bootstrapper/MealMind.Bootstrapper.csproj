@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>14</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>MealMind.Bootstrapper</RootNamespace>
@@ -9,20 +10,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8"/>
-        <PackageReference Include="Microsoft.Build" Version="17.14.8"/>
-        <PackageReference Include="Microsoft.Build.Framework" Version="17.14.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0"/>
+        <PackageReference Include="Microsoft.Build" Version="17.14.28"/>
+        <PackageReference Include="Microsoft.Build.Framework" Version="17.14.28"/>
 
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Modules\AiChat\MealMind.Modules.AiChat.Api\MealMind.Modules.AiChat.Api.csproj" />
+        <ProjectReference Include="..\..\Modules\AiChat\MealMind.Modules.AiChat.Api\MealMind.Modules.AiChat.Api.csproj"/>
         <ProjectReference Include="..\..\Modules\Identity\MealMind.Modules.Identity.Api\MealMind.Modules.Identity.Api.csproj"/>
-        <ProjectReference Include="..\..\Modules\Nutrition\MealMind.Modules.Nutrition.Api\MealMind.Modules.Nutrition.Api.csproj" />
+        <ProjectReference Include="..\..\Modules\Nutrition\MealMind.Modules.Nutrition.Api\MealMind.Modules.Nutrition.Api.csproj"/>
     </ItemGroup>
 
 </Project>

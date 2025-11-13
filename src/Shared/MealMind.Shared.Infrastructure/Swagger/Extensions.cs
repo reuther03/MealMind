@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace MealMind.Shared.Infrastructure.Swagger;
 
@@ -13,25 +13,19 @@ public static class Extensions
             swagger.CustomSchemaIds(x => x.FullName);
             swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "MealMind API", Version = "v1" });
 
-            var securityScheme = new OpenApiSecurityScheme
+            swagger.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.Http,
                 Description = "Raw JWT Bearer token",
                 Name = "JWT Authentication",
                 In = ParameterLocation.Header,
                 Scheme = JwtBearerDefaults.AuthenticationScheme,
-                BearerFormat = "JWT",
-                Reference = new OpenApiReference
-                {
-                    Id = JwtBearerDefaults.AuthenticationScheme,
-                    Type = ReferenceType.SecurityScheme
-                }
-            };
+                BearerFormat = "JWT"
+            });
 
-            swagger.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
-            swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+            swagger.AddSecurityRequirement(securityRequirement => new OpenApiSecurityRequirement
             {
-                { securityScheme, new List<string>() }
+                [new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme, securityRequirement)] = []
             });
         });
 

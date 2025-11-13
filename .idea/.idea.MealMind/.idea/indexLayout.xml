@@ -3,6 +3,8 @@
   <component name="UserContentModel">
     <attachedFolders />
     <explicitIncludes />
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>src/Bootstrapper/.env</Path>
+    </explicitExcludes>
   </component>
 </project>

@@ -16,6 +16,7 @@ public class CreateConversationEndpoint : EndpointBase
                 var result = await sender.Send(request);
                 return result;
             })
+            .RequireAuthorization()
             .WithDocumentation("Create Chat Conversation",
                 "Creates a new AI chat conversation with an initial user prompt. Returns the AI's response to the first message. Requires authentication.",
                 """

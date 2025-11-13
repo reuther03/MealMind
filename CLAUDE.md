@@ -10,7 +10,7 @@ MealMind is a modular .NET 9 application built with clean architecture principle
 ### Solution Structure
 - **Bootstrapper**: Main entry point that orchestrates module loading and dependency injection
 - **Modules**: Feature-specific implementations following vertical slice architecture
-  - Identity: User authentication and management
+  - Identity: User authentication, subscription management, and Stripe integration
   - Nutrition: User profiles and nutrition tracking
   - AiChat: Conversational AI with RAG (Retrieval-Augmented Generation)
 - **Shared**: Cross-cutting concerns and abstractions
@@ -19,7 +19,9 @@ MealMind is a modular .NET 9 application built with clean architecture principle
 - **Modular Monolith**: Each module (Identity, Nutrition) is self-contained with Api, Application, Domain, and Infrastructure layers
 - **Module System**: Modules implement `IModule` interface and are dynamically loaded at startup
 - **Repository Pattern**: Data access through domain-specific repositories implementing `IRepository<T>`
-- **Value Objects**: Domain modeling uses value objects (e.g., PersonalData, NutritionTarget)
+- **Value Objects**: Domain modeling uses value objects (e.g., PersonalData, NutritionTarget, Subscription)
+  - Value objects are immutable - methods return new instances instead of mutating state
+  - Use `init` setters and `with` expressions for updates
 
 ## Commands
 
@@ -206,6 +208,58 @@ docker exec -it MealMind.Ollama ollama list
 # Keep model loaded (optional, OLLAMA_KEEP_ALIVE handles this)
 docker exec -it MealMind.Ollama ollama run llama3.2:3b
 ```
+
+## Stripe Integration (Identity Module)
+
+### Subscription Management
+The Identity module manages user subscriptions with three tiers: Free, Standard, and Premium.
+
+**Subscription Value Object:**
+- Stored as part of `IdentityUser` entity (owned type in EF Core)
+- Immutable - all update methods return new instances
+- Tracks: Tier, Stripe IDs, billing periods, cancellation dates, status
+
+**Key Properties:**
+```csharp
+public record Subscription : ValueObject
+{
+    public SubscriptionTier Tier { get; private init; }
+    public string? StripeCustomerId { get; private init; }
+    public string? StripeSubscriptionId { get; private init; }
+    public DateTime? SubscriptionStartedAt { get; private init; }
+    public DateTime? CurrentPeriodStart { get; private init; }
+    public DateTime? CurrentPeriodEnd { get; private init; }
+    public DateTime? CanceledAt { get; private init; }
+    public string? SubscriptionStatus { get; private init; }
+}
+```
+
+### Webhook Events
+Stripe webhooks handle subscription lifecycle events:
+
+**Essential Events:**
+1. `checkout.session.completed` - Initial subscription creation
+2. `customer.subscription.updated` - Tier changes (Standard ↔ Premium) and status updates
+3. `customer.subscription.deleted` - Cancellations
+
+**Webhook Data Sources:**
+- Period dates (`PeriodStart`, `PeriodEnd`) come from `Invoice` object, NOT `Subscription`
+- Subscription dates (`StartDate`, `Created`, `CanceledAt`) come from `Subscription` object
+- Must fetch full `Subscription` and `Invoice` objects in `checkout.session.completed` webhook
+
+**Configuration:**
+- Development: Use Stripe CLI to forward webhooks to localhost
+  ```bash
+  stripe listen --forward-to http://localhost:5000/webhook/stripe
+  ```
+- Production: Configure webhook URL in Stripe Dashboard
+- Webhook signature verification using `EventUtility.ConstructEvent()` is required for security
+
+### Endpoint Guidelines
+- Keep endpoints minimal (15-30 lines)
+- Extract logic to private methods when endpoint exceeds 50 lines
+- Don't add "ghost methods" - only implement what's needed now (YAGNI principle)
+- Use commands for business logic, not direct repository access in endpoints
 
 ## Testing
 Currently no test projects are configured. When adding tests, create them in the `tests` directory following the module structure.
