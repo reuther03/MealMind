@@ -1,4 +1,4 @@
-﻿using MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand2;
+﻿using MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
@@ -37,10 +37,6 @@ public class GetChatResponseEndpoint : EndpointBase
                       "Legumes provide 15-20g protein per cup",
                       "Quinoa is a complete protein with all essential amino acids",
                       "Greek yogurt and cottage cheese are high in protein"
-                    ],
-                    "sources": [
-                      "Nutritional Guide to Plant-Based Proteins",
-                      "Complete Protein Sources for Vegetarians"
                     ]
                   },
                   "isSuccess": true,

@@ -12,7 +12,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using SharpToken;
 
-namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand2;
+namespace MealMind.Modules.AiChat.Application.Features.Commands.GetChatResponseCommand;
 
 public record GetChatResponseCommand(Guid ConversationId, string Prompt) : ICommand<StructuredResponse>
 {

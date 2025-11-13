@@ -21,7 +21,7 @@ public class CreateCheckoutSessionEndpoint : EndpointBase
                 "Creates a Stripe checkout session for the authenticated user based on the selected subscription tier. Returns a URL to the checkout session.",
                 """
                 {
-                  "subscriptionTier": "Premium"
+                  "subscriptionTier": 2
                 }
                 """,
                 """
