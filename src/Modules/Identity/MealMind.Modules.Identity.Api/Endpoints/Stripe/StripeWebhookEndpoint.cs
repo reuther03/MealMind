@@ -107,4 +107,19 @@ public class StripeWebhookEndpoint : EndpointBase
                     subscriptionCurrentPeriodEnd, subscriptionStatus)
             ), cancellationToken);
     }
+    // private static async Task EventTypeInvoicePaid(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    // {
+    //     var invoice = stripeEvent.Data.Object as Invoice;
+    //
+    //     if (invoice == null)
+    //         return;
+    //
+    //     var subscriptionService = new SubscriptionService();
+    //     var subscription = await subscriptionService.GetAsync(invoice.SubscriptionId, cancellationToken: cancellationToken);
+    //
+    //     if (subscription == null)
+    //         return;
+    //
+    //     // Additional processing can be done here if needed
+    // }
 }

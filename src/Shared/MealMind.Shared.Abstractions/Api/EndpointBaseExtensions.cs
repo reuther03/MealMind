@@ -26,7 +26,7 @@ public static class EndpointBaseExtensions
             .WithSummary(description) // Sets the summary shown at the top of the endpoint
             .WithDescription(CreateDescription(name, description, requestExample, responseExample)) // Sets the description (using summary for consistency)
             .WithTags(moduleName) // Tags the endpoint with the module name for grouping in Swagger
-            .WithOpenApi();
+            .AddOpenApiOperationTransformer((operation, context, ct) => Task.FromResult(operation));
     }
 
 
