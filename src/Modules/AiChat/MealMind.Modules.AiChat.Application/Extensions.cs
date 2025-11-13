@@ -8,17 +8,20 @@ namespace MealMind.Modules.AiChat.Application;
 
 public static class Extensions
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-        var options = new OllamaAiChatOptions();
-        configuration.GetSection(OllamaAiChatOptions.SectionName).Bind(options);
+        public IServiceCollection AddApplication()
+        {
+            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+            var options = new OllamaAiChatOptions();
+            configuration.GetSection(OllamaAiChatOptions.SectionName).Bind(options);
 
-        services.AddOllamaChatClient(options.ChatModel, new Uri(options.Uri));
-        services.AddOllamaEmbeddingGenerator(options.EmbedModel, new Uri(options.Uri));
+            services.AddOllamaChatClient(options.ChatModel, new Uri(options.Uri));
+            services.AddOllamaEmbeddingGenerator(options.EmbedModel, new Uri(options.Uri));
 
-        services.AddScoped<IResponseManager, ResponseManager>();
+            services.AddScoped<IResponseManager, ResponseManager>();
 
-        return services;
+            return services;
+        }
     }
 }

@@ -18,58 +18,61 @@ namespace MealMind.Modules.AiChat.Infrastructure;
 
 public static class Extensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-        var options = new OpenRouterModelOptions();
-        configuration.GetSection(OpenRouterModelOptions.SectionName).Bind(options);
+        public IServiceCollection AddInfrastructure()
+        {
+            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+            var options = new OpenRouterModelOptions();
+            configuration.GetSection(OpenRouterModelOptions.SectionName).Bind(options);
 
 
-        services.AddPostgres<AiChatDbContext>()
-            .AddScoped<IAiChatDbContext, AiChatDbContext>()
-            .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
-            .AddScoped<IEmbeddingService, EmbeddingService>()
-            .AddScoped<IChunkingService, ChunkingService>()
-            .AddScoped<IAiChatService, AiChatService>()
-            .AddScoped<IConversationRepository, ConversationRepository>()
-            .AddScoped<IDocumentRepository, DocumentRepository>()
-            .AddScoped<IAiChatUserRepository, AiChatUserRepository>()
-            .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
+            services.AddPostgres<AiChatDbContext>()
+                .AddScoped<IAiChatDbContext, AiChatDbContext>()
+                .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
+                .AddScoped<IEmbeddingService, EmbeddingService>()
+                .AddScoped<IChunkingService, ChunkingService>()
+                .AddScoped<IAiChatService, AiChatService>()
+                .AddScoped<IConversationRepository, ConversationRepository>()
+                .AddScoped<IDocumentRepository, DocumentRepository>()
+                .AddScoped<IAiChatUserRepository, AiChatUserRepository>()
+                .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
-        // services.AddSingleton<Kernel>(sp => Kernel.CreateBuilder()
-        //     .AddOpenAIChatCompletion(options.VisionModel, new Uri(options.BaseUrl), options.ApiKey)
-        //     .Build());
+            // services.AddSingleton<Kernel>(sp => Kernel.CreateBuilder()
+            //     .AddOpenAIChatCompletion(options.VisionModel, new Uri(options.BaseUrl), options.ApiKey)
+            //     .Build());
 
-        services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
-            modelId: options.VisionModel,
-            endpoint: new Uri(options.BaseUrl),
-            apiKey: options.ApiKey));
+            services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
+                modelId: options.VisionModel,
+                endpoint: new Uri(options.BaseUrl),
+                apiKey: options.ApiKey));
 
-        // services.AddSingleton<IChatCompletionService>(sp =>
-        // {
-        //     var kernel = sp.GetRequiredService<Kernel>();
-        //
-        //     return new OpenAIChatCompletionService(
-        //         modelId: options.BaseModel,
-        //         endpoint: new Uri(options.BaseUrl),
-        //         apiKey: options.ApiKey,
-        //         kernel
-        //         );
-        // })
-
-
-        // services.AddSingleton<IChatCompletionService>(sp =>
-        // {
-        //     var options = sp.GetRequiredService<IOptions<OpenRouterModelOptions>>().Value;
-        //
-        //     return new OpenAIChatCompletionService(
-        //         modelId: options.BaseModel,
-        //         endpoint: new Uri(options.BaseUrl),
-        //         apiKey: options.ApiKey
-        //     );
-        // });
+            // services.AddSingleton<IChatCompletionService>(sp =>
+            // {
+            //     var kernel = sp.GetRequiredService<Kernel>();
+            //
+            //     return new OpenAIChatCompletionService(
+            //         modelId: options.BaseModel,
+            //         endpoint: new Uri(options.BaseUrl),
+            //         apiKey: options.ApiKey,
+            //         kernel
+            //         );
+            // })
 
 
-        return services;
+            // services.AddSingleton<IChatCompletionService>(sp =>
+            // {
+            //     var options = sp.GetRequiredService<IOptions<OpenRouterModelOptions>>().Value;
+            //
+            //     return new OpenAIChatCompletionService(
+            //         modelId: options.BaseModel,
+            //         endpoint: new Uri(options.BaseUrl),
+            //         apiKey: options.ApiKey
+            //     );
+            // });
+
+
+            return services;
+        }
     }
 }

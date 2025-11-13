@@ -4,8 +4,11 @@ namespace MealMind.Modules.Nutrition.Domain;
 
 public static class Extensions
 {
-    public static IServiceCollection AddDomain(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        return services;
+        public IServiceCollection AddDomain()
+        {
+            return services;
+        }
     }
 }

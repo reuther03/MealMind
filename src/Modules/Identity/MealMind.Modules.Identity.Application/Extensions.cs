@@ -4,8 +4,11 @@ namespace MealMind.Modules.Identity.Application;
 
 public static class Extensions
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        return services;
+        public IServiceCollection AddApplication()
+        {
+            return services;
+        }
     }
 }

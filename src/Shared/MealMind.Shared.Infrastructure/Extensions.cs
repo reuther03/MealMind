@@ -17,68 +17,80 @@ internal static class Extensions
 {
     private const string CorsPolicy = "cors";
 
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IList<Assembly> assemblies, IList<IModule> modules,
-        IConfiguration configuration)
+    extension(IServiceCollection services)
     {
-        var disabledModules = new List<string>();
-        foreach (var (key, value) in configuration.AsEnumerable())
+        public IServiceCollection AddInfrastructure(IList<Assembly> assemblies, IList<IModule> modules,
+            IConfiguration configuration)
         {
-            if (!key.Contains(":module:enabled"))
+            var disabledModules = new List<string>();
+            foreach (var (key, value) in configuration.AsEnumerable())
             {
-                continue;
+                if (!key.Contains(":module:enabled"))
+                {
+                    continue;
+                }
+
+                if (value != null && !bool.Parse(value))
+                {
+                    disabledModules.Add(key.Split(":")[0]);
+                }
             }
 
-            if (value != null && !bool.Parse(value))
+            services.AddCors(cors =>
             {
-                disabledModules.Add(key.Split(":")[0]);
-            }
-        }
-
-        services.AddCors(cors =>
-        {
-            cors.AddPolicy(CorsPolicy, x =>
-            {
-                x.WithOrigins("http://localhost:5001", "https://localhost:5001", "http://localhost:5002", "https://localhost:5002")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                cors.AddPolicy(CorsPolicy, x =>
+                {
+                    x.WithOrigins("http://localhost:5001", "https://localhost:5001", "http://localhost:5002", "https://localhost:5002")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
             });
-        });
 
-        services.ConfigureHttpJsonOptions(opt => { opt.SerializerOptions.PropertyNameCaseInsensitive = true; });
-        services.AddSwagger();
-        services.AddAuth(configuration);
-        services.AddHostedService<AppInitializer>();
-        services.AddServices(configuration);
-        services.AddPostgres();
-        services.AddMediatrWithFilters(assemblies);
-        services.AddDecorators();
+            services.ConfigureHttpJsonOptions(opt => { opt.SerializerOptions.PropertyNameCaseInsensitive = true; });
+            services.AddSwagger();
+            services.AddAuth(configuration);
+            services.AddHostedService<AppInitializer>();
+            services.AddServices(configuration);
+            services.AddPostgres();
+            services.AddMediatrWithFilters(assemblies);
+            services.AddDecorators();
 
-        return services;
+            return services;
+        }
     }
 
-    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
+    extension(IApplicationBuilder app)
     {
-        app.UseRouting();
-        app.UseCors(CorsPolicy);
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseSwagger();
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MealMind API"); });
-        return app;
+        public IApplicationBuilder UseInfrastructure()
+        {
+            app.UseRouting();
+            app.UseCors(CorsPolicy);
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MealMind API"); });
+            return app;
+        }
     }
 
-    public static T GetOptions<T>(this IServiceCollection services, string sectionName) where T : new()
+    extension(IServiceCollection services)
     {
-        using var serviceProvider = services.BuildServiceProvider();
-        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-        return configuration.GetOptions<T>(sectionName);
+        public T GetOptions<T>(string sectionName) where T : new()
+        {
+            using var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            return configuration.GetOptions<T>(sectionName);
+        }
     }
 
-    public static T GetOptions<T>(this IConfiguration configuration, string sectionName) where T : new()
+    extension(IConfiguration configuration)
     {
-        var options = new T();
-        configuration.GetSection(sectionName).Bind(options);
-        return options;
+        public T GetOptions<T>(string sectionName) where T : new()
+        {
+            var options = new T();
+            configuration.GetSection(sectionName).Bind(options);
+            return options;
+        }
     }
 
     public static string GetModuleName(this object value)

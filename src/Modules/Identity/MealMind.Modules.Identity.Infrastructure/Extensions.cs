@@ -13,19 +13,22 @@ namespace MealMind.Modules.Identity.Infrastructure;
 
 public static class Extensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        var serviceProvider = services.BuildServiceProvider();
-        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-        services.Configure<StripeOptions>(configuration.GetSection("stripe"));
+        public IServiceCollection AddInfrastructure()
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            services.Configure<StripeOptions>(configuration.GetSection("stripe"));
 
-        services
-            .AddPostgres<IdentityDbContext>()
-            .AddScoped<IIdentityDbContext, IdentityDbContext>()
-            .AddScoped<IIdentityUserRepository, IdentityUserRepository>()
-            .AddScoped<IStripeService, StripeService>()
-            .AddUnitOfWork<IUnitOfWork, UnitOfWork>();
+            services
+                .AddPostgres<IdentityDbContext>()
+                .AddScoped<IIdentityDbContext, IdentityDbContext>()
+                .AddScoped<IIdentityUserRepository, IdentityUserRepository>()
+                .AddScoped<IStripeService, StripeService>()
+                .AddUnitOfWork<IUnitOfWork, UnitOfWork>();
 
-        return services;
+            return services;
+        }
     }
 }

@@ -6,13 +6,16 @@ namespace MealMind.Shared.Infrastructure.Services;
 
 internal static class Extensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+    extension(IServiceCollection services)
     {
-        services.AddHttpContextAccessor();
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<ISender, Sender>();
-        services.AddScoped<IPublisher, Publisher>();
+        public IServiceCollection AddServices(IConfiguration configuration)
+        {
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISender, Sender>();
+            services.AddScoped<IPublisher, Publisher>();
 
-        return services;
+            return services;
+        }
     }
 }
