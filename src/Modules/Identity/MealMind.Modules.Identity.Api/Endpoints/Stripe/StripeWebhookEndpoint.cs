@@ -36,7 +36,7 @@ public class StripeWebhookEndpoint : EndpointBase
                             case EventTypes.CheckoutSessionCompleted:
                                 await EventTypeCheckoutSessionCompleted(sender, stripeEvent, cancellationToken);
                                 break;
-                            
+
                             case EventTypes.InvoicePaymentSucceeded:
                                 await EventTypeInvoicePaid(sender, stripeEvent, cancellationToken);
                                 break;
@@ -98,8 +98,8 @@ public class StripeWebhookEndpoint : EndpointBase
         var customerId = session.CustomerId;
         var subscriptionId = subscription.Id;
         var subscriptionStartedAt = subscription.StartDate;
-        var subscriptionCurrentPeriodStart = invoice.PeriodStart;
-        var subscriptionCurrentPeriodEnd = invoice.PeriodEnd;
+        var subscriptionCurrentPeriodStart = invoice.Lines.Data[0].Period.Start;
+        var subscriptionCurrentPeriodEnd = invoice.Lines.Data[0].Period.End;
         var subscriptionStatus = subscription.Status;
 
         await sender.Send(
@@ -116,6 +116,9 @@ public class StripeWebhookEndpoint : EndpointBase
         var invoice = stripeEvent.Data.Object as Invoice;
 
         if (invoice == null)
+            return;
+
+        if (invoice.BillingReason == "subscription_create")
             return;
 
         var subscriptionId = invoice.Lines.Data[0].SubscriptionId;
