@@ -28,11 +28,6 @@ public class IdentityUser : AggregateRoot<UserId>
     public static IdentityUser Create(Name username, Email email, Password password)
         => new(Guid.NewGuid(), username, email, password, Subscription.CreateFreeTier());
 
-    public void UpdateSubscriptionTier(SubscriptionTier tier)
-    {
-        if (Subscription.Tier == tier)
-            throw new DomainException("The subscription tier is already set to the specified value.");
-
-        Subscription.UpdateTier(tier);
-    }
+    public void UpdateSubscription(Subscription subscription)
+        => Subscription = subscription;
 }

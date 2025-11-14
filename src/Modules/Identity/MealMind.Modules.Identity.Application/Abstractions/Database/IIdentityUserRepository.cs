@@ -8,4 +8,5 @@ public interface IIdentityUserRepository : IRepository<IdentityUser>
     Task<bool> ExistsWithEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<IdentityUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<IdentityUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IdentityUser?> GetUserBySubscriptionIdAsync(string subscriptionId, CancellationToken cancellationToken = default);
 }

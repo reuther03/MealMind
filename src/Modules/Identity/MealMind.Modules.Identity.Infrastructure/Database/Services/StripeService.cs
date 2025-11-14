@@ -41,19 +41,31 @@ public class StripeService : IStripeService
                             Name = $"{subscriptionTier} Subscription",
                             Description = "Monthly subscription for MealMind"
                         },
-                        UnitAmount = (long)(amount * 100)
+                        UnitAmount = (long)(amount * 100),
+                        Recurring = new SessionLineItemPriceDataRecurringOptions
+                        {
+                            Interval = "month"
+                        }
                     },
                     Quantity = 1
                 }
             ],
-            Mode = "payment",
+            Mode = "subscription",
             SuccessUrl = "http://localhost:5000/payment-success",
             CancelUrl = "http://localhost:5000/payment-cancel",
             Metadata = new Dictionary<string, string>
             {
                 { "userId", userId.ToString() },
                 { "subscriptionTier", subscriptionTier.ToString() }
-            }
+            },
+            // SubscriptionData = new SessionSubscriptionDataOptions
+            // {
+            //     Metadata = new Dictionary<string, string>
+            //     {
+            //         { "userId", userId.ToString() },
+            //         { "subscriptionTier", subscriptionTier.ToString() }
+            //     }
+            // }
         };
 
         var service = new SessionService();

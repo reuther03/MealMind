@@ -21,6 +21,14 @@ internal class IdentityUserRepository : Repository<IdentityUser, IdentityDbConte
     public Task<IdentityUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         => _context.IdentityUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 
-    public Task<IdentityUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => _context.IdentityUsers.FirstOrDefaultAsync(x => x.Id == UserId.From(id), cancellationToken);
+    public async Task<IdentityUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        // Use Find which works with value converters
+        var user = await _context.IdentityUsers.FindAsync([UserId.From(id)], cancellationToken);
+        return user;
+    }
+
+    public async Task<IdentityUser?> GetUserBySubscriptionIdAsync(string subscriptionId, CancellationToken cancellationToken = default)
+        => await _context.IdentityUsers
+            .FirstOrDefaultAsync(x => x.Subscription.StripeSubscriptionId == subscriptionId, cancellationToken);
 }

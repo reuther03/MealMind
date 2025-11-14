@@ -2,7 +2,6 @@
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Application.Features.Payloads;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Contracts.Result;
 
@@ -27,8 +26,7 @@ public record UpdateSubscriptionTierCommand(UpdateSubscriptionTierPayload Payloa
             var user = await _userRepository.GetByIdAsync(request.Payload.UserId, cancellationToken);
             NullValidator.ValidateNotNull(user);
 
-            user.UpdateSubscriptionTier(request.Payload.SubscriptionTier);
-            user.Subscription.UpdateToPaidTier(
+            var updatedSubscription = user.Subscription.UpdateToPaidTier(
                 request.Payload.SubscriptionTier,
                 request.Payload.StripeCustomerId,
                 request.Payload.StripeSubscriptionId,
@@ -36,6 +34,8 @@ public record UpdateSubscriptionTierCommand(UpdateSubscriptionTierPayload Payloa
                 request.Payload.CurrentPeriodStart,
                 request.Payload.CurrentPeriodEnd,
                 request.Payload.SubscriptionStatus);
+
+            user.UpdateSubscription(updatedSubscription);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 

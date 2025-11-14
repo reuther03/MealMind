@@ -1,4 +1,4 @@
-﻿using MealMind.Modules.Identity.Application.Features.Commands.CreateCheckoutSessionCommand;
+﻿using MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionAfterPaymentCommand;
 using MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionTierCommand;
 using MealMind.Modules.Identity.Application.Features.Payloads;
 using MealMind.Modules.Identity.Application.Options;
@@ -35,11 +35,10 @@ public class StripeWebhookEndpoint : EndpointBase
                         {
                             case EventTypes.CheckoutSessionCompleted:
                                 await EventTypeCheckoutSessionCompleted(sender, stripeEvent, cancellationToken);
-
                                 break;
-
-                            case EventTypes.InvoicePaid:
-                                // Handle invoice paid event
+                            
+                            case EventTypes.InvoicePaymentSucceeded:
+                                await EventTypeInvoicePaid(sender, stripeEvent, cancellationToken);
                                 break;
 
                             case EventTypes.CustomerSubscriptionUpdated:
@@ -78,7 +77,7 @@ public class StripeWebhookEndpoint : EndpointBase
     {
         var session = stripeEvent.Data.Object as Session;
 
-        if (session is not { PaymentStatus: "paid" })
+        if (session == null)
             return;
 
         var subscriptionService = new SubscriptionService();
@@ -87,13 +86,17 @@ public class StripeWebhookEndpoint : EndpointBase
         if (subscription == null)
             return;
 
+        // Fetch the invoice to get period dates - LatestInvoiceId is a string ID, not expanded object
         var invoiceService = new InvoiceService();
         var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
+
+        if (invoice == null)
+            return;
 
         var userId = Guid.Parse(session.Metadata["userId"]);
         var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
         var customerId = session.CustomerId;
-        var subscriptionId = session.SubscriptionId;
+        var subscriptionId = subscription.Id;
         var subscriptionStartedAt = subscription.StartDate;
         var subscriptionCurrentPeriodStart = invoice.PeriodStart;
         var subscriptionCurrentPeriodEnd = invoice.PeriodEnd;
@@ -107,19 +110,32 @@ public class StripeWebhookEndpoint : EndpointBase
                     subscriptionCurrentPeriodEnd, subscriptionStatus)
             ), cancellationToken);
     }
-    // private static async Task EventTypeInvoicePaid(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
-    // {
-    //     var invoice = stripeEvent.Data.Object as Invoice;
-    //
-    //     if (invoice == null)
-    //         return;
-    //
-    //     var subscriptionService = new SubscriptionService();
-    //     var subscription = await subscriptionService.GetAsync(invoice.SubscriptionId, cancellationToken: cancellationToken);
-    //
-    //     if (subscription == null)
-    //         return;
-    //
-    //     // Additional processing can be done here if needed
-    // }
+
+    private static async Task EventTypeInvoicePaid(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    {
+        var invoice = stripeEvent.Data.Object as Invoice;
+
+        if (invoice == null)
+            return;
+
+        var subscriptionId = invoice.Lines.Data[0].SubscriptionId;
+
+        var subscriptionService = new SubscriptionService();
+        var subscription = await subscriptionService.GetAsync(subscriptionId, cancellationToken: cancellationToken);
+
+        if (subscription == null)
+            return;
+
+        var tier = Enum.Parse<SubscriptionTier>(
+            subscription.Metadata["subscriptionTier"]);
+
+        await sender.Send(
+            new UpdateSubscriptionAfterPaymentCommand(
+                subscription.Id,
+                tier,
+                invoice.PeriodStart,
+                invoice.PeriodEnd,
+                subscription.Status),
+            cancellationToken);
+    }
 }

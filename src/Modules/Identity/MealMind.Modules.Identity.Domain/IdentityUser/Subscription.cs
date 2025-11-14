@@ -41,6 +41,23 @@ public record Subscription : ValueObject
             SubscriptionStatus = subscriptionStatus
         };
 
+    public Subscription EnsureTier(SubscriptionTier tier, DateTime currentPeriodStart, DateTime currentPeriodEnd,
+        string subscriptionStatus)
+    {
+        if (tier != Tier)
+            throw new ApplicationException($"Invalid tier {tier}");
+
+        var subscription = this with
+        {
+            CurrentPeriodStart = currentPeriodStart,
+            CurrentPeriodEnd = currentPeriodEnd,
+            SubscriptionStatus = subscriptionStatus
+        };
+
+        return subscription;
+    }
+
+
     public Subscription UpdateTier(SubscriptionTier tier)
         => this with { Tier = tier };
 
