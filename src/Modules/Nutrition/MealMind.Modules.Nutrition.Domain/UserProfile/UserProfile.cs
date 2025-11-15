@@ -61,4 +61,7 @@ public class UserProfile : AggregateRoot<UserId>
 
         _favoriteMeals.Add(mealId);
     }
+
+    public void UpdateSubscriptionTier(SubscriptionTier subscriptionTier)
+        => SubscriptionTier = subscriptionTier;
 }

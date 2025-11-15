@@ -5,7 +5,7 @@ using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Contracts.Result;
 
-namespace MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionAfterPaymentCommand;
+namespace MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionAfterPaymentCommand;
 
 public record UpdateSubscriptionAfterPaymentCommand(string SubscriptionId, SubscriptionTier Tier, DateTime PeriodStart, DateTime PeriodEnd, string Status)
     : ICommand<bool>

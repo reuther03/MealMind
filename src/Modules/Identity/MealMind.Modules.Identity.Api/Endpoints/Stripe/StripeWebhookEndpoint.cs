@@ -1,5 +1,5 @@
-﻿using MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionAfterPaymentCommand;
-using MealMind.Modules.Identity.Application.Features.Commands.UpdateSubscriptionTierCommand;
+﻿using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionAfterPaymentCommand;
+using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionTierCommand;
 using MealMind.Modules.Identity.Application.Features.Payloads;
 using MealMind.Modules.Identity.Application.Options;
 using MealMind.Shared.Abstractions.Api;

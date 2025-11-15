@@ -7,7 +7,7 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 
-namespace MealMind.Modules.Identity.Application.Features.Commands.CreateCheckoutSessionCommand;
+namespace MealMind.Modules.Identity.Application.Features.Commands.Stripe.CreateCheckoutSessionCommand;
 
 public record CreateCheckoutSessionCommand(SubscriptionTier SubscriptionTier) : ICommand<string>
 {

@@ -1,4 +1,4 @@
-﻿using MealMind.Modules.Identity.Application.Features.Commands.CreateCheckoutSessionCommand;
+﻿using MealMind.Modules.Identity.Application.Features.Commands.Stripe.CreateCheckoutSessionCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
