@@ -117,7 +117,7 @@ public class StripeWebhookEndpoint : EndpointBase
         if (invoice == null)
             return;
 
-        if (invoice.BillingReason != "subscription_cycle" && invoice.BillingReason != "subscription_create")
+        if (invoice.BillingReason != "subscription_cycle")
             return;
 
         if (invoice.Lines?.Data == null || invoice.Lines.Data.Count == 0)
