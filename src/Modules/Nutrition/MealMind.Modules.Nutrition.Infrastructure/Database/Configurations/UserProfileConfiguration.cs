@@ -26,6 +26,10 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
             .HasConversion(x => x.Value, x => new Email(x))
             .IsRequired();
 
+        builder.Property(x => x.SubscriptionTier)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.OwnsOne(x => x.PersonalData, pd =>
         {
             pd.ToTable("PersonalData");
