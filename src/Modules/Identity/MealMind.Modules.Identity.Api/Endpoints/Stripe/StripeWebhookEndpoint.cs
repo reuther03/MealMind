@@ -86,7 +86,6 @@ public class StripeWebhookEndpoint : EndpointBase
         if (subscription == null)
             return;
 
-        // Fetch the invoice to get period dates - LatestInvoiceId is a string ID, not expanded object
         var invoiceService = new InvoiceService();
         var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
 
@@ -118,13 +117,19 @@ public class StripeWebhookEndpoint : EndpointBase
         if (invoice == null)
             return;
 
-        if (invoice.BillingReason == "subscription_create")
+        if (invoice.BillingReason != "subscription_cycle" && invoice.BillingReason != "subscription_create")
             return;
 
-        var subscriptionId = invoice.Lines.Data[0].SubscriptionId;
+        if (invoice.Lines?.Data == null || invoice.Lines.Data.Count == 0)
+            return;
+
+        var subscriptionId = invoice.Parent.SubscriptionDetails.SubscriptionId;
+
+        if (string.IsNullOrEmpty(subscriptionId))
+            return;
 
         var subscriptionService = new SubscriptionService();
-        var subscription = await subscriptionService.GetAsync(subscriptionId, cancellationToken: cancellationToken);
+        var subscription = await subscriptionService.GetAsync(invoice.Parent.SubscriptionDetails.SubscriptionId, cancellationToken: cancellationToken);
 
         if (subscription == null)
             return;

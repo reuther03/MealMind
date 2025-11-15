@@ -26,11 +26,13 @@ public record UpdateSubscriptionAfterPaymentCommand(string SubscriptionId, Subsc
             var user = await _userRepository.GetUserBySubscriptionIdAsync(request.SubscriptionId, cancellationToken);
             NullValidator.ValidateNotNull(user);
 
-            user.Subscription.EnsureTier(
+            var updatedSubscription = user.Subscription.EnsureTier(
                 request.Tier,
                 request.PeriodStart,
                 request.PeriodEnd,
                 request.Status);
+
+            user.UpdateSubscription(updatedSubscription);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 

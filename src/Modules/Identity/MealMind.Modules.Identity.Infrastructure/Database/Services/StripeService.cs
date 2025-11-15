@@ -58,14 +58,14 @@ public class StripeService : IStripeService
                 { "userId", userId.ToString() },
                 { "subscriptionTier", subscriptionTier.ToString() }
             },
-            // SubscriptionData = new SessionSubscriptionDataOptions
-            // {
-            //     Metadata = new Dictionary<string, string>
-            //     {
-            //         { "userId", userId.ToString() },
-            //         { "subscriptionTier", subscriptionTier.ToString() }
-            //     }
-            // }
+            SubscriptionData = new SessionSubscriptionDataOptions
+            {
+                Metadata = new Dictionary<string, string>
+                {
+                    { "userId", userId.ToString() },
+                    { "subscriptionTier", subscriptionTier.ToString() }
+                }
+            }
         };
 
         var service = new SessionService();
