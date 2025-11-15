@@ -2,6 +2,7 @@
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 namespace MealMind.Modules.Nutrition.Domain.UserProfile;
@@ -14,6 +15,7 @@ public class UserProfile : AggregateRoot<UserId>
     public Name Username { get; private set; }
     public Email Email { get; private set; }
     public PersonalData PersonalData { get; private set; }
+    public SubscriptionTier SubscriptionTier { get; private set; }
     public IReadOnlyList<NutritionTarget> NutritionTargets => _nutritionTargets.AsReadOnly();
     public IReadOnlyList<FoodId> FavoriteFoods => _favoriteFoods.AsReadOnly();
     public IReadOnlyList<MealId> FavoriteMeals => _favoriteMeals.AsReadOnly();
@@ -23,14 +25,15 @@ public class UserProfile : AggregateRoot<UserId>
     {
     }
 
-    private UserProfile(UserId id, Name userName, Email email) : base(id)
+    private UserProfile(UserId id, Name userName, Email email, SubscriptionTier subscriptionTier) : base(id)
     {
         Username = userName;
         Email = email;
+        SubscriptionTier = subscriptionTier;
     }
 
-    public static UserProfile Create(UserId id, Name userName, Email email)
-        => new(id, userName, email);
+    public static UserProfile Create(UserId id, Name userName, Email email, SubscriptionTier subscriptionTier)
+        => new(id, userName, email, subscriptionTier);
 
     public void SetPersonalData(PersonalData personalData)
         => PersonalData = personalData;

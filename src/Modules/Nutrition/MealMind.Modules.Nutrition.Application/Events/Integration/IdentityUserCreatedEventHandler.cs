@@ -2,6 +2,7 @@
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
 using MealMind.Shared.Abstractions.Events.Integration;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
@@ -19,7 +20,7 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
 
     public async Task Handle(IdentityUserCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var userProfile = UserProfile.Create(notification.Id, notification.Username, notification.Email);
+        var userProfile = UserProfile.Create(notification.Id, notification.Username, notification.Email, SubscriptionTier.Free);
 
         await _userProfileRepository.AddAsync(userProfile, cancellationToken);
 

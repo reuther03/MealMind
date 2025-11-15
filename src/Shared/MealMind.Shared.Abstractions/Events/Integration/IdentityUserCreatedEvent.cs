@@ -9,4 +9,5 @@ public record IdentityUserCreatedEvent(
     UserId Id,
     Name Username,
     Email Email,
-    PersonalDataPayload PersonalData) : INotification;
+    PersonalDataPayload PersonalData
+) : INotification;

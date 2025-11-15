@@ -49,8 +49,7 @@ public record SignUpCommand(
 
             await _publisher.Publish(
                 new SubscriptionTierAddedEvent(
-                    identityUser.Id,
-                    identityUser.Subscription.Tier
+                    identityUser.Id
                 ), cancellationToken);
 
             return Result.Ok(identityUser.Id.Value);

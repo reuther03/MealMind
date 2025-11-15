@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Domain.UserProfile;
 using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 namespace MealMind.Modules.Nutrition.Tests.Unit;
@@ -128,7 +129,7 @@ public class NutritionTargetTest
     public async Task UserProfile_AddNutritionTarget_WithOverlappingDays_ShouldThrow()
     {
         // Arrange
-        var userProfile = UserProfile.Create(UserId.New(), "test", "test@test.com");
+        var userProfile = UserProfile.Create(UserId.New(), "test", "test@test.com", SubscriptionTier.Free);
         var target1 = NutritionTarget.CreateFromGrams(2000, 150, 200, 67, 3, UserId.New());
         target1.AddActiveDay([DayOfWeek.Monday, DayOfWeek.Tuesday]);
 
