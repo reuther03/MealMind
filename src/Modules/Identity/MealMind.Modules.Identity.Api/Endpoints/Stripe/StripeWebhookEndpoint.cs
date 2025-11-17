@@ -97,8 +97,8 @@ public class StripeWebhookEndpoint : EndpointBase
         var customerId = session.CustomerId;
         var subscriptionId = subscription.Id;
         var subscriptionStartedAt = subscription.StartDate;
-        var subscriptionCurrentPeriodStart = invoice.Lines.Data[0].Period.Start;
-        var subscriptionCurrentPeriodEnd = invoice.Lines.Data[0].Period.End;
+        var subscriptionCurrentPeriodStart = invoice.Lines.Data[0].Period.Start; // is this correct?
+        var subscriptionCurrentPeriodEnd = invoice.Lines.Data[0].Period.End; // is this correct? or it should be invoice.PeriodEnd
         var subscriptionStatus = subscription.Status;
 
         await sender.Send(
@@ -141,8 +141,30 @@ public class StripeWebhookEndpoint : EndpointBase
             new UpdateSubscriptionAfterPaymentCommand(
                 subscription.Id,
                 tier,
-                invoice.PeriodStart,
-                invoice.PeriodEnd,
+                invoice.Lines.Data[0].Period.Start,
+                invoice.Lines.Data[0].Period.End,
+                subscription.Status),
+            cancellationToken);
+    }
+
+    private static async Task EventTypeCustomerSubscriptionUpdated(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    {
+        var subscription = stripeEvent.Data.Object as Subscription;
+
+        if (subscription?.LatestInvoiceId == null)
+            return;
+
+        var invoiceService = new InvoiceService();
+        var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
+
+        var tier = Enum.Parse<SubscriptionTier>(subscription.Metadata["subscriptionTier"]);
+
+        await sender.Send(
+            new UpdateSubscriptionAfterPaymentCommand(
+                subscription.Id,
+                tier,
+                invoice.Lines.Data[0].Period.Start,
+                invoice.Lines.Data[0].Period.End,
                 subscription.Status),
             cancellationToken);
     }
