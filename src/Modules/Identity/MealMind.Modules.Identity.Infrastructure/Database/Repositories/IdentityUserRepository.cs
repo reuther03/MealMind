@@ -31,4 +31,8 @@ internal class IdentityUserRepository : Repository<IdentityUser, IdentityDbConte
     public async Task<IdentityUser?> GetUserBySubscriptionIdAsync(string subscriptionId, CancellationToken cancellationToken = default)
         => await _context.IdentityUsers
             .FirstOrDefaultAsync(x => x.Subscription.StripeSubscriptionId == subscriptionId, cancellationToken);
+
+    public async Task<IdentityUser?> GetUserByCustomerIdAsync(string customerId, CancellationToken cancellationToken = default)
+        => await _context.IdentityUsers
+            .FirstOrDefaultAsync(x => x.Subscription.StripeCustomerId == customerId, cancellationToken);
 }
