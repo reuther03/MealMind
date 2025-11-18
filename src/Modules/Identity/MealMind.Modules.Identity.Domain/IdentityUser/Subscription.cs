@@ -32,7 +32,7 @@ public record Subscription : ValueObject
         => new(SubscriptionTier.Free, null, null, null, null, null, null, null);
 
     public Subscription UpdateToPaidTier(SubscriptionTier tier, string stripeCustomerId, string stripeSubscriptionId,
-        DateTime subscriptionStartedAt, DateTime currentPeriodStart, DateTime currentPeriodEnd,
+        DateTime? subscriptionStartedAt, DateTime currentPeriodStart, DateTime currentPeriodEnd,
         string subscriptionStatus)
         => this with
         {

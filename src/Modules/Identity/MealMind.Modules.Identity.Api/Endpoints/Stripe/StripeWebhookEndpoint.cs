@@ -1,4 +1,5 @@
-﻿using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionAfterPaymentCommand;
+﻿using MealMind.Modules.Identity.Application.Features.Commands.Stripe.StripeSubscriptionTierChangesCommand;
+using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionAfterPaymentCommand;
 using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionTierCommand;
 using MealMind.Modules.Identity.Application.Features.Payloads;
 using MealMind.Modules.Identity.Application.Options;
@@ -42,7 +43,7 @@ public class StripeWebhookEndpoint : EndpointBase
                                 break;
 
                             case EventTypes.CustomerSubscriptionUpdated:
-                                // Handle customer subscription updated event
+                                await EventTypeCustomerSubscriptionUpdated(sender, stripeEvent, cancellationToken);
                                 break;
 
                             case EventTypes.CustomerSubscriptionDeleted:
@@ -154,18 +155,31 @@ public class StripeWebhookEndpoint : EndpointBase
         if (subscription?.LatestInvoiceId == null)
             return;
 
-        var invoiceService = new InvoiceService();
-        var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
+        var price = subscription.Items.Data[0].Price.UnitAmount;
 
-        var tier = Enum.Parse<SubscriptionTier>(subscription.Metadata["subscriptionTier"]);
+        var tier = MapPriceToTier(price ?? 0);
+
+        if (subscription.Items == null || subscription.Items.Data.Count == 0)
+            return;
 
         await sender.Send(
-            new UpdateSubscriptionAfterPaymentCommand(
-                subscription.Id,
+            new SubscriptionTierChangesCommand(
                 tier,
-                invoice.Lines.Data[0].Period.Start,
-                invoice.Lines.Data[0].Period.End,
+                subscription.CustomerId,
+                subscription.Id,
+                subscription.Items.Data[0].CurrentPeriodStart,
+                subscription.Items.Data[0].CurrentPeriodEnd,
                 subscription.Status),
             cancellationToken);
+    }
+
+    private static SubscriptionTier MapPriceToTier(long price)
+    {
+        return price switch
+        {
+            999 => SubscriptionTier.Premium,
+            399 => SubscriptionTier.Standard,
+            _ => SubscriptionTier.Free // Default fallback
+        };
     }
 }
