@@ -11,6 +11,7 @@ using MealMind.Shared.Contracts.Result;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.Checkout;
@@ -22,7 +23,8 @@ public class StripeWebhookEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("webhook/stripe",
-                async (HttpRequest httpRequest, ISender sender, IOptions<StripeOptions> options, CancellationToken cancellationToken) =>
+                async (HttpRequest httpRequest, ISender sender, IOptions<StripeOptions> options, ILogger<StripeWebhookEndpoint> logger,
+                    CancellationToken cancellationToken) =>
                 {
                     try
                     {
@@ -36,19 +38,19 @@ public class StripeWebhookEndpoint : EndpointBase
                         switch (stripeEvent.Type)
                         {
                             case EventTypes.CheckoutSessionCompleted:
-                                await EventTypeCheckoutSessionCompleted(sender, stripeEvent, cancellationToken);
+                                await EventTypeCheckoutSessionCompleted(sender, stripeEvent, logger, cancellationToken);
                                 break;
 
                             case EventTypes.InvoicePaymentSucceeded:
-                                await EventTypeInvoicePaid(sender, stripeEvent, cancellationToken);
+                                await EventTypeInvoicePaid(sender, stripeEvent, logger, cancellationToken);
                                 break;
 
                             case EventTypes.CustomerSubscriptionUpdated:
-                                await EventTypeCustomerSubscriptionUpdated(sender, stripeEvent, cancellationToken);
+                                await EventTypeCustomerSubscriptionUpdated(sender, stripeEvent, logger, cancellationToken);
                                 break;
 
                             case EventTypes.CustomerSubscriptionDeleted:
-                                await EventTypesCustomerSubscriptionDeleted(sender, stripeEvent, cancellationToken);
+                                await EventTypesCustomerSubscriptionDeleted(sender, stripeEvent, logger, cancellationToken);
                                 break;
 
                             default:
@@ -57,7 +59,7 @@ public class StripeWebhookEndpoint : EndpointBase
                     }
                     catch (Exception ex)
                     {
-                        return Result.BadRequest(ex.Message);
+                        return Result.Ok(ex.Message);
                     }
 
                     return Result.Ok();
@@ -75,24 +77,29 @@ public class StripeWebhookEndpoint : EndpointBase
             );
     }
 
-    private static async Task EventTypeCheckoutSessionCompleted(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    private static async Task EventTypeCheckoutSessionCompleted(ISender sender, Event stripeEvent, ILogger<StripeWebhookEndpoint> logger,
+        CancellationToken cancellationToken)
     {
-        var session = stripeEvent.Data.Object as Session;
-
-        if (session == null)
+        if (stripeEvent.Data.Object is not Session session)
+        {
+            logger.LogWarning("CheckoutSessionCompleted event received with null session object.");
             return;
+        }
 
         var subscriptionService = new SubscriptionService();
         var subscription = await subscriptionService.GetAsync(session.SubscriptionId, cancellationToken: cancellationToken);
 
         if (subscription == null)
+        {
+            logger.LogWarning("CheckoutSessionCompleted event received with null subscription object.");
             return;
+        }
 
-        // var invoiceService = new InvoiceService();
-        // var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
-        //
-        // if (invoice == null)
-        //     return;
+        if (subscription.Items.Data == null || subscription.Items.Data.Count == 0)
+        {
+            logger.LogWarning("CheckoutSessionCompleted event received with no subscription items.");
+            return;
+        }
 
         var userId = Guid.Parse(session.Metadata["userId"]);
         var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
@@ -112,29 +119,43 @@ public class StripeWebhookEndpoint : EndpointBase
             ), cancellationToken);
     }
 
-    private static async Task EventTypeInvoicePaid(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    private static async Task EventTypeInvoicePaid(ISender sender, Event stripeEvent, ILogger<StripeWebhookEndpoint> logger,
+        CancellationToken cancellationToken)
     {
-        var invoice = stripeEvent.Data.Object as Invoice;
-
-        if (invoice == null)
+        if (stripeEvent.Data.Object is not Invoice invoice)
+        {
+            logger.LogWarning("InvoicePaid event received with null invoice object.");
             return;
+        }
 
         if (invoice.BillingReason != "subscription_cycle")
+        {
+            logger.LogInformation("InvoicePaid event received with billing reason not equal to 'subscription_cycle'. Ignoring.");
             return;
+        }
 
         if (invoice.Lines?.Data == null || invoice.Lines.Data.Count == 0)
+        {
+            logger.LogWarning("InvoicePaid event received with no invoice lines.");
             return;
+        }
 
         var subscriptionId = invoice.Parent.SubscriptionDetails.SubscriptionId;
 
         if (string.IsNullOrEmpty(subscriptionId))
+        {
+            logger.LogWarning("InvoicePaid event received with null subscription ID.");
             return;
+        }
 
         var subscriptionService = new SubscriptionService();
         var subscription = await subscriptionService.GetAsync(invoice.Parent.SubscriptionDetails.SubscriptionId, cancellationToken: cancellationToken);
 
         if (subscription == null)
+        {
+            logger.LogWarning("InvoicePaid event received with null subscription object.");
             return;
+        }
 
         var tier = Enum.Parse<SubscriptionTier>(
             subscription.Metadata["subscriptionTier"]);
@@ -149,19 +170,24 @@ public class StripeWebhookEndpoint : EndpointBase
             cancellationToken);
     }
 
-    private static async Task EventTypeCustomerSubscriptionUpdated(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    private static async Task EventTypeCustomerSubscriptionUpdated(ISender sender, Event stripeEvent, ILogger<StripeWebhookEndpoint> logger,
+        CancellationToken cancellationToken)
     {
-        var subscription = stripeEvent.Data.Object as Subscription;
-
-        if (subscription?.LatestInvoiceId == null)
+        if (stripeEvent.Data.Object is not Subscription subscription)
+        {
+            logger.LogWarning("SubscriptionUpdated event received with null subscription object.");
             return;
+        }
+
+        if (subscription.Items == null || subscription.Items.Data.Count == 0)
+        {
+            logger.LogWarning("SubscriptionUpdated event received with no subscription items.");
+            return;
+        }
 
         var price = subscription.Items.Data[0].Price.UnitAmount;
 
         var tier = MapPriceToTier(price ?? 0);
-
-        if (subscription.Items == null || subscription.Items.Data.Count == 0)
-            return;
 
         await sender.Send(
             new SubscriptionTierChangesCommand(
@@ -174,12 +200,16 @@ public class StripeWebhookEndpoint : EndpointBase
             cancellationToken);
     }
 
-    public static async Task EventTypesCustomerSubscriptionDeleted(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    private static async Task EventTypesCustomerSubscriptionDeleted(ISender sender, Event stripeEvent, ILogger<StripeWebhookEndpoint> logger,
+        CancellationToken cancellationToken)
     {
         var subscription = stripeEvent.Data.Object as Subscription;
 
         if (subscription == null)
+        {
+            logger.LogWarning("SubscriptionDeleted event received with null subscription object.");
             return;
+        }
 
         await sender.Send(
             new SubscriptionDeletedCommand(subscription.CustomerId, subscription.CanceledAt, subscription.Status),
@@ -192,7 +222,7 @@ public class StripeWebhookEndpoint : EndpointBase
         {
             999 => SubscriptionTier.Premium,
             399 => SubscriptionTier.Standard,
-            _ => SubscriptionTier.Free // Default fallback
+            _ => SubscriptionTier.Free
         };
     }
 }
