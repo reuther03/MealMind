@@ -203,9 +203,7 @@ public class StripeWebhookEndpoint : EndpointBase
     private static async Task EventTypesCustomerSubscriptionDeleted(ISender sender, Event stripeEvent, ILogger<StripeWebhookEndpoint> logger,
         CancellationToken cancellationToken)
     {
-        var subscription = stripeEvent.Data.Object as Subscription;
-
-        if (subscription == null)
+        if (stripeEvent.Data.Object is not Subscription subscription)
         {
             logger.LogWarning("SubscriptionDeleted event received with null subscription object.");
             return;
