@@ -57,10 +57,19 @@ public record Subscription : ValueObject
         return subscription;
     }
 
-
-    public Subscription UpdateTier(SubscriptionTier tier)
-        => this with { Tier = tier };
-
+    public Subscription Cancel(string stripeCustomerId, DateTime? canceledAt, string status)
+        // ReSharper disable once WithExpressionModifiesAllMembers
+        => this with
+        {
+            Tier = SubscriptionTier.Free,
+            StripeCustomerId = stripeCustomerId,
+            StripeSubscriptionId = null,
+            SubscriptionStartedAt = null,
+            CurrentPeriodStart = null,
+            CurrentPeriodEnd = null,
+            CanceledAt = canceledAt ?? DateTime.UtcNow,
+            SubscriptionStatus = status
+        };
 
     protected override IEnumerable<object> GetAtomicValues()
     {

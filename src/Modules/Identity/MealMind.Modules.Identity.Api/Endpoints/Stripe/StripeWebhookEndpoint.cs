@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.Identity.Application.Features.Commands.Stripe.StripeSubscriptionTierChangesCommand;
+using MealMind.Modules.Identity.Application.Features.Commands.Stripe.SubscriptionDeletedCommand;
 using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionAfterPaymentCommand;
 using MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionTierCommand;
 using MealMind.Modules.Identity.Application.Features.Payloads;
@@ -47,7 +48,7 @@ public class StripeWebhookEndpoint : EndpointBase
                                 break;
 
                             case EventTypes.CustomerSubscriptionDeleted:
-                                // Handle customer subscription deleted event
+                                await EventTypesCustomerSubscriptionDeleted(sender, stripeEvent, cancellationToken);
                                 break;
 
                             default:
@@ -87,19 +88,19 @@ public class StripeWebhookEndpoint : EndpointBase
         if (subscription == null)
             return;
 
-        var invoiceService = new InvoiceService();
-        var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
-
-        if (invoice == null)
-            return;
+        // var invoiceService = new InvoiceService();
+        // var invoice = await invoiceService.GetAsync(subscription.LatestInvoiceId, cancellationToken: cancellationToken);
+        //
+        // if (invoice == null)
+        //     return;
 
         var userId = Guid.Parse(session.Metadata["userId"]);
         var tier = Enum.Parse<SubscriptionTier>(session.Metadata["subscriptionTier"]);
         var customerId = session.CustomerId;
         var subscriptionId = subscription.Id;
         var subscriptionStartedAt = subscription.StartDate;
-        var subscriptionCurrentPeriodStart = invoice.Lines.Data[0].Period.Start; // is this correct?
-        var subscriptionCurrentPeriodEnd = invoice.Lines.Data[0].Period.End; // is this correct? or it should be invoice.PeriodEnd
+        var subscriptionCurrentPeriodStart = subscription.Items.Data[0].CurrentPeriodStart;
+        var subscriptionCurrentPeriodEnd = subscription.Items.Data[0].CurrentPeriodEnd;
         var subscriptionStatus = subscription.Status;
 
         await sender.Send(
@@ -170,6 +171,18 @@ public class StripeWebhookEndpoint : EndpointBase
                 subscription.Items.Data[0].CurrentPeriodStart,
                 subscription.Items.Data[0].CurrentPeriodEnd,
                 subscription.Status),
+            cancellationToken);
+    }
+
+    public static async Task EventTypesCustomerSubscriptionDeleted(ISender sender, Event stripeEvent, CancellationToken cancellationToken)
+    {
+        var subscription = stripeEvent.Data.Object as Subscription;
+
+        if (subscription == null)
+            return;
+
+        await sender.Send(
+            new SubscriptionDeletedCommand(subscription.CustomerId, subscription.CanceledAt, subscription.Status),
             cancellationToken);
     }
 
