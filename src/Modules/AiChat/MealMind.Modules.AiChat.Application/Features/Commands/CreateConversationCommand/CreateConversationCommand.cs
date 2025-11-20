@@ -14,9 +14,9 @@ using SharpToken;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.CreateConversationCommand;
 
-public record GetCaloriesFromImageCommand(string Prompt) : ICommand<StructuredResponse>
+public record CreateConversationCommand(string Prompt) : ICommand<StructuredResponse>
 {
-    public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, StructuredResponse>
+    public sealed class Handler : ICommandHandler<CreateConversationCommand, StructuredResponse>
     {
         private readonly IAiChatService _aiChatService;
         private readonly IConversationRepository _conversationRepository;
@@ -42,7 +42,7 @@ public record GetCaloriesFromImageCommand(string Prompt) : ICommand<StructuredRe
             _aiChatService = aiChatService;
         }
 
-        public async Task<Result<StructuredResponse>> Handle(GetCaloriesFromImageCommand command, CancellationToken cancellationToken)
+        public async Task<Result<StructuredResponse>> Handle(CreateConversationCommand command, CancellationToken cancellationToken)
         {
             var aiUser = await _aiChatUserRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
             Validator.ValidateNotNull(aiUser);

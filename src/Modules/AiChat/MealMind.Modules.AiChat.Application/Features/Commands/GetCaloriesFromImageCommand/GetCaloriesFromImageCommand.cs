@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 
-public record GetCaloriesFromImageCommand(string Prompt, IFormFile Image) : ICommand<string>
+public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICommand<string>
 {
     public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, string>
     {
