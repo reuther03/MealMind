@@ -9,37 +9,40 @@ namespace MealMind.Shared.Infrastructure.Services;
 
 public static class MediatrExtensions
 {
-    public static IServiceCollection AddMediatrWithFilters(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    extension(IServiceCollection services)
     {
-        var handlerTypes = assemblies
-            .SelectMany(a => a.GetTypes())
-            .Where(t =>
-                t is { IsAbstract: false, IsInterface: false } &&
-                t.GetInterfaces().Any(i => i.IsGenericType &&
-                    (i.GetGenericTypeDefinition() == typeof(INotificationHandler<>) ||
-                        i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
-                        i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
-                        i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
-                        i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>))) &&
-                !t.GetCustomAttributes<DecoratorAttribute>().Any());
-
-        foreach (var handlerType in handlerTypes)
+        public IServiceCollection AddMediatrWithFilters(IEnumerable<Assembly> assemblies)
         {
-            var interfaces = handlerType.GetInterfaces()
-                .Where(i => i.IsGenericType &&
-                    (i.GetGenericTypeDefinition() == typeof(INotificationHandler<>) ||
-                        i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
-                        i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
-                        i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
-                        i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>)));
+            var handlerTypes = assemblies
+                .SelectMany(a => a.GetTypes())
+                .Where(t =>
+                    t is { IsAbstract: false, IsInterface: false } &&
+                    t.GetInterfaces().Any(i => i.IsGenericType &&
+                        (i.GetGenericTypeDefinition() == typeof(INotificationHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
+                            i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>))) &&
+                    !t.GetCustomAttributes<DecoratorAttribute>().Any());
 
-
-            foreach (var handlerInterface in interfaces)
+            foreach (var handlerType in handlerTypes)
             {
-                services.AddScoped(handlerInterface, handlerType);
-            }
-        }
+                var interfaces = handlerType.GetInterfaces()
+                    .Where(i => i.IsGenericType &&
+                        (i.GetGenericTypeDefinition() == typeof(INotificationHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
+                            i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>)));
 
-        return services;
+
+                foreach (var handlerInterface in interfaces)
+                {
+                    services.AddScoped(handlerInterface, handlerType);
+                }
+            }
+
+            return services;
+        }
     }
 }
