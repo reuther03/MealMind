@@ -6,11 +6,11 @@ public static class IFormFileExtension
 {
     extension(IFormFile file)
     {
-        public async Task<byte[]> ToByteArrayAsync(CancellationToken cancellationToken = default)
+        public async Task<ReadOnlyMemory<byte>> ToReadOnlyMemoryByteArrayAsync(CancellationToken cancellationToken = default)
         {
             await using var ms = new MemoryStream();
             await file.CopyToAsync(ms, cancellationToken);
-            return ms.ToArray();
+            return new ReadOnlyMemory<byte>(ms.ToArray());
         }
     }
 }
