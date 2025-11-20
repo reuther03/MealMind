@@ -4,6 +4,7 @@ using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Abstractions.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using ChatMessageContent = Microsoft.SemanticKernel.ChatMessageContent;
@@ -120,8 +121,7 @@ public class AiChatService : IAiChatService
 
     public async Task<string> GenerateTextToImagePromptAsync(string userPrompt, IFormFile imageFile, CancellationToken cancellationToken = default)
     {
-        var imageBytes = imageFile.ToByteArrayAsync(cancellationToken);
-
+        var imageBytes = await imageFile.ToByteArrayAsync(cancellationToken);
         var systemPrompt =
             $"""
              You are an AI food assistant that analyzes image and returns to user the estimated number of calories from foods image.
@@ -162,9 +162,14 @@ public class AiChatService : IAiChatService
               "Estimated Calories: total estimated calories for the product based on identified ingredients and their quantities. Should be range if you are not sure."
              """;
 
-        var chatMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
+        var collection = new ChatMessageContentItemCollection
+        {
+            new ChatMessageContent(AuthorRole.System, systemPrompt),
+            new ImageContent(imageBytes, "image/jpeg")
+        };
 
-        var chatHistory = new ChatHistory(new List<ChatMessageContent> { chatMessage });
+        var chatHistory = new ChatHistory();
+        chatHistory.AddUserMessage(collection);
 
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
         {
