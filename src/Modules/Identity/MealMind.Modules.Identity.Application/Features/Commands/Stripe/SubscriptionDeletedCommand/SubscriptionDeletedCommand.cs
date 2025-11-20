@@ -22,7 +22,7 @@ public record SubscriptionDeletedCommand(string CustomerId, DateTime? CanceledAt
         public async Task<Result<bool>> Handle(SubscriptionDeletedCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByCustomerIdAsync(command.CustomerId, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             var updatedSubscription =
                 user.Subscription.Cancel(user.Subscription.StripeCustomerId!, command.CanceledAt, command.Status);

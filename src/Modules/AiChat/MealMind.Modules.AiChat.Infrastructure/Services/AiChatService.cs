@@ -119,9 +119,9 @@ public class AiChatService : IAiChatService
         return structuredResponse;
     }
 
-    public async Task<string> GenerateTextToImagePromptAsync(string userPrompt, IFormFile imageFile, CancellationToken cancellationToken = default)
+    public async Task<string> GenerateTextToImagePromptAsync(string? userPrompt, IFormFile imageFile, CancellationToken cancellationToken = default)
     {
-        var imageBytes = await imageFile.ToByteArrayAsync(cancellationToken);
+        var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);
         var systemPrompt =
             $"""
              You are an AI food assistant that analyzes image and returns to user the estimated number of calories from foods image.
@@ -143,7 +143,7 @@ public class AiChatService : IAiChatService
              ═══════════════════════════════════════════════════════════════
              TASK
              ═══════════════════════════════════════════════════════════════
-             User input: "{userPrompt}"
+             User input: "{userPrompt ?? string.Empty}" if null base on image only.
 
              User input is your guide, focus on what user provides you and treat it as most important.
              So if you identify 150g of chicken breast in image but user says its 200g, then use 200g as most important.
@@ -154,7 +154,7 @@ public class AiChatService : IAiChatService
              ═══════════════════════════════════════════════════════════════
              Response should be string
              But in style like this and follow this format strictly:
-             "Protuct/Meal: description of product/meal identified in image. Should be split per Product,
+             "Product/Meal: description of product/meal identified in image. Should be split per Product,
               so if there is chicken and salad, then write separate lines for each product."
               Under every product write:
               "Estimated weight: estimated weight or volume of product in grams or milliliters. As i said before should be range if you are not sure."
@@ -162,19 +162,22 @@ public class AiChatService : IAiChatService
               "Estimated Calories: total estimated calories for the product based on identified ingredients and their quantities. Should be range if you are not sure."
              """;
 
-        var collection = new ChatMessageContentItemCollection
-        {
-            new ChatMessageContent(AuthorRole.System, systemPrompt),
-            new ImageContent(imageBytes, "image/jpeg")
-        };
+        var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
 
         var chatHistory = new ChatHistory();
-        chatHistory.AddUserMessage(collection);
+
+        var complexUserMessage = new ChatMessageContent(AuthorRole.User, new ChatMessageContentItemCollection
+        {
+            new TextContent(userPrompt ?? string.Empty),
+            new ImageContent(imageBytes, "image/jpeg")
+        });
+
+        chatHistory.AddRange([systemMessage, complexUserMessage]);
 
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
         {
             ChatSystemPrompt = systemPrompt,
-            MaxTokens = 500, //responseTokensLimit,
+            MaxTokens = 200, //responseTokensLimit,
             Temperature = 0.5f,
             // ResponseFormat = typeof(StructuredResponse)
             // WebSearchOptions = null

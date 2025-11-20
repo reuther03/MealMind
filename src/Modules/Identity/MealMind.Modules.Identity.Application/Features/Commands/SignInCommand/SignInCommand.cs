@@ -23,7 +23,7 @@ public sealed record SignInCommand(string Email, string Password) : ICommand<Acc
         public async Task<Result<AccessToken>> Handle(SignInCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByEmailAsync(command.Email, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             if (!user.Password.Verify(command.Password))
                 return Result<AccessToken>.BadRequest("Invalid credentials");

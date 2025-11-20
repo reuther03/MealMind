@@ -22,7 +22,7 @@ public class AiUserSubscriptionTierUpdatedEventHandler : INotificationHandler<Su
         var aiChatUser = await _aiChatUserRepository.GetByUserIdAsync(notification.UserId, cancellationToken);
 
         if (aiChatUser is null)
-            NullValidator.ValidateNotNull(aiChatUser);
+            Validator.ValidateNotNull(aiChatUser);
 
         aiChatUser.ChangeTier(notification.SubscriptionTier);
 

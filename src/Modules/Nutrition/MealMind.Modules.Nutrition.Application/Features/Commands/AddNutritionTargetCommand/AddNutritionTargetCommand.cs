@@ -32,7 +32,7 @@ public record AddNutritionTargetCommand(
         public async Task<Result<Guid>> Handle(AddNutritionTargetCommand command, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
-            NullValidator.ValidateNotNull(userProfile);
+            Validator.ValidateNotNull(userProfile);
 
             if (command.NutritionInGramsPayload is null && command.NutritionInPercentPayload is null)
                 return Result<Guid>.BadRequest("Either Nutrition in grams or Nutrition in percent must be provided.");

@@ -28,7 +28,7 @@ public record UpdateSubscriptionTierCommand(UpdateSubscriptionTierPayload Payloa
         public async Task<Result<Guid>> Handle(UpdateSubscriptionTierCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.Payload.UserId, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             var updatedSubscription = user.Subscription.UpdateToPaidTier(
                 request.Payload.SubscriptionTier,

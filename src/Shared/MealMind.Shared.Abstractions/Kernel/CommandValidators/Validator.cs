@@ -2,7 +2,7 @@
 
 namespace MealMind.Shared.Abstractions.Kernel.CommandValidators;
 
-public static class NullValidator
+public static class Validator
 {
     public static void ValidateNotNull<T>([NotNull] T value)
     {

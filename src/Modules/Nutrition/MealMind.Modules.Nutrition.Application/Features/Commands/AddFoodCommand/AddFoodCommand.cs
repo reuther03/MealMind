@@ -38,7 +38,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
         public async Task<Result<Guid>> Handle(AddFoodCommand request, CancellationToken cancellationToken)
         {
             var user = await _profileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             if (request.Barcode is null && request.FoodId is null)
                 return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
@@ -71,7 +71,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             }
 
             var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
-            NullValidator.ValidateNotNull(requestMeal);
+            Validator.ValidateNotNull(requestMeal);
 
             //TODO: if request.FoodId is null and is provided still check in database if there is food with such barcode to avoid fetching from external service
 
@@ -79,7 +79,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
                 ? await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken)
                 : FoodDto.ToEntity(await _factsService.GetFoodByBarcodeAsync(request.Barcode!, cancellationToken));
 
-            NullValidator.ValidateNotNull(food);
+            Validator.ValidateNotNull(food);
 
             await _foodRepository.AddIfNotExistsAsync(food, cancellationToken);
 

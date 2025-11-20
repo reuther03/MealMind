@@ -11,7 +11,7 @@ public class CreateConversationEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("create-chat-response",
-                async (CreateConversationCommand request, ISender sender) =>
+                async (GetCaloriesFromImageCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
                     return result;

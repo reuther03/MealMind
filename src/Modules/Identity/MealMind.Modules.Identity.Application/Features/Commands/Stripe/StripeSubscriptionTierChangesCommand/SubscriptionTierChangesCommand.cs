@@ -29,7 +29,7 @@ public record SubscriptionTierChangesCommand(
         public async Task<Result<bool>> Handle(SubscriptionTierChangesCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByCustomerIdAsync(command.StripeCustomerId, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             var updatedSubscription = user.Subscription.UpdateToPaidTier(
                 command.SubscriptionTier,

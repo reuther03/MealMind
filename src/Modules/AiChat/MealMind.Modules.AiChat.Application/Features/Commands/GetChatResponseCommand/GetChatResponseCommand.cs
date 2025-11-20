@@ -48,10 +48,10 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
         public async Task<Result<StructuredResponse>> Handle(GetChatResponseCommand request, CancellationToken cancellationToken)
         {
             var aiUser = await _aiChatUserRepository.GetByUserIdAsync(_userService.UserId!, cancellationToken);
-            NullValidator.ValidateNotNull(aiUser);
+            Validator.ValidateNotNull(aiUser);
 
             var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId, cancellationToken);
-            NullValidator.ValidateNotNull(conversation);
+            Validator.ValidateNotNull(conversation);
 
             var userDailyPromptsCount = await _conversationRepository.GetUserDailyConversationPromptsCountAsync(aiUser.Id, cancellationToken);
 

@@ -24,7 +24,7 @@ public record UpdateSubscriptionAfterPaymentCommand(string SubscriptionId, Subsc
         public async Task<Result<bool>> Handle(UpdateSubscriptionAfterPaymentCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserBySubscriptionIdAsync(request.SubscriptionId, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             var updatedSubscription = user.Subscription.EnsureTier(
                 request.Tier,

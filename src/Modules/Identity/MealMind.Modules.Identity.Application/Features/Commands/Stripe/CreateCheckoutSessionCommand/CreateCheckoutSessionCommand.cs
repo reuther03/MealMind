@@ -29,7 +29,7 @@ public record CreateCheckoutSessionCommand(SubscriptionTier SubscriptionTier) : 
         public async Task<Result<string>> Handle(CreateCheckoutSessionCommand command, CancellationToken cancellationToken)
         {
             var user = await _identityUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            NullValidator.ValidateNotNull(user);
+            Validator.ValidateNotNull(user);
 
             var url = await _stripeService.CreateCheckoutSessionAsync(user.Id, command.SubscriptionTier);
 

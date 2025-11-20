@@ -20,7 +20,7 @@ public class NutritionSubscriptionTierUpdatedEventHandler : INotificationHandler
     public async Task Handle(SubscriptionTierUpdatedEvent notification, CancellationToken cancellationToken)
     {
         var userProfile = await _userProfileRepository.GetByIdAsync(notification.UserId, cancellationToken);
-        NullValidator.ValidateNotNull(userProfile);
+        Validator.ValidateNotNull(userProfile);
 
         userProfile.UpdateSubscriptionTier(notification.SubscriptionTier);
 
