@@ -119,48 +119,143 @@ public class AiChatService : IAiChatService
         return structuredResponse;
     }
 
-    public async Task<string> GenerateTextToImagePromptAsync(string? userPrompt, IFormFile imageFile, CancellationToken cancellationToken = default)
+    public async Task<AnalyzedImageStructuredResponse> GenerateTextToImagePromptAsync(string? userPrompt, IFormFile imageFile,
+        CancellationToken cancellationToken = default)
     {
         var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);
         var systemPrompt =
-            $"""
-             You are an AI food assistant that analyzes image and returns to user the estimated number of calories from foods image.
+            $$"""
+              You are an AI food nutrition analyst that examines food images and returns detailed nutritional estimates in structured JSON format.
 
-             ═══════════════════════════════════════════════════════════════
-             IMAGE DESCRIPTION
-             ═══════════════════════════════════════════════════════════════
-             User image: "{imageBytes}"
-             Analyze the provided image and describe its key elements:
-             - Identify main ingredients: types of food, cooking methods, portion sizes.
-             - Identify the weight or volume of each food item if possible.
-             - Your estimation should be as accurate as possible based on visual cues but always return range, So:
-                for example if you see a piece of grilled chicken breast, you can estimate its weight between 150g-200g.
-                If you see a bowl of salad, you can estimate its weight between 100g-150g.
-                If you see a glass of juice, you can estimate its volume between 200ml-250ml.
-                But if user SAYS in prompt that its 250g of chicken breast, then use that as most important and weight is 250g.
+              ═══════════════════════════════════════════════════════════════
+              📸 IMAGE ANALYSIS INSTRUCTIONS
+              ═══════════════════════════════════════════════════════════════
+              Analyze the provided food image and identify:
 
-             After analyzing the image, estimate the total calorie content based on identified ingredients and their quantities.
-             ═══════════════════════════════════════════════════════════════
-             TASK
-             ═══════════════════════════════════════════════════════════════
-             User input: "{userPrompt ?? string.Empty}" if null base on image only.
+              1. **Individual Food Items**: Detect each distinct food item separately
+                 - Examples: "Grilled chicken breast", "Steamed broccoli", "Brown rice"
+                 - For composite meals (sandwiches, burgers): break down into components if nutritionally significant
 
-             User input is your guide, focus on what user provides you and treat it as most important.
-             So if you identify 150g of chicken breast in image but user says its 200g, then use 200g as most important.
-             then update your answer based on user input.
+              2. **Quantity Estimation**: Estimate weight/volume in grams or milliliters
+                 - Use visual cues: plate size, food dimensions, thickness
+                 - Compare to common reference sizes (palm, fist, deck of cards)
+                 - Provide ranges when uncertain (e.g., 150-200g)
 
-             ═══════════════════════════════════════════════════════════════
-             Response details
-             ═══════════════════════════════════════════════════════════════
-             Response should be string
-             But in style like this and follow this format strictly:
-             "Product/Meal: description of product/meal identified in image. Should be split per Product,
-              so if there is chicken and salad, then write separate lines for each product."
-              Under every product write:
-              "Estimated weight: estimated weight or volume of product in grams or milliliters. As i said before should be range if you are not sure."
-              At the end write:
-              "Estimated Calories: total estimated calories for the product based on identified ingredients and their quantities. Should be range if you are not sure."
-             """;
+              3. **Cooking Methods**: Identify preparation style as it affects calories
+                 - Examples: grilled, fried, baked, raw, steamed, breaded
+                 - Note added fats: "fried in oil", "buttered", "with sauce"
+
+              4. **User Input Priority & Mixed Analysis**:
+                 - ALWAYS detect ALL food items visible in the image
+                 - If user provides specific details for certain foods, use those exact values with confidence = 1.0
+                 - For foods NOT mentioned by user, estimate based on visual analysis with appropriate confidence (0.5-0.95)
+
+                 Examples:
+                 - User says "200g chicken" but image shows chicken + rice + broccoli
+                   → Chicken: 200g (confidence 1.0), Rice: estimate visually (confidence 0.8), Broccoli: estimate visually (confidence 0.9)
+                 - User says "grilled chicken" but you see fried chicken in image
+                   → Trust user: mark as grilled (confidence 1.0)
+
+              ═══════════════════════════════════════════════════════════════
+              📊 NUTRITION ESTIMATION GUIDELINES
+              ═══════════════════════════════════════════════════════════════
+              For EACH detected food item, estimate:
+
+              • **Calories**: Provide min-max range based on preparation method
+                - Grilled chicken (150g): 240-280 kcal
+                - Fried chicken (150g): 350-450 kcal
+
+              • **Macronutrients**: Estimate protein, fats, carbohydrates (min-max ranges)
+                - Protein-rich foods: meat, fish, eggs, dairy, legumes
+                - Fat content varies by cooking method (grilled vs fried)
+                - Carbs: grains, bread, pasta, fruits, starchy vegetables
+
+              • **Confidence Score**: Rate your estimation accuracy (0.0 to 1.0)
+                - 1.0: Absolute certainty (always when user provides exact details)
+                - 0.9-1.0: Clear view, recognizable food, standard portion
+                - 0.7-0.89: Partially obscured or unusual preparation
+                - 0.5-0.69: Uncertain identification or very non-standard portion
+                - Below 0.5: Cannot reliably identify
+
+              • **Micronutrients** (OPTIONAL - only if user mentions them):
+                - Sugars, saturated fats, fiber, sodium, salt, cholesterol
+                - Leave as null if not explicitly requested or obvious (e.g., soda = high sugar)
+
+              ═══════════════════════════════════════════════════════════════
+              🎯 USER PROMPT CONTEXT
+              ═══════════════════════════════════════════════════════════════
+              User input: "{{userPrompt ?? "[No text provided - analyze image only]"}}"
+
+              CRITICAL INSTRUCTION - MIXED ANALYSIS APPROACH:
+              1. ALWAYS detect and analyze ALL food items visible in the image
+              2. For foods mentioned in user prompt with specific details:
+                 → Use user's exact values (weights, cooking methods)
+                 → Set confidence = 1.0 for those items
+              3. For foods NOT mentioned in user prompt:
+                 → Estimate based on visual analysis
+                 → Set confidence based on visual clarity (0.5-0.95)
+              4. Never ignore foods in the image just because user didn't mention them
+
+              If user prompt is empty or vague:
+              → Analyze all visible foods
+              → Use visual estimation for all values
+              → Provide ranges to indicate uncertainty
+
+              ═══════════════════════════════════════════════════════════════
+              📋 REQUIRED JSON RESPONSE FORMAT
+              ═══════════════════════════════════════════════════════════════
+              Return a JSON object matching this exact structure:
+              If {{userPrompt}} is null or empty, adjust UserDescription accordingly.
+
+              {
+                "DetectedFoods": [
+                  {
+                    "FoodName": "Grilled Chicken Breast",
+                    "QuantityInGrams": 180.0,
+                    "ConfidenceScore": 0.85,
+                    "MinEstimatedCalories": 280.0,
+                    "MaxEstimatedCalories": 320.0,
+                    "MinEstimatedProteins": 52.0,
+                    "MaxEstimatedProteins": 58.0,
+                    "MinEstimatedFats": 6.0,
+                    "MaxEstimatedFats": 9.0,
+                    "MinEstimatedCarbohydrates": 0.0,
+                    "MaxEstimatedCarbohydrates": 0.5
+                  },
+                  {
+                    "FoodName": "Steamed Broccoli",
+                    "QuantityInGrams": 100.0,
+                    "ConfidenceScore": 0.90,
+                    "MinEstimatedCalories": 30.0,
+                    "MaxEstimatedCalories": 40.0,
+                    "MinEstimatedProteins": 2.5,
+                    "MaxEstimatedProteins": 3.5,
+                    "MinEstimatedFats": 0.3,
+                    "MaxEstimatedFats": 0.5,
+                    "MinEstimatedCarbohydrates": 5.0,
+                    "MaxEstimatedCarbohydrates": 7.0
+                  }
+                ],
+                "UserDescription": {{userPrompt}}
+              }
+
+              ═══════════════════════════════════════════════════════════════
+              ⚠️ CRITICAL VALIDATION RULES
+              ═══════════════════════════════════════════════════════════════
+              Before submitting your response, verify:
+
+              ✓ Each food item has Min ≤ Max for all nutritional values
+              ✓ DO NOT calculate total nutrition fields - they will be computed automatically from individual foods
+              ✓ Confidence scores are between 0.0 and 1.0
+              ✓ All required fields are present (no null values for required fields)
+              ✓ QuantityInGrams is positive number
+              ✓ JSON is valid (proper escaping, no trailing commas, no comments)
+              ✓ If there is user prompt remeb
+              ✓ UserDescription accurately reflects user input. If no input, just put null"
+
+
+              Output pure JSON only (first character '{', last character '}'):
+              """;
 
         var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
 
@@ -177,19 +272,19 @@ public class AiChatService : IAiChatService
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
         {
             ChatSystemPrompt = systemPrompt,
-            MaxTokens = 200, //responseTokensLimit,
-            Temperature = 0.5f,
-            // ResponseFormat = typeof(StructuredResponse)
-            // WebSearchOptions = null
-            // ReasoningEffort = ChatReasoningEffortLevel.Medium
-            // ReasoningEffort = "medium"
+            MaxTokens = 1000, // Increased for multi-food analysis
+            Temperature = 0.3f, // Lower for more factual responses
+            ResponseFormat = typeof(AnalyzedImageStructuredResponse)
         }, cancellationToken: cancellationToken);
 
         var responseText = response[0].Content;
 
-        return string.IsNullOrWhiteSpace(responseText)
-            ? throw new ArgumentNullException(responseText)
-            : responseText;
+        if (string.IsNullOrWhiteSpace(responseText))
+            throw new InvalidOperationException("Vision model returned empty response");
+
+        var structuredResponse = JsonSerializer.Deserialize<AnalyzedImageStructuredResponse>(responseText, _jsonSerializerOptions)!;
+
+        return structuredResponse;
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,

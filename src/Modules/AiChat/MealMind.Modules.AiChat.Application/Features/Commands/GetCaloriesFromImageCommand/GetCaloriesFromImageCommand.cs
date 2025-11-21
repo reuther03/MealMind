@@ -1,6 +1,7 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
+using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
@@ -9,9 +10,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 
-public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICommand<string>
+public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICommand<AnalyzedImageStructuredResponse>
 {
-    public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, string>
+    public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, AnalyzedImageStructuredResponse>
     {
         private readonly IAiChatUserRepository _userRepository;
         private readonly IAiChatService _aiChatService;
@@ -27,12 +28,13 @@ public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICo
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<string>> Handle(GetCaloriesFromImageCommand command, CancellationToken cancellationToken)
+        public async Task<Result<AnalyzedImageStructuredResponse>> Handle(GetCaloriesFromImageCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
             Validator.ValidateNotNull(user);
 
             var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
+            // TODO: Create FoodImageAnalysis entity and save to database
             Validator.ValidateNotNull(response);
 
             return Result.Ok(response);

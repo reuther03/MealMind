@@ -7,15 +7,16 @@ namespace MealMind.Modules.AiChat.Domain.AiChatUser;
 public class AiChatUser : AggregateRoot<UserId>
 {
     public SubscriptionTier Tier { get; private set; }
-    public int ActiveConversations { get; private set; } // unchecked
-    public int ConversationsLimit { get; private set; } // checked
-    public int ConversationsMessagesHistoryDaysLimit { get; private set; } // checked
-    public int DocumentsLimit { get; private set; } // not implemented yet
-    public int PromptTokensLimit { get; private set; } // checked
-    public int ResponseTokensLimit { get; private set; } // checked
-    public int DailyPromptsLimit { get; private set; } // checked
-    public bool CanExportData { get; private set; } // idk how to check this
-    public bool CanUseAdvancedPrompts { get; private set; } // not implemented yet
+    public int ActiveConversations { get; private set; }
+    public int ConversationsLimit { get; private set; }
+    public int ConversationsMessagesHistoryDaysLimit { get; private set; }
+    public int DocumentsLimit { get; private set; }
+    public int PromptTokensLimit { get; private set; }
+    public int ResponseTokensLimit { get; private set; }
+    public int DailyPromptsLimit { get; private set; }
+    public bool CanExportData { get; private set; }
+    public bool CanUseAdvancedPrompts { get; private set; }
+    public int DailyImageAnalysisLimit { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? EndDate { get; private set; }
 
@@ -35,6 +36,7 @@ public class AiChatUser : AggregateRoot<UserId>
         int dailyPromptsLimit,
         bool canExportData,
         bool canUseAdvancedPrompts,
+        int dailyImageAnalysisLimit,
         DateTime startDate,
         DateTime? endDate = null)
         : base(id)
@@ -49,6 +51,7 @@ public class AiChatUser : AggregateRoot<UserId>
         DailyPromptsLimit = dailyPromptsLimit;
         CanExportData = canExportData;
         CanUseAdvancedPrompts = canUseAdvancedPrompts;
+        DailyImageAnalysisLimit = dailyImageAnalysisLimit;
         StartDate = startDate;
         EndDate = endDate;
     }
@@ -66,6 +69,7 @@ public class AiChatUser : AggregateRoot<UserId>
             10,
             false,
             false,
+            0,
             DateTime.UtcNow);
 
     // updates not creation of the user
@@ -83,6 +87,7 @@ public class AiChatUser : AggregateRoot<UserId>
             10,
             false,
             false,
+            0,
             StartDate,
             EndDate
         ),
@@ -99,6 +104,7 @@ public class AiChatUser : AggregateRoot<UserId>
             50,
             true,
             false,
+            3,
             StartDate,
             EndDate
         ),
@@ -115,6 +121,7 @@ public class AiChatUser : AggregateRoot<UserId>
             -1,
             true,
             true,
+            10,
             StartDate,
             EndDate
         ),

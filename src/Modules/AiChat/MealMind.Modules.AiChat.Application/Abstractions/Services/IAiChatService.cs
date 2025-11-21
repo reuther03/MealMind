@@ -13,8 +13,8 @@ public interface IAiChatService
         int responseTokensLimit,
         CancellationToken cancellationToken = default);
 
-    Task<string> GenerateTextToImagePromptAsync(
-        string userPrompt, // will be structured or plain text// structured like "product, weight, way of cooking etc."
-        IFormFile imageFile, // the image, now is like this but mayby store in url
+    Task<AnalyzedImageStructuredResponse> GenerateTextToImagePromptAsync(
+        string? userPrompt,
+        IFormFile imageFile,
         CancellationToken cancellationToken = default);
 }
