@@ -6,11 +6,14 @@ using MealMind.Modules.AiChat.Infrastructure.Database;
 using MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
 using MealMind.Modules.AiChat.Infrastructure.Database.Seeders;
 using MealMind.Modules.AiChat.Infrastructure.Services;
+using MealMind.Modules.AiChat.Infrastructure.Services.AIChatService;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.Google;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 
@@ -23,8 +26,11 @@ public static class Extensions
         public IServiceCollection AddInfrastructure()
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-            var options = new OpenRouterModelOptions();
-            configuration.GetSection(OpenRouterModelOptions.SectionName).Bind(options);
+            // var options = new OpenRouterModelOptions();
+            // configuration.GetSection(OpenRouterModelOptions.SectionName).Bind(options);
+
+            var options = new GeminiOptions();
+            configuration.GetSection(GeminiOptions.SectionName).Bind(options);
 
 
             services.AddPostgres<AiChatDbContext>()
@@ -39,10 +45,18 @@ public static class Extensions
                 .AddScoped<IImageAnalyzeRepository, ImageAnalyzeRepository>()
                 .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
-            services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
-                modelId: options.BaseModel,
-                endpoint: new Uri(options.BaseUrl),
-                apiKey: options.ApiKey));
+
+            // Register Chat Completion Service with OpenRouter
+            // services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
+            //     modelId: options.BaseModel,
+            //     endpoint: new Uri(options.BaseUrl),
+            //     apiKey: options.ApiKey));
+
+            // Register Chat Completion Service with Google Gemini
+            services.AddSingleton<IChatCompletionService>(sp => new GoogleAIGeminiChatCompletionService(
+                modelId: options.Model,
+                apiKey: options.ApiKey
+            ));
 
             return services;
         }

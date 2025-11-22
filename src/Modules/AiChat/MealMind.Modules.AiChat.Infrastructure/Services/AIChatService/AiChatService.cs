@@ -6,6 +6,7 @@ using MealMind.Shared.Abstractions.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.Google;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using ChatMessageContent = Microsoft.SemanticKernel.ChatMessageContent;
 using ChatResponseFormat = Microsoft.Extensions.AI.ChatResponseFormat;
@@ -270,12 +271,12 @@ public class AiChatService : IAiChatService
 
         chatHistory.AddRange([systemMessage, complexUserMessage]);
 
-        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
+        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
         {
-            ChatSystemPrompt = systemPrompt,
-            MaxTokens = 500, // Increased for multi-food analysis
-            Temperature = 0.0f, // Lower for more factual responses
-            ResponseFormat = typeof(AnalyzedImageStructuredResponse)
+            MaxTokens = 1000,
+            Temperature = 0.3f,
+            ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
+            ResponseSchema = typeof(AnalyzedImageStructuredResponse)
         }, cancellationToken: cancellationToken);
 
         var responseText = response[0].Content;
@@ -285,7 +286,6 @@ public class AiChatService : IAiChatService
 
         var structuredResponse = JsonSerializer.Deserialize<AnalyzedImageStructuredResponse>(responseText, _jsonSerializerOptions)!;
         structuredResponse.SetImageBytes(imageBytes.ToArray());
-
 
         return structuredResponse;
     }
