@@ -39,13 +39,12 @@ public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICo
             Validator.ValidateNotNull(user);
 
             var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
+            Validator.ValidateNotNull(response);
 
             var foodImageAnalyze = ImageAnalyze.Create(user.Id, command.Prompt, null, response.ImageBytes, response.TotalMinEstimatedCalories,
                 response.TotalMaxEstimatedCalories, response.TotalMaxEstimatedProteins, response.TotalMaxEstimatedProteins,
                 response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates, response.TotalMinEstimatedFats,
                 response.TotalMaxEstimatedFats, response.TotalConfidenceScore);
-
-            Validator.ValidateNotNull(response);
 
             await _imageAnalyzeRepository.AddAsync(foodImageAnalyze, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

@@ -1,6 +1,6 @@
 ﻿namespace MealMind.Modules.AiChat.Application.Dtos;
 
-public class AnalyzedImageStructuredResponse
+public record AnalyzedImageStructuredResponse
 {
     public List<DetectedFoodResponse> DetectedFoods { get; init; } = [];
     public decimal TotalMinEstimatedCalories => DetectedFoods.Sum(f => f.MinEstimatedCalories);
@@ -12,12 +12,6 @@ public class AnalyzedImageStructuredResponse
     public decimal TotalMinEstimatedCarbohydrates => DetectedFoods.Sum(f => f.MinEstimatedCarbohydrates);
     public decimal TotalMaxEstimatedCarbohydrates => DetectedFoods.Sum(f => f.MaxEstimatedCarbohydrates);
     public decimal TotalConfidenceScore => DetectedFoods.Average(f => f.ConfidenceScore);
-    public byte[] ImageBytes { get; private set; } = [];
+    public byte[] ImageBytes { get; init; } = [];
     public string UserDescription { get; init; } = string.Empty;
-
-
-    public void SetImageBytes(byte[] imageBytes)
-    {
-        ImageBytes = imageBytes;
-    }
 }
