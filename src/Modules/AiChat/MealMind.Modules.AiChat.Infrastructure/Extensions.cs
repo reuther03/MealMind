@@ -43,7 +43,7 @@ public static class Extensions
             //     .Build());
 
             services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
-                modelId: options.VisionModel,
+                modelId: options.BaseModel,
                 endpoint: new Uri(options.BaseUrl),
                 apiKey: options.ApiKey));
 

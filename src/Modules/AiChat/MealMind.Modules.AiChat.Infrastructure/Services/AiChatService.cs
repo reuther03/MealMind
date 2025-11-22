@@ -206,6 +206,7 @@ public class AiChatService : IAiChatService
               ═══════════════════════════════════════════════════════════════
               Return a JSON object matching this exact structure:
               If {{userPrompt}} is null or empty, adjust UserDescription accordingly.
+              For FoodName do not mention that user provided it.
 
               {
                 "DetectedFoods": [
@@ -236,6 +237,7 @@ public class AiChatService : IAiChatService
                     "MaxEstimatedCarbohydrates": 7.0
                   }
                 ],
+                
                 "UserDescription": {{userPrompt}}
               }
 
@@ -272,7 +274,7 @@ public class AiChatService : IAiChatService
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
         {
             ChatSystemPrompt = systemPrompt,
-            MaxTokens = 1000, // Increased for multi-food analysis
+            MaxTokens = 500, // Increased for multi-food analysis
             Temperature = 0.3f, // Lower for more factual responses
             ResponseFormat = typeof(AnalyzedImageStructuredResponse)
         }, cancellationToken: cancellationToken);

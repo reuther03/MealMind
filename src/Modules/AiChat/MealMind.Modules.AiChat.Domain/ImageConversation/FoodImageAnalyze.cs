@@ -32,7 +32,7 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
     {
     }
 
-    public FoodImageAnalyze(
+    private FoodImageAnalyze(
         Guid id,
         UserId userId,
         string? prompt,
@@ -77,5 +77,49 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
         TotalCholesterol = totalCholesterol;
         Response = response;
         CreatedAt = DateTime.UtcNow;
+    }
+
+    public static FoodImageAnalyze Create(
+        UserId userId,
+        string? prompt,
+        string? imageUrl,
+        byte[]? imageBytes,
+        decimal caloriesMin,
+        decimal caloriesMax,
+        decimal proteinMin,
+        decimal proteinMax,
+        decimal carbsMin,
+        decimal carbsMax,
+        decimal fatMin,
+        decimal fatMax,
+        decimal? totalSugars,
+        decimal? totalSaturatedFats,
+        decimal? totalFiber,
+        decimal? totalSodium,
+        decimal? totalSalt,
+        decimal? totalCholesterol,
+        string response)
+    {
+        return new FoodImageAnalyze(
+            Guid.NewGuid(),
+            userId,
+            prompt,
+            imageUrl,
+            imageBytes,
+            caloriesMin,
+            caloriesMax,
+            proteinMin,
+            proteinMax,
+            carbsMin,
+            carbsMax,
+            fatMin,
+            fatMax,
+            totalSugars,
+            totalSaturatedFats,
+            totalFiber,
+            totalSodium,
+            totalSalt,
+            totalCholesterol,
+            response);
     }
 }
