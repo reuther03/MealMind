@@ -252,7 +252,8 @@ public class AiChatService : IAiChatService
               ✓ QuantityInGrams is positive number
               ✓ JSON is valid (proper escaping, no trailing commas, no comments)
               ✓ If there is user prompt remeb
-              ✓ UserDescription accurately reflects user input. If no input, just put null"
+              ✓ UserDescription accurately reflects user input. If no input, just put null
+              ✓ Confidence scores is 1 for any user-provided details from prompt
 
               Output pure JSON only (first character '{', last character '}'):
               """;
@@ -276,7 +277,7 @@ public class AiChatService : IAiChatService
             Temperature = 0.0f, // Lower for more factual responses
             ResponseFormat = typeof(AnalyzedImageStructuredResponse)
         }, cancellationToken: cancellationToken);
-        
+
         var responseText = response[0].Content;
 
         if (string.IsNullOrWhiteSpace(responseText))
@@ -284,6 +285,7 @@ public class AiChatService : IAiChatService
 
         var structuredResponse = JsonSerializer.Deserialize<AnalyzedImageStructuredResponse>(responseText, _jsonSerializerOptions)!;
         structuredResponse.SetImageBytes(imageBytes.ToArray());
+
 
         return structuredResponse;
     }
