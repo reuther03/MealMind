@@ -36,41 +36,13 @@ public static class Extensions
                 .AddScoped<IConversationRepository, ConversationRepository>()
                 .AddScoped<IDocumentRepository, DocumentRepository>()
                 .AddScoped<IAiChatUserRepository, AiChatUserRepository>()
+                .AddScoped<IImageAnalyzeRepository, ImageAnalyzeRepository>()
                 .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
-
-            // services.AddSingleton<Kernel>(sp => Kernel.CreateBuilder()
-            //     .AddOpenAIChatCompletion(options.VisionModel, new Uri(options.BaseUrl), options.ApiKey)
-            //     .Build());
 
             services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
                 modelId: options.BaseModel,
                 endpoint: new Uri(options.BaseUrl),
                 apiKey: options.ApiKey));
-
-            // services.AddSingleton<IChatCompletionService>(sp =>
-            // {
-            //     var kernel = sp.GetRequiredService<Kernel>();
-            //
-            //     return new OpenAIChatCompletionService(
-            //         modelId: options.BaseModel,
-            //         endpoint: new Uri(options.BaseUrl),
-            //         apiKey: options.ApiKey,
-            //         kernel
-            //         );
-            // })
-
-
-            // services.AddSingleton<IChatCompletionService>(sp =>
-            // {
-            //     var options = sp.GetRequiredService<IOptions<OpenRouterModelOptions>>().Value;
-            //
-            //     return new OpenAIChatCompletionService(
-            //         modelId: options.BaseModel,
-            //         endpoint: new Uri(options.BaseUrl),
-            //         apiKey: options.ApiKey
-            //     );
-            // });
-
 
             return services;
         }

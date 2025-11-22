@@ -1,15 +1,15 @@
-﻿using MealMind.Modules.AiChat.Domain.ImageConversation;
+﻿using MealMind.Modules.AiChat.Domain.ImageAnalyze;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Configurations;
 
-public class FoodImageAnalyzeConfiguration : IEntityTypeConfiguration<FoodImageAnalyze>
+public class ImageAnalyzeConfiguration : IEntityTypeConfiguration<ImageAnalyze>
 {
-    public void Configure(EntityTypeBuilder<FoodImageAnalyze> builder)
+    public void Configure(EntityTypeBuilder<ImageAnalyze> builder)
     {
-        builder.ToTable("FoodImageAnalyze");
+        builder.ToTable("ImageAnalyze");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
@@ -53,15 +53,7 @@ public class FoodImageAnalyzeConfiguration : IEntityTypeConfiguration<FoodImageA
         builder.Property(x => x.FatMax)
             .IsRequired();
 
-        builder.Property(x => x.TotalSugars);
-        builder.Property(x => x.TotalSaturatedFats);
-        builder.Property(x => x.TotalFiber);
-        builder.Property(x => x.TotalSodium);
-        builder.Property(x => x.TotalSalt);
-        builder.Property(x => x.TotalCholesterol);
-
-        builder.Property(x => x.Response)
-            .HasMaxLength(5000)
+        builder.Property(x => x.ConfidenceScore)
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)

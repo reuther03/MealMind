@@ -237,7 +237,6 @@ public class AiChatService : IAiChatService
                     "MaxEstimatedCarbohydrates": 7.0
                   }
                 ],
-                
                 "UserDescription": {{userPrompt}}
               }
 
@@ -254,7 +253,6 @@ public class AiChatService : IAiChatService
               ✓ JSON is valid (proper escaping, no trailing commas, no comments)
               ✓ If there is user prompt remeb
               ✓ UserDescription accurately reflects user input. If no input, just put null"
-
 
               Output pure JSON only (first character '{', last character '}'):
               """;
@@ -275,16 +273,17 @@ public class AiChatService : IAiChatService
         {
             ChatSystemPrompt = systemPrompt,
             MaxTokens = 500, // Increased for multi-food analysis
-            Temperature = 0.3f, // Lower for more factual responses
+            Temperature = 0.0f, // Lower for more factual responses
             ResponseFormat = typeof(AnalyzedImageStructuredResponse)
         }, cancellationToken: cancellationToken);
-
+        
         var responseText = response[0].Content;
 
         if (string.IsNullOrWhiteSpace(responseText))
             throw new InvalidOperationException("Vision model returned empty response");
 
         var structuredResponse = JsonSerializer.Deserialize<AnalyzedImageStructuredResponse>(responseText, _jsonSerializerOptions)!;
+        structuredResponse.SetImageBytes(imageBytes.ToArray());
 
         return structuredResponse;
     }

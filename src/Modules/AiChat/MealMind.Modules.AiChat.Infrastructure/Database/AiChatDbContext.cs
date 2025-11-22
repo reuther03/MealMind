@@ -1,6 +1,7 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Domain.AiChatUser;
 using MealMind.Modules.AiChat.Domain.Conversation;
+using MealMind.Modules.AiChat.Domain.ImageAnalyze;
 using MealMind.Modules.AiChat.Domain.Rag;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ internal class AiChatDbContext : DbContext, IAiChatDbContext
     public DbSet<RagDocument> RagDocuments => Set<RagDocument>();
     public DbSet<ConversationDocument> ConversationDocuments => Set<ConversationDocument>();
     public DbSet<AiChatUser> AiChatUsers => Set<AiChatUser>();
+    public DbSet<ImageAnalyze> FoodImageAnalyzes => Set<ImageAnalyze>();
 
     public AiChatDbContext(DbContextOptions<AiChatDbContext> options) : base(options)
     {

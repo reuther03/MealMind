@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Domain.AiChatUser;
 using MealMind.Modules.AiChat.Domain.Conversation;
+using MealMind.Modules.AiChat.Domain.ImageAnalyze;
 using MealMind.Modules.AiChat.Domain.Rag;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +12,6 @@ public interface IAiChatDbContext
     DbSet<RagDocument> RagDocuments { get; }
     DbSet<ConversationDocument> ConversationDocuments { get; }
     DbSet<AiChatUser> AiChatUsers { get; }
+    DbSet<ImageAnalyze> FoodImageAnalyzes { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

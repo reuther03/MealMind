@@ -2,9 +2,9 @@
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
-namespace MealMind.Modules.AiChat.Domain.ImageConversation;
+namespace MealMind.Modules.AiChat.Domain.ImageAnalyze;
 
-public class FoodImageAnalyze : AggregateRoot<Guid>
+public class ImageAnalyze : AggregateRoot<Guid>
 {
     public UserId UserId { get; private set; }
     public string? Prompt { get; private set; }
@@ -18,21 +18,15 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
     public decimal CarbsMax { get; private init; }
     public decimal FatMin { get; private init; }
     public decimal FatMax { get; private init; }
-    public decimal? TotalSugars { get; private set; }
-    public decimal? TotalSaturatedFats { get; private set; }
-    public decimal? TotalFiber { get; private set; }
-    public decimal? TotalSodium { get; private set; }
-    public decimal? TotalSalt { get; private set; }
-    public decimal? TotalCholesterol { get; private set; }
-    public string Response { get; private set; }
+    public decimal ConfidenceScore { get; private init; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? SavedAt { get; private set; }
 
-    private FoodImageAnalyze()
+    private ImageAnalyze()
     {
     }
 
-    private FoodImageAnalyze(
+    private ImageAnalyze(
         Guid id,
         UserId userId,
         string? prompt,
@@ -46,13 +40,8 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
         decimal carbsMax,
         decimal fatMin,
         decimal fatMax,
-        decimal? totalSugars,
-        decimal? totalSaturatedFats,
-        decimal? totalFiber,
-        decimal? totalSodium,
-        decimal? totalSalt,
-        decimal? totalCholesterol,
-        string response) : base(id)
+        decimal confidenceScore
+    ) : base(id)
     {
         if (imageUrl is null && imageBytes is null)
             throw new DomainException("Either imageUrl or imageBytes must be provided.");
@@ -69,17 +58,11 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
         CarbsMax = carbsMax;
         FatMin = fatMin;
         FatMax = fatMax;
-        TotalSugars = totalSugars;
-        TotalSaturatedFats = totalSaturatedFats;
-        TotalFiber = totalFiber;
-        TotalSodium = totalSodium;
-        TotalSalt = totalSalt;
-        TotalCholesterol = totalCholesterol;
-        Response = response;
+        ConfidenceScore = confidenceScore;
         CreatedAt = DateTime.UtcNow;
     }
 
-    public static FoodImageAnalyze Create(
+    public static ImageAnalyze Create(
         UserId userId,
         string? prompt,
         string? imageUrl,
@@ -92,15 +75,9 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
         decimal carbsMax,
         decimal fatMin,
         decimal fatMax,
-        decimal? totalSugars,
-        decimal? totalSaturatedFats,
-        decimal? totalFiber,
-        decimal? totalSodium,
-        decimal? totalSalt,
-        decimal? totalCholesterol,
-        string response)
+        decimal confidenceScore)
     {
-        return new FoodImageAnalyze(
+        return new ImageAnalyze(
             Guid.NewGuid(),
             userId,
             prompt,
@@ -114,12 +91,6 @@ public class FoodImageAnalyze : AggregateRoot<Guid>
             carbsMax,
             fatMin,
             fatMax,
-            totalSugars,
-            totalSaturatedFats,
-            totalFiber,
-            totalSodium,
-            totalSalt,
-            totalCholesterol,
-            response);
+            confidenceScore);
     }
 }
