@@ -34,53 +34,7 @@ public class AiChatService : IAiChatService
         List<ChatMessageContent> chatMessages, int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
-        var systemPrompt =
-            $$"""
-              You are a nutrition assistant. Answer using facts from the reference documents below.
-
-              ═══════════════════════════════════════════════════════════════
-              📚 REFERENCE DOCUMENTS
-              ═══════════════════════════════════════════════════════════════
-              {{documentsText}}
-
-              ═══════════════════════════════════════════════════════════════
-              📋 RESPONSE REQUIREMENTS
-              ═══════════════════════════════════════════════════════════════
-              Answer with factual details from documents above. Include:
-
-              • Title: Specific and descriptive to the user's question
-              • Paragraphs: 2-4 detailed paragraphs (100-250 words each)
-                → Use concrete data, numbers, ranges, and mechanisms from documents
-                → Include specific nutritional values, scientific findings, or practical recommendations
-                → No generic summaries or placeholder text
-              • KeyPoints: 3-7 concise facts (10-30 words each)
-                → One-sentence summaries of the most important information
-                → Focus on actionable takeaways or key numbers
-
-              Example response:
-              {
-                "Title": "Protein Requirements for Fat Loss Phase",
-                "Paragraphs": [
-                  "During a cutting phase, protein intake should be 2.0–2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.",
-                  "This range is higher than the muscle gain recommendation (1.6–2.2 g/kg) because protein helps prevent muscle breakdown when calories are restricted."
-                ],
-                "KeyPoints": [
-                  "Cutting phase: 2.0–2.4 g/kg body weight",
-                  "Spread protein across 3–5 meals daily",
-                  "Use complete protein sources like eggs, meat, fish, dairy"
-                ]
-              }
-
-              ═══════════════════════════════════════════════════════════════
-              ⚠️ BEFORE RESPONDING - VERIFY
-              ═══════════════════════════════════════════════════════════════
-              1. Did I include specific factual data from documents (not generic statements)?
-              2. Are my paragraphs detailed with concrete numbers and explanations?
-              3. Are my key points concise and actionable?
-              4. Is my JSON valid (no markdown fences, proper formatting)?
-
-              Output pure JSON only (first character '{', last character '}'):
-              """;
+        var systemPrompt = PromptTemplate.ConversationPrompt(userPrompt, documentsText);
 
         var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
         chatMessages.Add(systemMessage);
@@ -126,8 +80,7 @@ public class AiChatService : IAiChatService
     {
         var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);
 
-        var systemPrompt = PromptTemplate.ImageAnalysisPrompt(userPrompt);
-        var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
+        var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.ImageAnalysisPrompt(userPrompt));
 
         var chatHistory = new ChatHistory();
 
