@@ -7,6 +7,7 @@ namespace MealMind.Modules.AiChat.Domain.ImageAnalyze;
 public class ImageAnalyze : AggregateRoot<Guid>
 {
     public UserId UserId { get; private set; }
+    public string FoodName { get; private set; }
     public string? Prompt { get; private set; }
     public string? ImageUrl { get; private set; }
     public byte[]? ImageBytes { get; private set; }
@@ -29,6 +30,7 @@ public class ImageAnalyze : AggregateRoot<Guid>
     private ImageAnalyze(
         Guid id,
         UserId userId,
+        string foodName,
         string? prompt,
         string? imageUrl,
         byte[]? imageBytes,
@@ -40,7 +42,8 @@ public class ImageAnalyze : AggregateRoot<Guid>
         decimal carbsMax,
         decimal fatMin,
         decimal fatMax,
-        decimal confidenceScore
+        decimal confidenceScore,
+        DateTime? savedAt = null
     ) : base(id)
     {
         if (imageUrl is null && imageBytes is null)
@@ -48,6 +51,7 @@ public class ImageAnalyze : AggregateRoot<Guid>
 
         UserId = userId;
         Prompt = prompt;
+        FoodName = foodName;
         ImageUrl = imageUrl;
         ImageBytes = imageBytes;
         CaloriesMin = caloriesMin;
@@ -60,10 +64,12 @@ public class ImageAnalyze : AggregateRoot<Guid>
         FatMax = fatMax;
         ConfidenceScore = confidenceScore;
         CreatedAt = DateTime.UtcNow;
+        SavedAt = savedAt;
     }
 
     public static ImageAnalyze Create(
         UserId userId,
+        string foodName,
         string? prompt,
         string? imageUrl,
         byte[]? imageBytes,
@@ -75,11 +81,14 @@ public class ImageAnalyze : AggregateRoot<Guid>
         decimal carbsMax,
         decimal fatMin,
         decimal fatMax,
-        decimal confidenceScore)
+        decimal confidenceScore,
+        DateTime? savedAt = null
+    )
     {
         return new ImageAnalyze(
             Guid.NewGuid(),
             userId,
+            foodName,
             prompt,
             imageUrl,
             imageBytes,
@@ -91,6 +100,8 @@ public class ImageAnalyze : AggregateRoot<Guid>
             carbsMax,
             fatMin,
             fatMax,
-            confidenceScore);
+            confidenceScore,
+            savedAt
+        );
     }
 }

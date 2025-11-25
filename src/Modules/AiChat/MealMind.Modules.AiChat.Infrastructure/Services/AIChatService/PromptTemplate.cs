@@ -116,6 +116,7 @@ internal static class PromptTemplate
                    "MaxEstimatedCarbohydrates": 7.0
                  }
                ],
+               "FoodName": "Grilled Chicken Breast and Steamed Broccoli",
                "UserDescription": {{userPrompt}}
              }
 

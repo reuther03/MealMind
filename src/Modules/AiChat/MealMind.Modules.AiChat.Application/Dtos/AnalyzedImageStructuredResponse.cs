@@ -3,6 +3,8 @@
 public record AnalyzedImageStructuredResponse
 {
     public List<DetectedFoodResponse> DetectedFoods { get; init; } = [];
+    public string FoodName { get; init; } = string.Empty;
+    public string UserDescription { get; init; } = string.Empty;
     public decimal TotalMinEstimatedCalories => DetectedFoods.Sum(f => f.MinEstimatedCalories);
     public decimal TotalMaxEstimatedCalories => DetectedFoods.Sum(f => f.MaxEstimatedCalories);
     public decimal TotalMinEstimatedProteins => DetectedFoods.Sum(f => f.MinEstimatedProteins);
@@ -13,5 +15,4 @@ public record AnalyzedImageStructuredResponse
     public decimal TotalMaxEstimatedCarbohydrates => DetectedFoods.Sum(f => f.MaxEstimatedCarbohydrates);
     public decimal TotalConfidenceScore => DetectedFoods.Average(f => f.ConfidenceScore);
     public byte[] ImageBytes { get; init; } = [];
-    public string UserDescription { get; init; } = string.Empty;
 }
