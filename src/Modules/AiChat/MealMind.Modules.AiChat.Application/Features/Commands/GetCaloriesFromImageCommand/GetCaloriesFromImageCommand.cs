@@ -3,7 +3,6 @@ using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Domain.ImageAnalyze;
-using MealMind.Shared.Abstractions.Extensions;
 using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
@@ -12,7 +11,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 
-public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICommand<AnalyzedImageStructuredResponse>
+public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMode NutritionEstimationMode, IFormFile Image, bool SaveFoodEntry = true)
+    : ICommand<AnalyzedImageStructuredResponse>
 {
     public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, AnalyzedImageStructuredResponse>
     {
@@ -20,16 +20,18 @@ public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICo
         private readonly IImageAnalyzeRepository _imageAnalyzeRepository;
         private readonly IAiChatService _aiChatService;
         private readonly IUserService _userService;
+        private readonly IPublisher _publisher;
         private readonly IUnitOfWork _unitOfWork;
 
 
         public Handler(IAiChatUserRepository userRepository, IImageAnalyzeRepository imageAnalyzeRepository, IAiChatService aiChatService,
-            IUserService userService, IUnitOfWork unitOfWork)
+            IUserService userService, IPublisher publisher, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _imageAnalyzeRepository = imageAnalyzeRepository;
             _aiChatService = aiChatService;
             _userService = userService;
+            _publisher = publisher;
             _unitOfWork = unitOfWork;
         }
 
@@ -41,13 +43,24 @@ public record GetCaloriesFromImageCommand(string? Prompt, IFormFile Image) : ICo
             var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
             Validator.ValidateNotNull(response);
 
-            var foodImageAnalyze = ImageAnalyze.Create(user.Id, command.Prompt, null, response.ImageBytes, response.TotalMinEstimatedCalories,
+            var foodImageAnalyze = ImageAnalyze.Create(user.Id, response.FoodName, command.Prompt, null, response.ImageBytes,
+                response.TotalMinEstimatedCalories,
                 response.TotalMaxEstimatedCalories, response.TotalMaxEstimatedProteins, response.TotalMaxEstimatedProteins,
                 response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates, response.TotalMinEstimatedFats,
-                response.TotalMaxEstimatedFats, response.TotalConfidenceScore);
+                response.TotalMaxEstimatedFats, response.TotalConfidenceScore, command.SaveFoodEntry ? DateTime.UtcNow : null);
 
             await _imageAnalyzeRepository.AddAsync(foodImageAnalyze, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
+
+            if (foodImageAnalyze.SavedAt != null)
+            {
+                // await _publisher.PublishAsync(new ImageAnalyzeCreatedEvent(foodImageAnalyze.Id, user.Id, foodImageAnalyze.Prompt,
+                //         foodImageAnalyze.ImageUrl, foodImageAnalyze.ImageBytes, foodImageAnalyze.CaloriesMin, foodImageAnalyze.CaloriesMax,
+                //         foodImageAnalyze.ProteinMin, foodImageAnalyze.ProteinMax, foodImageAnalyze.CarbsMin, foodImageAnalyze.CarbsMax,
+                //         foodImageAnalyze.FatMin, foodImageAnalyze.FatMax, foodImageAnalyze.ConfidenceScore, foodImageAnalyze.SavedAt.Value),
+                //     cancellationToken);
+            }
+
 
             return Result.Ok(response);
         }

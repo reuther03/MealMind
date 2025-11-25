@@ -1,5 +1,4 @@
-﻿using MealMind.Modules.AiChat.Application.Features.Commands.CreateConversationCommand;
-using MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
+﻿using MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
@@ -14,9 +13,9 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("get-calories-from-image",
-                async (string? prompt, IFormFile image, ISender sender) =>
+                async ([FromForm] string? prompt, [FromForm] NutritionEstimationMode estimationMode, IFormFile image, ISender sender) =>
                 {
-                    var result = await sender.Send(new GetCaloriesFromImageCommand(prompt, image));
+                    var result = await sender.Send(new GetCaloriesFromImageCommand(prompt, estimationMode, image));
                     return result;
                 })
             .RequireAuthorization()
