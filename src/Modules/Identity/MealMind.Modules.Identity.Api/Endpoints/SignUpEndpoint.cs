@@ -18,7 +18,7 @@ internal sealed class SignUpEndpoint : EndpointBase
                 })
             .AllowAnonymous()
             .WithDocumentation("Sign Up",
-                "Creates a new user account with credentials and personal data. Returns the new user's ID. Gender: 0=Male, 1=Female. ActivityLevel: 1=Sedentary, 2=Light, 3=Moderate, 4=Active, 5=VeryActive.",
+                "Creates a new user account with credentials, personal data, and nutrition targets. Pre-creates 90 days of daily logs. All days of the week must be covered by nutrition targets. Gender: 0=Male, 1=Female. ActivityLevel: 1=Sedentary, 2=Light, 3=Moderate, 4=Active, 5=VeryActive.",
                 """
                 {
                   "username": "johndoe",
@@ -31,7 +31,31 @@ internal sealed class SignUpEndpoint : EndpointBase
                     "height": 180.0,
                     "weightTarget": 70.0,
                     "activityLevel": 3
-                  }
+                  },
+                  "nutritionTargets": [
+                    {
+                      "calories": 2500,
+                      "nutritionInGramsPayload": {
+                        "proteinInGrams": 180,
+                        "carbohydratesInGrams": 250,
+                        "fatsInGrams": 70
+                      },
+                      "nutritionInPercentPayload": null,
+                      "waterIntake": 3.0,
+                      "activeDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+                    },
+                    {
+                      "calories": 2000,
+                      "nutritionInGramsPayload": {
+                        "proteinInGrams": 150,
+                        "carbohydratesInGrams": 200,
+                        "fatsInGrams": 55
+                      },
+                      "nutritionInPercentPayload": null,
+                      "waterIntake": 2.5,
+                      "activeDays": ["Saturday", "Sunday"]
+                    }
+                  ]
                 }
                 """,
                 """
