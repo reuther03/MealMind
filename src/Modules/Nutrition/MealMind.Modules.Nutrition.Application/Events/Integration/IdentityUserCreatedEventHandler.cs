@@ -37,8 +37,20 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
             notification.PersonalData.ActivityLevel
         );
 
-        var allDaysOfWeek = Enum.GetValues<DayOfWeek>().ToList();
-        if (notification.NutritionTargets.Any(x => x.ActiveDays != allDaysOfWeek && x.ActiveDays?.Count != null))
+        var allDaysOfWeek = Enum.GetValues<DayOfWeek>().ToHashSet();
+        var coveredDays = new HashSet<DayOfWeek>();
+        foreach (var target in notification.NutritionTargets)
+        {
+            if (target.ActiveDays == null)
+            {
+                coveredDays = allDaysOfWeek;
+                break;
+            }
+
+            coveredDays.UnionWith(target.ActiveDays);
+        }
+
+        if (!coveredDays.SetEquals(allDaysOfWeek))
             throw new ApplicationException("Active days must cover all days of the week");
 
         foreach (var targetPayload in notification.NutritionTargets)
@@ -73,9 +85,13 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
             var logDate = today.AddDays(i);
             var calorieTarget = userProfile.NutritionTargets
                 .FirstOrDefault(x => x.ActiveDays
-                    .Any(z => z.DayOfWeek == logDate.DayOfWeek))!.Calories;
+                    .Any(z => z.DayOfWeek == logDate.DayOfWeek));
 
-            var dailyLog = DailyLog.Create(logDate, null, calorieTarget, userProfile.Id);
+            if (calorieTarget == null)
+                throw new InvalidOperationException(
+                    $"No nutrition target found for {logDate.DayOfWeek}. This indicates a validation error.");
+
+            var dailyLog = DailyLog.Create(logDate, null, calorieTarget.Calories, userProfile.Id);
 
             foreach (var type in Enum.GetValues<MealType>())
             {
