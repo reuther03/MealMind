@@ -37,7 +37,7 @@ public class OpenFoodFactsDto
                 dto.Nutriments.Fiber100G,          // fiber
                 dto.Nutriments.Sodium100G,         // sodium
                 dto.Nutriments.Cholesterol100G),   // cholesterol
-            Source.ExternalApi,
+            FoodDataSource.ExternalApi,
             dto.Code,
             dto.ImageUrl,
             dto.Brand);
@@ -66,7 +66,7 @@ public class OpenFoodFactsDto
                 Cholesterol = dto.Nutriments.Cholesterol100G
             },
             CreatedAt = DateTime.UtcNow,
-            FoodSource = nameof(Source.ExternalApi)
+            FoodSource = nameof(FoodDataSource.ExternalApi)
         };
     }
 }

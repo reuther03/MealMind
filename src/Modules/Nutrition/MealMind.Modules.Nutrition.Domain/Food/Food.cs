@@ -16,24 +16,24 @@ public class Food : AggregateRoot<FoodId>
     public IReadOnlyList<FoodCategory> Categories => _categories.AsReadOnly();
     public IReadOnlyList<FoodDietaryTag> DietaryTags => _dietaryTags.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
-    public Source Source { get; private set; }
+    public FoodDataSource FoodDataSource { get; private set; }
 
     private Food()
     {
     }
 
-    private Food(FoodId id, Name name, NutritionPer100G nutritionPer100G, Source source) : base(id)
+    private Food(FoodId id, Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource) : base(id)
     {
         Name = name;
         NutritionPer100G = nutritionPer100G;
-        Source = source;
+        FoodDataSource = foodDataSource;
         CreatedAt = DateTime.UtcNow;
     }
 
-    public static Food Create(Name name, NutritionPer100G nutritionPer100G, Source source, string? barcode = null, string? imageUrl = null,
+    public static Food Create(Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource, string? barcode = null, string? imageUrl = null,
         string? brand = null, IEnumerable<FoodCategory>? categories = null, IEnumerable<FoodDietaryTag>? tags = null)
     {
-        var food = new Food(FoodId.New(), name, nutritionPer100G, source)
+        var food = new Food(FoodId.New(), name, nutritionPer100G, foodDataSource)
         {
             Barcode = barcode,
             ImageUrl = imageUrl,

@@ -1,6 +1,6 @@
 ﻿namespace MealMind.Modules.Nutrition.Domain.Food;
 
-public enum Source
+public enum FoodDataSource
 {
     ExternalApi = 0,
     User = 1,

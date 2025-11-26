@@ -59,7 +59,7 @@ public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMod
 
             if (foodImageAnalyze.SavedAt != null)
             {
-                await _publisher.Publish(new ImageAnalyzeCreatedEvent(), cancellationToken);
+                // await _publisher.Publish(new ImageAnalyzeCreatedEvent(), cancellationToken);
             }
 
 

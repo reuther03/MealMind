@@ -79,7 +79,7 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 
-        builder.Property(x => x.Source)
+        builder.Property(x => x.FoodDataSource)
             .HasConversion<string>()
             .IsRequired();
 

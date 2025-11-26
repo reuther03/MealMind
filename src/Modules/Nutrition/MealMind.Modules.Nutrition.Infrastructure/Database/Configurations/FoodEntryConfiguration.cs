@@ -19,7 +19,7 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
         builder.Property(x => x.FoodId)
             .HasConversion(x => x.Value, x => FoodId.From(x))
             .ValueGeneratedNever()
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(x => x.FoodName)
             .HasConversion(x => x.Value, x => new Name(x))
@@ -35,43 +35,47 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
             .IsRequired();
 
         builder.Property(x => x.TotalCalories)
-            .HasPrecision(10, 2)  // Increased to support large quantities
+            .HasPrecision(10, 2) // Increased to support large quantities
             .IsRequired();
 
         builder.Property(x => x.TotalProteins)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired();
 
         builder.Property(x => x.TotalCarbohydrates)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired();
 
         builder.Property(x => x.TotalSugars)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired(false);
 
         builder.Property(x => x.TotalFats)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired();
 
         builder.Property(x => x.TotalSaturatedFats)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired(false);
 
         builder.Property(x => x.TotalFiber)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired(false);
 
         builder.Property(x => x.TotalSodium)
-            .HasPrecision(10, 2)  // Increased to support sodium in mg
+            .HasPrecision(10, 2) // Increased to support sodium in mg
             .IsRequired(false);
 
         builder.Property(x => x.TotalSalt)
-            .HasPrecision(10, 2)  // Increased to support salt in mg
+            .HasPrecision(10, 2) // Increased to support salt in mg
             .IsRequired(false);
 
         builder.Property(x => x.TotalCholesterol)
-            .HasPrecision(8, 2)   // Increased to support large quantities
+            .HasPrecision(8, 2) // Increased to support large quantities
             .IsRequired(false);
+
+        builder.Property(x => x.Source)
+            .HasConversion<string>()
+            .IsRequired();
     }
 }

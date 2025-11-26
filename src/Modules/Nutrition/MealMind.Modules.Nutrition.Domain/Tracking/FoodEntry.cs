@@ -6,7 +6,7 @@ namespace MealMind.Modules.Nutrition.Domain.Tracking;
 
 public class FoodEntry : Entity<Guid>
 {
-    public FoodId FoodId { get; private set; }
+    public FoodId? FoodId { get; private set; }
     public Name FoodName { get; private set; }
     public Name? FoodBrand { get; private set; }
     public decimal QuantityInGrams { get; private set; }
@@ -20,6 +20,7 @@ public class FoodEntry : Entity<Guid>
     public decimal? TotalSodium { get; private set; }
     public decimal? TotalSalt { get; private set; }
     public decimal? TotalCholesterol { get; private set; }
+    public FoodEntrySource Source { get; private set; }
 
     private FoodEntry()
     {
@@ -45,6 +46,27 @@ public class FoodEntry : Entity<Guid>
         TotalCholesterol = totalCholesterol;
     }
 
+    private FoodEntry(Guid id, FoodId? foodId, Name foodName, Name? foodBrand, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
+        decimal totalCarbohydrates, decimal? totalSugars, decimal totalFats, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
+        decimal? totalSalt, decimal? totalCholesterol, FoodEntrySource source) : base(id)
+    {
+        FoodId = foodId;
+        FoodName = foodName;
+        FoodBrand = foodBrand;
+        QuantityInGrams = quantityInGrams;
+        TotalCalories = totalCalories;
+        TotalProteins = totalProteins;
+        TotalCarbohydrates = totalCarbohydrates;
+        TotalSugars = totalSugars;
+        TotalFats = totalFats;
+        TotalSaturatedFats = totalSaturatedFats;
+        TotalFiber = totalFiber;
+        TotalSodium = totalSodium;
+        TotalSalt = totalSalt;
+        TotalCholesterol = totalCholesterol;
+        Source = source;
+    }
+
     public static FoodEntry Create(Food.Food food, decimal quantityInGrams)
     {
         if (quantityInGrams <= 0)
@@ -67,7 +89,35 @@ public class FoodEntry : Entity<Guid>
             food.NutritionPer100G.Fiber.HasValue ? Math.Round(food.NutritionPer100G.Fiber.Value * factor, 2) : null,
             food.NutritionPer100G.Sodium.HasValue ? Math.Round(food.NutritionPer100G.Sodium.Value * factor, 2) : null,
             food.NutritionPer100G.Salt.HasValue ? Math.Round(food.NutritionPer100G.Salt.Value * factor, 2) : null,
-            food.NutritionPer100G.Cholesterol.HasValue ? Math.Round(food.NutritionPer100G.Cholesterol.Value * factor, 2) : null
+            food.NutritionPer100G.Cholesterol.HasValue ? Math.Round(food.NutritionPer100G.Cholesterol.Value * factor, 2) : null,
+            FoodEntrySource.Database
+        );
+    }
+
+    public static FoodEntry CreateFromImageAnalyze(Name foodName, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
+        decimal totalCarbohydrates, decimal? totalSugars, decimal totalFats, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
+        decimal? totalSalt, decimal? totalCholesterol)
+    {
+        if (quantityInGrams <= 0)
+            throw new ArgumentException("Quantity must be greater than zero", nameof(quantityInGrams));
+
+        return new FoodEntry(
+            Guid.NewGuid(),
+            null,
+            foodName,
+            null,
+            quantityInGrams,
+            totalCalories,
+            totalProteins,
+            totalCarbohydrates,
+            totalSugars,
+            totalFats,
+            totalSaturatedFats,
+            totalFiber,
+            totalSodium,
+            totalSalt,
+            totalCholesterol,
+            FoodEntrySource.ImageAnalysis
         );
     }
 }

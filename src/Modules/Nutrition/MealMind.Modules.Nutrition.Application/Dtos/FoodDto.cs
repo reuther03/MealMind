@@ -24,7 +24,7 @@ public class FoodDto
             ImageUrl = food.ImageUrl,
             NutritionPer100G = NutrimentsPer100GDto.AsDto(food.NutritionPer100G),
             CreatedAt = food.CreatedAt,
-            FoodSource = food.Source.ToString()
+            FoodSource = food.FoodDataSource.ToString()
         };
     }
 
@@ -33,7 +33,7 @@ public class FoodDto
         return Food.Create(
             dto.Name,
             dto.NutritionPer100G.ToEntity(dto.NutritionPer100G),
-            Source.ExternalApi,
+            FoodDataSource.ExternalApi,
             dto.Barcode,
             dto.ImageUrl,
             dto.Brand
