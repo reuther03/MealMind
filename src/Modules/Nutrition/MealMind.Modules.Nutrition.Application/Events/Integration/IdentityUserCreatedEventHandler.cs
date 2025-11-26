@@ -37,6 +37,10 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
             notification.PersonalData.ActivityLevel
         );
 
+        var allDaysOfWeek = Enum.GetValues<DayOfWeek>().ToList();
+        if (notification.NutritionTargets.Any(x => x.ActiveDays != allDaysOfWeek && x.ActiveDays?.Count != null))
+            throw new ApplicationException("Active days must cover all days of the week");
+
         foreach (var targetPayload in notification.NutritionTargets)
         {
             if (targetPayload.NutritionInGramsPayload is null && targetPayload.NutritionInPercentPayload is null)
@@ -67,14 +71,11 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
         for (var i = 0; i < 90; i++)
         {
             var logDate = today.AddDays(i);
-            var dailyLog = DailyLog.Create(
-                logDate,
-                null,
-                userProfile.NutritionTargets
-                    .FirstOrDefault(x => x.ActiveDays
-                        .Any(z => z.DayOfWeek == logDate.DayOfWeek))!.Calories,
-                userProfile.Id
-            );
+            var calorieTarget = userProfile.NutritionTargets
+                .FirstOrDefault(x => x.ActiveDays
+                    .Any(z => z.DayOfWeek == logDate.DayOfWeek))!.Calories;
+
+            var dailyLog = DailyLog.Create(logDate, null, calorieTarget, userProfile.Id);
 
             foreach (var type in Enum.GetValues<MealType>())
             {
