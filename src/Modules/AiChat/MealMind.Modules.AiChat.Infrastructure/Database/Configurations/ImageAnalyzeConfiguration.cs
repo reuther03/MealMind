@@ -21,6 +21,10 @@ public class ImageAnalyzeConfiguration : IEntityTypeConfiguration<ImageAnalyze>
             .ValueGeneratedNever()
             .IsRequired();
 
+        builder.Property(x => x.FoodName)
+            .HasMaxLength(1000)
+            .IsRequired();
+
         builder.Property(x => x.Prompt)
             .HasMaxLength(2000);
 
@@ -54,6 +58,9 @@ public class ImageAnalyzeConfiguration : IEntityTypeConfiguration<ImageAnalyze>
             .IsRequired();
 
         builder.Property(x => x.ConfidenceScore)
+            .IsRequired();
+
+        builder.Property(x => x.TotalQuantityInGrams)
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)

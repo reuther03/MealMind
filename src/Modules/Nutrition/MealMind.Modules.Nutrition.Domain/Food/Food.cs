@@ -5,6 +5,7 @@ namespace MealMind.Modules.Nutrition.Domain.Food;
 
 public class Food : AggregateRoot<FoodId>
 {
+    //todo: it is needed to be implemented categries and dietary tags
     private readonly List<FoodCategory> _categories = [];
     private readonly List<FoodDietaryTag> _dietaryTags = [];
     public Name Name { get; private set; }
