@@ -14,7 +14,9 @@ public record SignUpCommand(
     string Username,
     string Email,
     string InputPassword,
-    PersonalDataPayload PersonalData) : ICommand<Guid>
+    PersonalDataPayload PersonalData,
+    List<NutritionTargetPayload> NutritionTargets
+) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<SignUpCommand, Guid>
     {
@@ -44,7 +46,8 @@ public record SignUpCommand(
                     identityUser.Id.Value,
                     identityUser.Username,
                     identityUser.Email,
-                    command.PersonalData
+                    command.PersonalData,
+                    command.NutritionTargets
                 ), cancellationToken);
 
             await _publisher.Publish(

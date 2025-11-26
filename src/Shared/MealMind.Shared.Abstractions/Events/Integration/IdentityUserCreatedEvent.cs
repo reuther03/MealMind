@@ -9,5 +9,6 @@ public record IdentityUserCreatedEvent(
     UserId Id,
     Name Username,
     Email Email,
-    PersonalDataPayload PersonalData
+    PersonalDataPayload PersonalData,
+    List<NutritionTargetPayload> NutritionTargets
 ) : INotification;

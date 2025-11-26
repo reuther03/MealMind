@@ -37,6 +37,31 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
             notification.PersonalData.ActivityLevel
         );
 
+        foreach (var targetPayload in notification.NutritionTargets)
+        {
+            if (targetPayload.NutritionInGramsPayload is null && targetPayload.NutritionInPercentPayload is null)
+                throw new InvalidOperationException("Either Nutrition in grams or Nutrition in percent must be provided.");
+
+            var nutritionTarget = targetPayload.NutritionInGramsPayload is not null
+                ? NutritionTarget.CreateFromGrams(
+                    targetPayload.Calories,
+                    targetPayload.NutritionInGramsPayload.ProteinInGrams,
+                    targetPayload.NutritionInGramsPayload.CarbohydratesInGrams,
+                    targetPayload.NutritionInGramsPayload.FatsInGrams,
+                    targetPayload.WaterIntake,
+                    userProfile.Id)
+                : NutritionTarget.CreateFromPercentages(
+                    targetPayload.Calories,
+                    targetPayload.NutritionInPercentPayload!.ProteinPercentage,
+                    targetPayload.NutritionInPercentPayload.CarbohydratesPercentage,
+                    targetPayload.NutritionInPercentPayload.FatsPercentage,
+                    targetPayload.WaterIntake,
+                    userProfile.Id);
+
+            nutritionTarget.AddActiveDay(targetPayload.ActiveDays ?? Enum.GetValues<DayOfWeek>().ToList());
+            userProfile.AddNutritionTarget(nutritionTarget);
+        }
+
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         List<DailyLog> dailyLogs = [];
         for (var i = 0; i < 90; i++)
@@ -47,7 +72,7 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
                 null,
                 userProfile.NutritionTargets
                     .FirstOrDefault(x => x.ActiveDays
-                        .Any(z => z.DayOfWeek == logDate.DayOfWeek))?.Calories ?? 2000,
+                        .Any(z => z.DayOfWeek == logDate.DayOfWeek))!.Calories,
                 userProfile.Id
             );
 
