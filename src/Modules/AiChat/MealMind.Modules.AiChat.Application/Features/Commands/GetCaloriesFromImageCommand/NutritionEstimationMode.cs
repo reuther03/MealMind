@@ -1,6 +1,6 @@
 ﻿namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 
-public class NutritionEstimationMode
+public record NutritionEstimationMode
 {
     public EstimationMode Calories { get; init; }
     public EstimationMode Protein { get; init; }

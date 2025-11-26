@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 
-public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMode NutritionEstimationMode, IFormFile Image, bool SaveFoodEntry = true)
+public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMode Mode, IFormFile Image, bool SaveFoodEntry = true)
     : ICommand<AnalyzedImageStructuredResponse>
 {
     public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, AnalyzedImageStructuredResponse>
@@ -47,7 +47,7 @@ public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMod
             var foodImageAnalyze = ImageAnalyze.Create(
                 user.Id, response.FoodName, command.Prompt, null, response.ImageBytes,
                 response.TotalMinEstimatedCalories, response.TotalMaxEstimatedCalories,
-                response.TotalMaxEstimatedProteins, response.TotalMaxEstimatedProteins,
+                response.TotalMinEstimatedProteins, response.TotalMaxEstimatedProteins,
                 response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates,
                 response.TotalMinEstimatedFats, response.TotalMaxEstimatedFats,
                 response.TotalConfidenceScore, response.TotalQuantityInGrams,
@@ -57,13 +57,50 @@ public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMod
             await _imageAnalyzeRepository.AddAsync(foodImageAnalyze, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            if (foodImageAnalyze.SavedAt != null)
-            {
-                // await _publisher.Publish(new ImageAnalyzeCreatedEvent(), cancellationToken);
-            }
+            if (foodImageAnalyze.SavedAt == null)
+                return Result.Ok(response);
 
+            var caloriesEstimation = CalculateEstimation(
+                command.Mode.Calories,
+                response.TotalMinEstimatedCalories,
+                response.TotalMaxEstimatedCalories);
+
+            var proteinsEstimation = CalculateEstimation(
+                command.Mode.Protein,
+                response.TotalMinEstimatedProteins,
+                response.TotalMaxEstimatedProteins);
+
+            var carbohydratesEstimation = CalculateEstimation(
+                command.Mode.Carbohydrates,
+                response.TotalMinEstimatedCarbohydrates,
+                response.TotalMaxEstimatedCarbohydrates);
+
+            var fatsEstimation = CalculateEstimation(
+                command.Mode.Fats,
+                response.TotalMinEstimatedFats,
+                response.TotalMaxEstimatedFats);
+
+            await _publisher.Publish(
+                new ImageAnalyzeCreatedEvent(
+                    user.Id,
+                    foodImageAnalyze.FoodName,
+                    foodImageAnalyze.TotalQuantityInGrams,
+                    caloriesEstimation, proteinsEstimation,
+                    carbohydratesEstimation, fatsEstimation),
+                cancellationToken);
 
             return Result.Ok(response);
         }
+    }
+
+    private static decimal CalculateEstimation(EstimationMode nutritionEstimationMode, decimal min, decimal max)
+    {
+        return nutritionEstimationMode switch
+        {
+            EstimationMode.Minimal => min,
+            EstimationMode.Average => (min + max) / 2,
+            EstimationMode.Maximal => max,
+            _ => throw new ApplicationException("Invalid estimation mode.")
+        };
     }
 }

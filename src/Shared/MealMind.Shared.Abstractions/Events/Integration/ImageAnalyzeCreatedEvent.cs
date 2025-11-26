@@ -7,7 +7,7 @@ namespace MealMind.Shared.Abstractions.Events.Integration;
 public record ImageAnalyzeCreatedEvent(
     UserId UserId,
     Name FoodName,
-    decimal QuantityInGrams,
+    double QuantityInGrams,
     decimal TotalCalories,
     decimal TotalProteins,
     decimal TotalCarbohydrates,
