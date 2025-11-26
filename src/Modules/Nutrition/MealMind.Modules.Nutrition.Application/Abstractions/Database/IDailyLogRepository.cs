@@ -8,4 +8,5 @@ public interface IDailyLogRepository : IRepository<DailyLog>
 {
     Task<DailyLog?> GetByDateAsync(DateOnly date, UserId userId, CancellationToken cancellationToken = default);
     Task<bool> ExistsWithDateAsync(DateOnly date, UserId userId, CancellationToken cancellationToken = default);
+
 }

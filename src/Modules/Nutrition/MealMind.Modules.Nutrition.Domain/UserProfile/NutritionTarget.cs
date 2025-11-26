@@ -119,6 +119,9 @@ public class NutritionTarget : Entity<Guid>
         }
     }
 
+    public decimal GetCaloriesTarget
+        => Calories;
+
     private decimal CalculatePercentage(decimal calories)
         => ActualCalories > 0 ? Math.Round(calories / ActualCalories * 100, 0, MidpointRounding.ToEven) : 0;
 }

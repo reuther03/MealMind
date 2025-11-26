@@ -8,7 +8,7 @@ public class DailyLog : AggregateRoot<DailyLogId>
 {
     private readonly List<Meal> _meals = [];
     public DateOnly CurrentDate { get; private set; }
-    public decimal CurrentWeight { get; private set; }
+    public decimal? CurrentWeight { get; private set; }
     public IReadOnlyList<Meal> Meals => _meals.AsReadOnly();
     public decimal CaloriesGoal { get; private set; }
     public decimal TotalCalories => _meals.Sum(m => m.TotalCalories);
@@ -26,16 +26,16 @@ public class DailyLog : AggregateRoot<DailyLogId>
     {
     }
 
-    private DailyLog(DailyLogId id, decimal? currentWeight, decimal caloriesGoal, UserId userId) : base(id)
+    private DailyLog(DailyLogId id, DateOnly currentDate, decimal? currentWeight, decimal caloriesGoal, UserId userId) : base(id)
     {
-        CurrentDate = DateOnly.FromDateTime(DateTime.UtcNow);
+        CurrentDate = currentDate;
         CurrentWeight = currentWeight ?? 0;
         CaloriesGoal = caloriesGoal;
         UserId = userId;
     }
 
-    public static DailyLog Create(decimal? currentWeight, decimal caloriesGoal, UserId userId) =>
-        new(DailyLogId.New(), currentWeight, caloriesGoal, userId);
+    public static DailyLog Create(DateOnly currentDate, decimal? currentWeight, decimal caloriesGoal, UserId userId) =>
+        new(DailyLogId.New(), currentDate, currentWeight, caloriesGoal, userId);
 
     public void AddMeal(Meal meal)
     {

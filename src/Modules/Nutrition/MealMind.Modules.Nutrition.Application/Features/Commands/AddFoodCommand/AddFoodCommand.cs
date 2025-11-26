@@ -44,9 +44,10 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
                 return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
 
             DailyLog dailyLog;
-            if (!await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, user.Id, cancellationToken)) //or check ExistsWithDate and if else
+            if (!await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, user.Id, cancellationToken))
             {
                 dailyLog = DailyLog.Create(
+                    request.DailyLogDate,
                     request.CurrentWeight,
                     user.NutritionTargets
                         .Where(x => x.ActiveDays
@@ -56,6 +57,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
                     // use this above or domain method to get calories for current date based on active nutrition targets?
                     user.Id);
 
+                //delete this
                 foreach (var type in Enum.GetValues<MealType>())
                 {
                     var meal = Meal.Initialize(type, user.Id);

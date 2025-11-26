@@ -21,10 +21,10 @@ public class DailyLogConfiguration : IEntityTypeConfiguration<DailyLog>
 
         builder.Property(x => x.CurrentWeight)
             .HasPrecision(5, 2)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(x => x.CaloriesGoal)
-            .HasPrecision(7, 2)  // Increased to support realistic calorie goals (max 99,999.99)
+            .HasPrecision(7, 2) // Increased to support realistic calorie goals (max 99,999.99)
             .IsRequired();
 
         builder.Property(x => x.UserId)
