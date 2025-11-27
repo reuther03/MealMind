@@ -27,19 +27,49 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
             .RequireAuthorization()
             .DisableAntiforgery()
             .WithDocumentation("Get Calories From Image",
-                "Gets calorie information based on an image and user prompt. Requires authentication.",
+                "Analyzes food image using AI vision model and returns detailed nutrition estimates. Can optionally save to user's daily log. EstimationMode: 0=Minimal (conservative), 1=Average (balanced), 2=Maximal (aggressive). Requires multipart/form-data.",
                 """
-                {
-                  "prompt": "Please analyze the nutritional content of this meal. // can be null",
-                  "image": "<image_file_here>"
-                }
+                Form Data:
+                - prompt: "Analyze this burger meal" (optional)
+                - estimationMode: 1 (required - 0=Minimal, 1=Average, 2=Maximal)
+                - dailyLogDate: "2025-11-26" (required - date to save food entry to)
+                - saveFoodEntry: true (required - whether to save to daily log)
+                - image: <multipart_file> (required - JPEG/PNG image)
                 """,
                 """
                 {
-                "value": " The meal contains approximately 600 calories, including 20g of protein, 50g of carbohydrates, and 25g of fat.",
-                "isSuccess": true,
-                "statusCode": 200,
-                "message": null
+                  "value": {
+                    "detectedFoods": [
+                      {
+                        "foodName": "Cheeseburger",
+                        "minEstimatedCalories": 450,
+                        "maxEstimatedCalories": 650,
+                        "minEstimatedProteins": 20,
+                        "maxEstimatedProteins": 30,
+                        "minEstimatedCarbohydrates": 35,
+                        "maxEstimatedCarbohydrates": 45,
+                        "minEstimatedFats": 18,
+                        "maxEstimatedFats": 28,
+                        "quantityInGrams": 250,
+                        "confidenceScore": 0.92
+                      }
+                    ],
+                    "totalMinEstimatedCalories": 450,
+                    "totalMaxEstimatedCalories": 650,
+                    "totalMinEstimatedProteins": 20,
+                    "totalMaxEstimatedProteins": 30,
+                    "totalMinEstimatedCarbohydrates": 35,
+                    "totalMaxEstimatedCarbohydrates": 45,
+                    "totalMinEstimatedFats": 18,
+                    "totalMaxEstimatedFats": 28,
+                    "totalConfidenceScore": 0.92,
+                    "totalQuantityInGrams": 250,
+                    "foodName": "Cheeseburger",
+                    "userDescription": "Analyze this burger meal"
+                  },
+                  "isSuccess": true,
+                  "statusCode": 200,
+                  "message": null
                 }
                 """
             );
