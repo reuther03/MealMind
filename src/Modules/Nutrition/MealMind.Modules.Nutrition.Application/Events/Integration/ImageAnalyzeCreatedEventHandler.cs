@@ -3,6 +3,7 @@ using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Events.Integration;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
+using Microsoft.Extensions.Logging;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
 
@@ -10,18 +11,24 @@ public class ImageAnalyzeCreatedEventHandler : INotificationHandler<ImageAnalyze
 {
     private readonly IDailyLogRepository _dailyLogRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<ImageAnalyzeCreatedEventHandler> _logger;
 
-    public ImageAnalyzeCreatedEventHandler(IDailyLogRepository dailyLogRepository, IUnitOfWork unitOfWork)
+    public ImageAnalyzeCreatedEventHandler(IDailyLogRepository dailyLogRepository, IUnitOfWork unitOfWork, ILogger<ImageAnalyzeCreatedEventHandler> logger)
     {
         _dailyLogRepository = dailyLogRepository;
         _unitOfWork = unitOfWork;
+        _logger = logger;
     }
 
     public async Task Handle(ImageAnalyzeCreatedEvent notification, CancellationToken cancellationToken)
     {
         var dailyLog = await _dailyLogRepository.GetByDateAsync(notification.DailyLogDate, notification.UserId, cancellationToken);
         if (dailyLog == null)
-            throw new ApplicationException($"Daily log for date {notification.DailyLogDate} not found.");
+        {
+            _logger.LogWarning("Daily log for user {UserId} on date {Date} not found. Cannot add food entry from image analyze.", notification.UserId,
+                notification.DailyLogDate);
+            return;
+        }
 
         var foodEntry = FoodEntry.CreateFromImageAnalyze(
             notification.FoodName,
@@ -37,5 +44,8 @@ public class ImageAnalyzeCreatedEventHandler : INotificationHandler<ImageAnalyze
         meal.AddFood(foodEntry);
 
         await _unitOfWork.CommitAsync(cancellationToken);
+
+        _logger.LogInformation("Added food entry from image analyze to daily log for user {UserId} on date {Date}. Food: {FoodName}, Quantity: {Quantity}g",
+            notification.UserId, notification.DailyLogDate, notification.FoodName, notification.QuantityInGrams);
     }
 }
