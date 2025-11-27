@@ -11,6 +11,12 @@ public class ImageAnalyzeCreatedEventHandler : INotificationHandler<ImageAnalyze
     private readonly IDailyLogRepository _dailyLogRepository;
     private readonly IUnitOfWork _unitOfWork;
 
+    public ImageAnalyzeCreatedEventHandler(IDailyLogRepository dailyLogRepository, IUnitOfWork unitOfWork)
+    {
+        _dailyLogRepository = dailyLogRepository;
+        _unitOfWork = unitOfWork;
+    }
+
     public async Task Handle(ImageAnalyzeCreatedEvent notification, CancellationToken cancellationToken)
     {
         var dailyLog = await _dailyLogRepository.GetByDateAsync(notification.DailyLogDate, notification.UserId, cancellationToken);
@@ -25,5 +31,11 @@ public class ImageAnalyzeCreatedEventHandler : INotificationHandler<ImageAnalyze
             notification.TotalCarbohydrates,
             notification.TotalFats
         );
+
+        //todo: currently adding to the first meal, later we can improve this by allowing users to specify meal type
+        var meal = dailyLog.Meals[0];
+        meal.AddFood(foodEntry);
+
+        await _unitOfWork.CommitAsync(cancellationToken);
     }
 }
