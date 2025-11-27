@@ -43,18 +43,16 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             if (request.Barcode is null && request.FoodId is null)
                 return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
 
-
-            // without ! there is a warning even if we check ExistsWithDateAsync
             var dailyLog = await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, user.Id, cancellationToken);
             if (dailyLog is null)
                 return Result<Guid>.NotFound("Daily log not found for the specified date.");
-
 
             var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
             if (requestMeal is null)
                 return Result<Guid>.NotFound("Meal not found for the specified meal type.");
 
-            //TODO: if request.FoodId is null and is provided still check in database if there is food with such barcode to avoid fetching from external service
+            if (request.QuantityInGrams <= 0)
+                return Result<Guid>.BadRequest("Quantity must be greater than zero.");
 
             var food = request.FoodId is not null
                 ? await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken)

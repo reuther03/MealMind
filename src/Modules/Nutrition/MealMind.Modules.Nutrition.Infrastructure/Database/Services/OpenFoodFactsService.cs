@@ -67,7 +67,7 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         if (searchResult?.Product is not null)
             return OpenFoodFactsDto.MapFoodDto(searchResult.Product);
 
-        _logger.LogInformation("No products found for search term: {SearchTerm}", barcode);
+        _logger.LogInformation("No products found for barcode: {Barcode}", barcode);
         return null!;
     }
 
