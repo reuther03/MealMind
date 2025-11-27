@@ -12,7 +12,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 
-public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMode Mode, IFormFile Image, bool SaveFoodEntry = true)
+public record GetCaloriesFromImageCommand(
+    string? Prompt,
+    NutritionEstimationMode Mode,
+    IFormFile Image,
+    DateOnly? DailyLogDate = null,
+    bool SaveFoodEntry = true
+)
     : ICommand<AnalyzedImageStructuredResponse>
 {
     public sealed class Handler : ICommandHandler<GetCaloriesFromImageCommand, AnalyzedImageStructuredResponse>
@@ -86,7 +92,9 @@ public record GetCaloriesFromImageCommand(string? Prompt, NutritionEstimationMod
                     foodImageAnalyze.FoodName,
                     foodImageAnalyze.TotalQuantityInGrams,
                     caloriesEstimation, proteinsEstimation,
-                    carbohydratesEstimation, fatsEstimation),
+                    carbohydratesEstimation, fatsEstimation,
+                    command.DailyLogDate ?? DateOnly.FromDateTime(DateTime.UtcNow)
+                ),
                 cancellationToken);
 
             return Result.Ok(response);

@@ -20,7 +20,7 @@ public class ImageAnalyze : AggregateRoot<Guid>
     public decimal FatMin { get; private init; }
     public decimal FatMax { get; private init; }
     public decimal ConfidenceScore { get; private init; }
-    public double TotalQuantityInGrams { get; private init; }
+    public decimal TotalQuantityInGrams { get; private init; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? SavedAt { get; private set; }
 
@@ -44,7 +44,7 @@ public class ImageAnalyze : AggregateRoot<Guid>
         decimal fatMin,
         decimal fatMax,
         decimal confidenceScore,
-        double totalQuantityInGrams,
+        decimal totalQuantityInGrams,
         DateTime? savedAt = null
     ) : base(id)
     {
@@ -85,7 +85,7 @@ public class ImageAnalyze : AggregateRoot<Guid>
         decimal fatMin,
         decimal fatMax,
         decimal confidenceScore,
-        double totalQuantityInGrams,
+        decimal totalQuantityInGrams,
         DateTime? savedAt = null
     )
     {

@@ -3,7 +3,7 @@
 public class DetectedFoodResponse
 {
     public string FoodName { get; init; } = string.Empty;
-    public double QuantityInGrams { get; init; }
+    public decimal QuantityInGrams { get; init; }
     public decimal ConfidenceScore { get; init; }
     public decimal MinEstimatedCalories { get; init; }
     public decimal MaxEstimatedCalories { get; init; }

@@ -95,8 +95,7 @@ public class FoodEntry : Entity<Guid>
     }
 
     public static FoodEntry CreateFromImageAnalyze(Name foodName, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
-        decimal totalCarbohydrates, decimal? totalSugars, decimal totalFats, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
-        decimal? totalSalt, decimal? totalCholesterol)
+        decimal totalCarbohydrates, decimal totalFats)
     {
         if (quantityInGrams <= 0)
             throw new ArgumentException("Quantity must be greater than zero", nameof(quantityInGrams));
@@ -110,13 +109,13 @@ public class FoodEntry : Entity<Guid>
             totalCalories,
             totalProteins,
             totalCarbohydrates,
-            totalSugars,
+            null,
             totalFats,
-            totalSaturatedFats,
-            totalFiber,
-            totalSodium,
-            totalSalt,
-            totalCholesterol,
+            null,
+            null,
+            null,
+            null,
+            null,
             FoodEntrySource.ImageAnalysis
         );
     }

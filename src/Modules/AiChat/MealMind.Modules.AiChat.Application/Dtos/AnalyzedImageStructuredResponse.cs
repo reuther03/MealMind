@@ -14,6 +14,6 @@ public record AnalyzedImageStructuredResponse
     public decimal TotalMinEstimatedCarbohydrates => DetectedFoods.Sum(f => f.MinEstimatedCarbohydrates);
     public decimal TotalMaxEstimatedCarbohydrates => DetectedFoods.Sum(f => f.MaxEstimatedCarbohydrates);
     public decimal TotalConfidenceScore => DetectedFoods.Average(f => f.ConfidenceScore);
-    public double TotalQuantityInGrams => DetectedFoods.Sum(f => f.QuantityInGrams);
+    public decimal TotalQuantityInGrams => DetectedFoods.Sum(f => f.QuantityInGrams);
     public byte[] ImageBytes { get; init; } = [];
 }
