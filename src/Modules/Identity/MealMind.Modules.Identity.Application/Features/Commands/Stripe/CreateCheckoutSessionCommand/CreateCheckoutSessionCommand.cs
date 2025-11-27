@@ -1,7 +1,6 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions;
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Application.Abstractions.Services;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
@@ -29,7 +28,8 @@ public record CreateCheckoutSessionCommand(SubscriptionTier SubscriptionTier) : 
         public async Task<Result<string>> Handle(CreateCheckoutSessionCommand command, CancellationToken cancellationToken)
         {
             var user = await _identityUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            Validator.ValidateNotNull(user);
+            if (user is null)
+                return Result<string>.NotFound("User not found.");
 
             var url = await _stripeService.CreateCheckoutSessionAsync(user.Id, command.SubscriptionTier);
 

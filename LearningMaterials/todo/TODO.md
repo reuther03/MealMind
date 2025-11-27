@@ -6,57 +6,6 @@ This file tracks important refactoring and feature tasks that need to be complet
 
 ## 🔴 Critical Priority (Do First)
 
-### 1. Implement ImageAnalyzeCreatedEventHandler
-**Status:** ❌ Not Started
-**File:** `src/Modules/Nutrition/MealMind.Modules.Nutrition.Application/Events/Integration/ImageAnalyzeCreatedEventHandler.cs`
-
-**Current State:**
-```csharp
-public Task Handle(ImageAnalyzeCreatedEvent notification, CancellationToken cancellationToken)
-{
-    return Task.CompletedTask;  // ❌ Empty implementation!
-}
-```
-
-**What to do:**
-1. Get today's DailyLog (guaranteed to exist due to 90-day pre-creation)
-2. Create FoodEntry from AI image analysis data
-3. Add FoodEntry to a default meal (e.g., Snack or create "Unassigned" meal type)
-4. Commit changes
-
-**Example Implementation:**
-```csharp
-public async Task Handle(ImageAnalyzeCreatedEvent notification, CancellationToken cancellationToken)
-{
-    var today = DateOnly.FromDateTime(DateTime.UtcNow);
-    var dailyLog = await _dailyLogRepository.GetByUserAndDateAsync(
-        notification.UserId, today, cancellationToken);
-
-    var foodEntry = FoodEntry.CreateFromImageAnalyze(
-        notification.FoodName,
-        (decimal)notification.QuantityInGrams,
-        notification.TotalCalories,
-        notification.TotalProteins,
-        notification.TotalCarbohydrates,
-        null, // sugars
-        notification.TotalFats,
-        null, null, null, null, null  // other micronutrients
-    );
-
-    var snackMeal = dailyLog.Meals.First(m => m.Type == MealType.Snack);
-    snackMeal.AddFoodEntry(foodEntry);
-
-    await _unitOfWork.CommitAsync(cancellationToken);
-}
-```
-
-**Why Critical:**
-- Feature is half-implemented - users can analyze images but can't save them to daily log
-- Integration event is published but nothing handles it
-- Breaks the complete image analysis flow
-
----
-
 ### 2. Remove DailyLog Creation from AddFoodCommand
 **Status:** ❌ Not Started
 **File:** `src/Modules/Nutrition/MealMind.Modules.Nutrition.Application/Features/Commands/AddFoodCommand/AddFoodCommand.cs`

@@ -4,7 +4,6 @@ using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
@@ -38,42 +37,22 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
         public async Task<Result<Guid>> Handle(AddFoodCommand request, CancellationToken cancellationToken)
         {
             var user = await _profileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
-            Validator.ValidateNotNull(user);
+            if (user is null)
+                return Result<Guid>.NotFound("User profile not found.");
 
             if (request.Barcode is null && request.FoodId is null)
                 return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
 
-            DailyLog dailyLog;
-            if (!await _dailyLogRepository.ExistsWithDateAsync(request.DailyLogDate, user.Id, cancellationToken))
-            {
-                dailyLog = DailyLog.Create(
-                    request.DailyLogDate,
-                    request.CurrentWeight,
-                    user.NutritionTargets
-                        .Where(x => x.ActiveDays
-                            .Any(z => z.DayOfWeek == request.DailyLogDate.DayOfWeek))
-                        .Select(x => x.Calories)
-                        .FirstOrDefault(),
-                    // use this above or domain method to get calories for current date based on active nutrition targets?
-                    user.Id);
 
-                //delete this
-                foreach (var type in Enum.GetValues<MealType>())
-                {
-                    var meal = Meal.Initialize(type, user.Id);
-                    dailyLog.AddMeal(meal);
-                }
+            // without ! there is a warning even if we check ExistsWithDateAsync
+            var dailyLog = await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, user.Id, cancellationToken);
+            if (dailyLog is null)
+                return Result<Guid>.NotFound("Daily log not found for the specified date.");
 
-                await _dailyLogRepository.AddAsync(dailyLog, cancellationToken);
-            }
-            else
-            {
-                // without ! there is a warning even if we check ExistsWithDateAsync
-                dailyLog = (await _dailyLogRepository.GetByDateAsync(request.DailyLogDate, user.Id, cancellationToken))!;
-            }
 
             var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
-            Validator.ValidateNotNull(requestMeal);
+            if (requestMeal is null)
+                return Result<Guid>.NotFound("Meal not found for the specified meal type.");
 
             //TODO: if request.FoodId is null and is provided still check in database if there is food with such barcode to avoid fetching from external service
 
@@ -81,7 +60,8 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
                 ? await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken)
                 : FoodDto.ToEntity(await _factsService.GetFoodByBarcodeAsync(request.Barcode!, cancellationToken));
 
-            Validator.ValidateNotNull(food);
+            if (food is null)
+                return Result<Guid>.NotFound("Food not found.");
 
             await _foodRepository.AddIfNotExistsAsync(food, cancellationToken);
 

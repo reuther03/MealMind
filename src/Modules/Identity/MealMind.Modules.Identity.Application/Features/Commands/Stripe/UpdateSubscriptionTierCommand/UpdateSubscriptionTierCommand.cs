@@ -2,7 +2,6 @@
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Application.Features.Payloads;
 using MealMind.Shared.Abstractions.Events.Integration;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
@@ -28,7 +27,8 @@ public record UpdateSubscriptionTierCommand(UpdateSubscriptionTierPayload Payloa
         public async Task<Result<Guid>> Handle(UpdateSubscriptionTierCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.Payload.UserId, cancellationToken);
-            Validator.ValidateNotNull(user);
+            if (user is null)
+                return Result<Guid>.NotFound("User not found.");
 
             var updatedSubscription = user.Subscription.UpdateToPaidTier(
                 request.Payload.SubscriptionTier,

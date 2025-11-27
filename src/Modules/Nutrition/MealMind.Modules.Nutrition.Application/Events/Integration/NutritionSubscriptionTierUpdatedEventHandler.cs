@@ -1,7 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Shared.Abstractions.Events.Integration;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
@@ -20,7 +19,8 @@ public class NutritionSubscriptionTierUpdatedEventHandler : INotificationHandler
     public async Task Handle(SubscriptionTierUpdatedEvent notification, CancellationToken cancellationToken)
     {
         var userProfile = await _userProfileRepository.GetByIdAsync(notification.UserId, cancellationToken);
-        Validator.ValidateNotNull(userProfile);
+        if (userProfile is null)
+            return;
 
         userProfile.UpdateSubscriptionTier(notification.SubscriptionTier);
 

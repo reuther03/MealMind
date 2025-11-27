@@ -1,6 +1,5 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions;
 using MealMind.Modules.Identity.Application.Abstractions.Database;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Contracts.Result;
 
@@ -22,7 +21,8 @@ public record SubscriptionDeletedCommand(string CustomerId, DateTime? CanceledAt
         public async Task<Result<bool>> Handle(SubscriptionDeletedCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByCustomerIdAsync(command.CustomerId, cancellationToken);
-            Validator.ValidateNotNull(user);
+            if (user is null)
+                return Result<bool>.NotFound("User not found.");
 
             var updatedSubscription =
                 user.Subscription.Cancel(user.Subscription.StripeCustomerId!, command.CanceledAt, command.Status);

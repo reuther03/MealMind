@@ -1,7 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.Kernel.Payloads;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
@@ -33,7 +32,8 @@ public record AddNutritionTargetCommand(
         public async Task<Result<Guid>> Handle(AddNutritionTargetCommand command, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
-            Validator.ValidateNotNull(userProfile);
+            if (userProfile is null)
+                return Result<Guid>.NotFound("User profile not found.");
 
             if (command.NutritionInGramsPayload is null && command.NutritionInPercentPayload is null)
                 return Result<Guid>.BadRequest("Either Nutrition in grams or Nutrition in percent must be provided.");

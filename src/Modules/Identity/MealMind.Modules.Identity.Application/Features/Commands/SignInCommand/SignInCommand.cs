@@ -1,6 +1,5 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Shared.Abstractions.Auth;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Contracts.Dto.Identity;
 using MealMind.Shared.Contracts.Result;
@@ -23,9 +22,7 @@ public sealed record SignInCommand(string Email, string Password) : ICommand<Acc
         public async Task<Result<AccessToken>> Handle(SignInCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByEmailAsync(command.Email, cancellationToken);
-            Validator.ValidateNotNull(user);
-
-            if (!user.Password.Verify(command.Password))
+            if (user is null || !user.Password.Verify(command.Password))
                 return Result<AccessToken>.BadRequest("Invalid credentials");
 
             var accessToken = AccessToken.Create(

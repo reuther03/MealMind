@@ -4,7 +4,6 @@ using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Domain.ImageAnalyze;
 using MealMind.Shared.Abstractions.Events.Integration;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
@@ -45,10 +44,10 @@ public record GetCaloriesFromImageCommand(
         public async Task<Result<AnalyzedImageStructuredResponse>> Handle(GetCaloriesFromImageCommand command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
-            Validator.ValidateNotNull(user);
+            if (user is null)
+                return Result<AnalyzedImageStructuredResponse>.NotFound("AI Chat user not found.");
 
             var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
-            Validator.ValidateNotNull(response);
 
             var foodImageAnalyze = ImageAnalyze.Create(
                 user.Id, response.FoodName, command.Prompt, null, response.ImageBytes,

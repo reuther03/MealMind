@@ -4,7 +4,6 @@ using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Domain.Conversation;
-using MealMind.Shared.Abstractions.Kernel.CommandValidators;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
@@ -48,10 +47,12 @@ public record GetChatResponseCommand(Guid ConversationId, string Prompt) : IComm
         public async Task<Result<StructuredResponse>> Handle(GetChatResponseCommand request, CancellationToken cancellationToken)
         {
             var aiUser = await _aiChatUserRepository.GetByUserIdAsync(_userService.UserId!, cancellationToken);
-            Validator.ValidateNotNull(aiUser);
+            if (aiUser is null)
+                return Result<StructuredResponse>.NotFound("AI Chat user not found.");
 
             var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId, cancellationToken);
-            Validator.ValidateNotNull(conversation);
+            if (conversation is null)
+                return Result<StructuredResponse>.NotFound("Conversation not found.");
 
             var userDailyPromptsCount = await _conversationRepository.GetUserDailyConversationPromptsCountAsync(aiUser.Id, cancellationToken);
 
