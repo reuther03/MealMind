@@ -16,7 +16,7 @@ public record GetCaloriesFromImageCommand(
     string? Prompt,
     NutritionEstimationMode Mode,
     IFormFile Image,
-    DateOnly? DailyLogDate = null,
+    DateOnly DailyLogDate,
     bool SaveFoodEntry = true
 )
     : ICommand<AnalyzedImageStructuredResponse>
@@ -93,8 +93,7 @@ public record GetCaloriesFromImageCommand(
                     foodImageAnalyze.TotalQuantityInGrams,
                     caloriesEstimation, proteinsEstimation,
                     carbohydratesEstimation, fatsEstimation,
-                    command.DailyLogDate ?? DateOnly.FromDateTime(DateTime.UtcNow)
-                ),
+                    command.DailyLogDate),
                 cancellationToken);
 
             return Result.Ok(response);

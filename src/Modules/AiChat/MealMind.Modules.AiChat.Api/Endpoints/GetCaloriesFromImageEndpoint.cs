@@ -17,7 +17,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                     [FromForm] string? prompt,
                     [FromForm] NutritionEstimationMode estimationMode,
                     IFormFile image,
-                    [FromForm] DateOnly? dailyLogDate,
+                    [FromForm] DateOnly dailyLogDate,
                     [FromForm] bool saveFoodEntry,
                     ISender sender) =>
                 {
