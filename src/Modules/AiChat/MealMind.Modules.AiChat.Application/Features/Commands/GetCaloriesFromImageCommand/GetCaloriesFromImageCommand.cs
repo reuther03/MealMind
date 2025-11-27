@@ -67,22 +67,22 @@ public record GetCaloriesFromImageCommand(
                 return Result.Ok(response);
 
             var caloriesEstimation = CalculateEstimation(
-                command.Mode.Calories,
+                command.Mode.EstimationModeCalories,
                 response.TotalMinEstimatedCalories,
                 response.TotalMaxEstimatedCalories);
 
             var proteinsEstimation = CalculateEstimation(
-                command.Mode.Protein,
+                command.Mode.EstimationModeProtein,
                 response.TotalMinEstimatedProteins,
                 response.TotalMaxEstimatedProteins);
 
             var carbohydratesEstimation = CalculateEstimation(
-                command.Mode.Carbohydrates,
+                command.Mode.EstimationModeCarbohydrates,
                 response.TotalMinEstimatedCarbohydrates,
                 response.TotalMaxEstimatedCarbohydrates);
 
             var fatsEstimation = CalculateEstimation(
-                command.Mode.Fats,
+                command.Mode.EstimationModeFats,
                 response.TotalMinEstimatedFats,
                 response.TotalMaxEstimatedFats);
 

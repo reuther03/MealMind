@@ -13,10 +13,15 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("get-calories-from-image",
-                async ([FromForm] string? prompt, [FromForm] NutritionEstimationMode estimationMode, [FromForm] bool? saveFoodEntry, IFormFile image,
+                async (
+                    [FromForm] string? prompt,
+                    [FromForm] NutritionEstimationMode estimationMode,
+                    IFormFile image,
+                    [FromForm] DateOnly? dailyLogDate,
+                    [FromForm] bool saveFoodEntry,
                     ISender sender) =>
                 {
-                    var result = await sender.Send(new GetCaloriesFromImageCommand(prompt, estimationMode, image));
+                    var result = await sender.Send(new GetCaloriesFromImageCommand(prompt, estimationMode, image, dailyLogDate, saveFoodEntry));
                     return result;
                 })
             .RequireAuthorization()

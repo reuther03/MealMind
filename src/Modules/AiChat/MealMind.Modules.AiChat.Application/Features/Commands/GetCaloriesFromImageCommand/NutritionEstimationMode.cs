@@ -2,8 +2,8 @@
 
 public record NutritionEstimationMode
 {
-    public EstimationMode Calories { get; init; }
-    public EstimationMode Protein { get; init; }
-    public EstimationMode Carbohydrates { get; init; }
-    public EstimationMode Fats { get; init; }
+    public EstimationMode EstimationModeCalories { get; init; }
+    public EstimationMode EstimationModeProtein { get; init; }
+    public EstimationMode EstimationModeCarbohydrates { get; init; }
+    public EstimationMode EstimationModeFats { get; init; }
 }
