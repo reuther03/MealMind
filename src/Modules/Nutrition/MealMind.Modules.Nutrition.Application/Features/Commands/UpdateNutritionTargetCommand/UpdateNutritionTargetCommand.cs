@@ -6,17 +6,18 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 
-namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddNutritionTargetCommand;
+namespace MealMind.Modules.Nutrition.Application.Features.Commands.UpdateNutritionTargetCommand;
 
-public record AddNutritionTargetCommand(
+public record UpdateNutritionTargetCommand(
+    Guid NutritionTargetId,
     decimal Calories,
     NutritionInGramsPayload? NutritionInGramsPayload,
     NutritionInPercentPayload? NutritionInPercentPayload,
     decimal WaterIntake,
     List<DayOfWeek>? ActiveDays
-) : ICommand<Guid>
+) : ICommand<bool>
 {
-    public sealed class Handler : ICommandHandler<AddNutritionTargetCommand, Guid>
+    public sealed class Handler : ICommandHandler<UpdateNutritionTargetCommand, bool>
     {
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUserService _userService;
@@ -29,40 +30,42 @@ public record AddNutritionTargetCommand(
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Guid>> Handle(AddNutritionTargetCommand command, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(UpdateNutritionTargetCommand command, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
-            if (userProfile is null)
-                return Result<Guid>.NotFound("User profile not found.");
+            var nutritionTarget = await _userProfileRepository.GetNutritionTargetByIdAsync(command.NutritionTargetId, _userService.UserId, cancellationToken);
+            if (nutritionTarget is null)
+                return Result<bool>.NotFound("User profile not found.");
 
             if (command.NutritionInGramsPayload is null && command.NutritionInPercentPayload is null)
-                return Result<Guid>.BadRequest("Either Nutrition in grams or Nutrition in percent must be provided.");
+                return Result<bool>.BadRequest("Either Nutrition in grams or Nutrition in percent must be provided.");
 
             if (command.NutritionInGramsPayload is not null && command.NutritionInPercentPayload is not null)
-                return Result<Guid>.BadRequest("Only one of Nutrition in grams or Nutrition in percent can be provided.");
+                return Result<bool>.BadRequest("Only one of Nutrition in grams or Nutrition in percent can be provided.");
 
-            var nutritionTarget = command.NutritionInGramsPayload is not null
-                ? NutritionTarget.CreateFromGrams(
+            if (command.NutritionInGramsPayload is not null)
+            {
+                nutritionTarget.UpdateForGrams(
                     command.Calories,
                     command.NutritionInGramsPayload.ProteinInGrams,
                     command.NutritionInGramsPayload.CarbohydratesInGrams,
                     command.NutritionInGramsPayload.FatsInGrams,
-                    command.WaterIntake,
-                    userProfile.Id)
-                : NutritionTarget.CreateFromPercentages(
+                    command.WaterIntake);
+            }
+            else
+            {
+                nutritionTarget.UpdateForPercentages(
                     command.Calories,
                     command.NutritionInPercentPayload!.ProteinPercentage,
                     command.NutritionInPercentPayload.CarbohydratesPercentage,
                     command.NutritionInPercentPayload.FatsPercentage,
-                    command.WaterIntake,
-                    userProfile.Id);
+                    command.WaterIntake);
+            }
 
-            nutritionTarget.AddActiveDay(command.ActiveDays ?? Enum.GetValues<DayOfWeek>().ToList());
+            nutritionTarget.UpdateActiveDays(command.ActiveDays ?? Enum.GetValues<DayOfWeek>().ToList());
 
-            userProfile.AddNutritionTarget(nutritionTarget);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return Result<Guid>.Ok(nutritionTarget.Id);
+            return Result<bool>.Ok(true);
         }
     }
 }

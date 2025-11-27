@@ -113,6 +113,68 @@ public class NutritionTarget : Entity<Guid>
         if (_activeDays.Any(ad => dayOfWeek.Contains(ad.DayOfWeek)))
             throw new InvalidOperationException($"Active day for {dayOfWeek} already exists.");
 
+        //todo: validate if all days are covered i think here
+
+        foreach (var activeDay in dayOfWeek)
+        {
+            _activeDays.Add(NutritionTargetActiveDays.Create(Id, activeDay));
+        }
+    }
+
+    public void UpdateForGrams(
+        decimal calories,
+        decimal proteinGrams,
+        decimal carbohydrateGrams,
+        decimal fatGrams,
+        decimal waterIntake
+    )
+    {
+        var calculatedCalories = proteinGrams * 4 + carbohydrateGrams * 4 + fatGrams * 9;
+        const decimal calorieMargin = 12m;
+
+        if (Math.Abs(calculatedCalories - calories) > calorieMargin)
+            throw new DomainException($"Macro calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
+
+        Calories = calories;
+        ProteinGrams = proteinGrams;
+        CarbohydratesGrams = carbohydrateGrams;
+        FatsGrams = fatGrams;
+        WaterIntake = waterIntake;
+    }
+
+    public void UpdateForPercentages(
+        decimal calories,
+        decimal proteinPercentage,
+        decimal carbohydratesPercentage,
+        decimal fatsPercentage,
+        decimal waterIntake
+    )
+    {
+        const decimal calorieMargin = 12m;
+
+        var totalPercent = proteinPercentage + carbohydratesPercentage + fatsPercentage;
+        if (totalPercent != 100)
+            throw new DomainException($"Percentages must sum to 100% (currently {totalPercent}%)");
+
+        var proteinGrams = Math.Round(proteinPercentage * calories / 400, 1);
+        var carbohydratesGrams = Math.Round(carbohydratesPercentage * calories / 400, 1);
+        var fatsGrams = Math.Round(fatsPercentage * calories / 900, 1);
+
+        var calculatedCalories = proteinGrams * 4 + carbohydratesGrams * 4 + fatsGrams * 9;
+
+        if (Math.Abs(calculatedCalories - calories) > calorieMargin)
+            throw new DomainException($"Calculated calories ({calculatedCalories:F0}) don't match target calories ({calories:F0})");
+
+        Calories = calories;
+        ProteinGrams = proteinGrams;
+        CarbohydratesGrams = carbohydratesGrams;
+        FatsGrams = fatsGrams;
+        WaterIntake = waterIntake;
+    }
+
+    public void UpdateActiveDays(List<DayOfWeek> dayOfWeek)
+    {
+        _activeDays.Clear();
         foreach (var activeDay in dayOfWeek)
         {
             _activeDays.Add(NutritionTargetActiveDays.Create(Id, activeDay));

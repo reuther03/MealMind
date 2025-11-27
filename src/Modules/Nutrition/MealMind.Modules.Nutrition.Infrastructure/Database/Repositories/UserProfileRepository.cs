@@ -23,4 +23,10 @@ internal class UserProfileRepository : Repository<UserProfile, NutritionDbContex
             .Include(x => x.NutritionTargets)
             .ThenInclude(x => x.ActiveDays)
             .FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
+
+    public async Task<NutritionTarget?> GetNutritionTargetByIdAsync(Guid nutritionTargetId, UserId userId, CancellationToken cancellationToken = default)
+        => await _dbContext.UserProfiles
+            .Where(x => x.Id == userId)
+            .SelectMany(x => x.NutritionTargets)
+            .FirstOrDefaultAsync(x => x.Id == nutritionTargetId, cancellationToken);
 }

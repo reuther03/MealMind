@@ -8,4 +8,5 @@ public interface IUserProfileRepository : IRepository<UserProfile>
 {
     Task<UserProfile?> GetByIdAsync(UserId userId, CancellationToken cancellationToken = default);
     Task<UserProfile?> GetWithIncludesByIdAsync(UserId userId, CancellationToken cancellationToken = default);
+    Task<NutritionTarget?> GetNutritionTargetByIdAsync(Guid nutritionTargetId, UserId userId, CancellationToken cancellationToken = default);
 }
