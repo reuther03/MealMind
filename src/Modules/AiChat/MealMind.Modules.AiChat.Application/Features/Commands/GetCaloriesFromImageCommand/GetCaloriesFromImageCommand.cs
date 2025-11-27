@@ -14,7 +14,7 @@ namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromI
 
 public record GetCaloriesFromImageCommand(
     string? Prompt,
-    NutritionEstimationMode Mode,
+    EstimationMode Mode,
     IFormFile Image,
     DateOnly DailyLogDate,
     bool SaveFoodEntry = true
@@ -67,22 +67,22 @@ public record GetCaloriesFromImageCommand(
                 return Result.Ok(response);
 
             var caloriesEstimation = CalculateEstimation(
-                command.Mode.EstimationModeCalories,
+                command.Mode,
                 response.TotalMinEstimatedCalories,
                 response.TotalMaxEstimatedCalories);
 
             var proteinsEstimation = CalculateEstimation(
-                command.Mode.EstimationModeProtein,
+                command.Mode,
                 response.TotalMinEstimatedProteins,
                 response.TotalMaxEstimatedProteins);
 
             var carbohydratesEstimation = CalculateEstimation(
-                command.Mode.EstimationModeCarbohydrates,
+                command.Mode,
                 response.TotalMinEstimatedCarbohydrates,
                 response.TotalMaxEstimatedCarbohydrates);
 
             var fatsEstimation = CalculateEstimation(
-                command.Mode.EstimationModeFats,
+                command.Mode,
                 response.TotalMinEstimatedFats,
                 response.TotalMaxEstimatedFats);
 

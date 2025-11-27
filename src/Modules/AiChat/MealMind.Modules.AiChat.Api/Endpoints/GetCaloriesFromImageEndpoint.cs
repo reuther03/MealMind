@@ -15,7 +15,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
         endpointRouteBuilder.MapPost("get-calories-from-image",
                 async (
                     [FromForm] string? prompt,
-                    [FromForm] NutritionEstimationMode estimationMode,
+                    [FromForm] EstimationMode estimationMode,
                     IFormFile image,
                     [FromForm] DateOnly dailyLogDate,
                     [FromForm] bool saveFoodEntry,
