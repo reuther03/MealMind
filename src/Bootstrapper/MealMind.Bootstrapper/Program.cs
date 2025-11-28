@@ -17,7 +17,7 @@ services.AddInfrastructure(assemblies, modules, configuration);
 
 foreach (var module in modules)
 {
-    module.Register(services);
+    module.Register(services, configuration);
 }
 
 var app = builder.Build();

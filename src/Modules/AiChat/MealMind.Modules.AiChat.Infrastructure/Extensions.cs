@@ -21,17 +21,13 @@ public static class Extensions
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddInfrastructure()
+        public IServiceCollection AddInfrastructure(IConfiguration configuration)
         {
-            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-            // var options = new OpenRouterModelOptions();
-            // configuration.GetSection(OpenRouterModelOptions.SectionName).Bind(options);
-
             var options = new GeminiOptions();
             configuration.GetSection(GeminiOptions.SectionName).Bind(options);
 
 
-            services.AddPostgres<AiChatDbContext>()
+            services.AddPostgres<AiChatDbContext>(configuration)
                 .AddScoped<IAiChatDbContext, AiChatDbContext>()
                 .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
                 .AddScoped<IEmbeddingService, EmbeddingService>()

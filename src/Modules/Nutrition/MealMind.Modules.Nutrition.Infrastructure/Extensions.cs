@@ -5,6 +5,7 @@ using MealMind.Modules.Nutrition.Infrastructure.Database;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Repositories;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Services;
 using MealMind.Shared.Infrastructure.Postgres;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MealMind.Modules.Nutrition.Infrastructure;
@@ -13,10 +14,10 @@ public static class Extensions
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddInfrastructure()
+        public IServiceCollection AddInfrastructure(IConfiguration configuration)
         {
             services
-                .AddPostgres<NutritionDbContext>()
+                .AddPostgres<NutritionDbContext>(configuration)
                 .AddScoped<INutritionDbContext, NutritionDbContext>()
                 .AddScoped<IUserProfileRepository, UserProfileRepository>()
                 .AddScoped<IDailyLogRepository, DailyLogRepository>()

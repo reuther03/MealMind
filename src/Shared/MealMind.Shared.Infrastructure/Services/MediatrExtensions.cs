@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MealMind.Shared.Abstractions;
 using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;

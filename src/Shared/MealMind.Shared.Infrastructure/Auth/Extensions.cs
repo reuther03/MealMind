@@ -12,7 +12,7 @@ public static class Extensions
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetRequiredSection(JwtOptions.SectionName));
-        var jwtOptions = services.GetOptions<JwtOptions>(JwtOptions.SectionName);
+        var jwtOptions = configuration.GetOptions<JwtOptions>(JwtOptions.SectionName);
         services.AddSingleton<IJwtProvider, JwtProvider>();
 
         var tokenValidationParameters = new TokenValidationParameters

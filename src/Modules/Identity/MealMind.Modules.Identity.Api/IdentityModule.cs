@@ -3,6 +3,7 @@ using MealMind.Modules.Identity.Domain;
 using MealMind.Modules.Identity.Infrastructure;
 using MealMind.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -16,12 +17,12 @@ public class IdentityModule : IModule
     public string Name => "Identities";
     public string Path => BasePath;
 
-    public void Register(IServiceCollection services)
+    public void Register(IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddDomain()
             .AddApplication()
-            .AddInfrastructure();
+            .AddInfrastructure(configuration);
     }
 
     public void Use(WebApplication app)

@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Database;
+﻿using MealMind.Shared.Abstractions;
+using MealMind.Shared.Abstractions.Kernel.Database;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.Extensions.DependencyInjection;

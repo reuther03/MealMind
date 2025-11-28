@@ -4,6 +4,7 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Infrastructure.Postgres.Decorators;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MealMind.Shared.Infrastructure.Postgres;
@@ -16,23 +17,26 @@ public static class Extensions
         {
             var options = services.GetOptions<PostgresOptions>("postgres");
             services.AddSingleton(options);
-            services.AddSingleton(new UnitOfWorkTypeRegistry());
+            services.AddSingleton(UnitOfWorkTypeRegistry.Instance);
 
             return services;
         }
 
         public IServiceCollection AddDecorators()
         {
+            // TODO: Decorators disabled - nested generic classes don't work with TryDecorate
+            // Need to refactor LoggingDecorator to be top-level classes
             services.TryDecorate(typeof(ICommandHandler<,>), typeof(TransactionalCommandHandlerDecorator<>));
-            services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator));
-            services.TryDecorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator));
+            services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator.CommandHandler<,>));
+            services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingDecorator.BaseCommandHandler<>));
+            services.TryDecorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator.QueryHandler<,>));
 
             return services;
         }
 
-        public IServiceCollection AddPostgres<T>() where T : DbContext
+        public IServiceCollection AddPostgres<T>(IConfiguration configuration) where T : DbContext
         {
-            var options = services.GetOptions<PostgresOptions>("postgres");
+            var options = configuration.GetOptions<PostgresOptions>("postgres");
             services.AddDbContext<T>(x => x.UseNpgsql(options.ConnectionString).UseNpgsql(o => o.UseVector()));
             return services;
         }
@@ -54,8 +58,7 @@ public static class Extensions
             services.AddScoped<TUnitOfWork, TImplementation>();
             services.AddScoped<IBaseUnitOfWork, TImplementation>();
 
-            using var serviceProvider = services.BuildServiceProvider();
-            serviceProvider.GetRequiredService<UnitOfWorkTypeRegistry>().Register<TUnitOfWork>();
+            UnitOfWorkTypeRegistry.Instance.Register<TUnitOfWork>();
 
             return services;
         }

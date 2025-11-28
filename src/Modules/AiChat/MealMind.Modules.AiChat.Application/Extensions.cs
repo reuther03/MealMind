@@ -10,9 +10,8 @@ public static class Extensions
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddApplication()
+        public IServiceCollection AddApplication(IConfiguration configuration)
         {
-            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             var options = new OllamaAiChatOptions();
             configuration.GetSection(OllamaAiChatOptions.SectionName).Bind(options);
 

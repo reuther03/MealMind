@@ -15,14 +15,12 @@ public static class Extensions
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddInfrastructure()
+        public IServiceCollection AddInfrastructure(IConfiguration configuration)
         {
-            var serviceProvider = services.BuildServiceProvider();
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
             services.Configure<StripeOptions>(configuration.GetSection("stripe"));
 
             services
-                .AddPostgres<IdentityDbContext>()
+                .AddPostgres<IdentityDbContext>(configuration)
                 .AddScoped<IIdentityDbContext, IdentityDbContext>()
                 .AddScoped<IIdentityUserRepository, IdentityUserRepository>()
                 .AddScoped<IStripeService, StripeService>()

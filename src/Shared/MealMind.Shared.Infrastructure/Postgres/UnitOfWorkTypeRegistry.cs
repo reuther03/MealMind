@@ -4,6 +4,8 @@ namespace MealMind.Shared.Infrastructure.Postgres;
 
 internal class UnitOfWorkTypeRegistry
 {
+    public static UnitOfWorkTypeRegistry Instance { get; } = new();
+
     private readonly Dictionary<string, Type> _types = new();
 
     public void Register<T>() where T : IBaseUnitOfWork
