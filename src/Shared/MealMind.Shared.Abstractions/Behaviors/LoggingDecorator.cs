@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
+using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.AspNetCore.HttpLogging;
@@ -7,8 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MealMind.Shared.Abstractions.Behaviors;
 
-
-public  class LoggingDecorator
+public class LoggingDecorator
 {
     [Decorator]
     public sealed class QueryHandler<TQuery, TResponse> : IQueryHandler<TQuery, TResponse>
@@ -160,6 +160,53 @@ public  class LoggingDecorator
             }
 
             return result;
+        }
+    }
+
+    [Decorator]
+    public sealed class NotificationHandler<TNotification> : INotificationHandler<TNotification>
+        where TNotification : INotification
+    {
+        private readonly ILogger<NotificationHandler<TNotification>> _logger;
+        private readonly INotificationHandler<TNotification> _innerHandler;
+
+        public NotificationHandler(ILogger<NotificationHandler<TNotification>> logger, INotificationHandler<TNotification> innerHandler)
+        {
+            _logger = logger;
+            _innerHandler = innerHandler;
+        }
+
+        public async Task Handle(TNotification notification, CancellationToken cancellationToken = default)
+        {
+            var requestName = typeof(TNotification).Name;
+            var stopwatch = Stopwatch.StartNew();
+
+            _logger.LogInformation(
+                "{Timestamp} | Handling {RequestName}",
+                DateTime.UtcNow,
+                requestName);
+
+            try
+            {
+                await _innerHandler.Handle(notification, cancellationToken);
+
+                stopwatch.Stop();
+                _logger.LogInformation(
+                    "{Timestamp} | Handled successfully {RequestName} | {ElapsedMilliseconds}ms",
+                    DateTime.UtcNow,
+                    requestName,
+                    stopwatch.ElapsedMilliseconds);
+            }
+            catch (System.Exception ex)
+            {
+                stopwatch.Stop();
+                _logger.LogError(ex,
+                    "{Timestamp} | {RequestName} Error handling | {ElapsedMilliseconds}ms",
+                    DateTime.UtcNow,
+                    requestName,
+                    stopwatch.ElapsedMilliseconds);
+                throw;
+            }
         }
     }
 }
