@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace MealMind.Shared.Abstractions.Behaviors;
 
-// nie lepiej decorate IRequest i wyciagac typ po prefixie?
 
-public static class LoggingDecorator
+public  class LoggingDecorator
 {
-    internal sealed class QueryHandler<TQuery, TResponse> : IQueryHandler<TQuery, TResponse>
+    [Decorator]
+    public sealed class QueryHandler<TQuery, TResponse> : IQueryHandler<TQuery, TResponse>
         where TQuery : IQuery<TResponse>
     {
         private readonly ILogger<QueryHandler<TQuery, TResponse>> _logger;
@@ -48,7 +48,6 @@ public static class LoggingDecorator
             else
             {
                 stopwatch.Stop();
-
                 _logger.LogError(
                     "{Timestamp} | {RequestName} Error handling | {ElapsedMilliseconds}ms | {ResultMessage}",
                     DateTime.UtcNow,
@@ -62,7 +61,8 @@ public static class LoggingDecorator
         }
     }
 
-    internal sealed class CommandHandler<TCommand, TResponse> : ICommandHandler<TCommand, TResponse>
+    [Decorator]
+    public sealed class CommandHandler<TCommand, TResponse> : ICommandHandler<TCommand, TResponse>
         where TCommand : ICommand<TResponse>
     {
         private readonly ILogger<CommandHandler<TCommand, TResponse>> _logger;
@@ -74,7 +74,7 @@ public static class LoggingDecorator
             _innerHandler = innerHandler;
         }
 
-        public async Task<Result<TResponse>> Handle(TCommand query, CancellationToken cancellationToken = default)
+        public async Task<Result<TResponse>> Handle(TCommand command, CancellationToken cancellationToken = default)
         {
             var requestName = typeof(TCommand).Name;
 
@@ -85,7 +85,7 @@ public static class LoggingDecorator
                 DateTime.UtcNow,
                 requestName);
 
-            Result<TResponse> result = await _innerHandler.Handle(query, cancellationToken);
+            Result<TResponse> result = await _innerHandler.Handle(command, cancellationToken);
 
             if (result.IsSuccess)
             {
@@ -99,7 +99,57 @@ public static class LoggingDecorator
             else
             {
                 stopwatch.Stop();
+                _logger.LogError(
+                    "{Timestamp} | {RequestName} Error handling | {ElapsedMilliseconds}ms | {ResultMessage}",
+                    DateTime.UtcNow,
+                    requestName,
+                    stopwatch.ElapsedMilliseconds,
+                    result.Message
+                );
+            }
 
+            return result;
+        }
+    }
+
+    [Decorator]
+    public sealed class BaseCommandHandler<TBaseCommand> : ICommandHandler<TBaseCommand>
+        where TBaseCommand : ICommand
+    {
+        private readonly ILogger<BaseCommandHandler<TBaseCommand>> _logger;
+        private readonly ICommandHandler<TBaseCommand> _innerHandler;
+
+        public BaseCommandHandler(ILogger<BaseCommandHandler<TBaseCommand>> logger, ICommandHandler<TBaseCommand> innerHandler)
+        {
+            _logger = logger;
+            _innerHandler = innerHandler;
+        }
+
+        public async Task<Result> Handle(TBaseCommand command, CancellationToken cancellationToken = default)
+        {
+            var requestName = typeof(TBaseCommand).Name;
+
+            var stopwatch = Stopwatch.StartNew();
+
+            _logger.LogInformation(
+                "{Timestamp} | Handling {RequestName}",
+                DateTime.UtcNow,
+                requestName);
+
+            Result result = await _innerHandler.Handle(command, cancellationToken);
+
+            if (result.IsSuccess)
+            {
+                stopwatch.Stop();
+                _logger.LogInformation(
+                    "{Timestamp} | Handled successfully {RequestName} | {ElapsedMilliseconds}ms",
+                    DateTime.UtcNow,
+                    requestName,
+                    stopwatch.ElapsedMilliseconds);
+            }
+            else
+            {
+                stopwatch.Stop();
                 _logger.LogError(
                     "{Timestamp} | {RequestName} Error handling | {ElapsedMilliseconds}ms | {ResultMessage}",
                     DateTime.UtcNow,
