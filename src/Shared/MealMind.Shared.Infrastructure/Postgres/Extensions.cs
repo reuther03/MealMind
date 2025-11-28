@@ -25,8 +25,6 @@ public static class Extensions
 
         public IServiceCollection AddDecorators()
         {
-            // TODO: Decorators disabled - nested generic classes don't work with TryDecorate
-            // Need to refactor LoggingDecorator to be top-level classes
             services.TryDecorate(typeof(ICommandHandler<,>), typeof(TransactionalCommandHandlerDecorator<>));
             services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator.CommandHandler<,>));
             services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingDecorator.BaseCommandHandler<>));
