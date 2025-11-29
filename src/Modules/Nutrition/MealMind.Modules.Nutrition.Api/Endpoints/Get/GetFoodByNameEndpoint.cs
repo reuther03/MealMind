@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace MealMind.Modules.Nutrition.Api.Endpoints;
+namespace MealMind.Modules.Nutrition.Api.Endpoints.Get;
 
 public class GetFoodByNameEndpoint : EndpointBase
 {

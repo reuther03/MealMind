@@ -4,7 +4,7 @@ using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
-namespace MealMind.Modules.Nutrition.Api.Endpoints;
+namespace MealMind.Modules.Nutrition.Api.Endpoints.Put;
 
 public class UpdateNutritionTargetEndpoint : EndpointBase
 {
