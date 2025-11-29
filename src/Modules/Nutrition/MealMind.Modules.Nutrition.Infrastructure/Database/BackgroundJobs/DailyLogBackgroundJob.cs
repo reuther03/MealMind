@@ -12,7 +12,7 @@ public class DailyLogBackgroundJob : BackgroundService
 {
     private readonly ILogger<DailyLogBackgroundJob> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromMinutes(1));
+    private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromHours(12));
 
 
     public DailyLogBackgroundJob(ILogger<DailyLogBackgroundJob> logger, IServiceScopeFactory serviceScopeFactory)
@@ -23,8 +23,6 @@ public class DailyLogBackgroundJob : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
-
         while (await _periodicTimer.WaitForNextTickAsync(stoppingToken))
         {
             try
@@ -54,7 +52,7 @@ public class DailyLogBackgroundJob : BackgroundService
                 FutureDailyLogCount = x.Count(z => z.CurrentDate >= today),
                 LatestDailyLogDate = x.Max(z => z.CurrentDate)
             })
-            .Where(x => x.FutureDailyLogCount < 91)
+            .Where(x => x.FutureDailyLogCount < 90)
             .ToListAsync(cancellationToken);
 
         var userIds = filteredUserWithCount.Select(x => x.UserId).ToList();
@@ -71,7 +69,7 @@ public class DailyLogBackgroundJob : BackgroundService
             var userData = users.First(x => x.Id == userWithCount.UserId);
             var lastLog = userWithCount.LatestDailyLogDate;
 
-            var logsToCreate = 91 - userWithCount.FutureDailyLogCount;
+            var logsToCreate = 90 - userWithCount.FutureDailyLogCount;
 
             for (var i = 0; i < logsToCreate; i++)
             {
