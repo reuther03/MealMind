@@ -2,6 +2,7 @@
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
+using MealMind.Modules.Nutrition.Infrastructure.Database.BackgroundJobs;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Repositories;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Services;
 using MealMind.Shared.Infrastructure.Postgres;
@@ -30,6 +31,8 @@ public static class Extensions
                     opt.DefaultRequestHeaders.Add("User-Agent", "MealMind/1.0");
                     opt.Timeout = TimeSpan.FromSeconds(20);
                 });
+
+            services.AddHostedService<DailyLogBackgroundJob>();
 
             return services;
         }

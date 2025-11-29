@@ -1,4 +1,7 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
+using MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Modules.Nutrition.Domain.Tracking;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -32,7 +35,6 @@ public class DailyLogBackgroundJob : BackgroundService
             catch (Exception e)
             {
                 _logger.LogError(e, "Error occurred executing {Name} at {Time}", nameof(DailyLogBackgroundJob), DateTime.UtcNow);
-                throw;
             }
         }
     }
@@ -44,8 +46,50 @@ public class DailyLogBackgroundJob : BackgroundService
 
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        // var filteredUsers = await dbContext.DailyLogs.Where(x => x.CurrentDate >= today)
+        var filteredUserWithCount = await dbContext.DailyLogs
+            .GroupBy(x => x.UserId)
+            .Select(x => new
+            {
+                UserId = x.Key,
+                FutureDailyLogCount = x.Count(z => z.CurrentDate >= today),
+                LatestDailyLogDate = x.Max(z => z.CurrentDate)
+            })
+            .Where(x => x.FutureDailyLogCount < 90)
+            .ToListAsync(cancellationToken);
 
-        await Task.CompletedTask;
+        var userIds = filteredUserWithCount.Select(x => x.UserId).ToList();
+
+        var users = await dbContext.UserProfiles
+            .Include(x => x.NutritionTargets)
+            .Where(x => userIds.Contains(x.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var userWithCount in filteredUserWithCount)
+        {
+            var userData = users.First(x => x.Id == userWithCount.UserId);
+            var lastLog = userWithCount.LatestDailyLogDate;
+
+            var logsToCreate = 90 - userWithCount.FutureDailyLogCount;
+
+            for (var i = 0; i < logsToCreate; i++)
+            {
+                var newDate = lastLog.AddDays(i + 1);
+                var caloriesGoalForDailyLog = userData.NutritionTargets
+                    .FirstOrDefault(x => x.ActiveDays
+                        .Any(z => z.DayOfWeek == newDate.DayOfWeek))!.Calories;
+
+                var dailyLog = DailyLog.Create(newDate, null, caloriesGoalForDailyLog, userData.Id);
+
+                foreach (var mealType in Enum.GetValues<MealType>())
+                {
+                    var meal = Meal.Initialize(mealType, userData.Id);
+                    dailyLog.AddMeal(meal);
+                }
+
+                await dbContext.DailyLogs.AddAsync(dailyLog, cancellationToken);
+            }
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
