@@ -3,7 +3,6 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Contracts.Result;
-using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Logging;
 
 namespace MealMind.Shared.Abstractions.Behaviors;

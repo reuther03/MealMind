@@ -7,6 +7,7 @@ namespace MealMind.Modules.Nutrition.Domain.Tracking;
 public class DailyLog : AggregateRoot<DailyLogId>
 {
     private readonly List<Meal> _meals = [];
+
     public DateOnly CurrentDate { get; private set; }
     public decimal? CurrentWeight { get; private set; }
     public IReadOnlyList<Meal> Meals => _meals.AsReadOnly();

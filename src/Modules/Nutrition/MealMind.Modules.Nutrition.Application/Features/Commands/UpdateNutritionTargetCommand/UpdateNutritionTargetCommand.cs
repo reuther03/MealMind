@@ -1,6 +1,5 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
-using MealMind.Modules.Nutrition.Domain.UserProfile;
 using MealMind.Shared.Abstractions.Kernel.Payloads;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;

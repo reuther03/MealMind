@@ -64,6 +64,7 @@ public class DailyLogBackgroundJob : BackgroundService
             .Where(x => userIds.Contains(x.Id))
             .ToListAsync(cancellationToken);
 
+
         foreach (var userWithCount in filteredUserWithCount)
         {
             var userData = users.First(x => x.Id == userWithCount.UserId);
@@ -92,4 +93,30 @@ public class DailyLogBackgroundJob : BackgroundService
 
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    // await Parallel.ForEachAsync(filteredUserWithCount, new  ParallelOptions { MaxDegreeOfParallelism = 5 }, async ( userWithCount, token) =>
+    // {
+    //     var userData = users.First(x => x.Id == userWithCount.UserId);
+    //     var lastLog = userWithCount.LatestDailyLogDate;
+    //
+    //     var logsToCreate = 90 - userWithCount.FutureDailyLogCount;
+    //
+    //     for (var i = 0; i < logsToCreate; i++)
+    //     {
+    //         var newDate = lastLog.AddDays(i + 1);
+    //         var caloriesGoalForDailyLog = userData.NutritionTargets
+    //             .FirstOrDefault(x => x.ActiveDays
+    //                 .Any(z => z.DayOfWeek == newDate.DayOfWeek))!.Calories;
+    //
+    //         var dailyLog = DailyLog.Create(newDate, null, caloriesGoalForDailyLog, userData.Id);
+    //
+    //         foreach (var mealType in Enum.GetValues<MealType>())
+    //         {
+    //             var meal = Meal.Initialize(mealType, userData.Id);
+    //             dailyLog.AddMeal(meal);
+    //         }
+    //
+    //         await dbContext.DailyLogs.AddAsync(dailyLog, token);
+    //     }
+    // });
 }
