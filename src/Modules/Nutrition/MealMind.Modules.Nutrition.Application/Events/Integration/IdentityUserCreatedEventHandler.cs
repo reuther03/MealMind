@@ -74,7 +74,7 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
                     targetPayload.WaterIntake,
                     userProfile.Id);
 
-            nutritionTarget.AddActiveDay(targetPayload.ActiveDays ?? Enum.GetValues<DayOfWeek>().ToList());
+            nutritionTarget.AddActiveDay(targetPayload.ActiveDays ?? coveredDays.ToList());
             userProfile.AddNutritionTarget(nutritionTarget);
         }
 
