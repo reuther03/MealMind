@@ -63,7 +63,6 @@ public class DailyLogBackgroundJob : BackgroundService
             .Where(x => userIds.Contains(x.Id))
             .ToListAsync(cancellationToken);
 
-
         foreach (var userWithCount in filteredUserWithCount)
         {
             var userData = users.First(x => x.Id == userWithCount.UserId);
