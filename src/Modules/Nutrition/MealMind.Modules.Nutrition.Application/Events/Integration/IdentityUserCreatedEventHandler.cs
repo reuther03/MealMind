@@ -89,7 +89,7 @@ public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUse
 
             if (calorieTarget == null)
                 throw new InvalidOperationException(
-                    $"No nutrition target found for {logDate.DayOfWeek}. This indicates a validation error.");
+                    $"No nutrition target found for {logDate.DayOfWeek}.");
 
             var dailyLog = DailyLog.Create(logDate, null, calorieTarget.Calories, userProfile.Id);
 

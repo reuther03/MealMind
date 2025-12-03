@@ -10,10 +10,10 @@ using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodCommand;
 
-public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams, decimal CurrentWeight)
+public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams, decimal CurrentWeight)
     : ICommand<Guid>
 {
-    public sealed class Handler : ICommandHandler<AddFoodCommand, Guid>
+    public sealed class Handler : ICommandHandler<AddFoodEntryCommand, Guid>
     {
         private readonly IDailyLogRepository _dailyLogRepository;
         private readonly IUserProfileRepository _profileRepository;
@@ -34,7 +34,7 @@ public record AddFoodCommand(DateOnly DailyLogDate, MealType MealType, string? B
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Guid>> Handle(AddFoodCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(AddFoodEntryCommand request, CancellationToken cancellationToken)
         {
             var user = await _profileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
             if (user is null)
