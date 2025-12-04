@@ -1,4 +1,4 @@
-using MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodCommand;
+using MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodEntryCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;

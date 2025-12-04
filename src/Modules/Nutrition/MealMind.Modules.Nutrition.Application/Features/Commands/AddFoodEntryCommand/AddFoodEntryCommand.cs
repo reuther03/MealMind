@@ -8,7 +8,7 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 
-namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodCommand;
+namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodEntryCommand;
 
 public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams, decimal CurrentWeight)
     : ICommand<Guid>

@@ -12,5 +12,4 @@
       <Folder Include="Identity\" />
       <Folder Include="Nutrition\" />
     </ItemGroup>
-
 </Project>
