@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>MealMind.Shared.Events</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="AiChat\" />
+      <Folder Include="Identity\" />
+      <Folder Include="Nutrition\" />
+    </ItemGroup>
+
+</Project>

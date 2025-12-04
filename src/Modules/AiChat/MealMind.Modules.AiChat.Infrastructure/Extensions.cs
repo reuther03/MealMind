@@ -27,7 +27,6 @@ public static class Extensions
             var options = new GeminiOptions();
             configuration.GetSection(GeminiOptions.SectionName).Bind(options);
 
-
             services.AddPostgres<AiChatDbContext>(configuration)
                 .AddScoped<IAiChatDbContext, AiChatDbContext>()
                 .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
@@ -42,6 +41,11 @@ public static class Extensions
 
             services.AddHostedService<DeleteImageAnalyzeJob>();
 
+            services.AddSingleton<IChatCompletionService>(sp => new GoogleAIGeminiChatCompletionService(
+                modelId: options.Model,
+                apiKey: options.ApiKey
+            ));
+
             // Register Chat Completion Service with OpenRouter
             // services.AddSingleton<IChatCompletionService>(sp => new OpenAIChatCompletionService(
             //     modelId: options.BaseModel,
@@ -49,10 +53,6 @@ public static class Extensions
             //     apiKey: options.ApiKey));
 
             // Register Chat Completion Service with Google Gemini
-            services.AddSingleton<IChatCompletionService>(sp => new GoogleAIGeminiChatCompletionService(
-                modelId: options.Model,
-                apiKey: options.ApiKey
-            ));
 
             return services;
         }
