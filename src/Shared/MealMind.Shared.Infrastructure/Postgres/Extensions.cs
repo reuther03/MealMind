@@ -1,4 +1,5 @@
 ﻿using MealMind.Shared.Abstractions.Behaviors;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.Kernel.Database;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
@@ -29,7 +30,7 @@ public static class Extensions
             services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator.CommandHandler<,>));
             services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingDecorator.BaseCommandHandler<>));
             services.TryDecorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator.QueryHandler<,>));
-            services.TryDecorate(typeof(INotificationHandler<>), typeof(LoggingDecorator.NotificationHandler<>));
+            services.TryDecorate(typeof(IEventHandler<>), typeof(LoggingDecorator.NotificationHandler<>));
 
             return services;
         }

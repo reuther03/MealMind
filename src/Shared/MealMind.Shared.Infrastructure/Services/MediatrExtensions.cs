@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using MealMind.Shared.Abstractions;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
@@ -19,7 +20,7 @@ public static class MediatrExtensions
                 .Where(t =>
                     t is { IsAbstract: false, IsInterface: false } &&
                     t.GetInterfaces().Any(i => i.IsGenericType &&
-                        (i.GetGenericTypeDefinition() == typeof(INotificationHandler<>) ||
+                        (i.GetGenericTypeDefinition() == typeof(IEventHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
                             i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
@@ -30,7 +31,7 @@ public static class MediatrExtensions
             {
                 var interfaces = handlerType.GetInterfaces()
                     .Where(i => i.IsGenericType &&
-                        (i.GetGenericTypeDefinition() == typeof(INotificationHandler<>) ||
+                        (i.GetGenericTypeDefinition() == typeof(IEventHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
                             i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
