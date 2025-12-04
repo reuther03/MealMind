@@ -1,4 +1,5 @@
 ﻿using MealMind.Services.Outbox.Database;
+using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,9 @@ public static class Extensions
         {
             services
                 .AddPostgres<OutboxDbContext>(configuration)
-                .AddScoped<OutboxDbContext>();
+                .AddScoped<OutboxDbContext>()
+                .AddHostedService<EventMessageProcessJob>()
+                .AddScoped<IOutboxService, OutboxService>();
 
             return services;
         }

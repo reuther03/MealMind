@@ -64,10 +64,15 @@ public class EventMessageProcessJob : BackgroundService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                _logger.LogError(e, "Failed to process outbox message with ID: {Id} | {Name}.\n{Error}", @event.Id, @event.GetType().Name, e.Message);
+                @event.SetFailed(e.Message);
+                continue;
             }
+
+            @event.SetProcessed();
         }
+
+        await outboxDbContext.SaveChangesAsync(cancellationToken);
         // Implementation for processing event messages goes here.
     }
 }
