@@ -12,4 +12,8 @@
       <ProjectReference Include="..\..\Shared\MealMind.Shared.Infrastructure\MealMind.Shared.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
 </Project>
