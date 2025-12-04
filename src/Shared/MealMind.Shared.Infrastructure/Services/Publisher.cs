@@ -16,7 +16,7 @@ public sealed class Publisher : IPublisher
     public async Task Publish(object notification, CancellationToken cancellationToken = default)
     {
         var handlerInterface = typeof(INotificationHandler<>)
-            .MakeGenericType(typeof(object));
+            .MakeGenericType(notification.GetType());
 
         var handlers = _serviceProvider.GetServices(handlerInterface);
 
