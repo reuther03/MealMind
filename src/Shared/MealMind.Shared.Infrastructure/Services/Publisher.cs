@@ -13,6 +13,20 @@ public sealed class Publisher : IPublisher
         _serviceProvider = serviceProvider;
     }
 
+    public async Task Publish(object notification, CancellationToken cancellationToken = default)
+    {
+        var handlerInterface = typeof(INotificationHandler<>)
+            .MakeGenericType(typeof(object));
+
+        var handlers = _serviceProvider.GetServices(handlerInterface);
+
+        foreach (var handlerObj in handlers)
+        {
+            dynamic handler = handlerObj!;
+            await handler.Handle((dynamic)notification, cancellationToken);
+        }
+    }
+
     public async Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default)
         where TNotification : INotification
     {
