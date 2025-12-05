@@ -39,7 +39,8 @@ public class OutboxEventConfiguration : IEntityTypeConfiguration<OutboxEvent>
                 v => JsonConvert.SerializeObject(v, settings),
                 v => JsonConvert.DeserializeObject<object>(v, settings)!);
 
-        builder.Property(x => x.State);
+        builder.Property(x => x.State)
+            .HasConversion<string>();
 
         builder.Property(x => x.CreatedOn).IsRequired();
         builder.Property(x => x.ProcessedOn);
