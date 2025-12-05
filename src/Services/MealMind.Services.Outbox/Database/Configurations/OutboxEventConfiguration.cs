@@ -1,4 +1,5 @@
-﻿using MealMind.Services.Outbox.OutboxEvents;
+﻿using MealMind.Services.Outbox.Database.JsonConverters;
+using MealMind.Services.Outbox.OutboxEvents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -28,6 +29,9 @@ public class OutboxEventConfiguration : IEntityTypeConfiguration<OutboxEvent>
             NullValueHandling = NullValueHandling.Include
         };
         settings.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+        settings.Converters.Add(new UserIdGuidJsonConverter());
+        settings.Converters.Add(new NameJsonConverter());
+        settings.Converters.Add(new EmailJsonConverter());
 
         builder.Property(x => x.Payload)
             .HasColumnType("jsonb")
@@ -36,6 +40,7 @@ public class OutboxEventConfiguration : IEntityTypeConfiguration<OutboxEvent>
                 v => JsonConvert.DeserializeObject<object>(v, settings)!);
 
         builder.Property(x => x.State);
+
         builder.Property(x => x.CreatedOn).IsRequired();
         builder.Property(x => x.ProcessedOn);
     }

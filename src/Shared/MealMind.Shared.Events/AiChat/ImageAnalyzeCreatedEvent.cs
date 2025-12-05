@@ -6,7 +6,7 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 namespace MealMind.Shared.Events.AiChat;
 
 public record ImageAnalyzeCreatedEvent(
-    Guid UserId,
+    UserId UserId,
     string FoodName,
     decimal QuantityInGrams,
     decimal TotalCalories,

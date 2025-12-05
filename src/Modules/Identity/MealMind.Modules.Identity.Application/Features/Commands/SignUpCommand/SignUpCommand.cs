@@ -43,7 +43,7 @@ public record SignUpCommand(
 
             await _outboxService.SaveAsync(
                 new IdentityUserCreatedEvent(
-                    identityUser.Id.Value,
+                    identityUser.Id,
                     identityUser.Username,
                     identityUser.Email,
                     command.PersonalData,

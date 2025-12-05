@@ -5,4 +5,4 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 
 namespace MealMind.Shared.Events.Identity;
 
-public record SubscriptionTierUpdatedEvent(Guid UserId, SubscriptionTier SubscriptionTier) : Event(Guid.NewGuid());
+public record SubscriptionTierUpdatedEvent(UserId UserId, SubscriptionTier SubscriptionTier) : Event(Guid.NewGuid());

@@ -87,7 +87,7 @@ public record GetCaloriesFromImageCommand(
 
             await _outboxService.SaveAsync(
                 new ImageAnalyzeCreatedEvent(
-                    user.Id.Value,
+                    user.Id,
                     foodImageAnalyze.FoodName,
                     foodImageAnalyze.TotalQuantityInGrams,
                     caloriesEstimation, proteinsEstimation,

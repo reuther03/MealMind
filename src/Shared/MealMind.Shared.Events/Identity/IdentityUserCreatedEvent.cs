@@ -7,9 +7,9 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 namespace MealMind.Shared.Events.Identity;
 
 public record IdentityUserCreatedEvent(
-    Guid Id,
-    string Username,
-    string Email,
+    UserId Id,
+    Name Username,
+    Email Email,
     PersonalDataPayload PersonalData,
     List<NutritionTargetPayload> NutritionTargets
 ) : Event(Guid.NewGuid());

@@ -4,4 +4,4 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 
 namespace MealMind.Shared.Events.Identity;
 
-public record SubscriptionTierAddedEvent(Guid Id) : Event(Guid.NewGuid());
+public record SubscriptionTierAddedEvent(UserId Id) : Event(Guid.NewGuid());
