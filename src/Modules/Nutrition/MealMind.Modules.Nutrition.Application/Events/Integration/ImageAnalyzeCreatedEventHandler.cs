@@ -1,13 +1,14 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.Tracking;
-using MealMind.Shared.Abstractions.Events.Integration;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
+using MealMind.Shared.Events.AiChat;
 using Microsoft.Extensions.Logging;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
 
-public class ImageAnalyzeCreatedEventHandler : INotificationHandler<ImageAnalyzeCreatedEvent>
+public class ImageAnalyzeCreatedEventHandler : IEventHandler<ImageAnalyzeCreatedEvent>
 {
     private readonly IDailyLogRepository _dailyLogRepository;
     private readonly IUnitOfWork _unitOfWork;

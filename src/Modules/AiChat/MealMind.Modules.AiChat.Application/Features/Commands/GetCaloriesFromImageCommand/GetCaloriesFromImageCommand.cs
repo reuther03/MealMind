@@ -3,10 +3,10 @@ using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Modules.AiChat.Domain.ImageAnalyze;
-using MealMind.Shared.Abstractions.Events.Integration;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
+using MealMind.Shared.Events.AiChat;
 using Microsoft.AspNetCore.Http;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
@@ -26,18 +26,18 @@ public record GetCaloriesFromImageCommand(
         private readonly IImageAnalyzeRepository _imageAnalyzeRepository;
         private readonly IAiChatService _aiChatService;
         private readonly IUserService _userService;
-        private readonly IPublisher _publisher;
+        private readonly IOutboxService _outboxService;
         private readonly IUnitOfWork _unitOfWork;
 
 
         public Handler(IAiChatUserRepository userRepository, IImageAnalyzeRepository imageAnalyzeRepository, IAiChatService aiChatService,
-            IUserService userService, IPublisher publisher, IUnitOfWork unitOfWork)
+            IUserService userService, IOutboxService outboxService, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _imageAnalyzeRepository = imageAnalyzeRepository;
             _aiChatService = aiChatService;
             _userService = userService;
-            _publisher = publisher;
+            _outboxService = outboxService;
             _unitOfWork = unitOfWork;
         }
 
@@ -85,9 +85,9 @@ public record GetCaloriesFromImageCommand(
                 response.TotalMinEstimatedFats,
                 response.TotalMaxEstimatedFats);
 
-            await _publisher.Publish(
+            await _outboxService.SaveAsync(
                 new ImageAnalyzeCreatedEvent(
-                    user.Id,
+                    user.Id.Value,
                     foodImageAnalyze.FoodName,
                     foodImageAnalyze.TotalQuantityInGrams,
                     caloriesEstimation, proteinsEstimation,

@@ -11,4 +11,10 @@ public class OutboxDbContext : DbContext
         : base(options)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasDefaultSchema("outbox");
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+    }
 }

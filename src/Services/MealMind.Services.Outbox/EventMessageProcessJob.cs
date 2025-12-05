@@ -40,7 +40,6 @@ public class EventMessageProcessJob : BackgroundService
     private async Task ProcessEventMessageAsync(CancellationToken cancellationToken)
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        // var publisher = scope.ServiceProvider.GetRequiredService<IPublisher>();
         var outboxDbContext = scope.ServiceProvider.GetRequiredService<OutboxDbContext>();
 
         var outboxEvents = await outboxDbContext.OutboxEvents
@@ -73,6 +72,5 @@ public class EventMessageProcessJob : BackgroundService
         }
 
         await outboxDbContext.SaveChangesAsync(cancellationToken);
-        // Implementation for processing event messages goes here.
     }
 }

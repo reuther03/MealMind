@@ -8,8 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="AiChat\" />
-      <Folder Include="Identity\" />
-      <Folder Include="Nutrition\" />
+        <Folder Include="Nutrition\"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MealMind.Shared.Abstractions\MealMind.Shared.Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>

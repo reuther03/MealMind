@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Events\MealMind.Shared.Events.csproj" />
       <ProjectReference Include="..\MealMind.Modules.Nutrition.Domain\MealMind.Modules.Nutrition.Domain.csproj" />
     </ItemGroup>
 

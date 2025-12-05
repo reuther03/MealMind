@@ -3,13 +3,14 @@ using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
-using MealMind.Shared.Abstractions.Events.Integration;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
+using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
 
-public record IdentityUserCreatedEventHandler : INotificationHandler<IdentityUserCreatedEvent>
+public record IdentityUserCreatedEventHandler : IEventHandler<IdentityUserCreatedEvent>
 {
     private readonly IUserProfileRepository _userProfileRepository;
     private readonly IDailyLogRepository _dailyLogRepository;

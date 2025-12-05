@@ -1,5 +1,6 @@
 ﻿using MealMind.Services.Outbox.OutboxEvents;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -9,8 +10,9 @@ namespace MealMind.Services.Outbox.Database.Configurations;
 
 public class OutboxEventConfiguration : IEntityTypeConfiguration<OutboxEvent>
 {
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<OutboxEvent> builder)
+    public void Configure(EntityTypeBuilder<OutboxEvent> builder)
     {
+        builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
             .ValueGeneratedNever()
             .IsRequired();

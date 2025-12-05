@@ -14,7 +14,6 @@ internal static class Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISender, Sender>();
             services.AddScoped<IPublisher, Publisher>();
-
             return services;
         }
     }

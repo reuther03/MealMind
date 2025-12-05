@@ -1,12 +1,12 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions;
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Domain.IdentityUser;
-using MealMind.Shared.Abstractions.Events.Integration;
 using MealMind.Shared.Abstractions.Kernel.Payloads;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
+using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.Identity.Application.Features.Commands.SignUpCommand;
 
@@ -22,13 +22,13 @@ public record SignUpCommand(
     {
         private readonly IIdentityUserRepository _identityUserRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPublisher _publisher;
+        private readonly IOutboxService _outboxService;
 
-        public Handler(IIdentityUserRepository identityUserRepository, IUnitOfWork unitOfWork, IPublisher publisher)
+        public Handler(IIdentityUserRepository identityUserRepository, IUnitOfWork unitOfWork, IOutboxService outboxService)
         {
             _identityUserRepository = identityUserRepository;
             _unitOfWork = unitOfWork;
-            _publisher = publisher;
+            _outboxService = outboxService;
         }
 
         public async Task<Result<Guid>> Handle(SignUpCommand command, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ public record SignUpCommand(
             await _identityUserRepository.AddAsync(identityUser, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            await _publisher.Publish(
+            await _outboxService.SaveAsync(
                 new IdentityUserCreatedEvent(
                     identityUser.Id.Value,
                     identityUser.Username,
@@ -50,7 +50,7 @@ public record SignUpCommand(
                     command.NutritionTargets
                 ), cancellationToken);
 
-            await _publisher.Publish(
+            await _outboxService.SaveAsync(
                 new SubscriptionTierAddedEvent(
                     identityUser.Id
                 ), cancellationToken);

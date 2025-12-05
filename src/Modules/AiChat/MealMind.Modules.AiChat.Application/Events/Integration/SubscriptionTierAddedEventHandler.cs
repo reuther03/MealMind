@@ -1,12 +1,13 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Domain.AiChatUser;
-using MealMind.Shared.Abstractions.Events.Integration;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
+using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.AiChat.Application.Events.Integration;
 
-public class SubscriptionTierAddedEventHandler : INotificationHandler<SubscriptionTierAddedEvent>
+public class SubscriptionTierAddedEventHandler : IEventHandler<SubscriptionTierAddedEvent>
 {
     private readonly IAiChatUserRepository _aiChatUserRepository;
     private readonly IUnitOfWork _unitOfWork;

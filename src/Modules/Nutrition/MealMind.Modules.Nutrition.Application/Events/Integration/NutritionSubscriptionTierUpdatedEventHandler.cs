@@ -1,7 +1,7 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
-using MealMind.Shared.Abstractions.Events.Integration;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
+using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
 

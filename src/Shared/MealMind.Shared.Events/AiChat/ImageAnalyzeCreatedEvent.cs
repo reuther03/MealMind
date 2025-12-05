@@ -1,16 +1,17 @@
-﻿using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+﻿using MealMind.Shared.Abstractions.Events.Core;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 
-namespace MealMind.Shared.Abstractions.Events.Integration;
+namespace MealMind.Shared.Events.AiChat;
 
 public record ImageAnalyzeCreatedEvent(
-    UserId UserId,
-    Name FoodName,
+    Guid UserId,
+    string FoodName,
     decimal QuantityInGrams,
     decimal TotalCalories,
     decimal TotalProteins,
     decimal TotalCarbohydrates,
     decimal TotalFats,
     DateOnly DailyLogDate
-) : INotification;
+) : Event(Guid.NewGuid());
