@@ -57,7 +57,7 @@ public class EventMessageProcessJob : BackgroundService
             {
                 _logger.LogInformation("Processing event: {Id} | {Name}", @event.Id, @event.GetType().Name);
                 using var publisherScope = _serviceScopeFactory.CreateScope();
-                var publisher = scope.ServiceProvider.GetRequiredService<IPublisher>();
+                var publisher = publisherScope.ServiceProvider.GetRequiredService<IPublisher>();
                 await publisher.Publish(@event.Payload, cancellationToken);
                 _logger.LogInformation("Event processed successfully: {Id} | {Name}", @event.Id, @event.GetType().Name);
             }
