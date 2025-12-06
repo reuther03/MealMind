@@ -17,6 +17,7 @@ public class Food : AggregateRoot<FoodId>
     public IReadOnlyList<FoodDietaryTag> DietaryTags => _dietaryTags.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
     public FoodDataSource FoodDataSource { get; private set; }
+    public FoodStatistics Statistics { get; private set; }
 
     private Food()
     {
@@ -48,4 +49,7 @@ public class Food : AggregateRoot<FoodId>
 
         return food;
     }
+
+    public void UpdateStatistics(FoodStatistics statistics)
+        => Statistics = statistics;
 }

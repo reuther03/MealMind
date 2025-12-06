@@ -14,10 +14,6 @@ public class FoodStatisticsConfiguration : IEntityTypeConfiguration<FoodStatisti
         builder.Property(x => x.Id)
             .ValueGeneratedNever();
 
-        builder.Property(x => x.FoodId)
-            .HasConversion(x => x.Value, x => FoodId.From(x))
-            .IsRequired();
-
         builder.Property(x => x.TotalUsageCount)
             .IsRequired();
 
@@ -37,17 +33,8 @@ public class FoodStatisticsConfiguration : IEntityTypeConfiguration<FoodStatisti
         builder.Property(x => x.SearchCount)
             .IsRequired();
 
-        // Unique index on FoodId - one statistics record per food
-        builder.HasIndex(x => x.FoodId)
-            .IsUnique();
-
         // Index for sorting by popularity or { TotalUsageCount, FavoriteCount }
         // builder.HasIndex(x => x.TotalUsageCount);
         // builder.HasIndex(x => x.FavoriteCount);
-
-        builder.HasOne<Food>()
-            .WithMany()
-            .HasForeignKey(x => x.FoodId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

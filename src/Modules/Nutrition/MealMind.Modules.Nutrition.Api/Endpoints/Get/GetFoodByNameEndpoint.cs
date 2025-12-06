@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.Nutrition.Application.Features.Queries;
+using MealMind.Modules.Nutrition.Application.Features.Queries.GetFoodByNameQuery;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;

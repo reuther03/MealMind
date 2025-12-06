@@ -93,6 +93,11 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
             .HasForeignKey(x => x.FoodId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasOne(x => x.Statistics)
+            .WithOne()
+            .HasForeignKey<FoodStatistics>("FoodId")
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasIndex(x => x.Barcode).IsUnique();
     }
 }

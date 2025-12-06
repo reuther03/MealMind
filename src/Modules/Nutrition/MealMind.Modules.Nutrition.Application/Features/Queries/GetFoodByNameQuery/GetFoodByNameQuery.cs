@@ -7,7 +7,7 @@ using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.EntityFrameworkCore;
 
-namespace MealMind.Modules.Nutrition.Application.Features.Queries;
+namespace MealMind.Modules.Nutrition.Application.Features.Queries.GetFoodByNameQuery;
 
 public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page = 1) : IQuery<PaginatedList<FoodDto>>
 {
@@ -26,15 +26,11 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
         {
             var databaseFoods = await _context.Foods
                 .WhereIf(!string.IsNullOrWhiteSpace(query.SearchTerm),
-                    x => EF.Functions.Like(x.Name, $"%{query.SearchTerm}%") ||
-                        EF.Functions.Like(x.Brand, $"%{query.SearchTerm}%"))
-                .Join(_context.FoodStatistics,
-                    food => food.Id,
-                    stats => stats.FoodId,
-                    (food, stats) => new { Food = food, Stats = stats })
-                .OrderByDescending(x => x.Stats.TotalUsageCount * 0.5 + x.Stats.FavoriteCount * 2 + x.Stats.SearchCount * 0.05)
-                .ThenByDescending(x => x.Stats.AverageRating * x.Stats.RatingCount / (x.Stats.RatingCount + 5.0))
-                .Select(x => x.Food)
+                    x => EF.Functions.ILike(x.Name, $"%{query.SearchTerm}%") ||
+                        EF.Functions.ILike(x.Brand!, $"%{query.SearchTerm}%"))
+                .Include(x => x.Statistics)
+                .OrderByDescending(x => x.Statistics.TotalUsageCount * 0.5 + x.Statistics.FavoriteCount * 2 + x.Statistics.SearchCount * 0.05)
+                .ThenByDescending(x => x.Statistics.AverageRating * x.Statistics.RatingCount / (x.Statistics.RatingCount + 5.0))
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize + 1)
                 .ToListAsync(cancellationToken);

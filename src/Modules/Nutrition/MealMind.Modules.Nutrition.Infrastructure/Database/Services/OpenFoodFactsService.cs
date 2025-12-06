@@ -49,7 +49,7 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         return foods;
     }
 
-    public async Task<FoodDto> GetFoodByBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
+    public async Task<FoodDto?> GetFoodByBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
     {
         var url = $"/api/v2/product/{barcode}.json";
 
