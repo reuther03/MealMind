@@ -33,7 +33,7 @@ public class FoodDto
         return Food.Create(
             dto.Name,
             dto.NutritionPer100G.ToEntity(dto.NutritionPer100G),
-            FoodDataSource.ExternalApi,
+            FoodDataSource.Database,
             dto.Barcode,
             dto.ImageUrl,
             dto.Brand

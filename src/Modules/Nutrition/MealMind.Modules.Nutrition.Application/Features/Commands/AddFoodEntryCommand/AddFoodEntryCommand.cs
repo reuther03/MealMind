@@ -69,7 +69,7 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
                         return Result<Guid>.NotFound("Food not found by the provided barcode.");
 
                     food = FoodDto.ToEntity(foodDtoResult);
-                    var stats = FoodStatistics.Create(food.Id);
+                    var stats = FoodStatistics.Initialize(food.Id);
                     food.UpdateStatistics(stats);
 
                     await _foodRepository.AddAsync(food, cancellationToken);

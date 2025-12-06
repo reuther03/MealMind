@@ -29,6 +29,6 @@ public class FoodStatistics : Entity<Guid>
         SearchCount = searchCount;
     }
 
-    public static FoodStatistics Create(FoodId foodId)
+    public static FoodStatistics Initialize(FoodId foodId)
         => new(Guid.NewGuid(), foodId, 0, 0, 0, 0, null, 0);
 }
