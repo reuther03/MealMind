@@ -54,14 +54,28 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
             if (request.QuantityInGrams <= 0)
                 return Result<Guid>.BadRequest("Quantity must be greater than zero.");
 
-            var food = request.FoodId is not null
-                ? await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken)
-                : FoodDto.ToEntity(await _factsService.GetFoodByBarcodeAsync(request.Barcode!, cancellationToken));
+            Food? food = null;
+            if (request.FoodId is not null)
+            {
+                food = await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken);
+            }
+            else if (request.Barcode is not null)
+            {
+                food = await _foodRepository.GetByBarcodeAsync(request.Barcode, cancellationToken);
+                if (food is null)
+                {
+                    var foodDtoResult = await _factsService.GetFoodByBarcodeAsync(request.Barcode, cancellationToken);
+                    if (foodDtoResult is null)
+                        return Result<Guid>.NotFound("Food not found by the provided barcode.");
+
+                    food = FoodDto.ToEntity(foodDtoResult);
+                }
+            }
 
             if (food is null)
                 return Result<Guid>.NotFound("Food not found.");
 
-            await _foodRepository.AddIfNotExistsAsync(food, cancellationToken);
+            await _foodRepository.AddAsync(food, cancellationToken);
 
             var foodEntry = FoodEntry.Create(food, request.QuantityInGrams);
             requestMeal.AddFood(foodEntry);
