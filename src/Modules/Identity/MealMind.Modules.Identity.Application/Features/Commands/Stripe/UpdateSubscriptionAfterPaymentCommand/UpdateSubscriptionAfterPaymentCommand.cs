@@ -2,7 +2,9 @@
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
+using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
+using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.Identity.Application.Features.Commands.Stripe.UpdateSubscriptionAfterPaymentCommand;
 
@@ -12,11 +14,13 @@ public record UpdateSubscriptionAfterPaymentCommand(string SubscriptionId, Subsc
     public sealed class Handler : ICommandHandler<UpdateSubscriptionAfterPaymentCommand, bool>
     {
         private readonly IIdentityUserRepository _userRepository;
+        private readonly IOutboxService _outboxService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IIdentityUserRepository userRepository, IUnitOfWork unitOfWork)
+        public Handler(IIdentityUserRepository userRepository, IOutboxService outboxService, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
+            _outboxService = outboxService;
             _unitOfWork = unitOfWork;
         }
 
@@ -35,6 +39,8 @@ public record UpdateSubscriptionAfterPaymentCommand(string SubscriptionId, Subsc
             user.UpdateSubscription(updatedSubscription);
 
             await _unitOfWork.CommitAsync(cancellationToken);
+
+            await _outboxService.SaveAsync(new SubscriptionTierUpdatedEvent(user.Id, user.Subscription.Tier), cancellationToken);
 
             return Result.Ok(true);
         }
