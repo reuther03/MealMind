@@ -23,22 +23,13 @@ public class AddFoodEntryEndpoint : EndpointBase
                 """
                 POST http://localhost:5000/dailylog/food/add
 
-                Example 1 - Adding food from database:
+                Adding food with barcode:
                 {
-                  "foodId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                  "barcode": null,
-                  "quantityInGrams": 150.5,
-                  "dailyLogDate": "2025-10-28",
-                  "mealType": 0
-                }
-
-                Example 2 - Adding food from OpenFoodFacts:
-                {
+                  "dailyLogDate": "2025-12-06",
+                  "mealType": 0,
+                  "barcode": "20729783",
                   "foodId": null,
-                  "barcode": "4061458003872",
-                  "quantityInGrams": 200,
-                  "dailyLogDate": "2025-10-28",
-                  "mealType": 1
+                  "quantityInGrams": 200
                 }
                 """,
                 """

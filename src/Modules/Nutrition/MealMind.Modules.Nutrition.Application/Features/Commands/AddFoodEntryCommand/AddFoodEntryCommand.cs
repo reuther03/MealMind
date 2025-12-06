@@ -10,7 +10,7 @@ using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodEntryCommand;
 
-public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams, decimal CurrentWeight)
+public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, string? Barcode, Guid? FoodId, decimal QuantityInGrams)
     : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddFoodEntryCommand, Guid>
@@ -69,13 +69,13 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
                         return Result<Guid>.NotFound("Food not found by the provided barcode.");
 
                     food = FoodDto.ToEntity(foodDtoResult);
+                    await _foodRepository.AddAsync(food, cancellationToken);
                 }
             }
 
             if (food is null)
                 return Result<Guid>.NotFound("Food not found.");
 
-            await _foodRepository.AddAsync(food, cancellationToken);
 
             var foodEntry = FoodEntry.Create(food, request.QuantityInGrams);
             requestMeal.AddFood(foodEntry);
