@@ -72,6 +72,14 @@ public class AiChatUser : AggregateRoot<UserId>
             0,
             DateTime.UtcNow);
 
+    public void IncrementActiveConversations()
+    {
+        if (ActiveConversations >= ConversationsLimit)
+            throw new ApplicationException("Conversations limit exceeded.");
+
+        ActiveConversations++;
+    }
+
 
     public void ChangeTier(SubscriptionTier tier)
     {

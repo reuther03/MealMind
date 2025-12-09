@@ -55,7 +55,14 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
                 return Result<StructuredResponse>.BadRequest("Daily prompts limit exceeded.");
             }
 
+            if (aiUser.ConversationsLimit != -1 &&
+                aiUser.ActiveConversations >= aiUser.ConversationsLimit)
+            {
+                return Result<StructuredResponse>.BadRequest("Active conversations limit exceeded.");
+            }
+
             var conversation = Conversation.Create(aiUser.Id);
+            aiUser.IncrementActiveConversations();
 
             var systemInstruction = new ChatMessageContent(AuthorRole.System,
                 """
@@ -105,6 +112,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
             conversation.AddMessage(assistantMessage);
 
             conversation.SetTitle(response.Title);
+
 
             await _conversationRepository.AddAsync(conversation, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
