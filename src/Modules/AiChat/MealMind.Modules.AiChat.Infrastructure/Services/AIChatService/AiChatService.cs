@@ -19,14 +19,15 @@ public class AiChatService : IAiChatService
     private readonly IChatCompletionService _chatCompletionService;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private static readonly string[] Value = ["title", "paragraphs", "keyPoints", "sources"];
-    private const int BaseTokens = 300;
+    private const int BaseTokens = 100;
 
     public AiChatService(IChatCompletionService chatCompletionService)
     {
         _chatCompletionService = chatCompletionService;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
-            WriteIndented = true
+            WriteIndented = true,
+            PropertyNameCaseInsensitive = true
         };
     }
 
@@ -48,10 +49,10 @@ public class AiChatService : IAiChatService
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
         {
             // MaxTokens = BaseTokens + responseTokensLimit,
-            MaxTokens = BaseTokens + 500,
+            MaxTokens = BaseTokens + responseTokensLimit,
             Temperature = 0.5f,
             ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
-            ResponseMimeType = "application/json",
+            ResponseMimeType = "application/json"
             // ResponseSchema = new ChatResponseFormatJson(JsonSerializer.SerializeToElement(StructuredResponse.Schema)),
             // ResponseSchema = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken: cancellationToken);
