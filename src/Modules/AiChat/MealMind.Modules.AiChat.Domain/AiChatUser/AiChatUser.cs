@@ -72,60 +72,52 @@ public class AiChatUser : AggregateRoot<UserId>
             0,
             DateTime.UtcNow);
 
-    // updates not creation of the user
-    public AiChatUser ChangeTier(SubscriptionTier tier) => tier switch
+
+    public void ChangeTier(SubscriptionTier tier)
     {
-        SubscriptionTier.Free => new AiChatUser(
-            Id,
-            tier,
-            ActiveConversations,
-            2,
-            7,
-            0,
-            200,
-            200,
-            10,
-            false,
-            false,
-            0,
-            StartDate,
-            EndDate
-        ),
+        Tier = tier;
+        switch (tier)
+        {
+            case SubscriptionTier.Free:
+                Tier = tier;
+                ConversationsLimit = 2;
+                ConversationsMessagesHistoryDaysLimit = 7;
+                DocumentsLimit = 1;
+                PromptTokensLimit = 200;
+                ResponseTokensLimit = 200;
+                DailyPromptsLimit = 10;
+                CanExportData = false;
+                CanUseAdvancedPrompts = false;
+                DailyImageAnalysisLimit = 0;
+                break;
+            case SubscriptionTier.Standard:
+                Tier = tier;
+                ConversationsLimit = 5;
+                ConversationsMessagesHistoryDaysLimit = 30;
+                DocumentsLimit = 5;
+                PromptTokensLimit = 500;
+                ResponseTokensLimit = 500;
+                DailyPromptsLimit = 50;
+                CanExportData = true;
+                CanUseAdvancedPrompts = false;
+                DailyImageAnalysisLimit = 3;
+                break;
+            case SubscriptionTier.Premium:
+                Tier = tier;
+                ConversationsLimit = 20;
+                ConversationsMessagesHistoryDaysLimit = 90;
+                DocumentsLimit = 20;
+                PromptTokensLimit = 1000;
+                ResponseTokensLimit = 1000;
+                DailyPromptsLimit = -1;
+                CanExportData = true;
+                CanUseAdvancedPrompts = true;
+                DailyImageAnalysisLimit = 10;
+                break;
+            default:
+                return;
+        }
 
-        SubscriptionTier.Standard => new AiChatUser(
-            Id,
-            tier,
-            ActiveConversations,
-            5,
-            30,
-            5,
-            500,
-            500,
-            50,
-            true,
-            false,
-            3,
-            StartDate,
-            EndDate
-        ),
-
-        SubscriptionTier.Premium => new AiChatUser(
-            Id,
-            tier,
-            ActiveConversations,
-            20,
-            90,
-            20,
-            1000,
-            1000,
-            -1,
-            true,
-            true,
-            10,
-            StartDate,
-            EndDate
-        ),
-
-        _ => this
-    };
+        StartDate = DateTime.UtcNow;
+    }
 }

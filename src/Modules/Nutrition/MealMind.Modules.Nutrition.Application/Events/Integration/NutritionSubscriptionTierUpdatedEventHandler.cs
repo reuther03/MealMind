@@ -1,11 +1,11 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;
 
-public class NutritionSubscriptionTierUpdatedEventHandler : INotificationHandler<SubscriptionTierUpdatedEvent>
+public class NutritionSubscriptionTierUpdatedEventHandler : IEventHandler<SubscriptionTierUpdatedEvent>
 {
     private readonly IUserProfileRepository _userProfileRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -23,6 +23,7 @@ public class NutritionSubscriptionTierUpdatedEventHandler : INotificationHandler
             return;
 
         userProfile.UpdateSubscriptionTier(notification.SubscriptionTier);
+        _userProfileRepository.Update(userProfile);
 
         await _unitOfWork.CommitAsync(cancellationToken);
     }

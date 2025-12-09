@@ -23,6 +23,7 @@ public class AiUserSubscriptionTierUpdatedEventHandler : IEventHandler<Subscript
             return;
 
         aiChatUser.ChangeTier(notification.SubscriptionTier);
+        _aiChatUserRepository.Update(aiChatUser);
 
         await _unitOfWork.CommitAsync(cancellationToken);
     }

@@ -24,4 +24,7 @@ public class Repository<TEntity, TDbContext> : IRepository<TEntity>
 
     public void Remove(TEntity entity)
         => _dbContext.Set<TEntity>().Remove(entity);
+
+    public void Update(TEntity entity)
+        => _dbContext.Set<TEntity>().Update(entity);
 }
