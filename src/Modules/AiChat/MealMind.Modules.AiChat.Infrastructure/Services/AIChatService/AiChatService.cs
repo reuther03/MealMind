@@ -3,6 +3,7 @@ using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Abstractions.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
@@ -18,6 +19,7 @@ public class AiChatService : IAiChatService
     private readonly IChatCompletionService _chatCompletionService;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private static readonly string[] Value = ["title", "paragraphs", "keyPoints", "sources"];
+    private const int BaseTokens = 300;
 
     public AiChatService(IChatCompletionService chatCompletionService)
     {
@@ -33,7 +35,7 @@ public class AiChatService : IAiChatService
         List<ChatMessageContent> chatMessages, int responseTokensLimit,
         CancellationToken cancellationToken = default)
     {
-        var systemPrompt = PromptTemplate.ConversationPrompt(userPrompt, documentsText);
+        var systemPrompt = PromptTemplate.ConversationPrompt(userPrompt, documentsText, responseTokensLimit);
 
         var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
         chatMessages.Add(systemMessage);
@@ -43,16 +45,15 @@ public class AiChatService : IAiChatService
 
         var chatHistory = new ChatHistory(chatMessages);
 
-        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new OpenAIPromptExecutionSettings
+        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
         {
-            ChatSystemPrompt = systemPrompt,
-            MaxTokens = responseTokensLimit,
+            // MaxTokens = BaseTokens + responseTokensLimit,
+            MaxTokens = BaseTokens + 500,
             Temperature = 0.5f,
-
-            ResponseFormat = typeof(StructuredResponse)
-            // WebSearchOptions = null
-            // ReasoningEffort = ChatReasoningEffortLevel.Medium
-            // ReasoningEffort = "medium"
+            ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
+            ResponseMimeType = "application/json",
+            // ResponseSchema = new ChatResponseFormatJson(JsonSerializer.SerializeToElement(StructuredResponse.Schema)),
+            // ResponseSchema = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken: cancellationToken);
 
         var responseText = response[0].Content;

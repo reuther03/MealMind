@@ -138,28 +138,46 @@ internal static class PromptTemplate
              Output pure JSON only (first character '{', last character '}'):
              """;
 
-    public static string ConversationPrompt(string userPrompt, string documentsText)
-        => $$"""
+    public static string ConversationPrompt(string userPrompt, string documentsText, int tokensLimit)
+        => $$""""
              You are a nutrition assistant. Answer using facts from the reference documents below.
 
              ═══════════════════════════════════════════════════════════════
              📚 REFERENCE DOCUMENTS
              ═══════════════════════════════════════════════════════════════
-             {{documentsText}}
+             {{{documentsText}}}
 
              ═══════════════════════════════════════════════════════════════
              📋 RESPONSE REQUIREMENTS
              ═══════════════════════════════════════════════════════════════
-             Answer user prompt {{userPrompt}} with factual details from documents above. Include:
+             Answer user prompt {{{userPrompt}}} with factual details from documents above. Include:
 
-             • Title: Specific and descriptive to the user's question
-             • Paragraphs: 2-4 detailed paragraphs (100-250 words each)
-               → Use concrete data, numbers, ranges, and mechanisms from documents
-               → Include specific nutritional values, scientific findings, or practical recommendations
-               → No generic summaries or placeholder text
-             • KeyPoints: 3-7 concise facts (10-30 words each)
-               → One-sentence summaries of the most important information
-               → Focus on actionable takeaways or key numbers
+             • Response length based on token budget ({{tokensLimit}} tokens):
+               {{(tokensLimit == 200
+                   ? """
+                     → FREE TIER (== 200 tokens): Keep response minimal
+                       - Title: Short and direct (5-10 words)
+                       - Paragraphs: 1 paragraph only (2-3 sentences)
+                       - KeyPoints: 2-3 bullet points (max 10 words each)
+                     """
+                   : tokensLimit <= 500
+                       ? """
+                         → STANDARD TIER (== 500 tokens): Moderate detail
+                           - Title: Descriptive (5-15 words)
+                           - Paragraphs: 1-2 paragraphs (3-4 sentences each)
+                           - KeyPoints: 3-4 bullet points (max 15 words each)
+                         """
+                       : """
+                         → PREMIUM TIER (== 1000 tokens): Full detail
+                           - Title: Specific and descriptive
+                           - Paragraphs: 2-4 detailed paragraphs (4-6 sentences each)
+                           - KeyPoints: 5-7 comprehensive bullet points
+                         """)}}
+
+             • All tiers must:
+               → Use concrete data and numbers from documents
+               → Output valid JSON (no markdown, no trailing commas)
+               → Prioritize most important information first
 
              Example response:
              {
@@ -182,7 +200,8 @@ internal static class PromptTemplate
              2. Are my paragraphs detailed with concrete numbers and explanations?
              3. Are my key points concise and actionable?
              4. Is my JSON valid (no markdown fences, proper formatting)?
+             5. If response is ended promptly, did I complete the JSON structure fully?
 
              Output pure JSON only (first character '{', last character '}'):
-             """;
+             """";
 }

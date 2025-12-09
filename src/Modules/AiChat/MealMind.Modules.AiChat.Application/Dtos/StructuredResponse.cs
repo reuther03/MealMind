@@ -12,4 +12,12 @@ public sealed record StructuredResponse
 
     [JsonPropertyName("keyPoints")]
     public List<string> KeyPoints { get; init; } = [];
+
+    public static object Schema => new
+    {
+        title = "string",
+        paragraphs = new[] { "string" },
+        keyPoints = new[] { "string" },
+        sources = new[] { "string" }
+    };
 }
