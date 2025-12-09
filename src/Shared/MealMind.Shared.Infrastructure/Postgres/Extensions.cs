@@ -30,7 +30,7 @@ public static class Extensions
             services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator.CommandHandler<,>));
             services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingDecorator.BaseCommandHandler<>));
             services.TryDecorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator.QueryHandler<,>));
-            services.TryDecorate(typeof(IEventHandler<>), typeof(LoggingDecorator.NotificationHandler<>));
+            services.TryDecorate(typeof(IEventHandler<>), typeof(LoggingDecorator.EventHandler<>));
 
             return services;
         }

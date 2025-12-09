@@ -34,9 +34,9 @@ public class Sender : ISender
             handlerInterface = typeof(IQueryHandler<,>)
                 .MakeGenericType(requestType, responseType);
         }
-        else if (typeof(INotification).IsAssignableFrom(requestType))
+        else if (typeof(IEvent).IsAssignableFrom(requestType))
         {
-            handlerInterface = typeof(INotificationHandler<>)
+            handlerInterface = typeof(IEventHandler<>)
                 .MakeGenericType(requestType);
         }
         else

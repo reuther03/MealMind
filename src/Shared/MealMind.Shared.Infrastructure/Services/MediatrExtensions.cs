@@ -21,7 +21,7 @@ public static class MediatrExtensions
                     t is { IsAbstract: false, IsInterface: false } &&
                     t.GetInterfaces().Any(i => i.IsGenericType &&
                         (i.GetGenericTypeDefinition() == typeof(IEventHandler<>) ||
-                            i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(IDomainNotificationHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
                             i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>))) &&
@@ -32,7 +32,7 @@ public static class MediatrExtensions
                 var interfaces = handlerType.GetInterfaces()
                     .Where(i => i.IsGenericType &&
                         (i.GetGenericTypeDefinition() == typeof(IEventHandler<>) ||
-                            i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>) ||
+                            i.GetGenericTypeDefinition() == typeof(IDomainNotificationHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(IQueryHandler<,>) ||
                             i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) ||
                             i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>)));

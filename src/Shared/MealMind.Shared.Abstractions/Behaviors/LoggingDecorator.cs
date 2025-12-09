@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
@@ -163,21 +164,21 @@ public class LoggingDecorator
     }
 
     [Decorator]
-    public sealed class NotificationHandler<TNotification> : INotificationHandler<TNotification>
-        where TNotification : INotification
+    public sealed class EventHandler<TEvent> : IEventHandler<TEvent>
+        where TEvent : IEvent
     {
-        private readonly ILogger<NotificationHandler<TNotification>> _logger;
-        private readonly INotificationHandler<TNotification> _innerHandler;
+        private readonly ILogger<EventHandler<TEvent>> _logger;
+        private readonly INotificationHandler<TEvent> _innerHandler;
 
-        public NotificationHandler(ILogger<NotificationHandler<TNotification>> logger, INotificationHandler<TNotification> innerHandler)
+        public EventHandler(ILogger<EventHandler<TEvent>> logger, INotificationHandler<TEvent> innerHandler)
         {
             _logger = logger;
             _innerHandler = innerHandler;
         }
 
-        public async Task Handle(TNotification notification, CancellationToken cancellationToken = default)
+        public async Task Handle(TEvent notification, CancellationToken cancellationToken = default)
         {
-            var requestName = typeof(TNotification).Name;
+            var requestName = typeof(TEvent).Name;
             var stopwatch = Stopwatch.StartNew();
 
             _logger.LogInformation(
