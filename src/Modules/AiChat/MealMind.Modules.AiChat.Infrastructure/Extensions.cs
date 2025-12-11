@@ -3,7 +3,6 @@ using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Options;
 using MealMind.Modules.AiChat.Infrastructure.Database;
-using MealMind.Modules.AiChat.Infrastructure.Database.BackgroundJobs;
 using MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
 using MealMind.Modules.AiChat.Infrastructure.Database.Seeders;
 using MealMind.Modules.AiChat.Infrastructure.Services;
@@ -39,7 +38,7 @@ public static class Extensions
                 .AddScoped<IImageAnalyzeRepository, ImageAnalyzeRepository>()
                 .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
-            services.AddHostedService<DeleteImageAnalyzeJob>();
+            // services.AddHostedService<DeleteImageAnalyzeJob>();
 
             services.AddSingleton<IChatCompletionService>(sp => new GoogleAIGeminiChatCompletionService(
                 modelId: options.Model,

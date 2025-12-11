@@ -16,11 +16,6 @@ public class ImageAnalyzeConfiguration : IEntityTypeConfiguration<ImageAnalyze>
             .ValueGeneratedNever()
             .IsRequired();
 
-        builder.Property(x => x.UserId)
-            .HasConversion(x => x.Value, x => UserId.From(x))
-            .ValueGeneratedNever()
-            .IsRequired();
-
         builder.Property(x => x.FoodName)
             .HasMaxLength(1000)
             .IsRequired();

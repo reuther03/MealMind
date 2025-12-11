@@ -13,7 +13,7 @@ internal class AiChatDbContext : DbContext, IAiChatDbContext
     public DbSet<RagDocument> RagDocuments => Set<RagDocument>();
     public DbSet<ConversationDocument> ConversationDocuments => Set<ConversationDocument>();
     public DbSet<AiChatUser> AiChatUsers => Set<AiChatUser>();
-    public DbSet<ImageAnalyze> FoodImageAnalyzes => Set<ImageAnalyze>();
+    public DbSet<ImageAnalyzeSession> FoodImageAnalyzeSessions => Set<ImageAnalyzeSession>();
 
     public AiChatDbContext(DbContextOptions<AiChatDbContext> options) : base(options)
     {

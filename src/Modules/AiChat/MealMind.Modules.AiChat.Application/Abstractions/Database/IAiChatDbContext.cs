@@ -12,6 +12,6 @@ public interface IAiChatDbContext
     DbSet<RagDocument> RagDocuments { get; }
     DbSet<ConversationDocument> ConversationDocuments { get; }
     DbSet<AiChatUser> AiChatUsers { get; }
-    DbSet<ImageAnalyze> FoodImageAnalyzes { get; }
+    DbSet<ImageAnalyzeSession> FoodImageAnalyzeSessions { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -50,7 +50,7 @@ public record GetCaloriesFromImageCommand(
             var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
 
             var foodImageAnalyze = ImageAnalyze.Create(
-                user.Id, response.FoodName, command.Prompt, null, response.ImageBytes,
+                response.FoodName, command.Prompt, null, response.ImageBytes,
                 response.TotalMinEstimatedCalories, response.TotalMaxEstimatedCalories,
                 response.TotalMinEstimatedProteins, response.TotalMaxEstimatedProteins,
                 response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates,

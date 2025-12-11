@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.AiChat.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pgvector;
@@ -12,9 +13,11 @@ using Pgvector;
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
-    partial class AiChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251211180418_FixesImageAnalyzeSession")]
+    partial class FixesImageAnalyzeSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,6 +178,12 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<Guid?>("ImageAnalyzeSessionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ImageAnalyzeSessionId1")
+                        .HasColumnType("uuid");
+
                     b.Property<byte[]>("ImageBytes")
                         .HasColumnType("bytea");
 
@@ -198,15 +207,15 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                     b.Property<DateTime?>("SavedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("SessionId")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("TotalQuantityInGrams")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SessionId");
+                    b.HasIndex("ImageAnalyzeSessionId");
+
+                    b.HasIndex("ImageAnalyzeSessionId1")
+                        .IsUnique();
 
                     b.ToTable("ImageAnalyze", "aichat");
                 });
@@ -219,9 +228,6 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ImageAnalyzeId")
-                        .HasColumnType("uuid");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -229,9 +235,6 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageAnalyzeId")
-                        .IsUnique();
 
                     b.ToTable("ImageAnalyzeSessions", "aichat");
                 });
@@ -336,20 +339,12 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                 {
                     b.HasOne("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", null)
                         .WithMany("Corrections")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                        .HasForeignKey("ImageAnalyzeSessionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", b =>
-                {
-                    b.HasOne("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyze", "ImageAnalyze")
-                        .WithOne()
-                        .HasForeignKey("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", "ImageAnalyzeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ImageAnalyze");
+                    b.HasOne("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", null)
+                        .WithOne("ImageAnalyze")
+                        .HasForeignKey("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyze", "ImageAnalyzeSessionId1");
                 });
 
             modelBuilder.Entity("MealMind.Modules.AiChat.Domain.Conversation.Conversation", b =>
@@ -360,6 +355,9 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
             modelBuilder.Entity("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", b =>
                 {
                     b.Navigation("Corrections");
+
+                    b.Navigation("ImageAnalyze")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

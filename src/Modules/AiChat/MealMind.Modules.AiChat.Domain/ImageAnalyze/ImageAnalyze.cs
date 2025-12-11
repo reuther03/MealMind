@@ -4,9 +4,9 @@ using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 namespace MealMind.Modules.AiChat.Domain.ImageAnalyze;
 
-public class ImageAnalyze : AggregateRoot<Guid>
+public class ImageAnalyze : Entity<Guid>
 {
-    public UserId UserId { get; private set; }
+    public Guid SessionId { get; private set; }
     public string FoodName { get; private set; }
     public string? Prompt { get; private set; }
     public string? ImageUrl { get; private set; }
@@ -30,7 +30,6 @@ public class ImageAnalyze : AggregateRoot<Guid>
 
     private ImageAnalyze(
         Guid id,
-        UserId userId,
         string foodName,
         string? prompt,
         string? imageUrl,
@@ -51,7 +50,6 @@ public class ImageAnalyze : AggregateRoot<Guid>
         if (imageUrl is null && imageBytes is null)
             throw new DomainException("Either imageUrl or imageBytes must be provided.");
 
-        UserId = userId;
         Prompt = prompt;
         FoodName = foodName;
         ImageUrl = imageUrl;
@@ -71,7 +69,6 @@ public class ImageAnalyze : AggregateRoot<Guid>
     }
 
     public static ImageAnalyze Create(
-        UserId userId,
         string foodName,
         string? prompt,
         string? imageUrl,
@@ -91,7 +88,6 @@ public class ImageAnalyze : AggregateRoot<Guid>
     {
         return new ImageAnalyze(
             Guid.NewGuid(),
-            userId,
             foodName,
             prompt,
             imageUrl,
