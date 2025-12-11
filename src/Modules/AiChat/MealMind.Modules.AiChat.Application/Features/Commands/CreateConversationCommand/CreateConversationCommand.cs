@@ -113,7 +113,6 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
 
             conversation.SetTitle(response.Title);
 
-
             await _conversationRepository.AddAsync(conversation, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 

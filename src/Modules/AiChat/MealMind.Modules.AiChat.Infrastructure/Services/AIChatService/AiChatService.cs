@@ -48,13 +48,10 @@ public class AiChatService : IAiChatService
 
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
         {
-            // MaxTokens = BaseTokens + responseTokensLimit,
             MaxTokens = BaseTokens + responseTokensLimit,
             Temperature = 0.5f,
             ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
             ResponseMimeType = "application/json"
-            // ResponseSchema = new ChatResponseFormatJson(JsonSerializer.SerializeToElement(StructuredResponse.Schema)),
-            // ResponseSchema = ChatResponseFormat.ForJsonSchema<StructuredResponse>()
         }, cancellationToken: cancellationToken);
 
         var responseText = response[0].Content;

@@ -17,6 +17,7 @@ public class AiChatUser : AggregateRoot<UserId>
     public bool CanExportData { get; private set; }
     public bool CanUseAdvancedPrompts { get; private set; }
     public int DailyImageAnalysisLimit { get; private set; }
+    public int ImageAnalysisCorrectionPromptLimit { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? EndDate { get; private set; }
 
@@ -37,6 +38,7 @@ public class AiChatUser : AggregateRoot<UserId>
         bool canExportData,
         bool canUseAdvancedPrompts,
         int dailyImageAnalysisLimit,
+        int imageAnalysisCorrectionPromptLimit,
         DateTime startDate,
         DateTime? endDate = null)
         : base(id)
@@ -52,6 +54,7 @@ public class AiChatUser : AggregateRoot<UserId>
         CanExportData = canExportData;
         CanUseAdvancedPrompts = canUseAdvancedPrompts;
         DailyImageAnalysisLimit = dailyImageAnalysisLimit;
+        ImageAnalysisCorrectionPromptLimit = imageAnalysisCorrectionPromptLimit;
         StartDate = startDate;
         EndDate = endDate;
     }
@@ -69,6 +72,7 @@ public class AiChatUser : AggregateRoot<UserId>
             10,
             false,
             false,
+            0,
             0,
             DateTime.UtcNow);
 
@@ -97,6 +101,7 @@ public class AiChatUser : AggregateRoot<UserId>
                 CanExportData = false;
                 CanUseAdvancedPrompts = false;
                 DailyImageAnalysisLimit = 0;
+                ImageAnalysisCorrectionPromptLimit = 0;
                 break;
             case SubscriptionTier.Standard:
                 Tier = tier;
@@ -109,6 +114,7 @@ public class AiChatUser : AggregateRoot<UserId>
                 CanExportData = true;
                 CanUseAdvancedPrompts = false;
                 DailyImageAnalysisLimit = 3;
+                ImageAnalysisCorrectionPromptLimit = 3;
                 break;
             case SubscriptionTier.Premium:
                 Tier = tier;
@@ -121,6 +127,7 @@ public class AiChatUser : AggregateRoot<UserId>
                 CanExportData = true;
                 CanUseAdvancedPrompts = true;
                 DailyImageAnalysisLimit = 10;
+                ImageAnalysisCorrectionPromptLimit = 10;
                 break;
             default:
                 return;

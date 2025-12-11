@@ -47,6 +47,12 @@ public class AiChatUserConfiguration : IEntityTypeConfiguration<AiChatUser>
         builder.Property(u => u.CanUseAdvancedPrompts)
             .IsRequired();
 
+        builder.Property(u => u.DailyImageAnalysisLimit)
+            .IsRequired();
+
+        builder.Property(u => u.ImageAnalysisCorrectionPromptLimit)
+            .IsRequired();
+
         builder.Property(u => u.StartDate)
             .IsRequired();
 
