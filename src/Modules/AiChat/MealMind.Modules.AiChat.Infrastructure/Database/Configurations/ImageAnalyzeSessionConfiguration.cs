@@ -22,7 +22,7 @@ public class ImageAnalyzeSessionConfiguration : IEntityTypeConfiguration<ImageAn
 
         builder.HasOne(x => x.ImageAnalyze)
             .WithOne()
-            .HasForeignKey<ImageAnalyzeSession>(x => x.ImageAnalyzeId)
+            .HasForeignKey<ImageAnalyzeSession>("ImageAnalyzeId")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Corrections)

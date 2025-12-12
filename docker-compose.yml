@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        DOTNET_VERSION: "9.0"
+        DOTNET_VERSION: "10.0"
         BUILD_CONFIGURATION: "Release"
     container_name: MealMind.Api
     depends_on:

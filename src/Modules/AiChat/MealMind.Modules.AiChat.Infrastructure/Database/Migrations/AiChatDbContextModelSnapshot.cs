@@ -198,7 +198,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                     b.Property<DateTime?>("SavedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("SessionId")
+                    b.Property<Guid?>("SessionId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("TotalQuantityInGrams")
@@ -337,8 +337,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                     b.HasOne("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", null)
                         .WithMany("Corrections")
                         .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MealMind.Modules.AiChat.Domain.ImageAnalyze.ImageAnalyzeSession", b =>

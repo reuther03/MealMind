@@ -9,7 +9,6 @@ public class ImageAnalyzeSession : AggregateRoot<Guid>
 
     public UserId UserId { get; private set; }
     public ImageAnalyze ImageAnalyze { get; private set; }
-    public Guid ImageAnalyzeId { get; private set; }
     public IReadOnlyList<ImageAnalyze> Corrections => _corrections.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
 

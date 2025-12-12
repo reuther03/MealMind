@@ -16,6 +16,9 @@ public class ImageAnalyzeConfiguration : IEntityTypeConfiguration<ImageAnalyze>
             .ValueGeneratedNever()
             .IsRequired();
 
+        builder.Property(x => x.SessionId)
+            .IsRequired(false);
+
         builder.Property(x => x.FoodName)
             .HasMaxLength(1000)
             .IsRequired();

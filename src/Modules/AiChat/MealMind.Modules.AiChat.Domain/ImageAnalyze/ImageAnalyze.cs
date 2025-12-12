@@ -6,7 +6,7 @@ namespace MealMind.Modules.AiChat.Domain.ImageAnalyze;
 
 public class ImageAnalyze : Entity<Guid>
 {
-    public Guid SessionId { get; private set; }
+    public Guid? SessionId { get; private set; }
     public string FoodName { get; private set; }
     public string? Prompt { get; private set; }
     public string? ImageUrl { get; private set; }
@@ -30,6 +30,7 @@ public class ImageAnalyze : Entity<Guid>
 
     private ImageAnalyze(
         Guid id,
+        Guid? sessionId,
         string foodName,
         string? prompt,
         string? imageUrl,
@@ -50,6 +51,7 @@ public class ImageAnalyze : Entity<Guid>
         if (imageUrl is null && imageBytes is null)
             throw new DomainException("Either imageUrl or imageBytes must be provided.");
 
+        SessionId = sessionId ?? Guid.Empty;
         Prompt = prompt;
         FoodName = foodName;
         ImageUrl = imageUrl;
@@ -69,6 +71,7 @@ public class ImageAnalyze : Entity<Guid>
     }
 
     public static ImageAnalyze Create(
+        Guid? sessionId,
         string foodName,
         string? prompt,
         string? imageUrl,
@@ -88,6 +91,7 @@ public class ImageAnalyze : Entity<Guid>
     {
         return new ImageAnalyze(
             Guid.NewGuid(),
+            sessionId,
             foodName,
             prompt,
             imageUrl,
