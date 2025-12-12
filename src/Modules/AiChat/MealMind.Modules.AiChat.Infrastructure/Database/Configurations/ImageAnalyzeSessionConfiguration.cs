@@ -13,6 +13,7 @@ public class ImageAnalyzeSessionConfiguration : IEntityTypeConfiguration<ImageAn
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
+            .HasConversion(x => x.Value, x => ImageAnalyzeSessionId.From(x))
             .ValueGeneratedNever()
             .IsRequired();
 

@@ -4,9 +4,9 @@ using MealMind.Shared.Infrastructure.Postgres;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
 
-internal class ImageAnalyzeRepository : Repository<ImageAnalyze, AiChatDbContext>, IImageAnalyzeRepository
+internal class ImageAnalyzeSessionRepository : Repository<ImageAnalyzeSession, AiChatDbContext>, IImageAnalyzeRepository
 {
-    public ImageAnalyzeRepository(AiChatDbContext dbContext) : base(dbContext)
+    public ImageAnalyzeSessionRepository(AiChatDbContext dbContext) : base(dbContext)
     {
     }
 }

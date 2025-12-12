@@ -6,7 +6,7 @@ namespace MealMind.Modules.AiChat.Domain.ImageAnalyze;
 
 public class ImageAnalyze : Entity<Guid>
 {
-    public Guid? SessionId { get; private set; }
+    public ImageAnalyzeSessionId? SessionId { get; private set; }
     public string FoodName { get; private set; }
     public string? Prompt { get; private set; }
     public string? ImageUrl { get; private set; }
@@ -30,7 +30,7 @@ public class ImageAnalyze : Entity<Guid>
 
     private ImageAnalyze(
         Guid id,
-        Guid? sessionId,
+        ImageAnalyzeSessionId? sessionId,
         string foodName,
         string? prompt,
         string? imageUrl,
@@ -71,7 +71,7 @@ public class ImageAnalyze : Entity<Guid>
     }
 
     public static ImageAnalyze Create(
-        Guid? sessionId,
+        ImageAnalyzeSessionId? sessionId,
         string foodName,
         string? prompt,
         string? imageUrl,

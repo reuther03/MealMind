@@ -3,7 +3,7 @@ using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 namespace MealMind.Modules.AiChat.Domain.ImageAnalyze;
 
-public class ImageAnalyzeSession : AggregateRoot<Guid>
+public class ImageAnalyzeSession : AggregateRoot<ImageAnalyzeSessionId>
 {
     private readonly IList<ImageAnalyze> _corrections = [];
 

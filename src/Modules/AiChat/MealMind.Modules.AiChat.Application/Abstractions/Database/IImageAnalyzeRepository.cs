@@ -3,7 +3,6 @@ using MealMind.Shared.Abstractions.Kernel.Database;
 
 namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
 
-public interface IImageAnalyzeRepository : IRepository<ImageAnalyze>
+public interface IImageAnalyzeRepository : IRepository<ImageAnalyzeSession>
 {
-
 }

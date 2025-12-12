@@ -17,6 +17,7 @@ public class ImageAnalyzeConfiguration : IEntityTypeConfiguration<ImageAnalyze>
             .IsRequired();
 
         builder.Property(x => x.SessionId)
+            .HasConversion(x => x!.Value, x => ImageAnalyzeSessionId.From(x))
             .IsRequired(false);
 
         builder.Property(x => x.FoodName)

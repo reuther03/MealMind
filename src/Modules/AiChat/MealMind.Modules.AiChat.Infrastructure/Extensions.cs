@@ -35,7 +35,7 @@ public static class Extensions
                 .AddScoped<IConversationRepository, ConversationRepository>()
                 .AddScoped<IDocumentRepository, DocumentRepository>()
                 .AddScoped<IAiChatUserRepository, AiChatUserRepository>()
-                .AddScoped<IImageAnalyzeRepository, ImageAnalyzeRepository>()
+                .AddScoped<IImageAnalyzeRepository, ImageAnalyzeSessionRepository>()
                 .AddTransient<IModuleSeeder, AiChatModuleSeeder>();
 
             // services.AddHostedService<DeleteImageAnalyzeJob>();

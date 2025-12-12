@@ -14,6 +14,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
     {
         endpointRouteBuilder.MapPost("get-calories-from-image",
                 async (
+                    [FromForm] Guid sessionId,
                     [FromForm] string? prompt,
                     [FromForm] EstimationMode estimationMode,
                     IFormFile image,
@@ -21,7 +22,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                     [FromForm] bool saveFoodEntry,
                     ISender sender) =>
                 {
-                    var result = await sender.Send(new GetCaloriesFromImageCommand(prompt, estimationMode, image, dailyLogDate, saveFoodEntry));
+                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, estimationMode, image, dailyLogDate, saveFoodEntry));
                     return result;
                 })
             .RequireAuthorization()
