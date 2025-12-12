@@ -5,4 +5,5 @@ namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
 
 public interface IImageAnalyzeRepository : IRepository<ImageAnalyzeSession>
 {
+    Task<ImageAnalyzeSession?> GetByIdAsync(Guid sessionId, CancellationToken cancellationToken = default);
 }

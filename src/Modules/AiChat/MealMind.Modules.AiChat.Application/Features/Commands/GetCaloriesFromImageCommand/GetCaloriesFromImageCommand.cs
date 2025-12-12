@@ -48,57 +48,69 @@ public record GetCaloriesFromImageCommand(
             if (user is null)
                 return Result<AnalyzedImageStructuredResponse>.NotFound("AI Chat user not found.");
 
-            var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
+            ImageAnalyzeSession session = null!;
+            if (command.SessionId is null)
+            {
+            }
 
-            var foodImageAnalyze = ImageAnalyze.Create(
-                Guid.Empty, response.FoodName, command.Prompt, null, response.ImageBytes,
-                response.TotalMinEstimatedCalories, response.TotalMaxEstimatedCalories,
-                response.TotalMinEstimatedProteins, response.TotalMaxEstimatedProteins,
-                response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates,
-                response.TotalMinEstimatedFats, response.TotalMaxEstimatedFats,
-                response.TotalConfidenceScore, response.TotalQuantityInGrams,
-                command.SaveFoodEntry ? DateTime.UtcNow : null
-            );
+            throw new NotImplementedException();
 
-            var session = ImageAnalyzeSession.Create(user.Id, foodImageAnalyze);
 
-            await _imageAnalyzeRepository.AddAsync(session, cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
-
-            if (foodImageAnalyze.SavedAt == null)
-                return Result.Ok(response);
-
-            var caloriesEstimation = CalculateEstimation(
-                command.Mode,
-                response.TotalMinEstimatedCalories,
-                response.TotalMaxEstimatedCalories);
-
-            var proteinsEstimation = CalculateEstimation(
-                command.Mode,
-                response.TotalMinEstimatedProteins,
-                response.TotalMaxEstimatedProteins);
-
-            var carbohydratesEstimation = CalculateEstimation(
-                command.Mode,
-                response.TotalMinEstimatedCarbohydrates,
-                response.TotalMaxEstimatedCarbohydrates);
-
-            var fatsEstimation = CalculateEstimation(
-                command.Mode,
-                response.TotalMinEstimatedFats,
-                response.TotalMaxEstimatedFats);
-
-            await _outboxService.SaveAsync(
-                new ImageAnalyzeCreatedEvent(
-                    user.Id,
-                    foodImageAnalyze.FoodName,
-                    foodImageAnalyze.TotalQuantityInGrams,
-                    caloriesEstimation, proteinsEstimation,
-                    carbohydratesEstimation, fatsEstimation,
-                    command.DailyLogDate),
-                cancellationToken);
-
-            return Result.Ok(response);
+            // var user = await _userRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
+            // if (user is null)
+            //     return Result<AnalyzedImageStructuredResponse>.NotFound("AI Chat user not found.");
+            //
+            // var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
+            //
+            // var foodImageAnalyze = ImageAnalyze.Create(
+            //     Guid.Empty, response.FoodName, command.Prompt, null, response.ImageBytes,
+            //     response.TotalMinEstimatedCalories, response.TotalMaxEstimatedCalories,
+            //     response.TotalMinEstimatedProteins, response.TotalMaxEstimatedProteins,
+            //     response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates,
+            //     response.TotalMinEstimatedFats, response.TotalMaxEstimatedFats,
+            //     response.TotalConfidenceScore, response.TotalQuantityInGrams,
+            //     command.SaveFoodEntry ? DateTime.UtcNow : null
+            // );
+            //
+            // var session = ImageAnalyzeSession.Create(user.Id, foodImageAnalyze);
+            //
+            // await _imageAnalyzeRepository.AddAsync(session, cancellationToken);
+            // await _unitOfWork.CommitAsync(cancellationToken);
+            //
+            // if (foodImageAnalyze.SavedAt == null)
+            //     return Result.Ok(response);
+            //
+            // var caloriesEstimation = CalculateEstimation(
+            //     command.Mode,
+            //     response.TotalMinEstimatedCalories,
+            //     response.TotalMaxEstimatedCalories);
+            //
+            // var proteinsEstimation = CalculateEstimation(
+            //     command.Mode,
+            //     response.TotalMinEstimatedProteins,
+            //     response.TotalMaxEstimatedProteins);
+            //
+            // var carbohydratesEstimation = CalculateEstimation(
+            //     command.Mode,
+            //     response.TotalMinEstimatedCarbohydrates,
+            //     response.TotalMaxEstimatedCarbohydrates);
+            //
+            // var fatsEstimation = CalculateEstimation(
+            //     command.Mode,
+            //     response.TotalMinEstimatedFats,
+            //     response.TotalMaxEstimatedFats);
+            //
+            // await _outboxService.SaveAsync(
+            //     new ImageAnalyzeCreatedEvent(
+            //         user.Id,
+            //         foodImageAnalyze.FoodName,
+            //         foodImageAnalyze.TotalQuantityInGrams,
+            //         caloriesEstimation, proteinsEstimation,
+            //         carbohydratesEstimation, fatsEstimation,
+            //         command.DailyLogDate),
+            //     cancellationToken);
+            //
+            // return Result.Ok(response);
         }
     }
 
