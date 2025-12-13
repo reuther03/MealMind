@@ -13,6 +13,7 @@ internal class ImageAnalyzeSessionRepository : Repository<ImageAnalyzeSession, A
         _dbContext = dbContext;
     }
 
-    public async Task<ImageAnalyzeSession?> GetByIdAsync(Guid sessionId, CancellationToken cancellationToken = default)
-        => await _dbContext.FoodImageAnalyzeSessions.FindAsync([sessionId], cancellationToken);
+    public async Task<ImageAnalyzeSession?> GetByIdAsync(Guid sessionId, Guid userId, CancellationToken cancellationToken = default)
+        => await _dbContext.FoodImageAnalyzeSessions
+            .FindAsync([sessionId, userId], cancellationToken);
 }

@@ -14,7 +14,6 @@ namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromI
 public record GetCaloriesFromImageCommand(
     Guid? SessionId,
     string? Prompt,
-    EstimationMode Mode,
     IFormFile Image
 )
     : ICommand<AnalyzedImageStructuredResponse>
@@ -57,7 +56,7 @@ public record GetCaloriesFromImageCommand(
 
             if (command.SessionId != null)
             {
-                var existingSession = await _imageAnalyzeRepository.GetByIdAsync(command.SessionId.Value, cancellationToken);
+                var existingSession = await _imageAnalyzeRepository.GetByIdAsync(command.SessionId.Value, user.Id, cancellationToken);
                 if (existingSession is null)
                     return Result<AnalyzedImageStructuredResponse>.NotFound("Image analyze session not found.");
 

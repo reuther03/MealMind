@@ -22,7 +22,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                     [FromForm] bool saveFoodEntry,
                     ISender sender) =>
                 {
-                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, estimationMode, image));
+                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, image));
                     return result;
                 })
             .RequireAuthorization()
