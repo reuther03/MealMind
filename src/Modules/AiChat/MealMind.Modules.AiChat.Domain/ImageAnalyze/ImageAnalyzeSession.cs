@@ -16,7 +16,7 @@ public class ImageAnalyzeSession : AggregateRoot<ImageAnalyzeSessionId>
     {
     }
 
-    private ImageAnalyzeSession(Guid id, UserId userId, ImageAnalyze imageAnalyze) : base(id)
+    private ImageAnalyzeSession(ImageAnalyzeSessionId id, UserId userId, ImageAnalyze imageAnalyze) : base(id)
     {
         UserId = userId;
         ImageAnalyze = imageAnalyze;

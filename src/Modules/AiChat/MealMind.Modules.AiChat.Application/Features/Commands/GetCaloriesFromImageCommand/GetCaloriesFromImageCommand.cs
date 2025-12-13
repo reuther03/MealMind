@@ -15,9 +15,7 @@ public record GetCaloriesFromImageCommand(
     Guid? SessionId,
     string? Prompt,
     EstimationMode Mode,
-    IFormFile Image,
-    DateOnly DailyLogDate,
-    bool SaveFoodEntry
+    IFormFile Image
 )
     : ICommand<AnalyzedImageStructuredResponse>
 {
@@ -27,18 +25,16 @@ public record GetCaloriesFromImageCommand(
         private readonly IImageAnalyzeRepository _imageAnalyzeRepository;
         private readonly IAiChatService _aiChatService;
         private readonly IUserService _userService;
-        private readonly IOutboxService _outboxService;
         private readonly IUnitOfWork _unitOfWork;
 
 
         public Handler(IAiChatUserRepository userRepository, IImageAnalyzeRepository imageAnalyzeRepository, IAiChatService aiChatService,
-            IUserService userService, IOutboxService outboxService, IUnitOfWork unitOfWork)
+            IUserService userService, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _imageAnalyzeRepository = imageAnalyzeRepository;
             _aiChatService = aiChatService;
             _userService = userService;
-            _outboxService = outboxService;
             _unitOfWork = unitOfWork;
         }
 
@@ -48,12 +44,33 @@ public record GetCaloriesFromImageCommand(
             if (user is null)
                 return Result<AnalyzedImageStructuredResponse>.NotFound("AI Chat user not found.");
 
-            ImageAnalyzeSession session = null!;
-            if (command.SessionId is null)
+            var response = await _aiChatService.GenerateTextToImagePromptAsync(command.Prompt, command.Image, cancellationToken);
+
+            var foodImageAnalyze = ImageAnalyze.Create(
+                Guid.Empty, response.FoodName, command.Prompt, null, response.ImageBytes,
+                response.TotalMinEstimatedCalories, response.TotalMaxEstimatedCalories,
+                response.TotalMinEstimatedProteins, response.TotalMaxEstimatedProteins,
+                response.TotalMinEstimatedCarbohydrates, response.TotalMaxEstimatedCarbohydrates,
+                response.TotalMinEstimatedFats, response.TotalMaxEstimatedFats,
+                response.TotalConfidenceScore, response.TotalQuantityInGrams
+            );
+
+            if (command.SessionId != null)
             {
+                var existingSession = await _imageAnalyzeRepository.GetByIdAsync(command.SessionId.Value, cancellationToken);
+                if (existingSession is null)
+                    return Result<AnalyzedImageStructuredResponse>.NotFound("Image analyze session not found.");
+
+                existingSession.AddCorrection(foodImageAnalyze);
+            }
+            else
+            {
+                var session = ImageAnalyzeSession.Create(user.Id, foodImageAnalyze);
+                await _imageAnalyzeRepository.AddAsync(session, cancellationToken);
             }
 
-            throw new NotImplementedException();
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return Result.Ok(response);
 
 
             // var user = await _userRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
@@ -114,14 +131,14 @@ public record GetCaloriesFromImageCommand(
         }
     }
 
-    private static decimal CalculateEstimation(EstimationMode nutritionEstimationMode, decimal min, decimal max)
-    {
-        return nutritionEstimationMode switch
-        {
-            EstimationMode.Minimal => min,
-            EstimationMode.Average => (min + max) / 2,
-            EstimationMode.Maximal => max,
-            _ => throw new ApplicationException("Invalid estimation mode.")
-        };
-    }
+    // private static decimal CalculateEstimation(EstimationMode nutritionEstimationMode, decimal min, decimal max)
+    // {
+    //     return nutritionEstimationMode switch
+    //     {
+    //         EstimationMode.Minimal => min,
+    //         EstimationMode.Average => (min + max) / 2,
+    //         EstimationMode.Maximal => max,
+    //         _ => throw new ApplicationException("Invalid estimation mode.")
+    //     };
+    // }
 }

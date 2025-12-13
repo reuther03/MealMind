@@ -51,7 +51,7 @@ public class ImageAnalyze : Entity<Guid>
         if (imageUrl is null && imageBytes is null)
             throw new DomainException("Either imageUrl or imageBytes must be provided.");
 
-        SessionId = sessionId ?? Guid.Empty;
+        SessionId = sessionId;
         Prompt = prompt;
         FoodName = foodName;
         ImageUrl = imageUrl;
