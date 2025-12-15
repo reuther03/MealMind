@@ -22,16 +22,14 @@ public record SaveFoodAnalyzeCommand(
         private readonly IImageAnalyzeRepository _imageAnalyzeRepository;
         private readonly IUserService _userService;
         private readonly IOutboxService _outboxService;
-        private readonly IUnitOfWork _unitOfWork;
 
         public Handler(IAiChatUserRepository userRepository, IImageAnalyzeRepository imageAnalyzeRepository, IUserService userService,
-            IOutboxService outboxService, IUnitOfWork unitOfWork)
+            IOutboxService outboxService)
         {
             _userRepository = userRepository;
             _imageAnalyzeRepository = imageAnalyzeRepository;
             _userService = userService;
             _outboxService = outboxService;
-            _unitOfWork = unitOfWork;
         }
 
 
