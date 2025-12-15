@@ -1,4 +1,5 @@
-﻿using MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
+﻿using MealMind.Modules.AiChat.Application.Dtos;
+using MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
@@ -16,13 +17,11 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                 async (
                     [FromForm] Guid sessionId,
                     [FromForm] string? prompt,
-                    [FromForm] EstimationMode estimationMode,
+                    List<UserProvidedFoodProductsPayload> userProvidedFoods,
                     IFormFile image,
-                    [FromForm] DateOnly dailyLogDate,
-                    [FromForm] bool saveFoodEntry,
                     ISender sender) =>
                 {
-                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, image));
+                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, userProvidedFoods, image));
                     return result;
                 })
             .RequireAuthorization()
@@ -32,9 +31,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                 """
                 Form Data:
                 - prompt: "Analyze this burger meal" (optional)
-                - estimationMode: 1 (required - 0=Minimal, 1=Average, 2=Maximal)
-                - dailyLogDate: "2025-11-26" (required - date to save food entry to)
-                - saveFoodEntry: true (required - whether to save to daily log)
+                - List<DetectedFoodResponse> userProvidedFoods: (optional - list of user-identified foods in the image)
                 - image: <multipart_file> (required - JPEG/PNG image)
                 """,
                 """

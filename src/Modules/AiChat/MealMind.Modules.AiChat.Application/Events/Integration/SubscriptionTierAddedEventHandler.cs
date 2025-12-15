@@ -2,7 +2,6 @@
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Domain.AiChatUser;
 using MealMind.Shared.Abstractions.Events.Core;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.AiChat.Application.Events.Integration;

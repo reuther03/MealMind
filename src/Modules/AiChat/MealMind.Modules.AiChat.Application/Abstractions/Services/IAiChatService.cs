@@ -13,8 +13,9 @@ public interface IAiChatService
         int responseTokensLimit,
         CancellationToken cancellationToken = default);
 
-    Task<AnalyzedImageStructuredResponse> GenerateTextToImagePromptAsync(
+    Task<AnalyzedImageStructuredResponse> AnalyzeImageWithPromptAsync(
         string? userPrompt,
+        List<UserProvidedFoodProductsPayload> detectedFoods,
         IFormFile imageFile,
         CancellationToken cancellationToken = default);
 }

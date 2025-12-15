@@ -2,7 +2,6 @@
 using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.Kernel.Database;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Infrastructure.Postgres.Decorators;
 using Microsoft.EntityFrameworkCore;

@@ -3,7 +3,6 @@ using MealMind.Shared.Abstractions;
 using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using Microsoft.Extensions.DependencyInjection;
 

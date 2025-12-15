@@ -3,7 +3,6 @@ using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Abstractions.Extensions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
@@ -73,7 +72,10 @@ public class AiChatService : IAiChatService
         return structuredResponse;
     }
 
-    public async Task<AnalyzedImageStructuredResponse> GenerateTextToImagePromptAsync(string? userPrompt, IFormFile imageFile,
+    public async Task<AnalyzedImageStructuredResponse> AnalyzeImageWithPromptAsync(
+        string? userPrompt,
+        List<UserProvidedFoodProductsPayload>? userFoodProduct,
+        IFormFile imageFile,
         CancellationToken cancellationToken = default)
     {
         var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);

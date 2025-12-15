@@ -1,9 +1,7 @@
-﻿using MealMind.Modules.Nutrition.Application.Features.Queries;
-using MealMind.Modules.Nutrition.Application.Features.Queries.GetDailyLogQuery;
+﻿using MealMind.Modules.Nutrition.Application.Features.Queries.GetDailyLogQuery;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
 namespace MealMind.Modules.Nutrition.Api.Endpoints.Get;

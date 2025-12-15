@@ -5,7 +5,6 @@ using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
 using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
-using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Events.Identity;
 
 namespace MealMind.Modules.Nutrition.Application.Events.Integration;

@@ -1,5 +1,4 @@
-﻿using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MealMind.Services.Outbox.Database.JsonConverters;
 
