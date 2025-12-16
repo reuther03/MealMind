@@ -6,7 +6,10 @@
       "WebFetch(domain:world.openfoodfacts.org)",
       "Bash(touch:*)",
       "Bash(dir:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Bash(git -C /c/Repos/MealMind log --oneline)",
+      "Bash(git -C /c/Repos/MealMind log --all --pretty=format:\"%h %s\")"
     ]
   },
   "outputStyle": "default"

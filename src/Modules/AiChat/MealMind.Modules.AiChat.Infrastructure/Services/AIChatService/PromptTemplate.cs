@@ -1,8 +1,10 @@
-﻿namespace MealMind.Modules.AiChat.Infrastructure.Services.AIChatService;
+﻿using MealMind.Modules.AiChat.Application.Dtos;
+
+namespace MealMind.Modules.AiChat.Infrastructure.Services.AIChatService;
 
 internal static class PromptTemplate
 {
-    public static string ImageAnalysisPrompt(string? userPrompt)
+    public static string ImageAnalysisPrompt(string? userPrompt, List<UserProvidedFoodProductsPayload> userProvidedFoods)
         => $$"""
              You are an AI food nutrition analyst that examines food images and returns detailed nutritional estimates in structured JSON format.
 
@@ -65,17 +67,34 @@ internal static class PromptTemplate
              ═══════════════════════════════════════════════════════════════
              User input: "{{userPrompt ?? "[No text provided - analyze image only]"}}"
 
-             CRITICAL INSTRUCTION - MIXED ANALYSIS APPROACH:
-             1. ALWAYS detect and analyze ALL food items visible in the image
-             2. For foods mentioned in user prompt with specific details:
-                → Use user's exact values (weights, cooking methods)
-                → Set confidence = 1.0 for those items
-             3. For foods NOT mentioned in user prompt:
+             ═══════════════════════════════════════════════════════════════
+             🍽️ USER-PROVIDED FOODS (MANDATORY INCLUSION)
+             ═══════════════════════════════════════════════════════════════
+             {{(userProvidedFoods.Count == 0
+                 ? "[No user-provided foods - detect all foods from image]"
+                 : System.Text.Json.JsonSerializer.Serialize(userProvidedFoods))}}
+
+             CRITICAL RULES FOR USER-PROVIDED FOODS:
+             1. Foods listed above MUST appear in your DetectedFoods response exactly as provided
+             2. Use the EXACT values (name, quantity, nutrition) from user-provided foods
+             3. Set confidence = 1.0 for ALL user-provided foods
+             4. DO NOT add duplicate foods - if user provided "Ham", do NOT add another "Ham" from image analysis
+             5. When detecting foods from image, skip any food that matches or is similar to user-provided foods
+                - Example: User provides "Grilled Chicken" → Do NOT add "Chicken Breast" from image
+                - Example: User provides "Ham" → Do NOT add "Ham", "Sliced Ham", or "Deli Ham" from image
+
+             ═══════════════════════════════════════════════════════════════
+             🔍 IMAGE ANALYSIS APPROACH
+             ═══════════════════════════════════════════════════════════════
+             1. FIRST: Include ALL user-provided foods (if any) with their exact values and confidence = 1.0
+             2. THEN: Detect additional foods from image that are NOT already covered by user-provided foods
+             3. For additional detected foods:
                 → Estimate based on visual analysis
                 → Set confidence based on visual clarity (0.5-0.95)
              4. Never ignore foods in the image just because user didn't mention them
+             5. Never duplicate foods - each food item should appear only ONCE in the response
 
-             If user prompt is empty or vague:
+             If user prompt is empty or vague and no user-provided foods:
              → Analyze all visible foods
              → Use visual estimation for all values
              → Provide ranges to indicate uncertainty

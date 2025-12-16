@@ -80,7 +80,7 @@ public class AiChatService : IAiChatService
     {
         var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);
 
-        var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.ImageAnalysisPrompt(userPrompt));
+        var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.ImageAnalysisPrompt(userPrompt, userFoodProduct ?? []));
 
         var chatHistory = new ChatHistory();
 

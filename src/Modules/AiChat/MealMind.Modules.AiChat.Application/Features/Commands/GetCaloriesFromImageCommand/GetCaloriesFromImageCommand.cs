@@ -43,7 +43,12 @@ public record GetCaloriesFromImageCommand(
             if (user is null)
                 return Result<AnalyzedImageStructuredResponse>.NotFound("AI Chat user not found.");
 
-            var response = await _aiChatService.AnalyzeImageWithPromptAsync(command.Prompt, command.UserProvidedFoods ?? [], command.Image, cancellationToken);
+            var response = await _aiChatService.AnalyzeImageWithPromptAsync(
+                command.Prompt,
+                command.UserProvidedFoods ?? [],
+                command.Image,
+                cancellationToken
+            );
 
             var foodImageAnalyze = ImageAnalyze.Create(
                 Guid.Empty, response.FoodName, command.Prompt, null, response.ImageBytes,
