@@ -21,6 +21,15 @@ internal class DailyLogRepository : Repository<DailyLog, NutritionDbContext>, ID
             .ThenInclude(x => x.Foods)
             .FirstOrDefaultAsync(x => x.CurrentDate == date && x.UserId == userId, cancellationToken);
 
+    public async Task<Meal?> GetMealByIdAsync(Guid mealId, CancellationToken cancellationToken = default)
+        => await _context.DailyLogs
+            .Include(x => x.Meals)
+            .ThenInclude(x => x.Foods)
+            .Where(x => x.Meals
+                .Any(m => m.Id.Value == mealId))
+            .SelectMany(x => x.Meals)
+            .FirstOrDefaultAsync(m => m.Id.Value == mealId, cancellationToken);
+
     public async Task<bool> ExistsWithDateAsync(DateOnly date, UserId userId, CancellationToken cancellationToken = default)
         => await _context.DailyLogs
             .AnyAsync(x => x.CurrentDate == date && x.UserId == userId, cancellationToken);
