@@ -1,0 +1,30 @@
+﻿@page "/Ai-Chat/"
+@using MealMind.Client.Infrastructure
+
+
+<div>
+    <h1>AI Chat Home</h1>
+    <p>Welcome to the AI Chat feature of MealMind!</p>
+    <p>Here you can interact with our AI to get personalized meal suggestions, nutrition advice, and more.</p>
+    <a href="/Ai-Chat/Chat">Go to AI Chat</a>
+</div>
+
+@code {
+    private string? errorMessage;
+
+    private async Task HandleFetch()
+    {
+        errorMessage = null;
+
+        try
+        {
+            // var response = await ApiClient.GetAsync<object>("/ai-chat/home");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}

@@ -10,6 +10,9 @@
         <p>You are logged in as: <strong>@AuthState.CurrentUser?.UserName</strong></p>
         <p>Email: @AuthState.CurrentUser?.Email</p>
         <p>Subscription: @AuthState.CurrentUser?.SubscriptionTier</p>
+        <div>
+            <p><a href="/Ai-Chat">Ai Chat</a></p>
+        </div>
         <button @onclick="HandleLogout">Logout</button>
     }
     else
