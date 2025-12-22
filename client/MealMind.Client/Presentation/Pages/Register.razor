@@ -67,6 +67,75 @@
         </InputSelect>
     </div>
 
+    <h3>Nutrition Targets</h3>
+
+    <div>
+        <label>Calories</label>
+        <InputNumber @bind-Value="_model.Calories"/>
+    </div>
+
+    <div>
+        <label>Macros Input Mode</label>
+        <InputSelect @bind-Value="_model.UseGrams">
+            <option value="true">Grams</option>
+            <option value="false">Percentage</option>
+        </InputSelect>
+    </div>
+
+    @if (_model.UseGrams)
+    {
+        <div>
+            <label>Protein (grams)</label>
+            <InputNumber @bind-Value="_model.ProteinInGrams"/>
+        </div>
+
+        <div>
+            <label>Carbohydrates (grams)</label>
+            <InputNumber @bind-Value="_model.CarbohydratesInGrams"/>
+        </div>
+
+        <div>
+            <label>Fats (grams)</label>
+            <InputNumber @bind-Value="_model.FatsInGrams"/>
+        </div>
+    }
+    else
+    {
+        <div>
+            <label>Protein (%)</label>
+            <InputNumber @bind-Value="_model.ProteinPercentage"/>
+        </div>
+
+        <div>
+            <label>Carbohydrates (%)</label>
+            <InputNumber @bind-Value="_model.CarbohydratesPercentage"/>
+        </div>
+
+        <div>
+            <label>Fats (%)</label>
+            <InputNumber @bind-Value="_model.FatsPercentage"/>
+        </div>
+    }
+
+    <div>
+        <label>Water Intake (ml)</label>
+        <InputNumber @bind-Value="_model.WaterIntake"/>
+    </div>
+
+    <div>
+        <label>Active Days</label>
+        <div>
+            @foreach (var day in Enum.GetValues<DayOfWeek>())
+            {
+                <label style="margin-right: 10px;">
+                    <input type="checkbox"
+                           checked="@_model.ActiveDays.Contains((int)day)"
+                           @onchange="@(e => ToggleActiveDay((int)day, (bool)e.Value!))"/>
+                    @day
+                </label>
+            }
+        </div>
+    </div>
 
     <button type="submit" disabled="@_isLoading">
         @(_isLoading ? "Loading..." : "Login")
@@ -82,6 +151,14 @@
     private readonly RegisterModel _model = new();
     private bool _isLoading;
     private string? _errorMessage;
+
+    private void ToggleActiveDay(int day, bool isChecked)
+    {
+        if (isChecked && !_model.ActiveDays.Contains(day))
+            _model.ActiveDays.Add(day);
+        else if (!isChecked)
+            _model.ActiveDays.Remove(day);
+    }
 
     private async Task HandleRegister()
     {
@@ -103,6 +180,27 @@
                     height = _model.Height,
                     weightTarget = _model.WeightTarget,
                     activityLevel = _model.ActivityLevel
+                },
+                nutritionTargets = new[]
+                {
+                    new
+                    {
+                        calories = _model.Calories,
+                        nutritionInGramsPayload = _model.UseGrams ? new
+                        {
+                            proteinInGrams = _model.ProteinInGrams,
+                            carbohydratesInGrams = _model.CarbohydratesInGrams,
+                            fatsInGrams = _model.FatsInGrams
+                        } : null,
+                        nutritionInPercentPayload = !_model.UseGrams ? new
+                        {
+                            proteinPercentage = _model.ProteinPercentage,
+                            carbohydratesPercentage = _model.CarbohydratesPercentage,
+                            fatsPercentage = _model.FatsPercentage
+                        } : null,
+                        waterIntake = _model.WaterIntake,
+                        activeDays = _model.ActiveDays.ToArray()
+                    }
                 }
             });
 
@@ -157,6 +255,35 @@
 
         [Required]
         public ActivityLevel ActivityLevel { get; set; }
+
+        // Nutrition Targets
+        public bool UseGrams { get; set; } = true;
+
+        [Range(0, int.MaxValue)]
+        public int Calories { get; set; }
+
+        [Range(0, double.MaxValue)]
+        public double ProteinInGrams { get; set; }
+
+        [Range(0, double.MaxValue)]
+        public double CarbohydratesInGrams { get; set; }
+
+        [Range(0, double.MaxValue)]
+        public double FatsInGrams { get; set; }
+
+        [Range(0, 100)]
+        public double ProteinPercentage { get; set; }
+
+        [Range(0, 100)]
+        public double CarbohydratesPercentage { get; set; }
+
+        [Range(0, 100)]
+        public double FatsPercentage { get; set; }
+
+        [Range(0, int.MaxValue)]
+        public int WaterIntake { get; set; }
+
+        public List<int> ActiveDays { get; set; } = new();
     }
 
 }
