@@ -17,7 +17,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                 async (
                     [FromForm] Guid sessionId,
                     [FromForm] string? prompt,
-                    List<UserProvidedFoodProductsPayload> userProvidedFoods,
+                    [FromForm] List<UserProvidedFoodProductsPayload> userProvidedFoods,
                     IFormFile image,
                     ISender sender) =>
                 {

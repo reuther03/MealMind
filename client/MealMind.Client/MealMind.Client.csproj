@@ -4,25 +4,25 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <StaticWebAssetsBuildMode>Default</StaticWebAssetsBuildMode>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.10" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.10" PrivateAssets="all" />
+        <PackageReference Include="Blazored.LocalStorage" Version="4.5.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.1" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Services\" />
+        <Folder Include="Application\Services\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Shared\MealMind.Shared.Contracts\MealMind.Shared.Contracts.csproj" />
+        <ProjectReference Include="..\..\src\Shared\MealMind.Shared.Contracts\MealMind.Shared.Contracts.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
-      <_ContentIncludedByDefault Remove="Layout\MainLayout.razor" />
+        <_ContentIncludedByDefault Remove="Layout\MainLayout.razor"/>
     </ItemGroup>
 
 </Project>

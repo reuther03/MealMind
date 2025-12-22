@@ -32,7 +32,6 @@ services.AddScoped<IApiClient, ApiClient>();
 
 var app = builder.Build();
 
-// Initialize AuthState from localStorage
 var authState = app.Services.GetRequiredService<AuthState>();
 await authState.InitializeAsync();
 
