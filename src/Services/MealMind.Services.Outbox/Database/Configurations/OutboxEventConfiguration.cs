@@ -25,7 +25,8 @@ public class OutboxEventConfiguration : IEntityTypeConfiguration<OutboxEvent>
         {
             ContractResolver = contractResolver,
             TypeNameHandling = TypeNameHandling.All,
-            NullValueHandling = NullValueHandling.Include
+            NullValueHandling = NullValueHandling.Include,
+            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
         settings.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
         settings.Converters.Add(new UserIdGuidJsonConverter());

@@ -25,7 +25,8 @@
       "Bash(git -C /c/Repos/MealMind diff HEAD -- \"src/Shared/MealMind.Shared.Infrastructure/Postgres/Extensions.cs\")",
       "Bash(git -C /c/Repos/MealMind log --oneline -10 -- \"src/Shared/MealMind.Shared.Infrastructure/\")",
       "Bash(git -C /c/Repos/MealMind log:*)",
-      "Bash(git -C /c/Repos/MealMind checkout:*)"
+      "Bash(git -C /c/Repos/MealMind checkout:*)",
+      "Bash(git -C /c/Repos/MealMind status -- \"src/Services/MealMind.Services.Outbox/Database/Migrations/\")"
     ]
   },
   "outputStyle": "default"
