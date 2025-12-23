@@ -31,6 +31,7 @@ public static class Extensions
             services.TryDecorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator.QueryHandler<,>));
             services.TryDecorate(typeof(IEventHandler<>), typeof(LoggingDecorator.EventHandler<>));
 
+
             return services;
         }
 
@@ -41,16 +42,16 @@ public static class Extensions
             return services;
         }
 
-        public IServiceCollection AddRedis()
-        {
-            // services.AddStackExchangeRedisCache(options =>
-            // {
-            //     var redisOptions = services.GetOptions<RedisOptions>("redis");
-            //     options.Configuration = redisOptions.ConnectionString;
-            // });
-
-            return services;
-        }
+        // public IServiceCollection AddRedis()
+        // {
+        //     services.AddStackExchangeRedisCache(options =>
+        //     {
+        //         var redisOptions = services.GetOptions<RedisOptions>("redis");
+        //         options.Configuration = redisOptions.ConnectionString;
+        //     });
+        //
+        //     return services;
+        // }
 
         public IServiceCollection AddUnitOfWork<TUnitOfWork, TImplementation>()
             where TUnitOfWork : class, IBaseUnitOfWork where TImplementation : class, TUnitOfWork

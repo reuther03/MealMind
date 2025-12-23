@@ -6,23 +6,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MealMind.Services.Outbox.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangesTotalQuantityInGramesToDecimal : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "__OutboxDbContext");
+                name: "outbox");
 
             migrationBuilder.CreateTable(
                 name: "OutboxEvents",
-                schema: "__OutboxDbContext",
+                schema: "outbox",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Payload = table.Column<string>(type: "jsonb", nullable: false),
-                    State = table.Column<int>(type: "integer", nullable: false),
+                    State = table.Column<string>(type: "text", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProcessedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Error = table.Column<string>(type: "text", nullable: true),
@@ -39,7 +39,7 @@ namespace MealMind.Services.Outbox.Database.Migrations
         {
             migrationBuilder.DropTable(
                 name: "OutboxEvents",
-                schema: "__OutboxDbContext");
+                schema: "outbox");
         }
     }
 }

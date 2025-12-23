@@ -9,7 +9,23 @@
       "Bash(mkdir:*)",
       "Bash(cat:*)",
       "Bash(git -C /c/Repos/MealMind log --oneline)",
-      "Bash(git -C /c/Repos/MealMind log --all --pretty=format:\"%h %s\")"
+      "Bash(git -C /c/Repos/MealMind log --all --pretty=format:\"%h %s\")",
+      "Bash(git -C /c/Repos/MealMind show fb2dcbf -- \"src/Services/MealMind.Services.Outbox/EventMessageProcessJob.cs\")",
+      "Bash(git -C /c/Repos/MealMind show 1345191 -- \"src/Services/MealMind.Services.Outbox/Database/Configurations/OutboxEventConfiguration.cs\")",
+      "Bash(git -C /c/Repos/MealMind show:*)",
+      "Bash(git -C /c/Repos/MealMind diff HEAD -- \"src/Services/MealMind.Services.Outbox/Database/Configurations/OutboxEventConfiguration.cs\")",
+      "Bash(git -C /c/Repos/MealMind checkout -- \"src/Services/MealMind.Services.Outbox/EventMessageProcessJob.cs\" \"src/Services/MealMind.Services.Outbox/OutboxEvents/OutboxEvent.cs\" \"src/Services/MealMind.Services.Outbox/Database/Configurations/OutboxEventConfiguration.cs\")",
+      "Bash(git -C /c/Repos/MealMind log --oneline -20)",
+      "Bash(git -C /c/Repos/MealMind log --oneline --all -- \"src/Services/MealMind.Services.Outbox/\")",
+      "Bash(git -C /c/Repos/MealMind log --oneline -10 -- \"src/Services/MealMind.Services.Outbox/EventMessageProcessJob.cs\")",
+      "Bash(git -C /c/Repos/MealMind log --oneline --all -- \"src/Shared/MealMind.Shared.Infrastructure/Services/Publisher.cs\" \"src/Shared/MealMind.Shared.Abstractions/Services/IPublisher.cs\")",
+      "Bash(git -C /c/Repos/MealMind checkout -- \"src/Services/MealMind.Services.Outbox/EventMessageProcessJob.cs\" \"src/Services/MealMind.Services.Outbox/Database/Configurations/OutboxEventConfiguration.cs\")",
+      "Bash(rm:*)",
+      "Bash(git -C /c/Repos/MealMind log --oneline --all --since=\"2025-12-01\" -- \"src/Services/MealMind.Services.Outbox/\")",
+      "Bash(git -C /c/Repos/MealMind diff HEAD -- \"src/Shared/MealMind.Shared.Infrastructure/Postgres/Extensions.cs\")",
+      "Bash(git -C /c/Repos/MealMind log --oneline -10 -- \"src/Shared/MealMind.Shared.Infrastructure/\")",
+      "Bash(git -C /c/Repos/MealMind log:*)",
+      "Bash(git -C /c/Repos/MealMind checkout:*)"
     ]
   },
   "outputStyle": "default"

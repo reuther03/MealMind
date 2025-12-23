@@ -13,8 +13,8 @@ using Pgvector;
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AiChatDbContext))]
-    [Migration("20251212175829_AddsImageAnalyzeSessionId")]
-    partial class AddsImageAnalyzeSessionId
+    [Migration("20251223004629_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

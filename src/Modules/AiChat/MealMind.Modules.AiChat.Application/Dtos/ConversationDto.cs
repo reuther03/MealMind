@@ -6,7 +6,7 @@ public class ConversationDto
 {
     public Guid Id { get; private set; }
     public Guid UserId { get; private set; }
-    public string Title { get; private set; }
+    public string Title { get; private set; } = string.Empty;
     public DateTime CreatedAt { get; private set; }
     public DateTime LastUsedAt { get; private set; }
 

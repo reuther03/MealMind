@@ -132,7 +132,7 @@ namespace MealMind.Modules.AiChat.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SessionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SessionId = table.Column<Guid>(type: "uuid", nullable: true),
                     FoodName = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     Prompt = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     ImageUrl = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),

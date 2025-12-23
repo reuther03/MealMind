@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Services.Outbox.Database.Migrations
 {
     [DbContext(typeof(OutboxDbContext))]
-    [Migration("20251205010543_ChangesTotalQuantityInGramesToDecimal")]
-    partial class ChangesTotalQuantityInGramesToDecimal
+    [Migration("20251223003156_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("__OutboxDbContext")
+                .HasDefaultSchema("outbox")
                 .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -47,8 +47,9 @@ namespace MealMind.Services.Outbox.Database.Migrations
                     b.Property<DateTime?>("ProcessedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -56,7 +57,7 @@ namespace MealMind.Services.Outbox.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutboxEvents", "__OutboxDbContext");
+                    b.ToTable("OutboxEvents", "outbox");
                 });
 #pragma warning restore 612, 618
         }

@@ -142,7 +142,7 @@ dotnet ef database update \
 **AiChat Module:**
 ```bash
 dotnet ef database update \
-  --project src/Modules/AiChat/MealMind.Modules.AiChat.Infrastructure \
+  --project src/Modules/AiChat/MealMind.Modules.AiCha![img.png](img.png)t.Infrastructure \
   --startup-project src/Bootstrapper/MealMind.Bootstrapper \
   --context AiChatDbContext
 ```
