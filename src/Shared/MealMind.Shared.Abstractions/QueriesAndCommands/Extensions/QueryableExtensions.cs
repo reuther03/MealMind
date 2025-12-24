@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using MealMind.Shared.Abstractions.Kernel.Pagination;
+using MealMind.Shared.Contracts.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Shared.Abstractions.QueriesAndCommands.Extensions;
@@ -22,21 +22,21 @@ public static class QueryableExtensions
     //     where T : ISoftDelete
     //     => source.Where(e => !e.IsDeleted);
 
-    public static async Task<PaginatedList<TOut>> ToPagedListAsync<T, TOut>(
-        this IQueryable<T> query,
-        int page,
-        int pageSize,
-        Expression<Func<T, TOut>> mappingExpression,
-        CancellationToken cancellationToken = default)
-    {
-        var count = await query.CountAsync(cancellationToken);
-
-        var results = await query
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .Select(mappingExpression)
-            .ToListAsync(cancellationToken);
-
-        return new PaginatedList<TOut>(page, pageSize, count, results);
-    }
+    // public static async Task<PaginatedList<TOut>> ToPagedListAsync<T, TOut>(
+    //     this IQueryable<T> query,
+    //     int page,
+    //     int pageSize,
+    //     Expression<Func<T, TOut>> mappingExpression,
+    //     CancellationToken cancellationToken = default)
+    // {
+    //     var count = await query.CountAsync(cancellationToken);
+    //
+    //     var results = await query
+    //         .Skip((page - 1) * pageSize)
+    //         .Take(pageSize)
+    //         .Select(mappingExpression)
+    //         .ToListAsync(cancellationToken);
+    //
+    //     return new PaginatedList<TOut>(page, pageSize, count, results);
+    // }
 }

@@ -8,6 +8,7 @@ namespace MealMind.Modules.AiChat.Api.Endpoints;
 
 public class GetChatResponseEndpoint : EndpointBase
 {
+
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapPost("get-chat-response",

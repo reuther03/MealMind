@@ -14,6 +14,8 @@ public interface IModule
 
     public void AddModuleEndpoints(WebApplication app)
     {
+        var group = app.MapGroup(Path);
+
         var assembly = GetType().Assembly;
         var endpointTypes = assembly.GetTypes()
             .Where(type => type.IsSubclassOf(typeof(EndpointBase)) && !type.IsAbstract)
@@ -21,6 +23,6 @@ public interface IModule
             .Where(endpoint => endpoint is not null)
             .ToList();
 
-        endpointTypes.ForEach(endpoint => endpoint!.AddEndpoint(app));
+        endpointTypes.ForEach(endpoint => endpoint!.AddEndpoint(group));  // Pass GROUP
     }
 }

@@ -12,7 +12,7 @@ public class GetConversationsEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapGet("get-conversations",
-                async ([FromQuery] int page, ISender sender) =>
+                async (ISender sender, [FromQuery] int page = 1) =>
                 {
                     var result = await sender.Send(new GetConversationsQuery(page));
                     return result;

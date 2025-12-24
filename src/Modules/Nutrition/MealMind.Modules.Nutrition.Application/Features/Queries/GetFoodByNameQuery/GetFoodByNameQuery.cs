@@ -1,9 +1,9 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Application.Dtos;
-using MealMind.Shared.Abstractions.Kernel.Pagination;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Extensions;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
+using MealMind.Shared.Contracts.Pagination;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.EntityFrameworkCore;
 

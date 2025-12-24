@@ -1,6 +1,6 @@
-﻿using MealMind.Shared.Contracts.Result;
+using MealMind.Shared.Contracts.Result;
 
-namespace MealMind.Shared.Abstractions.Kernel.Pagination;
+namespace MealMind.Shared.Contracts.Pagination;
 
 public class PaginatedList<T>
 {
@@ -22,7 +22,7 @@ public class PaginatedList<T>
 
     public static Result<PaginatedList<T>> Create(int page, int pageSize, int totalCount, List<T> items)
     {
-        var result =  new PaginatedList<T>(page, pageSize, totalCount, items);
+        var result = new PaginatedList<T>(page, pageSize, totalCount, items);
         return Result<PaginatedList<T>>.Ok(result);
     }
 }

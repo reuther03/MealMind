@@ -8,9 +8,10 @@ namespace MealMind.Modules.AiChat.Api.Endpoints;
 
 public class CreateConversationEndpoint : EndpointBase
 {
+
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("create-chat-response",
+        endpointRouteBuilder.MapPost("/create-chat-response",
                 async (CreateConversationCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);

@@ -1,14 +1,14 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
-using MealMind.Modules.AiChat.Application.Dtos;
-using MealMind.Shared.Abstractions.Kernel.Pagination;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
+using MealMind.Shared.Contracts.Dto.AiChat;
+using MealMind.Shared.Contracts.Pagination;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.AiChat.Application.Features.Queries.GetConversationsQuery;
 
-public record GetConversationsQuery(int Page) : IQuery<PaginatedList<ConversationDto>>
+public record GetConversationsQuery(int Page = 1) : IQuery<PaginatedList<ConversationDto>>
 {
     public sealed class Handler : IQueryHandler<GetConversationsQuery, PaginatedList<ConversationDto>>
     {
@@ -33,7 +33,13 @@ public record GetConversationsQuery(int Page) : IQuery<PaginatedList<Conversatio
                 .Where(x => x.UserId == user.Id)
                 .Skip((query.Page - 1) * 10)
                 .Take(10 + 1)
-                .Select(x => ConversationDto.AsDto(x))
+                .Select(x => new ConversationDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    CreatedAt = x.CreatedAt,
+                    LastUsedAt = x.LastUsedAt
+                })
                 .ToListAsync(cancellationToken);
 
             return PaginatedList<ConversationDto>.Create(query.Page, 10, conversationsDto.Count, conversationsDto.Take(10).ToList());
