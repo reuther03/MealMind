@@ -22,7 +22,7 @@ public class StripeWebhookEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("webhook/stripe",
+        endpointRouteBuilder.MapPost("/webhook/stripe",
                 async (HttpRequest httpRequest, ISender sender, IOptions<StripeOptions> options, ILogger<StripeWebhookEndpoint> logger,
                     CancellationToken cancellationToken) =>
                 {

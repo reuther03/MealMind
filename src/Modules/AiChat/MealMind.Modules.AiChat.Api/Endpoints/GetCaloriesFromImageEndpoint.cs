@@ -13,7 +13,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("get-calories-from-image",
+        endpointRouteBuilder.MapPost("/get-calories-from-image",
                 async (
                     [FromForm] Guid sessionId,
                     [FromForm] string? prompt,

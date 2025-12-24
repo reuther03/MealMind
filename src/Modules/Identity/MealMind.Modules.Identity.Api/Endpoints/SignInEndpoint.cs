@@ -10,7 +10,7 @@ internal sealed class SignInEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("sign-in",
+        endpointRouteBuilder.MapPost("/sign-in",
                 async (SignInCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);

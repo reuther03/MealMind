@@ -11,7 +11,7 @@ public class GetFoodByNameEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapGet("food/search",
+        endpointRouteBuilder.MapGet("/food/search",
                 async ([AsParameters] GetFoodByNameRequest request, ISender sender) =>
                 {
                     var result = await sender.Send(new GetFoodByNameQuery(request.SearchTerm, request.PageSize, request.Page));

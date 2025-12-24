@@ -9,7 +9,7 @@ public class StripeCancelEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         var assembly = typeof(StripeCancelEndpoint).Assembly;
-        endpointRouteBuilder.MapGet("payment-cancel", () =>
+        endpointRouteBuilder.MapGet("/payment-cancel", () =>
                 "Payment canceled. You can try again or choose a different plan.")
             .WithDocumentation(
                 name: "Stripe Payment Cancel",

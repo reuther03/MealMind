@@ -11,7 +11,7 @@ public class AddFavoriteMealEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("add-favorite-meal",
+        endpointRouteBuilder.MapPost("/add-favorite-meal",
                 async (AddFavoriteMealCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);

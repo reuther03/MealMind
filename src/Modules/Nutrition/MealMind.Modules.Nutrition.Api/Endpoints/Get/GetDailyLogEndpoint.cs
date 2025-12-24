@@ -10,7 +10,7 @@ public class GetDailyLogEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapGet("dailylog",
+        endpointRouteBuilder.MapGet("/dailylog",
                 async (DateOnly dateOnly, ISender sender) =>
                 {
                     var result = await sender.Send(new GetDailyLogQuery(dateOnly));

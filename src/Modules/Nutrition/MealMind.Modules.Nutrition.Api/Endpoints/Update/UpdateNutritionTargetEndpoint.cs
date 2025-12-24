@@ -10,7 +10,7 @@ public class UpdateNutritionTargetEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPut("nutrition-target",
+        endpointRouteBuilder.MapPut("/nutrition-target",
                 async (UpdateNutritionTargetCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);

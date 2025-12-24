@@ -10,7 +10,7 @@ public class CreateCheckoutSessionEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("session-checkout",
+        endpointRouteBuilder.MapPost("/session-checkout",
                 async (CreateCheckoutSessionCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);

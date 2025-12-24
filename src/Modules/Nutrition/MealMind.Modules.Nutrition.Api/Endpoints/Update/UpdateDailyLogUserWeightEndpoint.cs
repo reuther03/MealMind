@@ -10,7 +10,7 @@ public class UpdateDailyLogUserWeightEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPatch("daily-log/user-weight",
+        endpointRouteBuilder.MapPatch("/daily-log/user-weight",
                 async (UpdateDailyLogUserWeight request, ISender sender) =>
                 {
                     var result = await sender.Send(request);

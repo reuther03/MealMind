@@ -10,7 +10,7 @@ public class AddFoodEntryEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("dailylog/food/add",
+        endpointRouteBuilder.MapPost("/dailylog/food/add",
                 async (AddFoodEntryCommand request, ISender sender) =>
                 {
                     var result = await sender.Send(request);
