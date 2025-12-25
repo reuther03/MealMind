@@ -1,13 +1,16 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
+using MealMind.Modules.AiChat.Domain.Conversation;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.AiChat;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace MealMind.Modules.AiChat.Application.Features.Queries.GetConversationQuery;
 
-public record GetConversationQuery(Guid ConversationId) : IQuery<ConversationDetailsDto>
+public record GetConversationQuery(Guid ChatConversationId) : IQuery<ConversationDetailsDto>
 {
     public sealed class Handler : IQueryHandler<GetConversationQuery, ConversationDetailsDto>
     {
@@ -28,12 +31,13 @@ public record GetConversationQuery(Guid ConversationId) : IQuery<ConversationDet
 
             var conversationDto = await _dbContext.ChatConversations
                 .Where(x => x.UserId == user.Id &&
-                    x.Id.Value == request.ConversationId)
+                    x.Id == ConversationId.From(request.ChatConversationId))
                 .Select(x => new ConversationDetailsDto
                 {
-                    Id = x.Id.Value,
+                    Id = x.Id,
                     Title = x.Title,
                     ChatMessages = x.ChatMessages
+                        .Where(z => z.Role != AiChatRole.System)
                         .OrderBy(z => z.CreatedAt)
                         .Select(z => new AiChatMessageDto
                         {
