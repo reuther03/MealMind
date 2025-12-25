@@ -9,28 +9,28 @@
 
 <h1>Login</h1>
 
-<EditForm Model="@model" OnValidSubmit="HandleLogin">
+<EditForm Model="@_model" OnValidSubmit="HandleLogin">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
     <div>
         <label>Email:</label>
-        <InputText @bind-Value="model.Email"/>
+        <InputText @bind-Value="_model.Email"/>
     </div>
 
     <div>
         <label>Password:</label>
-        <InputText @bind-Value="model.Password" type="password"/>
+        <InputText @bind-Value="_model.Password" type="password"/>
     </div>
 
-    <button type="submit" disabled="@isLoading">
-        @(isLoading ? "Loading..." : "Login")
+    <button type="submit" disabled="@_isLoading">
+        @(_isLoading ? "Loading..." : "Login")
     </button>
 </EditForm>
 
-@if (!string.IsNullOrEmpty(errorMessage))
+@if (!string.IsNullOrEmpty(_errorMessage))
 {
-    <p style="color: red;">@errorMessage</p>
+    <p style="color: red;">@_errorMessage</p>
 }
 
 @if (AuthState.IsAuthenticated)
@@ -42,21 +42,21 @@
 }
 
 @code {
-    private LoginModel model = new();
-    private bool isLoading = false;
-    private string? errorMessage;
+    private readonly LoginModel _model = new();
+    private bool _isLoading;
+    private string? _errorMessage;
 
     private async Task HandleLogin()
     {
-        isLoading = true;
-        errorMessage = null;
+        _isLoading = true;
+        _errorMessage = null;
 
         try
         {
-            var result = await ApiClient.PostAsync<AccessToken>("/sign-in", new
+            var result = await ApiClient.PostAsync<AccessToken>("/identity-module/sign-in", new
             {
-                email = model.Email,
-                password = model.Password
+                email = _model.Email,
+                password = _model.Password
             });
 
             if (result is { IsSuccess: true, Value: not null })
@@ -67,7 +67,7 @@
                     Id = result.Value.UserId.ToString(),
                     UserName = result.Value.Username,
                     Email = result.Value.Email,
-                    SubscriptionTier = "Free" // Default tier
+                    SubscriptionTier = "Free"
                 };
 
                 await AuthState.LoginAsync(identity, result.Value.Token);
@@ -77,16 +77,16 @@
             }
             else
             {
-                errorMessage = result.Message ?? "Login failed";
+                _errorMessage = result.Message ?? "Login failed";
             }
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error: {ex.Message}";
+            _errorMessage = $"Error: {ex.Message}";
         }
         finally
         {
-            isLoading = false;
+            _isLoading = false;
         }
     }
 

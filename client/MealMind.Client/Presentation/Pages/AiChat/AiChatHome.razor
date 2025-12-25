@@ -1,30 +1,110 @@
-﻿@page "/Ai-Chat/"
-@using MealMind.Client.Infrastructure
+@page "/Ai-Chat/"
+@using MealMind.Client.Infrastructure.Abstractions
+@using MealMind.Shared.Contracts.Dto.AiChat
+@using MealMind.Shared.Contracts.Pagination
+@inject IApiClient ApiClient
 
+<h1>AI Chat</h1>
 
-<div>
-    <h1>AI Chat Home</h1>
-    <p>Welcome to the AI Chat feature of MealMind!</p>
-    <p>Here you can interact with our AI to get personalized meal suggestions, nutrition advice, and more.</p>
-    <a href="/Ai-Chat/Chat">Go to AI Chat</a>
-</div>
+@if (_isLoading)
+{
+    <p>Loading conversations...</p>
+}
+else if (_errorMessage is not null)
+{
+    <p style="color: red;">@_errorMessage</p>
+}
+else if (_conversations is not null)
+{
+    <h2>Your Conversations</h2>
+
+    @if (_conversations.Items.Count == 0)
+    {
+        <p>No conversations yet.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var conversation in _conversations.Items)
+            {
+                <li>
+                    <strong>@conversation.Title</strong>
+                    <br/>
+                    <small>Created: @conversation.CreatedAt.ToString("g") | Last
+                        used: @conversation.LastUsedAt.ToString("g")</small>
+                </li>
+            }
+        </ul>
+
+        <p>Page @_conversations.Page of @_conversations.TotalPages (Total: @_conversations.TotalCount)</p>
+
+        @if (_conversations.HasPrevious)
+        {
+            <button @onclick="PreviousPage">Previous</button>
+        }
+
+        @if (_conversations.HasNext)
+        {
+            <button @onclick="NextPage">Next</button>
+        }
+    }
+}
+
+<br/>
+<a href="/Ai-Chat/Chat">Start New Chat</a>
 
 @code {
-    private string? errorMessage;
+    private PaginatedList<ConversationDto>? _conversations;
+    private string? _errorMessage;
+    private bool _isLoading = true;
+    private int _currentPage = 1;
 
-    private async Task HandleFetch()
+    protected override async Task OnInitializedAsync()
     {
-        errorMessage = null;
+        await LoadConversations();
+    }
+
+    private async Task LoadConversations()
+    {
+        _isLoading = true;
+        _errorMessage = null;
 
         try
         {
-            // var response = await ApiClient.GetAsync<object>("/ai-chat/home");
+            var response = await ApiClient.GetAsync<PaginatedList<ConversationDto>>($"/AiChat-module/get-conversations?page={_currentPage}");
+
+            if (response.IsSuccess)
+            {
+                _conversations = response.Value;
+            }
+            else
+            {
+                _errorMessage = response.Message ?? "Failed to load conversations";
+            }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            _errorMessage = $"Error: {e.Message}";
         }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task PreviousPage()
+    {
+        if (_currentPage > 1)
+        {
+            _currentPage--;
+            await LoadConversations();
+        }
+    }
+
+    private async Task NextPage()
+    {
+        _currentPage++;
+        await LoadConversations();
     }
 
 }

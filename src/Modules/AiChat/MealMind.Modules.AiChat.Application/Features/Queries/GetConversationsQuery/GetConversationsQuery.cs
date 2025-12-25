@@ -26,7 +26,7 @@ public record GetConversationsQuery(int Page = 1) : IQuery<PaginatedList<Convers
             var user = await _dbContext.AiChatUsers
                 .FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
 
-            if (user == null)
+            if (user is null)
                 return Result.BadRequest<PaginatedList<ConversationDto>>("User not found.");
 
             var conversationsDto = await _dbContext.ChatConversations
