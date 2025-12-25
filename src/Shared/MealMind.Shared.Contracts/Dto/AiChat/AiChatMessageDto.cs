@@ -2,8 +2,9 @@
 
 public class AiChatMessageDto
 {
-    public string Role { get; private set; } = null!;
-    public string Content { get; private set; } = null!;
-    public Guid ReplyToMessageId { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public Guid Id { get; init; }
+    public string Role { get; init; } = null!;
+    public string Content { get; init; } = null!;
+    public Guid ReplyToMessageId { get; init; }
+    public DateTime CreatedAt { get; init; }
 }
