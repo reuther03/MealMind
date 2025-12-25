@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Domain.Conversation;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;

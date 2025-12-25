@@ -1,0 +1,14 @@
+﻿@page "/Ai-Chat/{ConversationId:guid}"
+@using MealMind.Client.Infrastructure
+@using MealMind.Shared.Contracts.Dto.AiChat
+<h3>Conversation</h3>
+
+@code {
+    [Parameter]
+    public Guid ConversationId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // var response = await ApiClient.GetAsync<ConversationDto>($"/AiChat-module/conversation/{ConversationId}");
+    }
+}
