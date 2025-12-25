@@ -1,14 +1,100 @@
 ﻿@page "/Ai-Chat/{ConversationId:guid}"
-@using MealMind.Client.Infrastructure
+@using System.Text.Json
+@using MealMind.Client.Infrastructure.Abstractions
 @using MealMind.Shared.Contracts.Dto.AiChat
-<h3>Conversation</h3>
+@inject IApiClient ApiClient
+
+@if (_isLoading)
+{
+    <p>Loading conversation...</p>
+}
+else if (_errorMessage is not null)
+{
+    <p style="color: red;">@_errorMessage</p>
+}
+else if (_conversation is not null)
+{
+    <h2>@_conversation.Title</h2>
+
+    <h3>Messages</h3>
+    @if (_conversation.ChatMessages.Count == 0)
+    {
+        <p>No messages in this conversation.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var message in _conversation.ChatMessages)
+            {
+                @if (message.Role == nameof(AiChatRole.Assistant))
+                {
+                    var structured = JsonSerializer.Deserialize<StructuredResponse>(message.Content)!;
+
+                    <li>
+                        <strong>@message.Role:</strong>
+                        @foreach (var p in structured.Paragraphs)
+                        {
+                            <p>@p</p>
+                        }
+                        <strong>Key Points:</strong>
+                        <ol>
+
+                            @foreach (var point in structured.KeyPoints)
+                            {
+                                <li>@point</li>
+                            }
+                        </ol>
+                        <small>@message.CreatedAt.ToString("g")</small>
+                        <br/>
+                        <br/>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <strong>@message.Role:</strong> @message.Content
+                        <br/>
+                        <small>@message.CreatedAt.ToString("g")</small>
+                    </li>
+                }
+            }
+        </ul>
+    }
+}
 
 @code {
+
     [Parameter]
     public Guid ConversationId { get; set; }
 
+    private ConversationDetailsDto? _conversation;
+    private string? _errorMessage;
+    private bool _isLoading = true;
+
+
     protected override async Task OnInitializedAsync()
     {
-        // var response = await ApiClient.GetAsync<ConversationDto>($"/AiChat-module/conversation/{ConversationId}");
+        try
+        {
+            var response = await ApiClient.GetAsync<ConversationDetailsDto>($"/AiChat-module/conversation/{ConversationId}");
+
+            if (response is { IsSuccess: true, Value: not null })
+            {
+                _conversation = response.Value;
+            }
+            else
+            {
+                _errorMessage = response.Message ?? "Failed to load conversation";
+            }
+        }
+        catch (Exception e)
+        {
+            _errorMessage = $"Error: {e.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
+
 }

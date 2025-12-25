@@ -1,6 +1,7 @@
 ﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
+using MealMind.Shared.Contracts.Dto.AiChat;
 
 namespace MealMind.Modules.AiChat.Domain.Conversation;
 

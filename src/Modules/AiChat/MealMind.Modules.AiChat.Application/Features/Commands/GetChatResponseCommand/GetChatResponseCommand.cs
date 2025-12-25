@@ -7,6 +7,7 @@ using MealMind.Modules.AiChat.Domain.Conversation;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
+using MealMind.Shared.Contracts.Dto.AiChat;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;

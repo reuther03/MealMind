@@ -130,7 +130,7 @@
                 <label style="margin-right: 10px;">
                     <input type="checkbox"
                            checked="@_model.ActiveDays.Contains((int)day)"
-                           @onchange="@(e => ToggleActiveDay((int)day, (bool)e.Value!))"/>
+                           @onchange="@((ChangeEventArgs e) => ToggleActiveDay((int)day, (bool)e.Value!))"/>
                     @day
                 </label>
             }
@@ -186,18 +186,22 @@
                     new
                     {
                         calories = _model.Calories,
-                        nutritionInGramsPayload = _model.UseGrams ? new
-                        {
-                            proteinInGrams = _model.ProteinInGrams,
-                            carbohydratesInGrams = _model.CarbohydratesInGrams,
-                            fatsInGrams = _model.FatsInGrams
-                        } : null,
-                        nutritionInPercentPayload = !_model.UseGrams ? new
-                        {
-                            proteinPercentage = _model.ProteinPercentage,
-                            carbohydratesPercentage = _model.CarbohydratesPercentage,
-                            fatsPercentage = _model.FatsPercentage
-                        } : null,
+                        nutritionInGramsPayload = _model.UseGrams
+                            ? new
+                            {
+                                proteinInGrams = _model.ProteinInGrams,
+                                carbohydratesInGrams = _model.CarbohydratesInGrams,
+                                fatsInGrams = _model.FatsInGrams
+                            }
+                            : null,
+                        nutritionInPercentPayload = !_model.UseGrams
+                            ? new
+                            {
+                                proteinPercentage = _model.ProteinPercentage,
+                                carbohydratesPercentage = _model.CarbohydratesPercentage,
+                                fatsPercentage = _model.FatsPercentage
+                            }
+                            : null,
                         waterIntake = _model.WaterIntake,
                         activeDays = _model.ActiveDays.ToArray()
                     }

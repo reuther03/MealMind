@@ -2,6 +2,7 @@
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Abstractions.Extensions;
+using MealMind.Shared.Contracts.Dto.AiChat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
