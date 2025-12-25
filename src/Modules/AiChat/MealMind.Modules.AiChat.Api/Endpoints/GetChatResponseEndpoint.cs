@@ -2,19 +2,19 @@
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace MealMind.Modules.AiChat.Api.Endpoints;
 
 public class GetChatResponseEndpoint : EndpointBase
 {
-
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPost("/get-chat-response",
-                async (GetChatResponseCommand request, ISender sender) =>
+        endpointRouteBuilder.MapPost("/{conversationId:guid}/get-chat-response",
+                async ([FromRoute] Guid conversationId, [FromBody] GetChatResponseCommand command, ISender sender) =>
                 {
-                    var result = await sender.Send(request);
+                    var result = await sender.Send(command with { ConversationId = conversationId });
                     return result;
                 })
             .WithDocumentation(
