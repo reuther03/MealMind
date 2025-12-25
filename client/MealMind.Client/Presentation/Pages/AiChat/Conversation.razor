@@ -3,64 +3,80 @@
 @using MealMind.Client.Infrastructure.Abstractions
 @using MealMind.Shared.Contracts.Dto.AiChat
 @inject IApiClient ApiClient
+@inject IJSRuntime Js
 
-@if (_isLoading)
-{
-    <p>Loading conversation...</p>
-}
-else if (_errorMessage is not null)
-{
-    <p style="color: red;">@_errorMessage</p>
-}
-else if (_conversation is not null)
-{
-    <h2>@_conversation.Title</h2>
-
-    <h3>Messages</h3>
-    @if (_conversation.ChatMessages.Count == 0)
+<div class="chat-container">
+    @if (_isLoading)
     {
-        <p>No messages in this conversation.</p>
+        <p>Loading conversation...</p>
     }
-    else
+    else if (_errorMessage is not null)
     {
-        <ul>
-            @foreach (var message in _conversation.ChatMessages)
+        <p style="color: red;">@_errorMessage</p>
+    }
+    else if (_conversation is not null)
+    {
+        <div class="chat-header">
+            <h2>@_conversation.Title</h2>
+        </div>
+
+        <div class="messages" id="messages-container">
+            @if (_conversation.ChatMessages.Count == 0)
             {
-                @if (message.Role == nameof(AiChatRole.Assistant))
+                <p>No messages in this conversation.</p>
+            }
+            else
+            {
+                @foreach (var message in _conversation.ChatMessages)
                 {
-                    var structured = JsonSerializer.Deserialize<StructuredResponse>(message.Content)!;
+                    @if (message.Role == nameof(AiChatRole.Assistant))
+                    {
+                        var structured = JsonSerializer.Deserialize<StructuredResponse>(message.Content)!;
 
-                    <li>
-                        <strong>@message.Role:</strong>
-                        @foreach (var p in structured.Paragraphs)
-                        {
-                            <p>@p</p>
-                        }
-                        <strong>Key Points:</strong>
-                        <ol>
-
-                            @foreach (var point in structured.KeyPoints)
+                        <div class="message assistant">
+                            <strong>Assistant</strong>
+                            @foreach (var p in structured.Paragraphs)
                             {
-                                <li>@point</li>
+                                <p>@p</p>
                             }
-                        </ol>
-                        <small>@message.CreatedAt.ToString("g")</small>
-                        <br/>
-                        <br/>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <strong>@message.Role:</strong> @message.Content
-                        <br/>
-                        <small>@message.CreatedAt.ToString("g")</small>
-                    </li>
+                            <strong>Key Points:</strong>
+                            <ol>
+                                @foreach (var point in structured.KeyPoints)
+                                {
+                                    <li>@point</li>
+                                }
+                            </ol>
+                            <small>@message.CreatedAt.ToString("g")</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="message user">
+                            <strong>You:</strong> @message.Content
+                            <br/>
+                            <small>@message.CreatedAt.ToString("g")</small>
+                        </div>
+                    }
                 }
             }
-        </ul>
+        </div>
+
+        <div class="prompt-box">
+            <input
+                @bind="_prompt"
+                type="text"
+                id="prompt"
+                placeholder="Type your message..."
+                required
+                minlength="1"
+                maxlength="1000"
+                disabled="@_isSubmitting"/>
+            <button @onclick="SubmitPrompt" disabled="@_isSubmitting">
+                @(_isSubmitting ? "Sending..." : "Send")
+            </button>
+        </div>
     }
-}
+</div>
 
 @code {
 
@@ -68,11 +84,22 @@ else if (_conversation is not null)
     public Guid ConversationId { get; set; }
 
     private ConversationDetailsDto? _conversation;
+    private string _prompt = string.Empty;
     private string? _errorMessage;
     private bool _isLoading = true;
-
+    private bool _isSubmitting;
 
     protected override async Task OnInitializedAsync()
+    {
+        await FetchConversation();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await ScrollToBottom();
+    }
+
+    private async Task FetchConversation()
     {
         try
         {
@@ -95,6 +122,45 @@ else if (_conversation is not null)
         {
             _isLoading = false;
         }
+    }
+
+    private async Task SubmitPrompt()
+    {
+        if (string.IsNullOrWhiteSpace(_prompt)) return;
+
+        _isSubmitting = true;
+
+        try
+        {
+            var response = await ApiClient.PostAsync<ConversationDetailsDto>($"/AiChat-module/{ConversationId}/get-chat-response", new
+            {
+                Prompt = _prompt
+            });
+
+            if (response is { IsSuccess: true, Value: not null })
+            {
+                _prompt = string.Empty;
+                await FetchConversation();
+            }
+            else
+            {
+                _errorMessage = response.Message ?? "Failed to send message";
+            }
+        }
+        catch (Exception e)
+        {
+            _errorMessage = $"Error: {e.Message}";
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+
+    private async Task ScrollToBottom()
+    {
+        await Js.InvokeVoidAsync("eval",
+            "document.getElementById('messages-container')?.scrollTo(0, document.getElementById('messages-container')?.scrollHeight)");
     }
 
 }
