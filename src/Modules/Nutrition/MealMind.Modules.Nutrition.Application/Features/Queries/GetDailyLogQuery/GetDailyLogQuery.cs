@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Queries.GetDailyLogQuery;
 
-public record GetDailyLogQuery(DateOnly DailyLogDate) : IQuery<DailyLogDto>
+public record GetDailyLogQuery(DateOnly? DailyLogDate) : IQuery<DailyLogDto>
 {
     public sealed class Handler : IQueryHandler<GetDailyLogQuery, DailyLogDto>
     {
@@ -26,8 +26,10 @@ public record GetDailyLogQuery(DateOnly DailyLogDate) : IQuery<DailyLogDto>
             if (user is null)
                 return Result<DailyLogDto>.BadRequest("User not found.");
 
+            var currentDate = query.DailyLogDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
+
             var dailyLogDto = await _dbContext.DailyLogs
-                .Where(x => x.UserId == user.Id && x.CurrentDate == query.DailyLogDate)
+                .Where(x => x.UserId == user.Id && x.CurrentDate == currentDate)
                 .Include(x => x.Meals)
                 .ThenInclude(x => x.Foods)
                 .Select(x => DailyLogDto.AsDto(x))
