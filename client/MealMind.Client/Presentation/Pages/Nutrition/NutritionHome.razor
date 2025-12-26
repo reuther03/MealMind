@@ -1,21 +1,88 @@
 ﻿@page "/nutrition"
-@using MealMind.Client.Infrastructure
 @using MealMind.Client.Infrastructure.Abstractions
-@using MealMind.Shared.Contracts.Dto.AiChat
-@using MealMind.Shared.Contracts.Pagination
-@inject IApiClient
+@using MealMind.Shared.Contracts.Dto.Nutrition
+@inject IApiClient IApiClient
 
 <h3>NutritionHome</h3>
+
+@if (_isLoading)
+{
+    <p>Loading conversations...</p>
+}
+else if (_errorMessage is not null)
+{
+    <p style="color: red;">@_errorMessage</p>
+}
+else if (_dailyLog is not null)
+{
+    <h4>Daily Log for @(_dailyLog.CurrentDate.ToString("yyyy-MM-dd"))</h4>
+
+    <p>Total Calories: @_dailyLog.TotalCalories</p>
+
+    <h5>Meals:</h5>
+    <ul>
+        @foreach (var meal in _dailyLog.Meals)
+        {
+            <li>
+                <strong>@meal.Name</strong> - @meal.TotalCalories calories
+                <ul>
+                    @foreach (var item in meal.Foods)
+                    {
+                        <li>@item.FoodName: @item.TotalCalories calories</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No daily log available.</p>
+}
 
 @code {
 
     [SupplyParameterFromQuery]
     public DateOnly? Date { get; set; }
 
+    private DailyLogDto? _dailyLog;
+
+    private string? _errorMessage;
+    private bool _isLoading = true;
+
     protected override async Task OnInitializedAsync()
     {
-        var selectedDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
-        // var response = await IApiClient.GetAsync<
+        await GetDailyLog();
+    }
+
+    private async Task GetDailyLog()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+
+        try
+        {
+            var selectedDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
+            var response = await IApiClient.GetAsync<DailyLogDto>
+                ($"nutrition-module/dailylog?date={selectedDate.ToString("yyyy-MM-dd")}");
+
+            if (response.IsSuccess)
+            {
+                _dailyLog = response.Value;
+            }
+            else
+            {
+                _errorMessage = response.Message ?? "Failed to load daily log for the selected date";
+            }
+        }
+        catch (Exception e)
+        {
+            _errorMessage = $"Error: {e.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
 
 }

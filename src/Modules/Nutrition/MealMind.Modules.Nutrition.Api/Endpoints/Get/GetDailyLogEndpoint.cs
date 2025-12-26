@@ -11,9 +11,9 @@ public class GetDailyLogEndpoint : EndpointBase
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapGet("/dailylog",
-                async (DateOnly? dateOnly, ISender sender) =>
+                async (DateOnly? date, ISender sender) =>
                 {
-                    var result = await sender.Send(new GetDailyLogQuery(dateOnly));
+                    var result = await sender.Send(new GetDailyLogQuery(date));
                     return result;
                 })
             .AllowAnonymous()

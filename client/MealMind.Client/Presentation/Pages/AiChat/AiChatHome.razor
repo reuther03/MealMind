@@ -28,7 +28,7 @@ else if (_conversations is not null)
             @foreach (var conversation in _conversations.Items)
             {
                 <li>
-                    <strong><a href="/Ai-Chat/@conversation.Id">@conversation.Title</a></strong>
+                    <strong><a href="/ai-chat/@conversation.Id">@conversation.Title</a></strong>
                     <br/>
                     <small>Created: @conversation.CreatedAt.ToString("g") | Last
                         used: @conversation.LastUsedAt.ToString("g")</small>
