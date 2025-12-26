@@ -1,5 +1,4 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
-using MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromImageCommand;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;

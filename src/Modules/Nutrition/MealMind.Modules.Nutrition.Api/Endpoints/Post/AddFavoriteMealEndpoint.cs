@@ -1,5 +1,4 @@
-﻿using MealMind.Modules.Nutrition.Application.Features.Commands.AddFavoriteFoodCommand;
-using MealMind.Modules.Nutrition.Application.Features.Commands.AddFavoriteMealCommand;
+﻿using MealMind.Modules.Nutrition.Application.Features.Commands.AddFavoriteMealCommand;
 using MealMind.Shared.Abstractions.Api;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Builder;

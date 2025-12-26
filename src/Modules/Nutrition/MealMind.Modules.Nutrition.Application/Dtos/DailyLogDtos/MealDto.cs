@@ -1,13 +1,12 @@
-﻿using MealMind.Modules.Nutrition.Domain.Food;
-using MealMind.Modules.Nutrition.Domain.Tracking;
+﻿using MealMind.Modules.Nutrition.Domain.Tracking;
 
 namespace MealMind.Modules.Nutrition.Application.Dtos.DailyLogDtos;
 
 public sealed class MealDto
 {
-    public MealType MealType { get; private set; }
+    public string MealType { get; private set; } = null!;
     public string? Name { get; private set; }
-    public IReadOnlyCollection<FoodEntryDto> Foods { get; init; } = [];
+    private IReadOnlyCollection<FoodEntryDto> Foods { get; init; } = [];
     public decimal TotalCalories => Foods.Sum(f => f.TotalCalories);
     public decimal TotalProteins => Foods.Sum(f => f.TotalProteins);
     public decimal TotalCarbohydrates => Foods.Sum(f => f.TotalCarbohydrates);
@@ -20,7 +19,7 @@ public sealed class MealDto
     public static MealDto AsDto(Meal meal)
         => new()
         {
-            MealType = meal.MealType,
+            MealType = meal.MealType.ToString(),
             Name = meal.Name?.Value,
             Foods = meal.Foods.Select(FoodEntryDto.AsDto).ToList()
         };

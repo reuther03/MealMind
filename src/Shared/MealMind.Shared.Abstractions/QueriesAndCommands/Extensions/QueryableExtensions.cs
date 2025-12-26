@@ -1,6 +1,4 @@
 ﻿using System.Linq.Expressions;
-using MealMind.Shared.Contracts.Pagination;
-using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Shared.Abstractions.QueriesAndCommands.Extensions;
 
