@@ -61,8 +61,7 @@ public record GetDailyLogQuery(DateOnly? DailyLogDate) : IQuery<DailyLogDto>
                                 Source = f.Source.ToString()
                             }).ToList()
                         }).ToList()
-                })
-                .SingleOrDefaultAsync(cancellationToken);
+                }).SingleOrDefaultAsync(cancellationToken);
 
             return dailyLogDto is null
                 ? Result<DailyLogDto>.BadRequest("Daily log not found for the specified date.")
