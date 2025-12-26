@@ -30,7 +30,8 @@ public record GetDailyLogQuery(DateOnly? DailyLogDate) : IQuery<DailyLogDto>
 
             var dailyLogDto = await _dbContext.DailyLogs
                 .Where(x => x.UserId == user.Id && x.CurrentDate == currentDate)
-                .Include(x => x.Meals)
+                .Include(x => x.Meals
+                    .OrderBy(z => (int)z.MealType))
                 .ThenInclude(x => x.Foods)
                 .Select(x => DailyLogDto.AsDto(x))
                 .SingleOrDefaultAsync(cancellationToken);

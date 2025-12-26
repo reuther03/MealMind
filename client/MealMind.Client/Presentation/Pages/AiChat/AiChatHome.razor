@@ -1,4 +1,4 @@
-@page "/Ai-Chat/"
+@page "/ai-chat/"
 @using MealMind.Client.Infrastructure.Abstractions
 @using MealMind.Shared.Contracts.Dto.AiChat
 @using MealMind.Shared.Contracts.Pagination
@@ -51,7 +51,8 @@ else if (_conversations is not null)
 }
 
 <br/>
-<a href="/Ai-Chat/Chat">Start New Chat</a>
+<a href="/ai-chat/image-analyze">Image Analyze</a> <br/>
+<a href="/ai-chat/chat">Start New Chat</a>
 
 @code {
     private PaginatedList<ConversationDto>? _conversations;

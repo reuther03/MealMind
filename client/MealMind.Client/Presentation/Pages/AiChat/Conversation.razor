@@ -1,4 +1,4 @@
-﻿@page "/Ai-Chat/{ConversationId:guid}"
+﻿@page "/ai-chat/{ConversationId:guid}"
 @using System.Text.Json
 @using MealMind.Client.Infrastructure.Abstractions
 @using MealMind.Shared.Contracts.Dto.AiChat
@@ -132,10 +132,11 @@
 
         try
         {
-            var response = await ApiClient.PostAsync<ConversationDetailsDto>($"/AiChat-module/{ConversationId}/get-chat-response", new
-            {
-                Prompt = _prompt
-            });
+            var response = await ApiClient.PostAsync<ConversationDetailsDto>(
+                $"/AiChat-module/{ConversationId}/get-chat-response", new
+                {
+                    Prompt = _prompt
+                });
 
             if (response is { IsSuccess: true, Value: not null })
             {

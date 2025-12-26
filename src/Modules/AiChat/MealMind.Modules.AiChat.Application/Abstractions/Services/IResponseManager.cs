@@ -1,4 +1,3 @@
-using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Contracts.Dto.AiChat;
 using Microsoft.Extensions.AI;
 

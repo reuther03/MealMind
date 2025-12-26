@@ -18,7 +18,6 @@ public class MealConfiguration : IEntityTypeConfiguration<Meal>
             .ValueGeneratedNever();
 
         builder.Property(x => x.MealType)
-            .HasConversion<string>()
             .IsRequired();
 
         builder.Property(x => x.Name)
