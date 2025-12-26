@@ -1,7 +1,21 @@
-﻿@page "/nutrition{UserId:guid}"
+﻿@page "/nutrition"
+@using MealMind.Client.Infrastructure
+@using MealMind.Client.Infrastructure.Abstractions
+@using MealMind.Shared.Contracts.Dto.AiChat
+@using MealMind.Shared.Contracts.Pagination
+@inject IApiClient
 
 <h3>NutritionHome</h3>
 
 @code {
+
+    [SupplyParameterFromQuery]
+    public DateOnly? Date { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var selectedDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
+        // var response = await IApiClient.GetAsync<
+    }
 
 }

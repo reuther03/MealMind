@@ -11,4 +11,8 @@
       <ProjectReference Include="..\MealMind.Modules.Nutrition.Domain\MealMind.Modules.Nutrition.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Dtos\DailyLogDtos\" />
+    </ItemGroup>
+
 </Project>
