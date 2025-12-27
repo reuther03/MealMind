@@ -130,7 +130,7 @@
                 <label style="margin-right: 10px;">
                     <input type="checkbox"
                            checked="@_model.ActiveDays.Contains((int)day)"
-                           @onchange="@((ChangeEventArgs e) => ToggleActiveDay((int)day, (bool)e.Value!))"/>
+                           @onchange="@(e => ToggleActiveDay((int)day, (bool)e.Value!))"/>
                     @day
                 </label>
             }

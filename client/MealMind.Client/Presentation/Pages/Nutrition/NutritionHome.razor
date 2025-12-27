@@ -1,10 +1,7 @@
 ﻿@page "/nutrition"
-@using MealMind.Client.Infrastructure
 @using MealMind.Client.Infrastructure.Abstractions
 @using MealMind.Shared.Contracts.Dto.Nutrition
 @inject IApiClient IApiClient
-
-<h3>NutritionHome</h3>
 
 @if (_isLoading)
 {
@@ -26,6 +23,7 @@ else if (_dailyLog is not null)
         {
             <li>
                 <strong>@meal.Name</strong> - @meal.TotalCalories calories
+                <button><a href="@($"/nutrition/add-food?meal={meal.Id}&{_dailyLog.CurrentDate}")">+</a></button>
                 <ul>
                     @foreach (var item in meal.Foods)
                     {

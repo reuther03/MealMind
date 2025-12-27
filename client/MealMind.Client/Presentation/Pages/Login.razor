@@ -7,39 +7,51 @@
 @inject AuthState AuthState
 @inject NavigationManager Navigation
 
-<h1>Login</h1>
-
-<EditForm Model="@_model" OnValidSubmit="HandleLogin">
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
-
-    <div>
-        <label>Email:</label>
-        <InputText @bind-Value="_model.Email"/>
+<div class="login-page">
+    <div class="login-header">
+        <h1>Welcome back</h1>
+        <p class="text-muted">Sign in to continue</p>
     </div>
 
-    <div>
-        <label>Password:</label>
-        <InputText @bind-Value="_model.Password" type="password"/>
+    <EditForm Model="@_model" OnValidSubmit="HandleLogin" class="login-form">
+        <DataAnnotationsValidator/>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <InputText @bind-Value="_model.Email" class="input" placeholder="your@email.com"/>
+            <ValidationMessage For="@(() => _model.Email)"/>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <InputText @bind-Value="_model.Password" type="password" class="input" placeholder="Enter your password"/>
+            <ValidationMessage For="@(() => _model.Password)"/>
+        </div>
+
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="error-message">
+                @_errorMessage
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" disabled="@_isLoading">
+            @if (_isLoading)
+            {
+                <span class="loading"></span>
+                <span>Signing in...</span>
+            }
+            else
+            {
+                <span>Sign In</span>
+            }
+        </button>
+    </EditForm>
+
+    <div class="login-footer">
+        <p class="text-muted text-sm">Don't have an account? <a href="/register">Sign up</a></p>
     </div>
-
-    <button type="submit" disabled="@_isLoading">
-        @(_isLoading ? "Loading..." : "Login")
-    </button>
-</EditForm>
-
-@if (!string.IsNullOrEmpty(_errorMessage))
-{
-    <p style="color: red;">@_errorMessage</p>
-}
-
-@if (AuthState.IsAuthenticated)
-{
-    <div>
-        <h3>Logged in successfully!</h3>
-        <p>Token: @AuthState.GetToken()</p>
-    </div>
-}
+</div>
 
 @code {
     private readonly LoginModel _model = new();
