@@ -4,55 +4,77 @@
 @using MealMind.Shared.Contracts.Pagination
 @inject IApiClient ApiClient
 
-<h1>AI Chat</h1>
+<div class="chat-home">
+    <div class="chat-header">
+        <h1>AI Chat</h1>
+        <p class="text-muted">Your nutrition assistant</p>
+    </div>
 
-@if (_isLoading)
-{
-    <p>Loading conversations...</p>
-}
-else if (_errorMessage is not null)
-{
-    <p style="color: red;">@_errorMessage</p>
-}
-else if (_conversations is not null)
-{
-    <h2>Your Conversations</h2>
+    <a href="/ai-chat/chat" class="btn btn-primary btn-block btn-lg mb-6">
+        + Start New Chat
+    </a>
 
-    @if (_conversations.Items.Count == 0)
+    @if (_isLoading)
     {
-        <p>No conversations yet.</p>
+        <div class="loading-state">
+            <span class="loading"></span>
+            <span class="text-muted">Loading conversations...</span>
+        </div>
     }
-    else
+    else if (_errorMessage is not null)
     {
-        <ul>
-            @foreach (var conversation in _conversations.Items)
+        <div class="alert alert-error">@_errorMessage</div>
+    }
+    else if (_conversations is not null)
+    {
+        <div class="conversations-section">
+            <h3 class="section-label">Recent Conversations</h3>
+
+            @if (_conversations.Items.Count == 0)
             {
-                <li>
-                    <strong><a href="/ai-chat/@conversation.Id">@conversation.Title</a></strong>
-                    <br/>
-                    <small>Created: @conversation.CreatedAt.ToString("g") | Last
-                        used: @conversation.LastUsedAt.ToString("g")</small>
-                </li>
+                <div class="empty-state">
+                    <p class="text-muted">No conversations yet.</p>
+                    <p class="text-muted text-sm">Start a new chat to get nutrition advice!</p>
+                </div>
             }
-        </ul>
+            else
+            {
+                <div class="conversation-list">
+                    @foreach (var conversation in _conversations.Items)
+                    {
+                        <a href="/ai-chat/@conversation.Id" class="conversation-card">
+                            <div class="conversation-title">@conversation.Title</div>
+                            <div class="conversation-meta">
+                                Last used @conversation.LastUsedAt.ToString("MMM d, yyyy")
+                            </div>
+                        </a>
+                    }
+                </div>
 
-        <p>Page @_conversations.Page of @_conversations.TotalPages (Total: @_conversations.TotalCount)</p>
-
-        @if (_conversations.HasPrevious)
-        {
-            <button @onclick="PreviousPage">Previous</button>
-        }
-
-        @if (_conversations.HasNext)
-        {
-            <button @onclick="NextPage">Next</button>
-        }
+                @if (_conversations.TotalPages > 1)
+                {
+                    <div class="pagination">
+                        <button class="btn btn-ghost btn-sm" @onclick="PreviousPage" disabled="@(!_conversations.HasPrevious)">
+                            Previous
+                        </button>
+                        <span class="pagination-info text-muted text-sm">
+                            @_conversations.Page / @_conversations.TotalPages
+                        </span>
+                        <button class="btn btn-ghost btn-sm" @onclick="NextPage" disabled="@(!_conversations.HasNext)">
+                            Next
+                        </button>
+                    </div>
+                }
+            }
+        </div>
     }
-}
 
-<br/>
-<a href="/ai-chat/image-analyze">Image Analyze</a> <br/>
-<a href="/ai-chat/chat">Start New Chat</a>
+    <div class="quick-links">
+        <a href="/ai-chat/image-analyze" class="btn btn-secondary btn-block">
+            Analyze Food Image
+        </a>
+    </div>
+</div>
 
 @code {
     private PaginatedList<ConversationDto>? _conversations;

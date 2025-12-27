@@ -26,7 +26,7 @@ body {
 
 /* App Shell - Phone-like container */
 .app-shell {
-  max-width: 420px;
+  max-width: 480px;
   min-height: 100vh;
   margin: 0 auto;
   background: var(--bg-card);
