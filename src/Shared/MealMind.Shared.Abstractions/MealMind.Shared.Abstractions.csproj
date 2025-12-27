@@ -22,5 +22,9 @@
         <ProjectReference Include="..\MealMind.Shared.Contracts\MealMind.Shared.Contracts.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Kernel\Payloads\" />
+    </ItemGroup>
+
 
 </Project>

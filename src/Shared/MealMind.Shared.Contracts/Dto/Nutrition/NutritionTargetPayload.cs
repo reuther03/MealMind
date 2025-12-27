@@ -1,4 +1,4 @@
-﻿namespace MealMind.Shared.Abstractions.Kernel.Payloads;
+﻿namespace MealMind.Shared.Contracts.Dto.Nutrition;
 
 public record NutritionTargetPayload(
     decimal Calories,

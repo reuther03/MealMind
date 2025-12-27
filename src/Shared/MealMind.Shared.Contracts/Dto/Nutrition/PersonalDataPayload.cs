@@ -1,6 +1,6 @@
 ﻿using MealMind.Shared.Contracts.Types;
 
-namespace MealMind.Shared.Abstractions.Kernel.Payloads;
+namespace MealMind.Shared.Contracts.Dto.Nutrition;
 
 public record PersonalDataPayload(
     Gender Gender,

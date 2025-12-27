@@ -1,7 +1,7 @@
 ﻿using MealMind.Shared.Abstractions.Events.Core;
-using MealMind.Shared.Abstractions.Kernel.Payloads;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 
 namespace MealMind.Shared.Events.Identity;
 

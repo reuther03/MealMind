@@ -1,4 +1,4 @@
-﻿@page "/register"
+@page "/register"
 @using System.ComponentModel.DataAnnotations
 @using MealMind.Client.Application.State
 @using MealMind.Client.Infrastructure.Abstractions
@@ -6,159 +6,222 @@
 @inject AuthState AuthState
 @inject IApiClient ApiClient
 @inject NavigationManager Navigation
-<h1>Register</h1>
 
-<EditForm Model="@_model" OnValidSubmit="HandleRegister">
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
-
-    <div>
-        <label>Username:</label>
-        <InputText @bind-Value="_model.Username"/>
+<div class="register-page">
+    <div class="register-header">
+        <h1>Create Account</h1>
+        <p class="text-muted">Fill in your details to get started</p>
     </div>
 
-    <div>
-        <label>Email:</label>
-        <InputText @bind-Value="_model.Email"/>
-    </div>
+    <EditForm Model="@_model" OnValidSubmit="HandleRegister">
+        <DataAnnotationsValidator/>
 
-    <div>
-        <label>Password:</label>
-        <InputText @bind-Value="_model.Password" type="password"/>
-    </div>
+        <div class="form-section">
+            <h3 class="section-title">Account</h3>
 
-    <div>
-        <label>Gender</label>
-        <InputSelect @bind-Value="_model.Gender">
-            @foreach (var gender in Enum.GetValues(typeof(Gender)))
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <InputText @bind-Value="_model.Username" class="input" placeholder="Choose a username"/>
+                <ValidationMessage For="@(() => _model.Username)"/>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <InputText @bind-Value="_model.Email" class="input" placeholder="your@email.com"/>
+                <ValidationMessage For="@(() => _model.Email)"/>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <InputText @bind-Value="_model.Password" type="password" class="input" placeholder="Create a password"/>
+                <ValidationMessage For="@(() => _model.Password)"/>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-title">Personal Info</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <InputSelect @bind-Value="_model.Gender" class="input select">
+                        @foreach (var gender in Enum.GetValues(typeof(Gender)))
+                        {
+                            <option value="@gender">@gender</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <InputDate @bind-Value="_model.DateOfBirth" class="input"/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Weight (kg)</label>
+                    <InputNumber @bind-Value="_model.Weight" class="input" placeholder="75"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Height (cm)</label>
+                    <InputNumber @bind-Value="_model.Height" class="input" placeholder="180"/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Target Weight (kg)</label>
+                    <InputNumber @bind-Value="_model.WeightTarget" class="input" placeholder="70"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Activity Level</label>
+                    <InputSelect @bind-Value="_model.ActivityLevel" class="input select">
+                        @foreach (var activity in Enum.GetValues(typeof(ActivityLevel)))
+                        {
+                            <option value="@activity">@activity</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+        </div>
+
+        @foreach (var (plan, index) in _model.NutritionTargets.Select((value, i) => (value, i)))
+        {
+            <div class="plan-card">
+                <div class="plan-card-header">
+                    <span class="plan-card-title">Plan @(index + 1)</span>
+                    @if (_model.NutritionTargets.Count > 1)
+                    {
+                        <button type="button" class="plan-card-remove" @onclick="() => RemovePlan(index)">
+                            Remove
+                        </button>
+                    }
+                </div>
+
+                <div class="day-grid">
+                    @foreach (var day in Enum.GetValues<DayOfWeek>())
+                    {
+                        var isSelected = plan.ActiveDays.Contains((int)day);
+                        var isUsedByOther = IsDayUsedByOtherPlan(index, (int)day);
+
+                        <div class="day-card @(isSelected ? "selected" : "") @(isUsedByOther ? "disabled" : "")"
+                             @onclick="() => ToggleActiveDay(index, (int)day, !isSelected)">
+                            <span class="day-name">@day.ToString().Substring(0, 3)</span>
+                            <span class="day-check">✓</span>
+                        </div>
+                    }
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Daily Calories</label>
+                        <InputNumber @bind-Value="plan.Calories" class="input" placeholder="2000"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Water Intake (ml)</label>
+                        <InputNumber @bind-Value="plan.WaterIntake" class="input" placeholder="2500"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Macros Mode</label>
+                    <InputSelect @bind-Value="plan.UseGrams" class="input select">
+                        <option value="true">Grams</option>
+                        <option value="false">Percentage</option>
+                    </InputSelect>
+                </div>
+
+                @if (plan.UseGrams)
+                {
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label">Protein (g)</label>
+                            <InputNumber @bind-Value="plan.ProteinInGrams" class="input"
+                                         placeholder="150"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Carbs (g)</label>
+                            <InputNumber @bind-Value="plan.CarbohydratesInGrams" class="input"
+                                         placeholder="200"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Fats (g)</label>
+                            <InputNumber @bind-Value="plan.FatsInGrams" class="input"
+                                         placeholder="65"/>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label">Protein (%)</label>
+                            <InputNumber @bind-Value="plan.ProteinPercentage" class="input"
+                                         placeholder="30"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Carbs (%)</label>
+                            <InputNumber @bind-Value="plan.CarbohydratesPercentage" class="input"
+                                         placeholder="40"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Fats (%)</label>
+                            <InputNumber @bind-Value="plan.FatsPercentage" class="input"
+                                         placeholder="30"/>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (_errorMessage is not null)
+        {
+            <div class="alert alert-error">@_errorMessage</div>
+        }
+
+        @if (GetRemainingDaysCount() > 0)
+        {
+            <div class="alert alert-warning">
+                @GetRemainingDaysCount() days not assigned
+            </div>
+            <button type="button" class="btn btn-secondary btn-block" @onclick="AddPlan">
+                + Add Another Plan
+            </button>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                All 7 days covered
+            </div>
+        }
+        <button type="submit" class="btn btn-primary btn-block btn-lg" disabled="@_isLoading">
+            @if (_isLoading)
             {
-                <option value="@gender">@gender</option>
+                <span class="loading"></span>
+                <span>Creating Account...</span>
             }
-        </InputSelect>
-    </div>
-
-    <div>
-        <label>Date of birth:</label>
-        <InputDate @bind-Value="_model.DateOfBirth"/>
-    </div>
-
-    <div>
-        <label>Weight</label>
-        <InputNumber @bind-Value="_model.Weight"/>
-    </div>
-
-    <div>
-        <label>Height</label>
-        <InputNumber @bind-Value="_model.Height"/>
-    </div>
-
-    <div>
-        <label>Weight target</label>
-        <InputNumber @bind-Value="_model.WeightTarget"/>
-    </div>
-
-    <div>
-        <label>Activity Level</label>
-        <InputSelect @bind-Value="_model.ActivityLevel">
-            @foreach (var activity in Enum.GetValues(typeof(ActivityLevel)))
+            else
             {
-                <option value="@activity">@activity</option>
+                <span>Create Account</span>
             }
-        </InputSelect>
+        </button>
+    </EditForm>
+    <div class="register-footer">
+        <p class="text-muted text-sm"> Already have an account ? <a href="/login"> Sign in</a></p>
     </div>
-
-    <h3>Nutrition Targets</h3>
-
-    <div>
-        <label>Calories</label>
-        <InputNumber @bind-Value="_model.Calories"/>
-    </div>
-
-    <div>
-        <label>Macros Input Mode</label>
-        <InputSelect @bind-Value="_model.UseGrams">
-            <option value="true">Grams</option>
-            <option value="false">Percentage</option>
-        </InputSelect>
-    </div>
-
-    @if (_model.UseGrams)
-    {
-        <div>
-            <label>Protein (grams)</label>
-            <InputNumber @bind-Value="_model.ProteinInGrams"/>
-        </div>
-
-        <div>
-            <label>Carbohydrates (grams)</label>
-            <InputNumber @bind-Value="_model.CarbohydratesInGrams"/>
-        </div>
-
-        <div>
-            <label>Fats (grams)</label>
-            <InputNumber @bind-Value="_model.FatsInGrams"/>
-        </div>
-    }
-    else
-    {
-        <div>
-            <label>Protein (%)</label>
-            <InputNumber @bind-Value="_model.ProteinPercentage"/>
-        </div>
-
-        <div>
-            <label>Carbohydrates (%)</label>
-            <InputNumber @bind-Value="_model.CarbohydratesPercentage"/>
-        </div>
-
-        <div>
-            <label>Fats (%)</label>
-            <InputNumber @bind-Value="_model.FatsPercentage"/>
-        </div>
-    }
-
-    <div>
-        <label>Water Intake (ml)</label>
-        <InputNumber @bind-Value="_model.WaterIntake"/>
-    </div>
-
-    <div>
-        <label>Active Days</label>
-        <div>
-            @foreach (var day in Enum.GetValues<DayOfWeek>())
-            {
-                <label style="margin-right: 10px;">
-                    <input type="checkbox"
-                           checked="@_model.ActiveDays.Contains((int)day)"
-                           @onchange="@(e => ToggleActiveDay((int)day, (bool)e.Value!))"/>
-                    @day
-                </label>
-            }
-        </div>
-    </div>
-
-    <button type="submit" disabled="@_isLoading">
-        @(_isLoading ? "Loading..." : "Login")
-    </button>
-</EditForm>
-
-@if (_errorMessage is not null)
-{
-    <p style="color: red;">@_errorMessage</p>
-}
+</div>
 
 @code {
     private readonly RegisterModel _model = new();
     private bool _isLoading;
     private string? _errorMessage;
-
-    private void ToggleActiveDay(int day, bool isChecked)
-    {
-        if (isChecked && !_model.ActiveDays.Contains(day))
-            _model.ActiveDays.Add(day);
-        else if (!isChecked)
-            _model.ActiveDays.Remove(day);
-    }
 
     private async Task HandleRegister()
     {
@@ -181,34 +244,25 @@
                     weightTarget = _model.WeightTarget,
                     activityLevel = _model.ActivityLevel
                 },
-                nutritionTargets = new[]
+                nutritionTargets = _model.NutritionTargets.Select(t => new
                 {
-                    new
-                    {
-                        calories = _model.Calories,
-                        nutritionInGramsPayload = _model.UseGrams
-                            ? new
-                            {
-                                proteinInGrams = _model.ProteinInGrams,
-                                carbohydratesInGrams = _model.CarbohydratesInGrams,
-                                fatsInGrams = _model.FatsInGrams
-                            }
-                            : null,
-                        nutritionInPercentPayload = !_model.UseGrams
-                            ? new
-                            {
-                                proteinPercentage = _model.ProteinPercentage,
-                                carbohydratesPercentage = _model.CarbohydratesPercentage,
-                                fatsPercentage = _model.FatsPercentage
-                            }
-                            : null,
-                        waterIntake = _model.WaterIntake,
-                        activeDays = _model.ActiveDays.ToArray()
-                    }
-                }
+                    calories = t.Calories,
+                    useGrams = t.UseGrams,
+                    proteinInGrams = t.ProteinInGrams,
+                    carbohydratesInGrams = t.CarbohydratesInGrams,
+                    fatsInGrams = t.FatsInGrams,
+                    proteinPercentage = t.ProteinPercentage,
+                    carbohydratesPercentage = t.CarbohydratesPercentage,
+                    fatsPercentage = t.FatsPercentage,
+                    waterIntake = t.WaterIntake,
+                    activeDays = t.ActiveDays
+                }).ToList()
             });
 
-            if (result is { IsSuccess: false })
+            if (result is
+                {
+                    IsSuccess: false
+                })
                 _errorMessage = result.Message;
 
             else
@@ -224,6 +278,56 @@
         {
             _isLoading = false;
         }
+    }
+
+    private void ToggleActiveDay(int index, int day, bool isChecked)
+    {
+        if (isChecked && IsDayUsedByOtherPlan(index, day))
+            return;
+
+        switch (isChecked)
+        {
+            case true when !_model.NutritionTargets[index].ActiveDays.Contains(day):
+                _model.NutritionTargets[index].ActiveDays.Add(day);
+                break;
+            case false:
+                _model.NutritionTargets[index].ActiveDays.Remove(day);
+                break;
+        }
+    }
+
+    private void AddPlan()
+    {
+        if (GetRemainingDaysCount() > 0)
+            _model.NutritionTargets.Add(new NutritionTargetModel());
+    }
+
+    private int GetRemainingDaysCount()
+    {
+        var assignedDays = new HashSet<int>();
+
+        foreach (var plan in _model.NutritionTargets)
+        {
+            foreach (var day in plan.ActiveDays)
+            {
+                assignedDays.Add(day);
+            }
+        }
+
+        return 7 - assignedDays.Count;
+    }
+
+    private void RemovePlan(int index)
+    {
+        if (index >= 0 && index < _model.NutritionTargets.Count)
+        {
+            _model.NutritionTargets.RemoveAt(index);
+        }
+    }
+
+    private bool IsDayUsedByOtherPlan(int index, int day)
+    {
+        return _model.NutritionTargets.Where((t, i) => i != index && t.ActiveDays.Contains(day)).Any();
     }
 
     public class RegisterModel
@@ -243,7 +347,7 @@
         public Gender Gender { get; set; }
 
         [Required]
-        public DateOnly DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
 
         [Required]
         [Range(0.1, double.MaxValue, ErrorMessage = "Weight must be greater than 0")]
@@ -260,11 +364,15 @@
         [Required]
         public ActivityLevel ActivityLevel { get; set; }
 
-        // Nutrition Targets
-        public bool UseGrams { get; set; } = true;
+        public List<NutritionTargetModel> NutritionTargets = [new()];
+    }
 
+    public class NutritionTargetModel
+    {
         [Range(0, int.MaxValue)]
         public int Calories { get; set; }
+
+        public bool UseGrams { get; set; } = true;
 
         [Range(0, double.MaxValue)]
         public double ProteinInGrams { get; set; }
@@ -287,7 +395,7 @@
         [Range(0, int.MaxValue)]
         public int WaterIntake { get; set; }
 
-        public List<int> ActiveDays { get; set; } = new();
+        public List<int> ActiveDays { get; set; } = [];
     }
 
 }
