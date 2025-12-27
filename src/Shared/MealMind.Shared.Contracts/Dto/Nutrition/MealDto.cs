@@ -2,6 +2,7 @@
 
 public sealed class MealDto
 {
+    public Guid Id { get; init; }
     public int MealType { get; init; }
     public string? Name { get; init; }
     public IReadOnlyCollection<FoodEntryDto> Foods { get; init; } = [];

@@ -1,4 +1,4 @@
-﻿using MealMind.Modules.Nutrition.Application.Dtos;
+﻿using MealMind.Shared.Contracts.Dto.Nutrition;
 
 namespace MealMind.Modules.Nutrition.Application.Abstractions.Services;
 

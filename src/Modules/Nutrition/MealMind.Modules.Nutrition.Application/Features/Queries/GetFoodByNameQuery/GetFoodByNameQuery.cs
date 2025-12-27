@@ -1,8 +1,8 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
-using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Extensions;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 using MealMind.Shared.Contracts.Pagination;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +36,29 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                 .ToListAsync(cancellationToken);
 
             var foodsDto = databaseFoods
-                .Select(FoodDto.AsDto)
+                .Select(x => new FoodDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Barcode = x.Barcode,
+                    Brand = x.Brand,
+                    ImageUrl = x.ImageUrl,
+                    CreatedAt = x.CreatedAt,
+                    FoodSource = x.FoodDataSource.ToString(),
+                    NutritionPer100G = new NutrimentsPer100GDto
+                    {
+                        Calories = x.NutritionPer100G.Calories,
+                        Protein = x.NutritionPer100G.Protein,
+                        Carbohydrates = x.NutritionPer100G.Carbohydrates,
+                        Fat = x.NutritionPer100G.Fat,
+                        Fiber = x.NutritionPer100G.Fiber,
+                        Sugar = x.NutritionPer100G.Sugar,
+                        SaturatedFat = x.NutritionPer100G.SaturatedFat,
+                        Sodium = x.NutritionPer100G.Sodium,
+                        Salt = x.NutritionPer100G.Salt,
+                        Cholesterol = x.NutritionPer100G.Cholesterol
+                    }
+                })
                 .ToList();
 
             if (foodsDto.Count > query.PageSize)

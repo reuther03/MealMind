@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 
 namespace MealMind.Modules.Nutrition.Infrastructure.External.OpenFoodFacts;
 

@@ -1,7 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Abstractions.Services;
-using MealMind.Modules.Nutrition.Application.Dtos;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -68,7 +67,25 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
                     if (foodDtoResult is null)
                         return Result<Guid>.NotFound("Food not found by the provided barcode.");
 
-                    food = FoodDto.ToEntity(foodDtoResult);
+                    food = Food.Create(
+                        foodDtoResult.Name,
+                        new NutritionPer100G(
+                            foodDtoResult.NutritionPer100G.Calories,
+                            foodDtoResult.NutritionPer100G.Protein,
+                            foodDtoResult.NutritionPer100G.Fat,
+                            foodDtoResult.NutritionPer100G.Carbohydrates,
+                            foodDtoResult.NutritionPer100G.Salt ?? 0,
+                            foodDtoResult.NutritionPer100G.Sugar ?? 0,
+                            foodDtoResult.NutritionPer100G.SaturatedFat ?? 0,
+                            foodDtoResult.NutritionPer100G.Fiber ?? 0,
+                            foodDtoResult.NutritionPer100G.Sodium ?? 0,
+                            foodDtoResult.NutritionPer100G.Cholesterol ?? 0
+                        ),
+                        FoodDataSource.Database,
+                        foodDtoResult.Barcode,
+                        foodDtoResult.ImageUrl,
+                        foodDtoResult.Brand
+                    );
                     var stats = FoodStatistics.Initialize(food.Id);
                     food.UpdateStatistics(stats);
 
