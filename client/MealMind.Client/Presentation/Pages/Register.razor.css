@@ -37,3 +37,17 @@
     text-align: center;
     margin-top: var(--space-6);
 }
+
+.alert {
+    margin-bottom: var(--space-3);
+}
+
+.form-navigation {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+}
+
+.form-navigation .btn {
+    flex: 1;
+}
