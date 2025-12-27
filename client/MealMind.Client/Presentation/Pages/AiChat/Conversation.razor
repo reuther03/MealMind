@@ -103,7 +103,7 @@
     {
         try
         {
-            var response = await ApiClient.GetAsync<ConversationDetailsDto>($"/AiChat-module/conversation/{ConversationId}");
+            var response = await ApiClient.GetAsync<ConversationDetailsDto>($"{IApiClient.AiChatModulePrefix}/conversation/{ConversationId}");
 
             if (response is { IsSuccess: true, Value: not null })
             {
@@ -133,7 +133,7 @@
         try
         {
             var response = await ApiClient.PostAsync<ConversationDetailsDto>(
-                $"/AiChat-module/{ConversationId}/get-chat-response", new
+                $"{IApiClient.AiChatModulePrefix}/{ConversationId}/get-chat-response", new
                 {
                     Prompt = _prompt
                 });

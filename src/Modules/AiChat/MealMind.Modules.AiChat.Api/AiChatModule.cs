@@ -10,7 +10,7 @@ namespace MealMind.Modules.AiChat.Api;
 
 public class AiChatModule : IModule
 {
-    public const string BasePath = "AiChat-module";
+    public const string BasePath = "aiChat-module";
 
     public string Name => "AiChat";
     public string Path => BasePath;

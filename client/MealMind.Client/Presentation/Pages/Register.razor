@@ -167,7 +167,7 @@
 
         try
         {
-            var result = await ApiClient.PostAsync<Guid>("/identity-module/sign-up", new
+            var result = await ApiClient.PostAsync<Guid>($"{IApiClient.IdentityModulePrefix}/sign-up", new
             {
                 username = _model.Username,
                 email = _model.Email,

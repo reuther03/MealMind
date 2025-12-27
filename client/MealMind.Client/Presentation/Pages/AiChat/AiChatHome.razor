@@ -72,7 +72,7 @@ else if (_conversations is not null)
 
         try
         {
-            var response = await ApiClient.GetAsync<PaginatedList<ConversationDto>>($"/AiChat-module/get-conversations?page={_currentPage}");
+            var response = await ApiClient.GetAsync<PaginatedList<ConversationDto>>($"{IApiClient.AiChatModulePrefix}/get-conversations?page={_currentPage}");
 
             if (response.IsSuccess)
             {

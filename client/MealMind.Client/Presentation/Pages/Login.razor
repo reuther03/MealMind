@@ -53,7 +53,7 @@
 
         try
         {
-            var result = await ApiClient.PostAsync<AccessToken>("/identity-module/sign-in", new
+            var result = await ApiClient.PostAsync<AccessToken>($"{IApiClient.IdentityModulePrefix}/sign-in", new
             {
                 email = _model.Email,
                 password = _model.Password
