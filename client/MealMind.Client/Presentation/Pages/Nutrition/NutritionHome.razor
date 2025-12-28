@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: @($"{GetCaloriePercent()}%")"></div>
+                    <div class="progress-fill" style="width: @(Math.Min(GetCaloriePercent(), 100))%; background-color: @GetProgressBarColor()"></div>
                 </div>
             </div>
 
@@ -137,9 +137,15 @@
     private int GetCaloriePercent()
     {
         if (_dailyLog?.CaloriesGoal is null or 0) return 0;
-        var percent = (int)Math.Min(100, (_dailyLog.TotalCalories * 100) / _dailyLog.CaloriesGoal);
-        Console.WriteLine(percent);
-        return percent;
+        return (int)((_dailyLog.TotalCalories * 100) / _dailyLog.CaloriesGoal);
+    }
+
+    private string GetProgressBarColor()
+    {
+        var percent = GetCaloriePercent();
+        if (percent > 100) return "#ef4444";
+        if (percent > 95) return "#eab308";
+        return "#22c55e";
     }
 
 }
