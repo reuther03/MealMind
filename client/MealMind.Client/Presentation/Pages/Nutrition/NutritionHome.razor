@@ -3,41 +3,91 @@
 @using MealMind.Shared.Contracts.Dto.Nutrition
 @inject IApiClient IApiClient
 
-@if (_isLoading)
-{
-    <p>Loading conversations...</p>
-}
-else if (_errorMessage is not null)
-{
-    <p style="color: red;">@_errorMessage</p>
-}
-else if (_dailyLog is not null)
-{
-    <h4>Daily Log for @(_dailyLog.CurrentDate.ToString("yyyy-MM-dd"))</h4>
+<div class="nutrition-page">
+    @if (_isLoading)
+    {
+        <div class="loading-state">
+            <span class="loading"></span>
+            <span class="text-muted">Loading...</span>
+        </div>
+    }
+    else if (_errorMessage is not null)
+    {
+        <div class="alert alert-error">@_errorMessage</div>
+    }
+    else if (_dailyLog is not null)
+    {
+        <div class="date-nav">
+            <button type="button" class="date-nav-btn">&#9664;</button>
+            <span class="date-nav-title">@_dailyLog.CurrentDate.ToString("dddd, MMM d")</span>
+            <button type="button" class="date-nav-btn">&#9654;</button>
+        </div>
 
-    <p>Total Calories: @_dailyLog.TotalCalories</p>
+        <div class="nutrition-content">
+            <div class="calorie-card">
+                <div class="calorie-header">
+                    <div>
+                        <span class="calorie-current">@((int)_dailyLog.TotalCalories)</span>
+                        <span class="calorie-goal">/ @((int)_dailyLog.CaloriesGoal) cal</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: @($"{GetCaloriePercent()}%")"></div>
+                </div>
+            </div>
 
-    <h5>Meals:</h5>
-    <ul>
-        @foreach (var meal in _dailyLog.Meals)
-        {
-            <li>
-                <strong>@meal.Name</strong> - @meal.TotalCalories calories
-                <button><a href="@($"/nutrition/add-food?meal={meal.Id}&{_dailyLog.CurrentDate}")">+</a></button>
-                <ul>
-                    @foreach (var item in meal.Foods)
-                    {
-                        <li>@item.FoodName: @item.TotalCalories calories</li>
-                    }
-                </ul>
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>No daily log available.</p>
-}
+            <div class="macro-grid">
+                <div class="macro-card">
+                    <div class="macro-label">Protein</div>
+                    <div class="macro-value">@((int)_dailyLog.TotalProteins)g</div>
+                </div>
+                <div class="macro-card">
+                    <div class="macro-label">Carbs</div>
+                    <div class="macro-value">@((int)_dailyLog.TotalCarbohydrates)g</div>
+                </div>
+                <div class="macro-card">
+                    <div class="macro-label">Fats</div>
+                    <div class="macro-value">@((int)_dailyLog.TotalFats)g</div>
+                </div>
+            </div>
+
+            @foreach (var meal in _dailyLog.Meals)
+            {
+                <div class="meal-card">
+                    <div class="meal-header">
+                        <span class="meal-name">@meal.Name</span>
+                        <a href="/nutrition/add-food?meal=@meal.Id&date=@_dailyLog.CurrentDate.ToString("yyyy-MM-dd")"
+                           class="meal-add-btn">+</a>
+                    </div>
+                    <div class="meal-content">
+                        @if (meal.Foods.Any())
+                        {
+                            @foreach (var food in meal.Foods)
+                            {
+                                <div class="food-item">
+                                    <span class="food-name">@food.FoodName</span>
+                                    <span class="food-calories">@((int)food.TotalCalories) cal</span>
+                                </div>
+                            }
+
+                            <div class="meal-total">Total: @((int)meal.TotalCalories) cal</div>
+                        }
+                        else
+                        {
+                            <div class="meal-empty">No foods added</div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <p class="text-muted">No daily log available.</p>
+        </div>
+    }
+</div>
 
 @code {
 
@@ -82,6 +132,14 @@ else
         {
             _isLoading = false;
         }
+    }
+
+    private int GetCaloriePercent()
+    {
+        if (_dailyLog?.CaloriesGoal is null or 0) return 0;
+        var percent = (int)Math.Min(100, (_dailyLog.TotalCalories * 100) / _dailyLog.CaloriesGoal);
+        Console.WriteLine(percent);
+        return percent;
     }
 
 }

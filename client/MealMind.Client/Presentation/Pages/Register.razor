@@ -3,6 +3,7 @@
 @using System.Text.RegularExpressions
 @using MealMind.Client.Application.State
 @using MealMind.Client.Infrastructure.Abstractions
+@using MealMind.Shared.Contracts.Dto.Nutrition
 @using MealMind.Shared.Contracts.Types
 @inject AuthState AuthState
 @inject IApiClient ApiClient
@@ -150,19 +151,19 @@
                         <div class="form-row-3">
                             <div class="form-group">
                                 <label class="form-label">Protein (g)</label>
-                                <InputNumber @bind-Value="plan.ProteinInGrams" class="input"
+                                <InputNumber @bind-Value="plan.NutritionInGramsPayload.ProteinInGrams" class="input"
                                              placeholder="150"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Carbs (g)</label>
-                                <InputNumber @bind-Value="plan.CarbohydratesInGrams" class="input"
+                                <InputNumber @bind-Value="plan.NutritionInGramsPayload.CarbohydratesInGrams" class="input"
                                              placeholder="200"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Fats (g)</label>
-                                <InputNumber @bind-Value="plan.FatsInGrams" class="input"
+                                <InputNumber @bind-Value="plan.NutritionInGramsPayload.FatsInGrams" class="input"
                                              placeholder="65"/>
                             </div>
                         </div>
@@ -172,19 +173,19 @@
                         <div class="form-row-3">
                             <div class="form-group">
                                 <label class="form-label">Protein (%)</label>
-                                <InputNumber @bind-Value="plan.ProteinPercentage" class="input"
+                                <InputNumber @bind-Value="plan.NutritionInPercentPayload.ProteinInPercent" class="input"
                                              placeholder="30"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Carbs (%)</label>
-                                <InputNumber @bind-Value="plan.CarbohydratesPercentage" class="input"
+                                <InputNumber @bind-Value="plan.NutritionInPercentPayload.CarbohydratesInPercent" class="input"
                                              placeholder="40"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Fats (%)</label>
-                                <InputNumber @bind-Value="plan.FatsPercentage" class="input"
+                                <InputNumber @bind-Value="plan.NutritionInPercentPayload.FatsInPercent" class="input"
                                              placeholder="30"/>
                             </div>
                         </div>
@@ -297,15 +298,20 @@
                 nutritionTargets = _model.NutritionTargets.Select(t => new
                 {
                     calories = t.Calories,
-                    useGrams = t.UseGrams,
-                    proteinInGrams = t.ProteinInGrams,
-                    carbohydratesInGrams = t.CarbohydratesInGrams,
-                    fatsInGrams = t.FatsInGrams,
-                    proteinPercentage = t.ProteinPercentage,
-                    carbohydratesPercentage = t.CarbohydratesPercentage,
-                    fatsPercentage = t.FatsPercentage,
                     waterIntake = t.WaterIntake,
-                    activeDays = t.ActiveDays
+                    activeDays = t.ActiveDays,
+                    nutritionInGramsPayload = t.UseGrams ? new
+                    {
+                        proteinInGrams = t.NutritionInGramsPayload.ProteinInGrams,
+                        carbohydratesInGrams = t.NutritionInGramsPayload.CarbohydratesInGrams,
+                        fatsInGrams = t.NutritionInGramsPayload.FatsInGrams
+                    } : null,
+                    nutritionInPercentPayload = !t.UseGrams ? new
+                    {
+                        proteinInPercent = t.NutritionInPercentPayload.ProteinInPercent,
+                        carbohydratesInPercent = t.NutritionInPercentPayload.CarbohydratesInPercent,
+                        fatsInPercent = t.NutritionInPercentPayload.FatsInPercent
+                    } : null
                 }).ToList()
             });
 
@@ -398,7 +404,6 @@
         }
     }
 
-
     private string? GetPlanValidationError()
     {
         for (var i = 0; i < _model.NutritionTargets.Count; i++)
@@ -414,25 +419,25 @@
 
             if (plan.UseGrams)
             {
-                if (plan.ProteinInGrams <= 0)
+                if (plan.NutritionInGramsPayload.ProteinInGrams <= 0)
                     return $"Plan {planNum}: Enter protein (g)";
-                if (plan.CarbohydratesInGrams <= 0)
+                if (plan.NutritionInGramsPayload.CarbohydratesInGrams <= 0)
                     return $"Plan {planNum}: Enter carbs (g)";
-                if (plan.FatsInGrams <= 0)
+                if (plan.NutritionInGramsPayload.FatsInGrams <= 0)
                     return $"Plan {planNum}: Enter fats (g)";
             }
             else
             {
-                if (plan.ProteinPercentage <= 0)
+                if (plan.NutritionInPercentPayload.ProteinInPercent <= 0)
                     return $"Plan {planNum}: Enter protein %";
-                if (plan.CarbohydratesPercentage <= 0)
+                if (plan.NutritionInPercentPayload.CarbohydratesInPercent <= 0)
                     return $"Plan {planNum}: Enter carbs %";
-                if (plan.FatsPercentage <= 0)
+                if (plan.NutritionInPercentPayload.FatsInPercent <= 0)
                     return $"Plan {planNum}: Enter fats %";
 
-                var total = plan.ProteinPercentage +
-                    plan.CarbohydratesPercentage +
-                    plan.FatsPercentage;
+                var total = plan.NutritionInPercentPayload.ProteinInPercent +
+                    plan.NutritionInPercentPayload.CarbohydratesInPercent +
+                    plan.NutritionInPercentPayload.FatsInPercent;
                 if (Math.Abs(total - 100) > 1)
                     return $"Plan {planNum}: Percentages must sum to 100%";
             }
@@ -483,7 +488,7 @@
         [Required]
         public ActivityLevel ActivityLevel { get; set; } = ActivityLevel.Sedentary;
 
-        public List<NutritionTargetModel> NutritionTargets = [new()];
+        public readonly List<NutritionTargetModel> NutritionTargets = [new()];
     }
 
     public class NutritionTargetModel
@@ -494,22 +499,10 @@
         public bool UseGrams { get; set; } = true;
 
         [Range(0, double.MaxValue)]
-        public double ProteinInGrams { get; set; }
-
-        [Range(0, double.MaxValue)]
-        public double CarbohydratesInGrams { get; set; }
-
-        [Range(0, double.MaxValue)]
-        public double FatsInGrams { get; set; }
+        public NutritionInGramsPayload NutritionInGramsPayload { get; set; } = new();
 
         [Range(0, 100)]
-        public double ProteinPercentage { get; set; }
-
-        [Range(0, 100)]
-        public double CarbohydratesPercentage { get; set; }
-
-        [Range(0, 100)]
-        public double FatsPercentage { get; set; }
+        public NutritionInPercentPayload NutritionInPercentPayload { get; set; } = new();
 
         [Range(0, int.MaxValue)]
         public int WaterIntake { get; set; }

@@ -1,0 +1,213 @@
+.nutrition-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-8);
+    flex: 1;
+}
+
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: var(--space-8);
+}
+
+/* Date Navigation */
+.date-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+}
+
+.date-nav-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    transition: all 0.15s ease;
+}
+
+.date-nav-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.date-nav-title {
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* Content Area */
+.nutrition-content {
+    padding: var(--space-4);
+}
+
+/* Calorie Progress Card */
+.calorie-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.calorie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-3);
+}
+
+.calorie-current {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+}
+
+.calorie-goal {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-left: var(--space-1);
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--bg-base);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+/* Macro Cards Grid */
+.macro-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.macro-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    text-align: center;
+}
+
+.macro-label {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-1);
+}
+
+.macro-value {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+/* Meal Cards */
+.meal-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-3);
+    overflow: hidden;
+}
+
+.meal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+}
+
+.meal-name {
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.meal-add-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    transition: background 0.15s ease;
+}
+
+.meal-add-btn:hover {
+    background: var(--accent-hover);
+    color: white;
+}
+
+.meal-content {
+    padding: var(--space-3) var(--space-4);
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.food-item:last-of-type {
+    border-bottom: none;
+}
+
+.food-name {
+    color: var(--text-primary);
+}
+
+.food-calories {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.meal-empty {
+    color: var(--text-tertiary);
+    font-style: italic;
+    text-align: center;
+    padding: var(--space-2) 0;
+}
+
+.meal-total {
+    padding-top: var(--space-3);
+    margin-top: var(--space-2);
+    border-top: 1px solid var(--border);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}

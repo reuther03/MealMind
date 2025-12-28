@@ -68,9 +68,9 @@ public record IdentityUserCreatedEventHandler : IEventHandler<IdentityUserCreate
                     userProfile.Id)
                 : NutritionTarget.CreateFromPercentages(
                     targetPayload.Calories,
-                    targetPayload.NutritionInPercentPayload!.ProteinPercentage,
-                    targetPayload.NutritionInPercentPayload.CarbohydratesPercentage,
-                    targetPayload.NutritionInPercentPayload.FatsPercentage,
+                    targetPayload.NutritionInPercentPayload!.CarbohydratesInPercent,
+                    targetPayload.NutritionInPercentPayload.ProteinInPercent,
+                    targetPayload.NutritionInPercentPayload.FatsInPercent,
                     targetPayload.WaterIntake,
                     userProfile.Id);
 

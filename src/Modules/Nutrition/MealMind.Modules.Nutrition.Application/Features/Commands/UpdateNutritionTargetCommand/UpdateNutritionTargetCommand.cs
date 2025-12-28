@@ -54,9 +54,9 @@ public record UpdateNutritionTargetCommand(
             {
                 nutritionTarget.UpdateForPercentages(
                     command.Calories,
-                    command.NutritionInPercentPayload!.ProteinPercentage,
-                    command.NutritionInPercentPayload.CarbohydratesPercentage,
-                    command.NutritionInPercentPayload.FatsPercentage,
+                    command.NutritionInPercentPayload!.ProteinInPercent,
+                    command.NutritionInPercentPayload.CarbohydratesInPercent,
+                    command.NutritionInPercentPayload.FatsInPercent,
                     command.WaterIntake);
             }
 

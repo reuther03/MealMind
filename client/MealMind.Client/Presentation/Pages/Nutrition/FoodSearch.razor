@@ -1,0 +1,46 @@
+﻿@page "/nutrition/food-search"
+
+<h3>FoodSearch</h3>
+
+<div class="prompt-box">
+    <input
+        @bind="_prompt"
+        type="text"
+        id="prompt"
+        placeholder="Type your message..."
+        required
+        minlength="1"
+        maxlength="1000"
+        disabled="@_isSubmitting"/>
+    <button @onclick="SubmitPrompt" disabled="@_isSubmitting">
+        @(_isSubmitting ? "Sending..." : "Send")
+    </button>
+</div>
+
+@code {
+    private string _prompt = string.Empty;
+    private bool _isSubmitting = false;
+
+    private async Task SubmitPrompt()
+    {
+        if (string.IsNullOrWhiteSpace(_prompt))
+        {
+            return;
+        }
+
+        _isSubmitting = true;
+
+        try
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
+
+            Console.WriteLine($"Submitted prompt: {_prompt}");
+        }
+        finally
+        {
+            _isSubmitting = false;
+            _prompt = string.Empty;
+        }
+    }
+
+}
