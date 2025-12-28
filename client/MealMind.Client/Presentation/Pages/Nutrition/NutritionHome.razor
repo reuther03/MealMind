@@ -4,6 +4,12 @@
 @inject IApiClient IApiClient
 
 <div class="nutrition-page">
+    <div class="date-nav">
+        <button type="button" class="date-nav-btn" @onclick="NavigatePreviousDay">&#9664;</button>
+        <span class="date-nav-title">@_selectedDate.ToString("dddd, MMM d")</span>
+        <button type="button" class="date-nav-btn" @onclick="NavigateNextDay">&#9654;</button>
+    </div>
+
     @if (_isLoading)
     {
         <div class="loading-state">
@@ -17,12 +23,6 @@
     }
     else if (_dailyLog is not null)
     {
-        <div class="date-nav">
-            <button type="button" class="date-nav-btn">&#9664;</button>
-            <span class="date-nav-title">@_dailyLog.CurrentDate.ToString("dddd, MMM d")</span>
-            <button type="button" class="date-nav-btn">&#9654;</button>
-        </div>
-
         <div class="nutrition-content">
             <div class="calorie-card">
                 <div class="calorie-header">
@@ -32,7 +32,8 @@
                     </div>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: @(Math.Min(GetCaloriePercent(), 100))%; background-color: @GetProgressBarColor()"></div>
+                    <div class="progress-fill"
+                         style="width: @(Math.Min(GetCaloriePercent(), 100))%; background-color: @GetProgressBarColor()"></div>
                 </div>
             </div>
 
@@ -95,12 +96,14 @@
     public DateOnly? Date { get; set; }
 
     private DailyLogDto? _dailyLog;
+    private DateOnly _selectedDate;
 
     private string? _errorMessage;
     private bool _isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
+        _selectedDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
         await GetDailyLog();
     }
 
@@ -111,9 +114,8 @@
 
         try
         {
-            var selectedDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
             var response = await IApiClient.GetAsync<DailyLogDto>
-                ($"{IApiClient.NutritionModulePrefix}/dailylog?date={selectedDate:yyyy-MM-dd}");
+                ($"{IApiClient.NutritionModulePrefix}/dailylog?date={_selectedDate:yyyy-MM-dd}");
 
             if (response.IsSuccess)
             {
@@ -143,9 +145,24 @@
     private string GetProgressBarColor()
     {
         var percent = GetCaloriePercent();
-        if (percent > 100) return "#ef4444";
-        if (percent > 95) return "#eab308";
-        return "#22c55e";
+        return percent switch
+        {
+            > 100 => "#ef4444",
+            > 95 => "#eab308",
+            _ => "#22c55e"
+        };
+    }
+
+    private async Task NavigateNextDay()
+    {
+        _selectedDate = _selectedDate.AddDays(1);
+        await GetDailyLog();
+    }
+
+    private async Task NavigatePreviousDay()
+    {
+        _selectedDate = _selectedDate.AddDays(-1);
+        await GetDailyLog();
     }
 
 }
