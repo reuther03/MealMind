@@ -37,6 +37,7 @@
 @code {
     private string? _prompt;
     private PaginatedList<SearchFoodDto>? _foods;
+    private CancellationTokenSource _cts;
 
     private bool _isLoading;
     private string? _errorMessage;
@@ -71,8 +72,17 @@
         if (string.IsNullOrWhiteSpace(_prompt))
             return;
 
-        await Task.Delay(TimeSpan.FromMilliseconds(500));
-        await GetFood();
+        await _cts.CancelAsync();
+        _cts = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(300, _cts.Token);
+            await GetFood();
+        }
+        catch (TaskCanceledException)
+        {
+        }
     }
 
 }
