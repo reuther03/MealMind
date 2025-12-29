@@ -71,7 +71,7 @@ public class OpenFoodFactsService : IOpenFoodFactsService
         return null!;
     }
 
-    public Task<List<FoodDto>> SearchFoodByNameWithoutDuplicatesAsync(string name, int pageSize, int page, List<FoodDto> existingFoods,
+    public Task<List<FoodDto>> SearchFoodByNameWithoutDuplicatesAsync(string name, int pageSize, int page, List<SearchFoodDto> existingFoods,
         CancellationToken cancellationToken = default)
     {
         return SearchFoodByNameAsync(name, pageSize, page, cancellationToken)

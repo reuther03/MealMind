@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Queries.GetFoodByNameQuery;
 
-public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page = 1) : IQuery<PaginatedList<FoodDto>>
+public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page = 1) : IQuery<PaginatedList<SearchFoodDto>>
 {
-    public sealed class Handler : IQueryHandler<GetFoodByNameQuery, PaginatedList<FoodDto>>
+    public sealed class Handler : IQueryHandler<GetFoodByNameQuery, PaginatedList<SearchFoodDto>>
     {
         private readonly INutritionDbContext _context;
         private readonly IOpenFoodFactsService _openFoodFactsService;
@@ -22,7 +22,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
             _openFoodFactsService = openFoodFactsService;
         }
 
-        public async Task<Result<PaginatedList<FoodDto>>> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<PaginatedList<SearchFoodDto>>> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken = default)
         {
             var databaseFoods = await _context.Foods
                 .WhereIf(!string.IsNullOrWhiteSpace(query.SearchTerm),
@@ -36,33 +36,18 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                 .ToListAsync(cancellationToken);
 
             var foodsDto = databaseFoods
-                .Select(x => new FoodDto
+                .Select(x => new SearchFoodDto
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Barcode = x.Barcode,
                     Brand = x.Brand,
-                    ImageUrl = x.ImageUrl,
-                    CreatedAt = x.CreatedAt,
                     FoodSource = x.FoodDataSource.ToString(),
-                    NutritionPer100G = new NutrimentsPer100GDto
-                    {
-                        Calories = x.NutritionPer100G.Calories,
-                        Protein = x.NutritionPer100G.Protein,
-                        Carbohydrates = x.NutritionPer100G.Carbohydrates,
-                        Fat = x.NutritionPer100G.Fat,
-                        Fiber = x.NutritionPer100G.Fiber,
-                        Sugar = x.NutritionPer100G.Sugar,
-                        SaturatedFat = x.NutritionPer100G.SaturatedFat,
-                        Sodium = x.NutritionPer100G.Sodium,
-                        Salt = x.NutritionPer100G.Salt,
-                        Cholesterol = x.NutritionPer100G.Cholesterol
-                    }
                 })
                 .ToList();
 
             if (foodsDto.Count > query.PageSize)
-                return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foodsDto.Count, foodsDto.Take(query.PageSize).ToList());
+                return PaginatedList<SearchFoodDto>.Create(query.Page, query.PageSize, foodsDto.Count, foodsDto.Take(query.PageSize).ToList());
 
             if (foodsDto.Count < query.PageSize && foodsDto.Count != 0)
             {
@@ -71,18 +56,39 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                 var externalFoods = await _openFoodFactsService
                     .SearchFoodByNameWithoutDuplicatesAsync(query.SearchTerm, needed, 1, foodsDto, cancellationToken);
 
+                var externalFoodsDto = externalFoods
+                    .Select(x => new SearchFoodDto
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Barcode = x.Barcode,
+                        FoodSource = x.FoodSource
+                    })
+                    .ToList();
+
                 var combinedFoods = foodsDto
-                    .Concat(externalFoods)
+                    .Concat(externalFoodsDto)
                     .Take(query.PageSize)
                     .ToList();
 
-                return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, combinedFoods.Count, combinedFoods);
+                return PaginatedList<SearchFoodDto>.Create(query.Page, query.PageSize, combinedFoods.Count, combinedFoods);
             }
 
             var foods = await _openFoodFactsService
                 .SearchFoodByNameAsync(query.SearchTerm, query.PageSize, 1, cancellationToken);
 
-            return PaginatedList<FoodDto>.Create(query.Page, query.PageSize, foods.Count, foods);
+            var foodsMapped = foods
+                .Select(x => new SearchFoodDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Barcode = x.Barcode,
+                    Brand = x.Brand,
+                    FoodSource = x.FoodSource
+                })
+                .ToList();
+
+            return PaginatedList<SearchFoodDto>.Create(query.Page, query.PageSize, foods.Count, foodsMapped);
         }
     }
 }
