@@ -42,6 +42,21 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                     Name = x.Name,
                     Barcode = x.Barcode,
                     Brand = x.Brand,
+                    ImageUrl = x.ImageUrl,
+                    NutritionPer100G = new NutrimentsPer100GDto
+                    {
+                        Calories = x.NutritionPer100G.Calories,
+                        Protein = x.NutritionPer100G.Protein,
+                        Carbohydrates = x.NutritionPer100G.Carbohydrates,
+                        Fat = x.NutritionPer100G.Fat,
+                        Fiber = x.NutritionPer100G.Fiber,
+                        Sugar = x.NutritionPer100G.Sugar,
+                        SaturatedFat = x.NutritionPer100G.SaturatedFat,
+                        Sodium = x.NutritionPer100G.Sodium,
+                        Salt = x.NutritionPer100G.Salt,
+                        Cholesterol = x.NutritionPer100G.Cholesterol
+                    },
+                    CreatedAt = x.CreatedAt,
                     FoodSource = x.FoodDataSource.ToString(),
                 })
                 .ToList();
