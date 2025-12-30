@@ -1,0 +1,203 @@
+.food-search-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Header */
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    color: var(--accent-hover);
+}
+
+.search-header h2 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    padding: var(--space-4);
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    padding-right: var(--space-8);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    font-size: var(--text-base);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.search-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.clear-btn {
+    position: absolute;
+    right: calc(var(--space-4) + var(--space-3));
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    font-size: var(--text-xl);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1);
+}
+
+.clear-btn:hover {
+    color: var(--text-secondary);
+}
+
+/* Search Results */
+.search-results {
+    padding: 0 var(--space-4);
+}
+
+.food-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.food-result-item:hover {
+    background: var(--bg-hover);
+}
+
+.food-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.food-name {
+    color: var(--text-primary);
+    font-weight: var(--font-medium);
+}
+
+.food-brand {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+}
+
+.food-calories {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+/* Detail Card */
+.food-detail-card {
+    margin: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.food-detail-header {
+    text-align: center;
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border);
+}
+
+.food-detail-header h3 {
+    margin: 0 0 var(--space-1) 0;
+    font-size: var(--text-xl);
+    color: var(--text-primary);
+}
+
+/* Quantity Section */
+.quantity-section {
+    margin-bottom: var(--space-4);
+}
+
+.quantity-section label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-2);
+}
+
+.quantity-input {
+    width: 100%;
+    padding: var(--space-3);
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--text-lg);
+    text-align: center;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* Add Button */
+.add-btn {
+    width: 100%;
+    padding: var(--space-3);
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-semibold);
+    font-size: var(--text-base);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.add-btn:hover {
+    background: var(--accent-hover);
+}
+
+/* States */
+.loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-8);
+    color: var(--text-tertiary);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--text-tertiary);
+}

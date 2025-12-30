@@ -5,34 +5,82 @@
 @inject IApiClient IApiClient
 @inject NavigationManager Navigation
 
-<h3>FoodSearch</h3>
-
-<div class="prompt-box">
-    <input
-        @bind="_prompt"
-        @bind:event="oninput"
-        @bind:after="SubmitPrompt"
-        type="text"
-        id="prompt"
-        placeholder="Type your message..."
-        required
-        minlength="1"
-        maxlength="1000"/>
-    <button @onclick="GetFood">
-        Search
-    </button>
-    @if (_foods != null)
+<div class="food-search-page">
+    @if (_selectedFood is null)
     {
-        <div>
-            <ul>
+        <!-- Search View -->
+        <div class="search-header">
+            <a href="/nutrition?date=@Date.ToString("yyyy-MM-dd")" class="back-btn">&#8592; Back</a>
+            <h2>Add Food</h2>
+        </div>
+
+        <div class="search-box">
+            <input type="text"
+                   @bind="_prompt"
+                   @bind:event="oninput"
+                   @bind:after="SubmitPrompt"
+                   placeholder="Search food..."
+                   class="search-input"/>
+            @if (!string.IsNullOrEmpty(_prompt))
+            {
+                <button type="button" class="clear-btn" @onclick="ClearSearch">&#215;</button>
+            }
+        </div>
+
+        @if (_isLoading)
+        {
+            <div class="loading-state">
+                <span class="loading"></span>
+                <span>Searching...</span>
+            </div>
+        }
+        else if (_errorMessage is not null)
+        {
+            <div class="alert alert-error">@_errorMessage</div>
+        }
+        else if (_foods?.Items.Any() == true)
+        {
+            <div class="search-results">
                 @foreach (var food in _foods.Items)
                 {
-                    <li @onclick="() => SelectedFood(food)">@food.Name @(@food.Brand ?? string.Empty)</li>
+                    <div class="food-result-item" @onclick="() => SelectedFood(food)">
+                        <div class="food-info">
+                            <span class="food-name">@food.Name @($"({@food.Brand ?? string.Empty})")</span>
+                        </div>
+                        <span class="food-calories">@(food.NutritionPer100G?.Calories ?? 0) cal</span>
+                    </div>
                 }
-            </ul>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(_prompt))
+        {
+            <div class="empty-state">No foods found</div>
+        }
+    }
+    else
+    {
+        <!-- Detail View -->
+        <div class="search-header">
+            <button type="button" class="back-btn" @onclick="ClearSelection">&#8592; Back</button>
+            <h2>Food Details</h2>
+        </div>
+
+        <div class="food-detail-card">
+            <div class="food-detail-header">
+                <h3>@_selectedFood.Name</h3>
+                <span class="food-brand">@(_selectedFood.Brand ?? "Generic")</span>
+            </div>
+
+            <div class="quantity-section">
+                <label>Quantity (g):</label>
+                <input type="number" @bind="_model.QuantityInGrams" class="quantity-input"/>
+            </div>
+
+            <button type="button" class="add-btn" @onclick="AddFood">
+                Add to @GetMealName()
+            </button>
         </div>
     }
-
 </div>
 
 @code {
@@ -46,7 +94,8 @@
     private AddFoodModel _model = new();
 
     private string? _prompt = string.Empty;
-    private PaginatedList<SearchFoodDto>? _foods;
+    private PaginatedList<FoodDto>? _foods;
+    private FoodDto? _selectedFood;
     private CancellationTokenSource? _cts;
 
     private bool _isLoading;
@@ -56,7 +105,7 @@
     {
         try
         {
-            var response = await IApiClient.GetAsync<PaginatedList<SearchFoodDto>>
+            var response = await IApiClient.GetAsync<PaginatedList<FoodDto>>
                 ($"{IApiClient.NutritionModulePrefix}/food/search?SearchTerm={_prompt}'");
             if (response is { IsSuccess: true, Value: not null })
             {
@@ -97,9 +146,14 @@
 
     private async Task AddFood()
     {
+        if (_model.Barcode is null && _model.FoodId is null)
+        {
+            _errorMessage = "Please provide either a barcode or a food ID.";
+        }
+
         try
         {
-            var response = await IApiClient.PostAsync<PaginatedList<SearchFoodDto>>
+            var response = await IApiClient.PostAsync<PaginatedList<FoodDto>>
             ($"{IApiClient.NutritionModulePrefix}/dailylog/food/add", new
             {
                 dailyLogDate = Date,
@@ -108,14 +162,8 @@
                 foodId = _model.FoodId ?? null,
                 quantityInGrams = _model.QuantityInGrams
             });
-            Console.WriteLine($"{response.Value}");
             if (response is { IsSuccess: true, Value: not null })
             {
-                Console.WriteLine($"{response.Value}");
-                if (_model.Barcode is null && _model.FoodId is null)
-                {
-                    _errorMessage = "Please provide either a barcode or a food ID.";
-                }
             }
             else
             {
@@ -133,7 +181,7 @@
         }
     }
 
-    private async Task SelectedFood(SearchFoodDto food)
+    private async Task SelectedFood(FoodDto food)
     {
         if (food.Barcode is null && food.Id is null)
         {
@@ -141,11 +189,30 @@
             return;
         }
 
+        _selectedFood = food;
         _model.FoodId = food.Id;
         _model.Barcode = food.Barcode;
-        _model.QuantityInGrams = 100;
-        await AddFood();
     }
+
+    private void ClearSelection()
+    {
+        _selectedFood = null;
+    }
+
+    private void ClearSearch()
+    {
+        _prompt = string.Empty;
+        _foods = null;
+    }
+
+    private string GetMealName() => MealType switch
+    {
+        0 => "Breakfast",
+        1 => "Lunch",
+        2 => "Dinner",
+        3 => "Snack",
+        _ => "Meal"
+    };
 
     public class AddFoodModel
     {
