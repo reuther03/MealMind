@@ -3,6 +3,7 @@
 @using MealMind.Shared.Contracts.Dto.Nutrition
 @using MealMind.Shared.Contracts.Pagination
 @inject IApiClient IApiClient
+@inject NavigationManager Navigation
 
 <h3>FoodSearch</h3>
 
@@ -26,7 +27,7 @@
             <ul>
                 @foreach (var food in _foods.Items)
                 {
-                    <li>@food.Name @(@food.Brand ?? string.Empty)</li>
+                    <li @onclick="() => SelectedFood(food)">@food.Name @(@food.Brand ?? string.Empty)</li>
                 }
             </ul>
         </div>
@@ -35,9 +36,18 @@
 </div>
 
 @code {
-    private string? _prompt;
+
+    [SupplyParameterFromQuery]
+    private DateOnly Date { get; set; }
+
+    [SupplyParameterFromQuery]
+    private int MealType { get; set; }
+
+    private AddFoodModel _model = new();
+
+    private string? _prompt = string.Empty;
     private PaginatedList<SearchFoodDto>? _foods;
-    private CancellationTokenSource _cts;
+    private CancellationTokenSource? _cts;
 
     private bool _isLoading;
     private string? _errorMessage;
@@ -72,7 +82,7 @@
         if (string.IsNullOrWhiteSpace(_prompt))
             return;
 
-        await _cts.CancelAsync();
+        _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
         try
@@ -83,6 +93,65 @@
         catch (TaskCanceledException)
         {
         }
+    }
+
+    private async Task AddFood()
+    {
+        try
+        {
+            var response = await IApiClient.PostAsync<PaginatedList<SearchFoodDto>>
+            ($"{IApiClient.NutritionModulePrefix}/dailylog/food/add", new
+            {
+                dailyLogDate = Date,
+                mealType = MealType,
+                barcode = _model.Barcode ?? null,
+                foodId = _model.FoodId ?? null,
+                quantityInGrams = _model.QuantityInGrams
+            });
+            Console.WriteLine($"{response.Value}");
+            if (response is { IsSuccess: true, Value: not null })
+            {
+                Console.WriteLine($"{response.Value}");
+                if (_model.Barcode is null && _model.FoodId is null)
+                {
+                    _errorMessage = "Please provide either a barcode or a food ID.";
+                }
+            }
+            else
+            {
+                _errorMessage = response.Message ?? "Failed to add food data";
+            }
+        }
+        catch (Exception e)
+        {
+            _errorMessage = $"Error: {e.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+            Navigation.NavigateTo($"/nutrition/?date={Date.ToString("yyyy-MM-dd")}");
+        }
+    }
+
+    private async Task SelectedFood(SearchFoodDto food)
+    {
+        if (food.Barcode is null && food.Id is null)
+        {
+            _errorMessage = "Please provide either a barcode or a food ID.";
+            return;
+        }
+
+        _model.FoodId = food.Id;
+        _model.Barcode = food.Barcode;
+        _model.QuantityInGrams = 100;
+        await AddFood();
+    }
+
+    public class AddFoodModel
+    {
+        public string? Barcode { get; set; }
+        public Guid? FoodId { get; set; }
+        public decimal QuantityInGrams { get; set; }
     }
 
 }
