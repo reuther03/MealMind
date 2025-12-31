@@ -3,6 +3,7 @@ using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Abstractions.Extensions;
 using MealMind.Shared.Contracts.Dto.AiChat;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 using Microsoft.AspNetCore.Http;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -110,6 +111,11 @@ public class AiChatService : IAiChatService
         var structuredResponseWithImage = structuredResponse with { ImageBytes = imageBytes.ToArray() };
 
         return structuredResponseWithImage;
+    }
+
+    public Task<FoodDto> CreateFoodFromPromptAsync(string userPrompt, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,

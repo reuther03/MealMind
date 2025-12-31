@@ -223,4 +223,51 @@ internal static class PromptTemplate
 
              Output pure JSON only (first character '{', last character '}'):
              """";
+
+    public static string FoodCreationPrompt(string userPrompt)
+        => $$"""
+             You are an AI nutrition expert that creates detailed food item entries based on user descriptions.
+
+             ═══════════════════════════════════════════════════════════════
+             🍽️ USER PROMPT
+             ═══════════════════════════════════════════════════════════════
+             User input: "{{userPrompt}}"
+
+             ═══════════════════════════════════════════════════════════════
+             📋 FOOD ITEM CREATION REQUIREMENTS
+             ═══════════════════════════════════════════════════════════════
+             Based on the user prompt, create a detailed food item entry with the following fields:
+
+             • FoodName: Clear and specific name of the food item
+             • Description: Detailed description including ingredients, preparation method, and flavor profile
+             • ServingSizeInGrams: Typical serving size in grams
+             • NutritionalInformation:
+               - Calories: Estimated calories per serving
+               - Proteins: Estimated protein content in grams
+               - Fats: Estimated fat content in grams
+               - Carbohydrates: Estimated carbohydrate content in grams
+               - Fiber: Estimated fiber content in grams (if applicable)
+               - Sugars: Estimated sugar content in grams (if applicable)
+
+             ═══════════════════════════════════════════════════════════════
+             📋 REQUIRED JSON RESPONSE FORMAT
+             ═══════════════════════════════════════════════════════════════
+             Return a JSON object matching this exact structure:
+
+             {
+               "FoodName": "string",
+               "Description": "string",
+               "ServingSizeInGrams": float,
+               "NutritionalInformation": {
+                 "Calories": float,
+                 "Proteins": float,
+                 "Fats": float,
+                 "Carbohydrates": float,
+                 "Fiber": float,
+                 "Sugars": float
+               }
+             }
+
+             Output pure JSON only (first character '{', last character '}'):
+             """;
 }

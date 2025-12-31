@@ -5,25 +5,29 @@
 @inject IApiClient ApiClient
 @inject IJSRuntime Js
 
-<div class="chat-container">
+<div class="chat-page">
+    <div class="chat-header">
+        <a href="/ai-chat/" class="back-btn">← Back</a>
+        <h2 class="chat-title">@_conversation?.Title</h2>
+    </div>
+
     @if (_isLoading)
     {
-        <p>Loading conversation...</p>
+        <div class="loading-state">
+            <span class="loading"></span>
+            <span class="text-muted">Loading...</span>
+        </div>
     }
     else if (_errorMessage is not null)
     {
-        <p style="color: red;">@_errorMessage</p>
+        <div class="alert alert-error">@_errorMessage</div>
     }
     else if (_conversation is not null)
     {
-        <div class="chat-header">
-            <h2>@_conversation.Title</h2>
-        </div>
-
-        <div class="messages" id="messages-container">
+        <div class="messages-container" id="messages-container">
             @if (_conversation.ChatMessages.Count == 0)
             {
-                <p>No messages in this conversation.</p>
+                <div class="empty-messages">No messages yet</div>
             }
             else
             {
@@ -32,48 +36,50 @@
                     @if (message.Role == nameof(AiChatRole.Assistant))
                     {
                         var structured = JsonSerializer.Deserialize<StructuredResponse>(message.Content)!;
-
                         <div class="message assistant">
-                            <strong>Assistant</strong>
+                            <div class="message-role">Assistant</div>
                             @foreach (var p in structured.Paragraphs)
                             {
                                 <p>@p</p>
                             }
-                            <strong>Key Points:</strong>
-                            <ol>
-                                @foreach (var point in structured.KeyPoints)
-                                {
-                                    <li>@point</li>
-                                }
-                            </ol>
-                            <small>@message.CreatedAt.ToString("g")</small>
+                            @if (structured.KeyPoints.Any())
+                            {
+                                <div class="message-keypoints">
+                                    <div class="message-keypoints-label">Key Points</div>
+                                    <ol>
+                                        @foreach (var point in structured.KeyPoints)
+                                        {
+                                            <li>@point</li>
+                                        }
+                                    </ol>
+                                </div>
+                            }
+                            <div class="message-time">@message.CreatedAt.ToString("h:mm tt")</div>
                         </div>
                     }
                     else
                     {
                         <div class="message user">
-                            <strong>You:</strong> @message.Content
-                            <br/>
-                            <small>@message.CreatedAt.ToString("g")</small>
+                            <p>@message.Content</p>
+                            <div class="message-time">@message.CreatedAt.ToString("h:mm tt")</div>
                         </div>
                     }
                 }
             }
         </div>
 
-        <div class="prompt-box">
-            <input
-                @bind="_prompt"
-                type="text"
-                id="prompt"
-                placeholder="Type your message..."
-                required
-                minlength="1"
-                maxlength="1000"
-                disabled="@_isSubmitting"/>
-            <button @onclick="SubmitPrompt" disabled="@_isSubmitting">
-                @(_isSubmitting ? "Sending..." : "Send")
-            </button>
+        <div class="prompt-area">
+            <div class="prompt-box">
+                <input type="text"
+                       class="prompt-input"
+                       @bind="_prompt"
+                       placeholder="Type a message..."
+                       maxlength="1000"
+                       disabled="@_isSubmitting" />
+                <button class="send-btn" @onclick="SubmitPrompt" disabled="@_isSubmitting">
+                    @(_isSubmitting ? "..." : "Send")
+                </button>
+            </div>
         </div>
     }
 </div>

@@ -1,0 +1,57 @@
+@page "/ai-chat/new"
+@using MealMind.Client.Infrastructure.Abstractions
+@inject IApiClient ApiClient
+@inject NavigationManager Navigation
+
+<div class="chat-page">
+    <div class="chat-header">
+        <a href="/ai-chat/" class="back-btn">← Back</a>
+        <h2 class="chat-title">New Chat</h2>
+    </div>
+
+    @if (_errorMessage is not null)
+    {
+        <div class="alert alert-error">@_errorMessage</div>
+    }
+
+    <div class="new-chat-content">
+        <div class="new-chat-intro">
+            <h3>Start a conversation</h3>
+            <p class="text-muted">Ask me anything about nutrition, diet plans, or healthy eating.</p>
+        </div>
+    </div>
+
+    <div class="prompt-area">
+        <div class="prompt-box">
+            <input type="text"
+                   class="prompt-input"
+                   @bind="_prompt"
+                   placeholder="Type your first message..."
+                   maxlength="1000"
+                   disabled="@_isSubmitting" />
+            <button class="send-btn" @onclick="CreateChat" disabled="@(_isSubmitting || string.IsNullOrWhiteSpace(_prompt))">
+                @(_isSubmitting ? "..." : "Send")
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string _prompt = string.Empty;
+    private string? _errorMessage;
+    private bool _isSubmitting;
+
+    private async Task CreateChat()
+    {
+        if (string.IsNullOrWhiteSpace(_prompt)) return;
+
+        _isSubmitting = true;
+        _errorMessage = null;
+
+        // TODO: User implements this logic
+        // 1. Call POST /aiChat-module/create-chat-response with { Prompt = _prompt }
+        // 2. On success, navigate to /ai-chat/{conversationId}
+
+        _isSubmitting = false;
+    }
+}

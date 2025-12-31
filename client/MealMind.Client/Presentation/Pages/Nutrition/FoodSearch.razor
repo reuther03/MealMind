@@ -60,6 +60,8 @@
         {
             <div class="empty-state">No foods found</div>
         }
+
+        <a href="nutrition/add-custom-food">Add custom food</a>
     }
     else
     {
@@ -86,19 +88,26 @@
                     <div class="nutrition-label">For @((int)_model.QuantityInGrams)g</div>
                     <div class="macro-grid">
                         <div class="macro-card">
-                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Calories * _model.QuantityInGrams / 100))</div>
+                            <div
+                                class="macro-value">@((int)(_selectedFood.NutritionPer100G.Calories * _model.QuantityInGrams / 100))</div>
                             <div class="macro-label">cal</div>
                         </div>
                         <div class="macro-card">
-                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Protein * _model.QuantityInGrams / 100))g</div>
+                            <div
+                                class="macro-value">@((int)(_selectedFood.NutritionPer100G.Protein * _model.QuantityInGrams / 100))g
+                            </div>
                             <div class="macro-label">protein</div>
                         </div>
                         <div class="macro-card">
-                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Carbohydrates * _model.QuantityInGrams / 100))g</div>
+                            <div
+                                class="macro-value">@((int)(_selectedFood.NutritionPer100G.Carbohydrates * _model.QuantityInGrams / 100))g
+                            </div>
                             <div class="macro-label">carbs</div>
                         </div>
                         <div class="macro-card">
-                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Fat * _model.QuantityInGrams / 100))g</div>
+                            <div
+                                class="macro-value">@((int)(_selectedFood.NutritionPer100G.Fat * _model.QuantityInGrams / 100))g
+                            </div>
                             <div class="macro-label">fat</div>
                         </div>
                     </div>
@@ -108,21 +117,27 @@
                             @if (_selectedFood.NutritionPer100G.Fiber is not null)
                             {
                                 <div class="macro-card small">
-                                    <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Fiber.Value * _model.QuantityInGrams / 100))g</div>
+                                    <div
+                                        class="macro-value">@((int)(_selectedFood.NutritionPer100G.Fiber.Value * _model.QuantityInGrams / 100))g
+                                    </div>
                                     <div class="macro-label">fiber</div>
                                 </div>
                             }
                             @if (_selectedFood.NutritionPer100G.Sugar is not null)
                             {
                                 <div class="macro-card small">
-                                    <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Sugar.Value * _model.QuantityInGrams / 100))g</div>
+                                    <div
+                                        class="macro-value">@((int)(_selectedFood.NutritionPer100G.Sugar.Value * _model.QuantityInGrams / 100))g
+                                    </div>
                                     <div class="macro-label">sugar</div>
                                 </div>
                             }
                             @if (_selectedFood.NutritionPer100G.Sodium is not null)
                             {
                                 <div class="macro-card small">
-                                    <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Sodium.Value * _model.QuantityInGrams / 100))mg</div>
+                                    <div
+                                        class="macro-value">@((int)(_selectedFood.NutritionPer100G.Sodium.Value * _model.QuantityInGrams / 100))mg
+                                    </div>
                                     <div class="macro-label">sodium</div>
                                 </div>
                             }

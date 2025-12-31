@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Application.Dtos;
 using MealMind.Shared.Contracts.Dto.AiChat;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 using Microsoft.AspNetCore.Http;
 using Microsoft.SemanticKernel;
 
@@ -18,5 +19,9 @@ public interface IAiChatService
         string? userPrompt,
         List<UserProvidedFoodProductsPayload> detectedFoods,
         IFormFile imageFile,
+        CancellationToken cancellationToken = default);
+
+    Task<FoodDto> CreateFoodFromPromptAsync(
+        string userPrompt,
         CancellationToken cancellationToken = default);
 }

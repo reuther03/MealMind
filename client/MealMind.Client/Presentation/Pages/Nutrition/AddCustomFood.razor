@@ -1,0 +1,16 @@
+﻿@page "/nutrition/add-custom-food"
+
+<h3>AddCustomFood</h3>
+
+@code {
+
+    private class AddCustomFoodModel
+    {
+        public string FoodName { get; set; } = string.Empty;
+        public int Calories { get; set; }
+        public int Protein { get; set; }
+        public int Carbohydrates { get; set; }
+        public int Fats { get; set; }
+    }
+
+}
