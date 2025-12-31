@@ -47,7 +47,7 @@
                         <div class="food-info">
                             <span class="food-name">@food.Name @($"({@food.Brand ?? string.Empty})")</span>
                         </div>
-                        <span class="food-calories">@(food.NutritionPer100G?.Calories ?? 0) cal</span>
+                        <span class="food-calories">@(food.NutritionPer100G?.Calories) cal</span>
                     </div>
                 }
             </div>
