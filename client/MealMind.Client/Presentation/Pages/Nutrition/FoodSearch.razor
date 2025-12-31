@@ -45,9 +45,13 @@
                 {
                     <div class="food-result-item" @onclick="() => SelectedFood(food)">
                         <div class="food-info">
-                            <span class="food-name">@food.Name @($"({@food.Brand ?? string.Empty})")</span>
+                            <span class="food-name">@food.Name</span>
+                            @if (!string.IsNullOrEmpty(food.Brand))
+                            {
+                                <span class="food-brand">(@food.Brand)</span>
+                            }
                         </div>
-                        <span class="food-calories">@(food.NutritionPer100G?.Calories) cal</span>
+                        <span class="food-calories">@((int)(food.NutritionPer100G?.Calories ?? 0)) cal</span>
                     </div>
                 }
             </div>
@@ -73,8 +77,59 @@
 
             <div class="quantity-section">
                 <label>Quantity (g):</label>
-                <input type="number" @bind="_model.QuantityInGrams" class="quantity-input"/>
+                <input type="number" @bind="_model.QuantityInGrams" @bind:event="oninput" class="quantity-input"/>
             </div>
+
+            @if (_selectedFood.NutritionPer100G is not null)
+            {
+                <div class="nutrition-section">
+                    <div class="nutrition-label">For @((int)_model.QuantityInGrams)g</div>
+                    <div class="macro-grid">
+                        <div class="macro-card">
+                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Calories * _model.QuantityInGrams / 100))</div>
+                            <div class="macro-label">cal</div>
+                        </div>
+                        <div class="macro-card">
+                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Protein * _model.QuantityInGrams / 100))g</div>
+                            <div class="macro-label">protein</div>
+                        </div>
+                        <div class="macro-card">
+                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Carbohydrates * _model.QuantityInGrams / 100))g</div>
+                            <div class="macro-label">carbs</div>
+                        </div>
+                        <div class="macro-card">
+                            <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Fat * _model.QuantityInGrams / 100))g</div>
+                            <div class="macro-label">fat</div>
+                        </div>
+                    </div>
+                    @if (_selectedFood.NutritionPer100G.Fiber is not null || _selectedFood.NutritionPer100G.Sugar is not null)
+                    {
+                        <div class="macro-grid secondary">
+                            @if (_selectedFood.NutritionPer100G.Fiber is not null)
+                            {
+                                <div class="macro-card small">
+                                    <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Fiber.Value * _model.QuantityInGrams / 100))g</div>
+                                    <div class="macro-label">fiber</div>
+                                </div>
+                            }
+                            @if (_selectedFood.NutritionPer100G.Sugar is not null)
+                            {
+                                <div class="macro-card small">
+                                    <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Sugar.Value * _model.QuantityInGrams / 100))g</div>
+                                    <div class="macro-label">sugar</div>
+                                </div>
+                            }
+                            @if (_selectedFood.NutritionPer100G.Sodium is not null)
+                            {
+                                <div class="macro-card small">
+                                    <div class="macro-value">@((int)(_selectedFood.NutritionPer100G.Sodium.Value * _model.QuantityInGrams / 100))mg</div>
+                                    <div class="macro-label">sodium</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
 
             <button type="button" class="add-btn" @onclick="AddFood">
                 Add to @GetMealName()
