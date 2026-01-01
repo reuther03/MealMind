@@ -227,6 +227,7 @@ internal static class PromptTemplate
     public static string FoodCreationPrompt(string userPrompt)
         => $$"""
              You are an AI nutrition expert that creates detailed food item entries based on user descriptions.
+             The user couldn't find this food in the database and wants to create a custom entry.
 
              ═══════════════════════════════════════════════════════════════
              🍽️ USER PROMPT
@@ -234,39 +235,63 @@ internal static class PromptTemplate
              User input: "{{userPrompt}}"
 
              ═══════════════════════════════════════════════════════════════
-             📋 FOOD ITEM CREATION REQUIREMENTS
+             📋 FOOD ITEM CREATION GUIDELINES
              ═══════════════════════════════════════════════════════════════
-             Based on the user prompt, create a detailed food item entry with the following fields:
+             Based on the user prompt, create a food item with accurate nutritional values PER 100 GRAMS.
 
-             • FoodName: Clear and specific name of the food item
-             • Description: Detailed description including ingredients, preparation method, and flavor profile
-             • ServingSizeInGrams: Typical serving size in grams
-             • NutritionalInformation:
-               - Calories: Estimated calories per serving
-               - Proteins: Estimated protein content in grams
-               - Fats: Estimated fat content in grams
-               - Carbohydrates: Estimated carbohydrate content in grams
-               - Fiber: Estimated fiber content in grams (if applicable)
-               - Sugars: Estimated sugar content in grams (if applicable)
+             IMPORTANT: All nutritional values must be per 100g, not per serving!
+
+             Handle these input types:
+             • Brand products: "Protein bar from MyProtein" → Use known brand data if available
+             • Homemade dishes: "Grandma's apple pie" → Estimate based on typical recipe
+             • Restaurant meals: "Big Mac from McDonald's" → Use known fast food data
+             • Generic foods: "Grilled chicken breast" → Use standard nutritional data
+             • Regional foods: "Polish pierogi" → Estimate based on typical ingredients
+
+             ═══════════════════════════════════════════════════════════════
+             📊 NUTRITIONAL ESTIMATION RULES
+             ═══════════════════════════════════════════════════════════════
+             Required fields (per 100g):
+             • Calories: Total energy in kcal
+             • Protein: Grams of protein
+             • Carbohydrates: Total carbs in grams
+             • Fat: Total fat in grams
+
+             Optional fields (set to null if unknown, estimate if reasonable):
+             • Fiber: Dietary fiber in grams
+             • Sugar: Total sugars in grams
+             • SaturatedFat: Saturated fat in grams
+             • Sodium: Sodium in milligrams
+             • Salt: Salt in grams (Sodium × 2.5 / 1000)
 
              ═══════════════════════════════════════════════════════════════
              📋 REQUIRED JSON RESPONSE FORMAT
              ═══════════════════════════════════════════════════════════════
-             Return a JSON object matching this exact structure:
-
              {
-               "FoodName": "string",
-               "Description": "string",
-               "ServingSizeInGrams": float,
-               "NutritionalInformation": {
-                 "Calories": float,
-                 "Proteins": float,
-                 "Fats": float,
-                 "Carbohydrates": float,
-                 "Fiber": float,
-                 "Sugars": float
+               "Name": "Clear, specific food name",
+               "Brand": "Brand name if applicable, otherwise null",
+               "NutritionPer100G": {
+                 "Calories": 0.0,
+                 "Protein": 0.0,
+                 "Carbohydrates": 0.0,
+                 "Fat": 0.0,
+                 "Fiber": null,
+                 "Sugar": null,
+                 "SaturatedFat": null,
+                 "Sodium": null,
+                 "Salt": null
                }
              }
+
+             ═══════════════════════════════════════════════════════════════
+             ⚠️ VALIDATION RULES
+             ═══════════════════════════════════════════════════════════════
+             ✓ All values must be per 100 grams
+             ✓ Calories should roughly match: (Protein × 4) + (Carbs × 4) + (Fat × 9)
+             ✓ Sugar ≤ Carbohydrates
+             ✓ SaturatedFat ≤ Fat
+             ✓ Use decimal values (e.g., 25.5, not 25)
+             ✓ Name should be concise but descriptive
 
              Output pure JSON only (first character '{', last character '}'):
              """;

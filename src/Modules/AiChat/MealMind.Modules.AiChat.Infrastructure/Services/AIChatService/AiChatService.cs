@@ -113,9 +113,30 @@ public class AiChatService : IAiChatService
         return structuredResponseWithImage;
     }
 
-    public Task<FoodDto> CreateFoodFromPromptAsync(string userPrompt, CancellationToken cancellationToken = default)
+    public async Task<FoodDto> CreateFoodFromPromptAsync(string userPrompt, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.FoodCreationPrompt(userPrompt));
+
+        var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
+
+        var chatHistory = new ChatHistory([systemMessage, userMessage]);
+
+        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
+        {
+            MaxTokens = 600,
+            Temperature = 0.3f,
+            ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
+            ResponseMimeType = "application/json"
+        }, cancellationToken: cancellationToken);
+
+        var responseText = response[0].Content;
+
+        if (string.IsNullOrWhiteSpace(responseText))
+            throw new ArgumentNullException(responseText);
+
+        var foodDto = JsonSerializer.Deserialize<FoodDto>(responseText, _jsonSerializerOptions)!;
+
+        return foodDto;
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
