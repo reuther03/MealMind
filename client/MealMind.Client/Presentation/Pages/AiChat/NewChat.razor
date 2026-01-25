@@ -1,5 +1,6 @@
 @page "/ai-chat/new"
 @using MealMind.Client.Infrastructure.Abstractions
+@using MealMind.Shared.Contracts.Dto.AiChat
 @inject IApiClient ApiClient
 @inject NavigationManager Navigation
 
@@ -28,8 +29,9 @@
                    @bind="_prompt"
                    placeholder="Type your first message..."
                    maxlength="1000"
-                   disabled="@_isSubmitting" />
-            <button class="send-btn" @onclick="CreateChat" disabled="@(_isSubmitting || string.IsNullOrWhiteSpace(_prompt))">
+                   disabled="@_isSubmitting"/>
+            <button class="send-btn" @onclick="CreateChat"
+                    disabled="@(_isSubmitting || string.IsNullOrWhiteSpace(_prompt))">
                 @(_isSubmitting ? "..." : "Send")
             </button>
         </div>
@@ -41,6 +43,8 @@
     private string? _errorMessage;
     private bool _isSubmitting;
 
+    private StructuredResponse? _response;
+
     private async Task CreateChat()
     {
         if (string.IsNullOrWhiteSpace(_prompt)) return;
@@ -48,10 +52,35 @@
         _isSubmitting = true;
         _errorMessage = null;
 
+        try
+        {
+            var response = await ApiClient.GetAsync<StructuredResponse>($"{IApiClient.AiChatModulePrefix}/create-chat-response");
+
+            if (response is { IsSuccess: true, Value: not null })
+            {
+                _response = response.Value;
+            }
+            else
+            {
+                _errorMessage = response.Message ?? "Failed to load conversation";
+            }
+        }
+        catch (Exception e)
+        {
+            _errorMessage = $"Error: {e.Message}";
+        }
+        finally
+        {
+            _isSubmitting = false;
+            Navigation.NavigateTo("/login");
+        }
+
+
         // TODO: User implements this logic
         // 1. Call POST /aiChat-module/create-chat-response with { Prompt = _prompt }
         // 2. On success, navigate to /ai-chat/{conversationId}
 
         _isSubmitting = false;
     }
+
 }
