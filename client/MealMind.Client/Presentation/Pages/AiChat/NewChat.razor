@@ -43,7 +43,7 @@
     private string? _errorMessage;
     private bool _isSubmitting;
 
-    private StructuredResponse? _response;
+    private CreateConversationResponse? _response;
 
     private async Task CreateChat()
     {
@@ -54,7 +54,7 @@
 
         try
         {
-            var response = await ApiClient.GetAsync<StructuredResponse>($"{IApiClient.AiChatModulePrefix}/create-chat-response");
+            var response = await ApiClient.PostAsync<CreateConversationResponse>($"{IApiClient.AiChatModulePrefix}/create-chat-response");
 
             if (response is { IsSuccess: true, Value: not null })
             {
@@ -64,6 +64,9 @@
             {
                 _errorMessage = response.Message ?? "Failed to load conversation";
             }
+
+            _isSubmitting = false;
+            Navigation.NavigateTo($"/ai-chat/{_response!.ConversationId:guid}");
         }
         catch (Exception e)
         {
@@ -71,8 +74,6 @@
         }
         finally
         {
-            _isSubmitting = false;
-            Navigation.NavigateTo("/login");
         }
 
 
