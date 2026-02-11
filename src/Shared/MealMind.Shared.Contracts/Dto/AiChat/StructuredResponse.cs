@@ -4,6 +4,8 @@ namespace MealMind.Shared.Contracts.Dto.AiChat;
 
 public sealed record StructuredResponse
 {
+    public Guid? ConversationId { get; init; }
+
     [JsonPropertyName("title")]
     public string Title { get; init; } = string.Empty;
 

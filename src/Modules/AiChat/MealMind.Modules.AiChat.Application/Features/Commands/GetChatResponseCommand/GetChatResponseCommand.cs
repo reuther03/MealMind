@@ -105,7 +105,7 @@ public record GetChatResponseCommand(
 
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return Result.Ok(response);
+            return Result.Ok(response with { ConversationId = conversation.Id });
         }
     }
 }

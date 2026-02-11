@@ -13,9 +13,9 @@ using SharpToken;
 
 namespace MealMind.Modules.AiChat.Application.Features.Commands.CreateConversationCommand;
 
-public record CreateConversationCommand(string Prompt) : ICommand<CreateConversationResponse>
+public record CreateConversationCommand(string Prompt) : ICommand<StructuredResponse>
 {
-    public sealed class Handler : ICommandHandler<CreateConversationCommand, CreateConversationResponse>
+    public sealed class Handler : ICommandHandler<CreateConversationCommand, StructuredResponse>
     {
         private readonly IAiChatService _aiChatService;
         private readonly IConversationRepository _conversationRepository;
@@ -41,24 +41,24 @@ public record CreateConversationCommand(string Prompt) : ICommand<CreateConversa
             _aiChatService = aiChatService;
         }
 
-        public async Task<Result<CreateConversationResponse>> Handle(CreateConversationCommand command, CancellationToken cancellationToken)
+        public async Task<Result<StructuredResponse>> Handle(CreateConversationCommand command, CancellationToken cancellationToken)
         {
             var aiUser = await _aiChatUserRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
             if (aiUser is null)
-                return Result<CreateConversationResponse>.NotFound("user not found.");
+                return Result<StructuredResponse>.NotFound("user not found.");
 
             var userDailyPromptsCount = await _conversationRepository.GetUserDailyConversationPromptsCountAsync(aiUser.Id, cancellationToken);
 
             if (aiUser.DailyPromptsLimit != -1 &&
                 userDailyPromptsCount >= aiUser.DailyPromptsLimit)
             {
-                return Result<CreateConversationResponse>.BadRequest("Daily prompts limit exceeded.");
+                return Result<StructuredResponse>.BadRequest("Daily prompts limit exceeded.");
             }
 
             if (aiUser.ConversationsLimit != -1 &&
                 aiUser.ActiveConversations >= aiUser.ConversationsLimit)
             {
-                return Result<CreateConversationResponse>.BadRequest("Active conversations limit exceeded.");
+                return Result<StructuredResponse>.BadRequest("Active conversations limit exceeded.");
             }
 
             var conversation = Conversation.Create(aiUser.Id);
@@ -76,13 +76,13 @@ public record CreateConversationCommand(string Prompt) : ICommand<CreateConversa
             var encoding = GptEncoding.GetEncoding("o200k_base");
 
             if (encoding.CountTokens(command.Prompt) > aiUser.PromptTokensLimit)
-                return Result<CreateConversationResponse>.BadRequest("Prompt exceeds the token limit.");
+                return Result<StructuredResponse>.BadRequest("Prompt exceeds the token limit.");
 
             var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(command.Prompt, cancellationToken);
             var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken);
 
             if (!relevantDocuments.Any())
-                return Result<CreateConversationResponse>.BadRequest("No relevant documents found.");
+                return Result<StructuredResponse>.BadRequest("No relevant documents found.");
 
             var documentsText = string.Join("\n\n",
                 relevantDocuments.Select(x => $"Content: {x.Content}"));
@@ -106,13 +106,6 @@ public record CreateConversationCommand(string Prompt) : ICommand<CreateConversa
                 cancellationToken
             );
 
-            var responseDto = new CreateConversationResponse
-            {
-                ConversationId = conversation.Id,
-                Title = response.Title,
-                Paragraphs = response.Paragraphs,
-                KeyPoints = response.KeyPoints
-            };
 
             var responseString = JsonSerializer.Serialize(response);
 
@@ -124,7 +117,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<CreateConversa
             await _conversationRepository.AddAsync(conversation, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return Result.Ok(responseDto);
+            return Result.Ok(response with { ConversationId = conversation.Id });
         }
     }
 }
