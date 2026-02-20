@@ -86,11 +86,10 @@ public class AiChatService : IAiChatService
 
         var chatHistory = new ChatHistory();
 
-        var complexUserMessage = new ChatMessageContent(AuthorRole.User, new ChatMessageContentItemCollection
-        {
+        var complexUserMessage = new ChatMessageContent(AuthorRole.User, [
             new TextContent(userPrompt ?? string.Empty),
             new ImageContent(imageBytes, "image/jpeg")
-        });
+        ]);
 
         chatHistory.AddRange([systemMessage, complexUserMessage]);
 
@@ -113,13 +112,21 @@ public class AiChatService : IAiChatService
         return structuredResponseWithImage;
     }
 
-    public async Task<FoodDto> CreateFoodFromPromptAsync(string userPrompt, CancellationToken cancellationToken = default)
+    public async Task<FoodDto> CreateFoodFromPromptAsync(string userPrompt, IFormFile? imageFile, CancellationToken cancellationToken = default)
     {
         var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.FoodCreationPrompt(userPrompt));
 
-        var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
+        var imageBytes = imageFile != null
+            ? await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken)
+            : null;
 
-        var chatHistory = new ChatHistory([systemMessage, userMessage]);
+        var complexUserMessage = new ChatMessageContent(AuthorRole.User,
+        [
+            new TextContent(userPrompt),
+            new ImageContent(imageBytes, "image/jpeg")
+        ]);
+
+        var chatHistory = new ChatHistory([systemMessage, complexUserMessage]);
 
         var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
         {

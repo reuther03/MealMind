@@ -23,5 +23,6 @@ public interface IAiChatService
 
     Task<FoodDto> CreateFoodFromPromptAsync(
         string userPrompt,
+        IFormFile? imageFile,
         CancellationToken cancellationToken = default);
 }
