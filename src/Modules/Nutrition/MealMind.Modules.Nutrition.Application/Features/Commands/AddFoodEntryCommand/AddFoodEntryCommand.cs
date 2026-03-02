@@ -5,6 +5,7 @@ using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Nutrition.Application.Features.Commands.AddFoodEntryCommand;

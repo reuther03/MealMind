@@ -1,4 +1,4 @@
-﻿namespace MealMind.Modules.Nutrition.Domain.Food;
+﻿namespace MealMind.Shared.Contracts.Dto.Nutrition;
 
 public enum FoodDataSource
 {

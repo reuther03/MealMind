@@ -1,5 +1,6 @@
 ﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 
 namespace MealMind.Modules.Nutrition.Domain.Food;
 
