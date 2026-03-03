@@ -58,7 +58,7 @@ public record CreateFoodWithAiCommand(string FoodPrompt, IFormFile? ImageFile) :
                             Cholesterol = response.NutritionPer100G.Cholesterol
                         },
                         CreatedAt = DateTime.UtcNow,
-                        FoodSource = nameof(FoodDataSource.User)
+                        FoodSource = response.FoodSource
                     }
                 ), cancellationToken);
 

@@ -57,7 +57,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                         Cholesterol = x.NutritionPer100G.Cholesterol
                     },
                     CreatedAt = x.CreatedAt,
-                    FoodSource = x.FoodDataSource.ToString(),
+                    FoodSource = x.FoodDataSource
                 })
                 .ToList();
 
@@ -93,7 +93,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                             Cholesterol = x.NutritionPer100G.Cholesterol
                         },
                         CreatedAt = x.CreatedAt,
-                        FoodSource = x.FoodSource.ToString()
+                        FoodSource = x.FoodSource
                     })
                     .ToList();
 
@@ -130,7 +130,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                         Cholesterol = x.NutritionPer100G.Cholesterol
                     },
                     CreatedAt = x.CreatedAt,
-                    FoodSource = x.FoodSource.ToString(),
+                    FoodSource = x.FoodSource
                 })
                 .ToList();
 

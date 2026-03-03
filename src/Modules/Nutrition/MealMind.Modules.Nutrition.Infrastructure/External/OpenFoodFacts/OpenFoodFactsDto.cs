@@ -66,7 +66,7 @@ public class OpenFoodFactsDto
                 Cholesterol = dto.Nutriments.Cholesterol100G
             },
             CreatedAt = DateTime.UtcNow,
-            FoodSource = nameof(FoodDataSource.ExternalApi)
+            FoodSource = FoodDataSource.ExternalApi
         };
     }
 }
