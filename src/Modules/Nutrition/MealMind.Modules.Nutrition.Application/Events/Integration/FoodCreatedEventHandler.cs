@@ -13,6 +13,13 @@ public class FoodCreatedEventHandler : IEventHandler<FoodCreatedEvent>
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<FoodCreatedEventHandler> _logger;
 
+    public FoodCreatedEventHandler(IFoodRepository foodRepository, IUnitOfWork unitOfWork, ILogger<FoodCreatedEventHandler> logger)
+    {
+        _foodRepository = foodRepository;
+        _unitOfWork = unitOfWork;
+        _logger = logger;
+    }
+
     public async Task Handle(FoodCreatedEvent notification, CancellationToken cancellationToken)
     {
         var nutritionPer100G = new NutritionPer100G(
@@ -40,5 +47,7 @@ public class FoodCreatedEventHandler : IEventHandler<FoodCreatedEvent>
         await _foodRepository.AddAsync(food, cancellationToken);
 
         await _unitOfWork.CommitAsync(cancellationToken);
+
+        _logger.LogInformation("Food created: {FoodName} (ID: {FoodId})", food.Name, food.Id);
     }
 }
