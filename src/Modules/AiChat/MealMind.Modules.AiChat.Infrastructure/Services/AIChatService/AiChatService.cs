@@ -76,13 +76,12 @@ public class AiChatService : IAiChatService
 
     public async Task<AnalyzedImageStructuredResponse> AnalyzeImageWithPromptAsync(
         string? userPrompt,
-        List<UserProvidedFoodProductsPayload>? userFoodProduct,
         IFormFile imageFile,
         CancellationToken cancellationToken = default)
     {
         var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);
 
-        var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.ImageAnalysisPrompt(userPrompt, userFoodProduct ?? []));
+        var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.ImageAnalysisPrompt(userPrompt ?? string.Empty));
 
         var chatHistory = new ChatHistory();
 

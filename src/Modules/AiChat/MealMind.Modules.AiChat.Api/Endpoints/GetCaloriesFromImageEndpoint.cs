@@ -17,11 +17,10 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
                 async (
                     [FromForm] Guid? sessionId,
                     [FromForm] string? prompt,
-                    [FromForm] List<UserProvidedFoodProductsPayload> userProvidedFoods,
                     IFormFile image,
                     ISender sender) =>
                 {
-                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, userProvidedFoods, image));
+                    var result = await sender.Send(new GetCaloriesFromImageCommand(sessionId, prompt, image));
                     return result;
                 })
             .RequireAuthorization()

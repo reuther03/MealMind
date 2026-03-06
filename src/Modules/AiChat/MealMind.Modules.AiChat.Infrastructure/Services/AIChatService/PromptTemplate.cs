@@ -1,10 +1,8 @@
-﻿using MealMind.Modules.AiChat.Application.Dtos;
-
-namespace MealMind.Modules.AiChat.Infrastructure.Services.AIChatService;
+﻿namespace MealMind.Modules.AiChat.Infrastructure.Services.AIChatService;
 
 internal static class PromptTemplate
 {
-    public static string ImageAnalysisPrompt(string? userPrompt, List<UserProvidedFoodProductsPayload> userProvidedFoods)
+    public static string ImageAnalysisPrompt(string? userPrompt)
         => $$"""
              You are an AI food nutrition analyst that examines food images and returns detailed nutritional estimates in structured JSON format.
 
@@ -26,9 +24,9 @@ internal static class PromptTemplate
                 - Examples: grilled, fried, baked, raw, steamed, breaded
                 - Note added fats: "fried in oil", "buttered", "with sauce"
 
-             4. **User Input Priority & Mixed Analysis**:
+             4. **User Input Priority**:
                 - ALWAYS detect ALL food items visible in the image
-                - If user provides specific details for certain foods, use those exact values with confidence = 1.0
+                - If user provides specific details in the prompt (e.g., "200g chicken"), use those exact values with confidence = 1.0
                 - For foods NOT mentioned by user, estimate based on visual analysis with appropriate confidence (0.5-0.95)
 
                 Examples:
@@ -68,33 +66,14 @@ internal static class PromptTemplate
              User input: "{{userPrompt ?? "[No text provided - analyze image only]"}}"
 
              ═══════════════════════════════════════════════════════════════
-             🍽️ USER-PROVIDED FOODS (MANDATORY INCLUSION)
-             ═══════════════════════════════════════════════════════════════
-             {{(userProvidedFoods.Count == 0
-                 ? "[No user-provided foods - detect all foods from image]"
-                 : System.Text.Json.JsonSerializer.Serialize(userProvidedFoods))}}
-
-             CRITICAL RULES FOR USER-PROVIDED FOODS:
-             1. Foods listed above MUST appear in your DetectedFoods response exactly as provided
-             2. Use the EXACT values (name, quantity, nutrition) from user-provided foods
-             3. Set confidence = 1.0 for ALL user-provided foods
-             4. DO NOT add duplicate foods - if user provided "Ham", do NOT add another "Ham" from image analysis
-             5. When detecting foods from image, skip any food that matches or is similar to user-provided foods
-                - Example: User provides "Grilled Chicken" → Do NOT add "Chicken Breast" from image
-                - Example: User provides "Ham" → Do NOT add "Ham", "Sliced Ham", or "Deli Ham" from image
-
-             ═══════════════════════════════════════════════════════════════
              🔍 IMAGE ANALYSIS APPROACH
              ═══════════════════════════════════════════════════════════════
-             1. FIRST: Include ALL user-provided foods (if any) with their exact values and confidence = 1.0
-             2. THEN: Detect additional foods from image that are NOT already covered by user-provided foods
-             3. For additional detected foods:
-                → Estimate based on visual analysis
-                → Set confidence based on visual clarity (0.5-0.95)
-             4. Never ignore foods in the image just because user didn't mention them
-             5. Never duplicate foods - each food item should appear only ONCE in the response
+             1. Detect ALL food items visible in the image
+             2. If the user prompt mentions specific foods or quantities, trust those values (confidence = 1.0)
+             3. For foods not mentioned by user, estimate based on visual analysis (confidence 0.5-0.95)
+             4. Each food item should appear only ONCE in the response
 
-             If user prompt is empty or vague and no user-provided foods:
+             If user prompt is empty or vague:
              → Analyze all visible foods
              → Use visual estimation for all values
              → Provide ranges to indicate uncertainty
@@ -150,9 +129,8 @@ internal static class PromptTemplate
              ✓ All required fields are present (no null values for required fields)
              ✓ QuantityInGrams is positive number
              ✓ JSON is valid (proper escaping, no trailing commas, no comments)
-             ✓ If there is user prompt remeb
              ✓ UserDescription accurately reflects user input. If no input, just put null
-             ✓ Confidence scores is 1 for any user-provided details from prompt
+             ✓ Confidence score is 1.0 for any food details explicitly stated by the user in the prompt
 
              Output pure JSON only (first character '{', last character '}'):
              """;

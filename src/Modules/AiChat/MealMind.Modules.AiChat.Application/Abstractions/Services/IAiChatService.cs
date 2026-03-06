@@ -17,7 +17,6 @@ public interface IAiChatService
 
     Task<AnalyzedImageStructuredResponse> AnalyzeImageWithPromptAsync(
         string? userPrompt,
-        List<UserProvidedFoodProductsPayload> detectedFoods,
         IFormFile imageFile,
         CancellationToken cancellationToken = default);
 

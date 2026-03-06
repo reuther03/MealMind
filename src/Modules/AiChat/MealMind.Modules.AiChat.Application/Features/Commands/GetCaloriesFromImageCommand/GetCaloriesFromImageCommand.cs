@@ -13,7 +13,6 @@ namespace MealMind.Modules.AiChat.Application.Features.Commands.GetCaloriesFromI
 public record GetCaloriesFromImageCommand(
     Guid? SessionId,
     string? Prompt,
-    List<UserProvidedFoodProductsPayload>? UserProvidedFoods,
     IFormFile Image
 )
     : ICommand<AnalyzedImageStructuredResponse>
@@ -45,7 +44,6 @@ public record GetCaloriesFromImageCommand(
 
             var response = await _aiChatService.AnalyzeImageWithPromptAsync(
                 command.Prompt,
-                command.UserProvidedFoods ?? [],
                 command.Image,
                 cancellationToken
             );
