@@ -1,6 +1,8 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Domain.ImageAnalyze;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Infrastructure.Postgres;
+using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Database.Repositories;
 
@@ -15,5 +17,5 @@ internal class ImageAnalyzeSessionRepository : Repository<ImageAnalyzeSession, A
 
     public async Task<ImageAnalyzeSession?> GetByIdAsync(Guid sessionId, Guid userId, CancellationToken cancellationToken = default)
         => await _dbContext.FoodImageAnalyzeSessions
-            .FindAsync([sessionId, userId], cancellationToken);
+            .FirstOrDefaultAsync(s => s.Id == ImageAnalyzeSessionId.From(sessionId) && s.UserId == UserId.From(userId), cancellationToken);
 }

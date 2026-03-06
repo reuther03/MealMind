@@ -15,7 +15,7 @@ public class GetCaloriesFromImageEndpoint : EndpointBase
     {
         endpointRouteBuilder.MapPost("/get-calories-from-image",
                 async (
-                    [FromForm] Guid sessionId,
+                    [FromForm] Guid? sessionId,
                     [FromForm] string? prompt,
                     [FromForm] List<UserProvidedFoodProductsPayload> userProvidedFoods,
                     IFormFile image,
