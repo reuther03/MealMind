@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Events\MealMind.Shared.Events.csproj" />
+      <ProjectReference Include="..\MealMind.Modules.Training.Domain\MealMind.Modules.Training.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
