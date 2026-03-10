@@ -10,4 +10,8 @@
       <ProjectReference Include="..\MealMind.Modules.Training.Infrastructure\MealMind.Modules.Training.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Endpoints\" />
+    </ItemGroup>
+
 </Project>
