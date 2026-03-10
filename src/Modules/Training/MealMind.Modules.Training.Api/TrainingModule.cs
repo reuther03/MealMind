@@ -10,9 +10,9 @@ namespace MealMind.Modules.Training.Api;
 
 public class TrainingModule : IModule
 {
-    public const string BasePath = "aiChat-module";
+    public const string BasePath = "training-module";
 
-    public string Name => "AiChat";
+    public string Name => "Training";
     public string Path => BasePath;
 
     public void Register(IServiceCollection services, IConfiguration configuration)

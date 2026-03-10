@@ -11,4 +11,8 @@
       <ProjectReference Include="..\MealMind.Modules.Training.Domain\MealMind.Modules.Training.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\" />
+    </ItemGroup>
+
 </Project>

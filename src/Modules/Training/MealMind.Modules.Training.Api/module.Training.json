@@ -1,7 +1,7 @@
 {
-    "AiChat": {
+    "Training": {
         "module": {
-            "name": "AiChat",
+            "name": "Training",
             "enabled": true
         }
     }

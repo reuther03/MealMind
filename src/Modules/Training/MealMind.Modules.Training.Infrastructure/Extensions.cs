@@ -1,3 +1,6 @@
+using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Infrastructure.Database;
+using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +12,9 @@ public static class Extensions
     {
         public IServiceCollection AddInfrastructure(IConfiguration configuration)
         {
+            services.AddPostgres<TrainingDbContext>(configuration)
+                .AddScoped<ITrainingDbContext, TrainingDbContext>()
+                .AddUnitOfWork<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

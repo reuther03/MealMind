@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions;
+using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 

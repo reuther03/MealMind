@@ -5,7 +5,6 @@ namespace MealMind.Modules.AiChat.Infrastructure.Services;
 
 public class ChunkingService : IChunkingService
 {
-
     public List<string> ChunkDocument(string content, int maxTokensPerChunk = 500, int overlapTokens = 50)
     {
         if (string.IsNullOrWhiteSpace(content))
