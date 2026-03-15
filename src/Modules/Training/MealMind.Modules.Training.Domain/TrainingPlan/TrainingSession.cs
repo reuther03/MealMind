@@ -20,11 +20,21 @@ public class TrainingSession : Entity<Guid>
     {
     }
 
-    private TrainingSession(Guid id, Name name) : base(id)
+    private TrainingSession(Name name, string? description)
     {
         Name = name;
+        StartedAt = DateTime.UtcNow;
+        Description = description;
     }
 
-    public static TrainingSession Create(Name name) =>
-        new(Guid.NewGuid(), name);
+    public static TrainingSession Create(Name name, string? description = null)
+        => new(name, description);
+
+    public void SetAsCompleted()
+    {
+        if (IsCompleted)
+            throw new InvalidOperationException("Training session is already completed.");
+
+        EndedAt = DateTime.UtcNow;
+    }
 }
