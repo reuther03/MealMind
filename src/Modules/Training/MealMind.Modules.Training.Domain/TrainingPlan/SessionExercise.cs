@@ -9,4 +9,24 @@ public class SessionExercise : Entity<Guid>
     public StrengthDetails? StrengthDetails { get; private set; }
     public CardioDetails? CardioDetails { get; private set; }
     public string? Notes { get; private set; }
+
+    private SessionExercise()
+    {
+    }
+
+    private SessionExercise(Guid exerciseId, int orderIndex, StrengthDetails? strengthDetails, CardioDetails? cardioDetails, string? notes)
+    {
+        if (strengthDetails == null && cardioDetails == null)
+            throw new ArgumentException("Either strength details or cardio details must be provided.");
+
+        ExerciseId = exerciseId;
+        OrderIndex = orderIndex;
+        StrengthDetails = strengthDetails;
+        CardioDetails = cardioDetails;
+        Notes = notes;
+    }
+
+    public static SessionExercise Create(Guid exerciseId, int orderIndex, StrengthDetails? strengthDetails = null, CardioDetails? cardioDetails = null,
+        string? notes = null)
+        => new(exerciseId, orderIndex, strengthDetails, cardioDetails, notes);
 }
