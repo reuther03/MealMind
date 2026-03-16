@@ -4,12 +4,10 @@ namespace MealMind.Modules.Training.Domain.TrainingPlan;
 
 public record StrengthDetails : ValueObject
 {
-    public List<ExerciseSet> Sets { get; init; }
+    public List<ExerciseSet> Sets { get; init; } = [];
 
-    public StrengthDetails(List<ExerciseSet> sets)
-    {
-        Sets = sets;
-    }
+    public void AddExerciseSet(ExerciseSet exerciseSet)
+        => Sets.Add(exerciseSet);
 
     protected override IEnumerable<object> GetAtomicValues()
     {

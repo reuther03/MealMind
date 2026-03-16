@@ -3,6 +3,7 @@ using System;
 using MealMind.Modules.Training.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MealMind.Modules.Training.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(TrainingDbContext))]
-    partial class TrainingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260315235901_AddsTrainingSession")]
+    partial class AddsTrainingSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,47 +25,6 @@ namespace MealMind.Modules.Training.Infrastructure.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("MealMind.Modules.Training.Domain.TrainingPlan.Exercise", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
-
-                    b.Property<bool>("IsCustom")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("MuscleGroup")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("VideoUrl")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Exercise", "training");
-                });
 
             modelBuilder.Entity("MealMind.Modules.Training.Domain.TrainingPlan.SessionExercise", b =>
                 {
@@ -76,6 +38,7 @@ namespace MealMind.Modules.Training.Infrastructure.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Notes")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
@@ -137,7 +100,7 @@ namespace MealMind.Modules.Training.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("StartedAt")
+                    b.Property<DateTime>("StartedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("TrainingPlanId")
@@ -159,27 +122,36 @@ namespace MealMind.Modules.Training.Infrastructure.Database.Migrations
 
                     b.OwnsOne("MealMind.Modules.Training.Domain.TrainingPlan.CardioDetails", "CardioDetails", b1 =>
                         {
-                            b1.Property<Guid>("SessionExerciseId");
+                            b1.Property<Guid>("SessionExerciseId")
+                                .HasColumnType("uuid");
 
-                            b1.Property<int?>("AverageHeartRate");
+                            b1.Property<int?>("AverageHeartRate")
+                                .HasColumnType("integer");
 
-                            b1.Property<decimal?>("AverageSpeed");
+                            b1.Property<decimal?>("AverageSpeed")
+                                .HasPrecision(8, 2)
+                                .HasColumnType("numeric(8,2)");
 
-                            b1.Property<int?>("CaloriesBurned");
+                            b1.Property<int?>("CaloriesBurned")
+                                .HasColumnType("integer");
 
-                            b1.Property<int?>("CaloriesEstimated");
+                            b1.Property<int?>("CaloriesEstimated")
+                                .HasColumnType("integer");
 
-                            b1.Property<decimal?>("DistanceInKm");
+                            b1.Property<decimal?>("DistanceInKm")
+                                .HasPrecision(8, 2)
+                                .HasColumnType("numeric(8,2)");
 
-                            b1.Property<int>("DurationInMinutes");
+                            b1.Property<int>("DurationInMinutes")
+                                .HasColumnType("integer");
 
-                            b1.Property<string>("Notes");
+                            b1.Property<string>("Notes")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)");
 
                             b1.HasKey("SessionExerciseId");
 
                             b1.ToTable("SessionExercise", "training");
-
-                            b1.ToJson("CardioDetails");
 
                             b1.WithOwner()
                                 .HasForeignKey("SessionExerciseId");
@@ -187,40 +159,49 @@ namespace MealMind.Modules.Training.Infrastructure.Database.Migrations
 
                     b.OwnsOne("MealMind.Modules.Training.Domain.TrainingPlan.StrengthDetails", "StrengthDetails", b1 =>
                         {
-                            b1.Property<Guid>("SessionExerciseId");
+                            b1.Property<Guid>("SessionExerciseId")
+                                .HasColumnType("uuid");
 
                             b1.HasKey("SessionExerciseId");
 
                             b1.ToTable("SessionExercise", "training");
-
-                            b1.ToJson("StrengthDetails");
 
                             b1.WithOwner()
                                 .HasForeignKey("SessionExerciseId");
 
                             b1.OwnsMany("MealMind.Modules.Training.Domain.TrainingPlan.ExerciseSet", "Sets", b2 =>
                                 {
-                                    b2.Property<Guid>("StrengthDetailsSessionExerciseId");
+                                    b2.Property<Guid>("SessionExerciseId")
+                                        .HasColumnType("uuid");
 
-                                    b2.Property<int>("__synthesizedOrdinal")
-                                        .ValueGeneratedOnAdd();
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
 
-                                    b2.Property<int>("Repetitions");
+                                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b2.Property<int>("Id"));
 
-                                    b2.Property<int?>("RestTimeInSeconds");
+                                    b2.Property<int>("Repetitions")
+                                        .HasColumnType("integer");
 
-                                    b2.Property<int>("SetNumber");
+                                    b2.Property<int?>("RestTimeInSeconds")
+                                        .HasColumnType("integer");
 
-                                    b2.Property<int>("SetType");
+                                    b2.Property<int>("SetNumber")
+                                        .HasColumnType("integer");
 
-                                    b2.Property<decimal>("Weight");
+                                    b2.Property<string>("SetType")
+                                        .IsRequired()
+                                        .HasColumnType("text");
 
-                                    b2.HasKey("StrengthDetailsSessionExerciseId", "__synthesizedOrdinal");
+                                    b2.Property<decimal>("Weight")
+                                        .HasColumnType("numeric");
 
-                                    b2.ToTable("SessionExercise", "training");
+                                    b2.HasKey("SessionExerciseId", "Id");
+
+                                    b2.ToTable("ExerciseSet", "training");
 
                                     b2.WithOwner()
-                                        .HasForeignKey("StrengthDetailsSessionExerciseId");
+                                        .HasForeignKey("SessionExerciseId");
                                 });
 
                             b1.Navigation("Sets");

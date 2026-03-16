@@ -18,5 +18,16 @@ public class TrainingSessionConfiguration : IEntityTypeConfiguration<TrainingSes
         builder.Property(x => x.Name)
             .HasConversion(x => x.Value, x => new Name(x))
             .IsRequired();
+
+        builder.Property(x => x.StartedAt);
+        builder.Property(x => x.EndedAt);
+
+        builder.Property(x => x.Description)
+            .HasMaxLength(500);
+
+        builder.HasMany(x => x.Exercises)
+            .WithOne()
+            .HasForeignKey("TrainingSessionId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
