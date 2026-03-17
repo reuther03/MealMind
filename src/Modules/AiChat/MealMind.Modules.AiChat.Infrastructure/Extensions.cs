@@ -1,5 +1,4 @@
-﻿using MealMind.Modules.AiChat.Application.Abstractions;
-using MealMind.Modules.AiChat.Application.Abstractions.Database;
+﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Modules.AiChat.Application.Options;
 using MealMind.Modules.AiChat.Infrastructure.Database;
