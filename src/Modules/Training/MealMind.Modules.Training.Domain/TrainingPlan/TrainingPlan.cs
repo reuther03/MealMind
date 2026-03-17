@@ -9,7 +9,7 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
 {
     private readonly List<TrainingSession> _sessions = [];
     public Name Name { get; private set; } = null!;
-    public DayOfWeek PlanedOn { get; private set; }
+    public DayOfWeek PlannedOn { get; private set; }
     public bool IsActive { get; private set; }
     public UserId UserId { get; private set; }
     public IReadOnlyList<TrainingSession> Sessions => _sessions.AsReadOnly();
@@ -18,16 +18,16 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
     {
     }
 
-    private TrainingPlan(TrainingPlanId id, Name name, DayOfWeek planedOn, bool isActive, UserId userId) : base(id)
+    private TrainingPlan(TrainingPlanId id, Name name, DayOfWeek plannedOn, UserId userId) : base(id)
     {
         Name = name;
-        PlanedOn = planedOn;
-        IsActive = isActive;
+        PlannedOn = plannedOn;
+        IsActive = true;
         UserId = userId;
     }
 
-    public static TrainingPlan Create(Name name, DayOfWeek planedOn, bool isActive, UserId userId) =>
-        new(TrainingPlanId.New(), name, planedOn, isActive, userId);
+    public static TrainingPlan Create(Name name, DayOfWeek planedOn, UserId userId) =>
+        new(TrainingPlanId.New(), name, planedOn, userId);
 
     public void AddSession(TrainingSession session)
     {

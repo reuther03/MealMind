@@ -21,7 +21,7 @@ public class TrainingPlanConfiguration : IEntityTypeConfiguration<TrainingPlan>
             .HasConversion(x => x.Value, x => new Name(x))
             .IsRequired();
 
-        builder.Property(x => x.PlanedOn)
+        builder.Property(x => x.PlannedOn)
             .IsRequired();
 
         builder.Property(x => x.IsActive)
