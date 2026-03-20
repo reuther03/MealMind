@@ -20,10 +20,7 @@ public class AddTrainingSessionExerciseEndpoint : EndpointBase
                     IUnitOfWork unitOfWork,
                     CancellationToken cancellationToken) =>
                 {
-                    if (!userService.IsAuthenticated)
-                        return Result.BadRequest("User is not authenticated.");
-
-                    var trainingPlan = await trainingPlanRepository.GetByIdAsync(planId, userService.UserId, cancellationToken);
+                    var trainingPlan = await trainingPlanRepository.GetByIdAsync(planId, userService.UserId!, cancellationToken);
                     if (trainingPlan is null)
                         return Result.NotFound("Training plan not found.");
 

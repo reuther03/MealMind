@@ -29,4 +29,7 @@ public class SessionExercise : Entity<Guid>
     public static SessionExercise Create(Guid exerciseId, int orderIndex, StrengthDetails? strengthDetails = null, CardioDetails? cardioDetails = null,
         string? notes = null)
         => new(exerciseId, orderIndex, strengthDetails, cardioDetails, notes);
+
+    public void SetStrengthDetails(StrengthDetails? strengthDetails)
+        => StrengthDetails = strengthDetails;
 }
