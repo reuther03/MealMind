@@ -4,7 +4,7 @@ namespace MealMind.Modules.Training.Domain.TrainingPlan;
 
 public record CardioDetails : ValueObject
 {
-    public int DurationInMinutes { get; init; }
+    public int? DurationInMinutes { get; init; }
     public decimal? DistanceInKm { get; init; }
     public int? CaloriesBurned { get; init; }
     public int? AverageHeartRate { get; init; }
@@ -12,8 +12,8 @@ public record CardioDetails : ValueObject
     public string? Notes { get; init; }
     public int? CaloriesEstimated { get; init; }
 
-    public CardioDetails(
-        int durationInMinutes,
+    private CardioDetails(
+        int? durationInMinutes,
         decimal? distanceInKm,
         int? caloriesBurned,
         int? averageHeartRate,
@@ -31,10 +31,13 @@ public record CardioDetails : ValueObject
         CaloriesEstimated = caloriesEstimated;
     }
 
+    public static CardioDetails CreateEmpty()
+        => new CardioDetails(null, null, null, null, null, null, null);
+
 
     protected override IEnumerable<object> GetAtomicValues()
     {
-        yield return DurationInMinutes;
+        yield return DurationInMinutes ?? 0;
         yield return DistanceInKm ?? 0;
         yield return CaloriesBurned ?? 0;
         yield return AverageHeartRate ?? 0;

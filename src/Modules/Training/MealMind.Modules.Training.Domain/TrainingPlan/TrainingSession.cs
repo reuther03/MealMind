@@ -37,4 +37,12 @@ public class TrainingSession : Entity<Guid>
 
         EndedAt = DateTime.UtcNow;
     }
+
+    public void AddExercise(SessionExercise exercise)
+    {
+        if (IsCompleted)
+            throw new DomainException("Training session is already completed.");
+
+        _exercises.Add(exercise);
+    }
 }

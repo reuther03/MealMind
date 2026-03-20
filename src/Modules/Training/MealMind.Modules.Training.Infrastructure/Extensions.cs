@@ -16,6 +16,7 @@ public static class Extensions
             services.AddPostgres<TrainingDbContext>(configuration)
                 .AddScoped<ITrainingDbContext, TrainingDbContext>()
                 .AddScoped<ITrainingPlanRepository, TrainingPlanRepository>()
+                .AddScoped<IExerciseRepository, ExerciseRepository>()
                 .AddUnitOfWork<IUnitOfWork, UnitOfWork>();
 
             return services;
