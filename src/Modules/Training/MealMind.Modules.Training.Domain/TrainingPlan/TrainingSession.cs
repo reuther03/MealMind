@@ -1,11 +1,12 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace MealMind.Modules.Training.Domain.TrainingPlan;
 
 public class TrainingSession : Entity<Guid>
 {
-    private readonly List<SessionExercise> _exercises = new();
+    private readonly List<SessionExercise> _exercises = [];
 
     public Name Name { get; private set; } = null!;
     public DateTime? StartedAt { get; private set; }
@@ -23,7 +24,6 @@ public class TrainingSession : Entity<Guid>
     private TrainingSession(Name name, string? description)
     {
         Name = name;
-        StartedAt = DateTime.UtcNow;
         Description = description;
     }
 
@@ -33,7 +33,7 @@ public class TrainingSession : Entity<Guid>
     public void SetAsCompleted()
     {
         if (IsCompleted)
-            throw new InvalidOperationException("Training session is already completed.");
+            throw new DomainException("Training session is already completed.");
 
         EndedAt = DateTime.UtcNow;
     }

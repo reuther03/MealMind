@@ -1,15 +1,14 @@
 ﻿using MealMind.Modules.Training.Application.Abstractions.Database;
 using MealMind.Modules.Training.Domain.TrainingPlan;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 
-namespace MealMind.Modules.Training.Application.Features.Commands.InitializePlanCommand;
+namespace MealMind.Modules.Training.Application.Features.Commands.CreateTrainingSessionCommand;
 
-public record CreatePlanCommand(string Name, DayOfWeek PlannedAt) : ICommand<Guid>
+public record CreateTrainingSessionCommand(Guid TrainingPlanId, string Name, string Description) : ICommand<Guid>
 {
-    public sealed class Handler : ICommandHandler<CreatePlanCommand, Guid>
+    public sealed class Handler : ICommandHandler<CreateTrainingSessionCommand, Guid>
     {
         private readonly ITrainingPlanRepository _trainingPlanRepository;
         private readonly IUserService _userService;
@@ -22,17 +21,22 @@ public record CreatePlanCommand(string Name, DayOfWeek PlannedAt) : ICommand<Gui
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Guid>> Handle(CreatePlanCommand command, CancellationToken cancellationToken)
+
+        public async Task<Result<Guid>> Handle(CreateTrainingSessionCommand command, CancellationToken cancellationToken)
         {
             if (!_userService.IsAuthenticated)
                 return Result<Guid>.BadRequest("User is not authenticated.");
 
-            var trainingPlan = TrainingPlan.Create(command.Name, command.PlannedAt, _userService.UserId);
+            var trainingPlan = await _trainingPlanRepository.GetByIdAsync(command.TrainingPlanId, _userService.UserId, cancellationToken);
+            if (trainingPlan is null)
+                return Result<Guid>.NotFound("Training plan not found.");
 
-            await _trainingPlanRepository.AddAsync(trainingPlan, cancellationToken);
+            var trainingSession = TrainingSession.Create(command.Name, command.Description);
+
+            trainingPlan.AddSession(trainingSession);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return Result<Guid>.Ok(trainingPlan.Id.Value);
+            return Result<Guid>.Ok(trainingSession.Id);
         }
     }
 }
