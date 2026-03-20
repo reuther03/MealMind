@@ -6,7 +6,7 @@ using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Training.Application.Features.Commands.UpdateStrengthDetails;
 
-public record UpdateStrengthDetailsCommand(Guid PlanId, Guid SessionId, int OrderIndex, StrengthDetails StrengthDetails) : ICommand<bool>
+public record UpdateStrengthDetailsCommand(Guid PlanId, Guid SessionId, Guid ExerciseId, StrengthDetails StrengthDetails) : ICommand<bool>
 {
     public sealed class Handler : ICommandHandler<UpdateStrengthDetailsCommand, bool>
     {
@@ -32,7 +32,7 @@ public record UpdateStrengthDetailsCommand(Guid PlanId, Guid SessionId, int Orde
             if (session is null)
                 return Result<bool>.NotFound("Session not found.");
 
-            var exercise = session.Exercises.FirstOrDefault(e => e.OrderIndex == command.OrderIndex);
+            var exercise = session.Exercises.FirstOrDefault(e => e.Id == command.ExerciseId);
             if (exercise is null)
                 return Result<bool>.NotFound("Exercise not found in session.");
 
