@@ -11,11 +11,11 @@ public class UpdateStrengthDetailsEndpoint : EndpointBase
 {
     public override void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapPut("/training-plans/{planId:guid}/sessions/{sessionId:guid}/exercises/{orderIndex:int}/strength",
-                async (Guid planId, Guid sessionId, int orderIndex, StrengthDetails strengthDetails,
+        endpointRouteBuilder.MapPut("/training-plans/{planId:guid}/sessions/{sessionId:guid}/exercises/{exerciseId:guid}/strength-details",
+                async (Guid planId, Guid sessionId, Guid exerciseId, StrengthDetails strengthDetails,
                     ISender sender) =>
                 {
-                    var result = await sender.Send(new UpdateStrengthDetailsCommand(planId, sessionId, orderIndex, strengthDetails));
+                    var result = await sender.Send(new UpdateStrengthDetailsCommand(planId, sessionId, exerciseId, strengthDetails));
                     return result;
                 })
             .RequireAuthorization()
