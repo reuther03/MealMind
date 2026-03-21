@@ -32,4 +32,7 @@ public class SessionExercise : Entity<Guid>
 
     public void SetStrengthDetails(StrengthDetails? strengthDetails)
         => StrengthDetails = strengthDetails;
+
+    public void SetCardioDetails(CardioDetails? cardioDetails)
+        => CardioDetails = cardioDetails;
 }
