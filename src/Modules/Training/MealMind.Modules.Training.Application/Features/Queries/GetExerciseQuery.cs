@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.Training.Application.Features.Queries;
 
-public record GetExerciseQuery(Guid ExerciseId) : IQuery<ExerciseDto>
+public record GetExerciseQuery(Guid ExerciseId) : IQuery<ExerciseDetailsDto>
 {
-    public sealed class Handler : IQueryHandler<GetExerciseQuery, ExerciseDto>
+    public sealed class Handler : IQueryHandler<GetExerciseQuery, ExerciseDetailsDto>
     {
         private readonly ITrainingDbContext _dbContext;
 
@@ -17,13 +17,13 @@ public record GetExerciseQuery(Guid ExerciseId) : IQuery<ExerciseDto>
             _dbContext = dbContext;
         }
 
-        public async Task<Result<ExerciseDto>> Handle(GetExerciseQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<ExerciseDetailsDto>> Handle(GetExerciseQuery query, CancellationToken cancellationToken = default)
         {
             var exercise = await _dbContext.Exercises.FirstOrDefaultAsync(x => x.Id == query.ExerciseId, cancellationToken);
             if (exercise == null)
-                return Result<ExerciseDto>.BadRequest("Exercise not found.");
+                return Result<ExerciseDetailsDto>.BadRequest("Exercise not found.");
 
-            var exerciseDto = new ExerciseDto
+            var exerciseDto = new ExerciseDetailsDto
             {
                 Id = exercise.Id,
                 Name = exercise.Name,
@@ -35,7 +35,7 @@ public record GetExerciseQuery(Guid ExerciseId) : IQuery<ExerciseDto>
                 IsCustom = exercise.IsCustom
             };
 
-            return Result<ExerciseDto>.Ok(exerciseDto);
+            return Result<ExerciseDetailsDto>.Ok(exerciseDto);
         }
     }
 }
