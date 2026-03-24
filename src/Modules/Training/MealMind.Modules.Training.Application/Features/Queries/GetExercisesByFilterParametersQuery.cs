@@ -38,7 +38,7 @@ public record GetExercisesByFilterParametersQuery(
 
             var totalCount = await exercises.CountAsync(cancellationToken);
 
-            var exercisesPaginated = exercises
+            var exercisesPaginated = await exercises
                 .Skip((query.PageNumber - 1) * query.PageSize)
                 .Take(query.PageSize)
                 .Select(x => new ExerciseDto
