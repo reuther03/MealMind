@@ -2,7 +2,7 @@
 
 namespace MealMind.Modules.Identity.Tests.Unit.Stripe.Subscription;
 
-public class CreateFreeTier
+public class CreateFreeTierTest
 {
     [Test]
     public async Task CreateFreeTier_ShouldSetFreeTier()
