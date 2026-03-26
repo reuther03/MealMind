@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\src\Modules\AiChat\MealMind.Modules.AiChat.Domain\MealMind.Modules.AiChat.Domain.csproj" />
+      <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Tests\MealMind.Shared.Tests.csproj" />
+    </ItemGroup>
+
+</Project>
