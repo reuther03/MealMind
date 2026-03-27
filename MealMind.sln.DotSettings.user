@@ -81,8 +81,14 @@
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.semantickernel.core\1.66.0\lib\net8.0\Microsoft.SemanticKernel.Core.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.extensions.vectordata.abstractions\9.7.0\lib\net8.0\Microsoft.Extensions.VectorData.Abstractions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1ea637dc_002Dc588_002D4321_002Db972_002D606275cb73a3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="IdentityUserCreated_ShouldCoverAllDaysNotProvided" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.IdentityUser.IdentityUserCreatedEventTest.1.1.IdentityUserCreated_ShouldCoverAllDaysNotProvided.1.1.0&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.IdentityUser.IdentityUserCreatedEventTest.1.1.IdentityUserCreated_ShouldNotCoverAllDays.1.1.0&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" IsActive="True" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
