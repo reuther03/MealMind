@@ -29,9 +29,24 @@ public class IdentityUserCreatedEventTest
     {
         var nutritionTargets = new List<NutritionTargetPayload>
         {
-            new(2000, null, new NutritionInPercentPayload(30, 30, 40), 2, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday]),
-            new(2200, null, new NutritionInPercentPayload(30, 30, 40), 2.5m, [DayOfWeek.Thursday, DayOfWeek.Friday]),
-            new(2500, null, new NutritionInPercentPayload(30, 30, 40), 3, [DayOfWeek.Saturday, DayOfWeek.Sunday])
+            new(2000, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 2, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday]),
+            new(2200, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 2.5m, [DayOfWeek.Thursday, DayOfWeek.Friday]),
+            new(2500, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 3, [DayOfWeek.Saturday, DayOfWeek.Sunday])
         };
 
         var personalData = new PersonalDataPayload(Gender.Male, DateOnly.FromDateTime(DateTime.Now.AddYears(-30)), 180, 80, 75, ActivityLevel.Active);
@@ -56,7 +71,12 @@ public class IdentityUserCreatedEventTest
     {
         var nutritionTargets = new List<NutritionTargetPayload>
         {
-            new(2000, null, new NutritionInPercentPayload(30, 30, 40), 2, null),
+            new(2000, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 2, null),
         };
 
         var personalData = new PersonalDataPayload(Gender.Male, DateOnly.FromDateTime(DateTime.Now.AddYears(-30)), 180, 80, 75, ActivityLevel.Active);
@@ -81,9 +101,24 @@ public class IdentityUserCreatedEventTest
     {
         var nutritionTargets = new List<NutritionTargetPayload>
         {
-            new(2000, null, new NutritionInPercentPayload(30, 30, 40), 2, [DayOfWeek.Monday, DayOfWeek.Wednesday]),
-            new(2200, null, new NutritionInPercentPayload(30, 30, 40), 2.5m, [DayOfWeek.Thursday, DayOfWeek.Friday]),
-            new(2500, null, new NutritionInPercentPayload(30, 30, 40), 3, [DayOfWeek.Saturday, DayOfWeek.Sunday])
+            new(2000, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 2, [DayOfWeek.Monday, DayOfWeek.Wednesday]),
+            new(2200, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 2.5m, [DayOfWeek.Thursday, DayOfWeek.Friday]),
+            new(2500, null, new NutritionInPercentPayload
+            {
+                ProteinInPercent = 30,
+                CarbohydratesInPercent = 30,
+                FatsInPercent = 40
+            }, 3, [DayOfWeek.Saturday, DayOfWeek.Sunday])
         };
 
         var personalData = new PersonalDataPayload(Gender.Male, DateOnly.FromDateTime(DateTime.Now.AddYears(-30)), 180, 80, 75, ActivityLevel.Active);

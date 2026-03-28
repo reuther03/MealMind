@@ -1,6 +1,10 @@
 ﻿namespace MealMind.Shared.Contracts.Dto.Nutrition;
 
-public record NutritionInPercentPayload(
-    decimal ProteinInPercent,
-    decimal CarbohydratesInPercent,
-    decimal FatsInPercent);
+public class NutritionInPercentPayload
+{
+    public decimal ProteinInPercent { get; set; }
+    public decimal CarbohydratesInPercent { get; set; }
+    public decimal FatsInPercent { get; set; }
+
+
+}
