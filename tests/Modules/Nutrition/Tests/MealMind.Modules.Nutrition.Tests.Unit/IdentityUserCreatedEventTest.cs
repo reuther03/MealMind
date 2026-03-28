@@ -8,21 +8,13 @@ using MealMind.Shared.Contracts.Types;
 using MealMind.Shared.Events.Identity;
 using Moq;
 
-namespace MealMind.Modules.Identity.Tests.Unit.IdentityUser;
+namespace MealMind.Modules.Nutrition.Tests.Unit;
 
 public class IdentityUserCreatedEventTest
 {
-    private readonly Mock<IUserProfileRepository> _userProfileRepository;
-    private readonly Mock<IDailyLogRepository> _dailyLogRepository;
-    private readonly Mock<IUnitOfWork> _unitOfWork;
-
-    public IdentityUserCreatedEventTest()
-    {
-        _userProfileRepository = new Mock<IUserProfileRepository>();
-        _dailyLogRepository = new Mock<IDailyLogRepository>();
-        _unitOfWork = new Mock<IUnitOfWork>();
-    }
-
+    private readonly Mock<IUserProfileRepository> _userProfileRepository = new();
+    private readonly Mock<IDailyLogRepository> _dailyLogRepository = new();
+    private readonly Mock<IUnitOfWork> _unitOfWork = new();
 
     [Test]
     public async Task Handle_AllDaysCoveredExplicitly_ShouldCreateProfileAndLogs()
