@@ -40,6 +40,9 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
             if (user is null)
                 return Result<Guid>.NotFound("User profile not found.");
 
+            if (request.QuantityInGrams <= 0)
+                return Result<Guid>.BadRequest("Quantity must be greater than zero.");
+
             if (request.Barcode is null && request.FoodId is null)
                 return Result<Guid>.BadRequest("Either Barcode or FoodId must be provided.");
 
@@ -50,9 +53,6 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
             var requestMeal = dailyLog.Meals.FirstOrDefault(x => x.MealType == request.MealType);
             if (requestMeal is null)
                 return Result<Guid>.NotFound("Meal not found for the specified meal type.");
-
-            if (request.QuantityInGrams <= 0)
-                return Result<Guid>.BadRequest("Quantity must be greater than zero.");
 
             Food? food = null;
             if (request.FoodId is not null)
