@@ -2,7 +2,6 @@
 using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Application.Features.Commands.SignUpCommand;
 using MealMind.Modules.Identity.Domain.IdentityUser;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.Nutrition;
 using MealMind.Shared.Contracts.Types;
