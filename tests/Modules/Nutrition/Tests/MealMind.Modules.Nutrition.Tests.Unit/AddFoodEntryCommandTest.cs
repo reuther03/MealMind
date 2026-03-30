@@ -53,10 +53,10 @@ public class AddFoodEntryCommandTest
         _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(UserProfile.Create(userId, "Test User", "test@test.com", SubscriptionTier.Free));
 
-        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()))
+        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(dailyLog);
 
-        _foodRepositoryMock.Setup(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        _foodRepositoryMock.Setup(x => x.GetByBarcodeAsync(barcode, It.IsAny<CancellationToken>()))
             .ReturnsAsync(food);
 
 
@@ -72,9 +72,9 @@ public class AddFoodEntryCommandTest
 
         _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(result.IsSuccess).IsTrue();
-        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()), Times.Once);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
         _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
-        _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(barcode, It.IsAny<CancellationToken>()), Times.Once);
         _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -97,7 +97,7 @@ public class AddFoodEntryCommandTest
         _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(UserProfile.Create(userId, "Test User", "test@test.com", SubscriptionTier.Free));
 
-        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()))
+        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(dailyLog);
 
         _foodRepositoryMock.Setup(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -138,7 +138,7 @@ public class AddFoodEntryCommandTest
 
         _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(result.IsSuccess).IsTrue();
-        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()), Times.Once);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
         _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -164,7 +164,7 @@ public class AddFoodEntryCommandTest
         _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(UserProfile.Create(userId, "Test User", "test@test.com", SubscriptionTier.Free));
 
-        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()))
+        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(dailyLog);
 
         _foodRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()))
@@ -182,7 +182,7 @@ public class AddFoodEntryCommandTest
 
         _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(result.IsSuccess).IsTrue();
-        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()), Times.Once);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
         _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Once);
         _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -193,19 +193,12 @@ public class AddFoodEntryCommandTest
     [Test]
     public async Task Handle_InvalidUser_ShouldReturnNotFound()
     {
-
-        var userId = _userServiceMock.Object.UserId!;
         var dailyLogDate = DateOnly.FromDateTime(DateTime.Now);
         var mealType = MealType.Lunch;
         var barcode = "1234567890123";
         var quantityInGrams = 100;
 
         var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
-
-        _userServiceMock.Setup(x => x.UserId).Returns((UserId?)null);
-
-        _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((UserProfile?)null);
 
         var commandHandler = new AddFoodEntryCommand.Handler(
             _dailyLogRepositoryMock.Object,
@@ -217,10 +210,10 @@ public class AddFoodEntryCommandTest
 
         var result = await commandHandler.Handle(commandPayload, CancellationToken.None);
 
-        _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
+        _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(result.IsSuccess).IsFalse();
         await Assert.That(result.Message).IsEqualTo("User profile not found.");
-        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()), Times.Never);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -255,7 +248,7 @@ public class AddFoodEntryCommandTest
         _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(result.IsSuccess).IsFalse();
         await Assert.That(result.Message).IsEqualTo("Quantity must be greater than zero.");
-        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()), Times.Never);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -289,7 +282,85 @@ public class AddFoodEntryCommandTest
         _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(result.IsSuccess).IsFalse();
         await Assert.That(result.Message).IsEqualTo("Either Barcode or FoodId must be provided.");
-        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), userId, It.IsAny<CancellationToken>()), Times.Never);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    public async Task Handle_DailyLogNotFound_ShouldReturnNotFound()
+    {
+        var userId = _userServiceMock.Object.UserId!;
+        var dailyLogDate = DateOnly.FromDateTime(DateTime.Now);
+        var mealType = MealType.Lunch;
+        var barcode = "1234567890123";
+        var quantityInGrams = 100;
+
+        var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
+
+        _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(UserProfile.Create(userId, "Test User", "test@test.com", SubscriptionTier.Free));
+
+        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(dailyLogDate, It.IsAny<UserId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((DailyLog?)null);
+
+        var commandHandler = new AddFoodEntryCommand.Handler(
+            _dailyLogRepositoryMock.Object,
+            _profileRepositoryMock.Object,
+            _foodRepositoryMock.Object,
+            _userServiceMock.Object,
+            _factsServiceMock.Object,
+            _unitOfWorkMock.Object);
+
+        var result = await commandHandler.Handle(commandPayload, CancellationToken.None);
+
+        _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
+        await Assert.That(result.IsSuccess).IsFalse();
+        await Assert.That(result.Message).IsEqualTo("Daily log not found for the specified date.");
+        _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    public async Task Handle_MealNotFound_ShouldReturnNotFound()
+    {
+        var userId = _userServiceMock.Object.UserId!;
+        var dailyLogDate = DateOnly.FromDateTime(DateTime.Now);
+        var mealType = MealType.Lunch;
+        var barcode = "1234567890123";
+        var quantityInGrams = 100;
+
+        var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
+
+        var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
+
+        _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(UserProfile.Create(userId, "Test User", "test@test.com", SubscriptionTier.Free));
+
+        _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(dailyLog);
+
+        var commandHandler = new AddFoodEntryCommand.Handler(
+            _dailyLogRepositoryMock.Object,
+            _profileRepositoryMock.Object,
+            _foodRepositoryMock.Object,
+            _userServiceMock.Object,
+            _factsServiceMock.Object,
+            _unitOfWorkMock.Object);
+
+        var result = await commandHandler.Handle(commandPayload, CancellationToken.None);
+
+        _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
+        await Assert.That(result.IsSuccess).IsFalse();
+        await Assert.That(result.Message).IsEqualTo("Meal not found for the specified meal type.");
         _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
         _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -298,25 +369,23 @@ public class AddFoodEntryCommandTest
     }
 
     // [Test]
-    // public async Task Handle_DailyLogNotFoundByDate_ShouldReturnNotFound()
+    // public async Task Handle_MealNotFound_ShouldReturnNotFound()
     // {
-    //     var userId = UserId.New();
+    //     var userId = _userServiceMock.Object.UserId!;
     //     var dailyLogDate = DateOnly.FromDateTime(DateTime.Now);
     //     var mealType = MealType.Lunch;
     //     var barcode = "1234567890123";
     //     var quantityInGrams = 100;
     //
+    //     var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
+    //
     //     var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
     //
-    //     _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()))
+    //     _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()))
     //         .ReturnsAsync(UserProfile.Create(userId, "Test User", "test@test.com", SubscriptionTier.Free));
     //
-    //     _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(It.IsAny<DateOnly>(), It.IsAny<UserId>(), It.IsAny<CancellationToken>()))
+    //     _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))
     //         .ReturnsAsync(dailyLog);
-    //
-    //     _foodRepositoryMock.Setup(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-    //         .ReturnsAsync(food);
-    //
     //
     //     var commandHandler = new AddFoodEntryCommand.Handler(
     //         _dailyLogRepositoryMock.Object,
@@ -328,13 +397,14 @@ public class AddFoodEntryCommandTest
     //
     //     var result = await commandHandler.Handle(commandPayload, CancellationToken.None);
     //
-    //     _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Once);
-    //     await Assert.That(result.IsSuccess).IsTrue();
-    //     _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Once);
+    //     _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
+    //     _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
+    //     await Assert.That(result.IsSuccess).IsFalse();
+    //     await Assert.That(result.Message).IsEqualTo("Meal not found for the specified meal type.");
     //     _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
-    //     _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+    //     _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     //     _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     //     _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
-    //     _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
+    //     _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
     // }
 }
