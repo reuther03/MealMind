@@ -36,7 +36,7 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
 
         public async Task<Result<Guid>> Handle(AddFoodEntryCommand request, CancellationToken cancellationToken)
         {
-            var user = await _profileRepository.GetWithIncludesByIdAsync(_userService.UserId, cancellationToken);
+            var user = await _profileRepository.GetWithIncludesByIdAsync(_userService.UserId!, cancellationToken);
             if (user is null)
                 return Result<Guid>.NotFound("User profile not found.");
 
