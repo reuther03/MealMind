@@ -97,7 +97,6 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
             if (food is null)
                 return Result<Guid>.NotFound("Food not found.");
 
-
             var foodEntry = FoodEntry.Create(food, request.QuantityInGrams);
             requestMeal.AddFood(foodEntry);
 

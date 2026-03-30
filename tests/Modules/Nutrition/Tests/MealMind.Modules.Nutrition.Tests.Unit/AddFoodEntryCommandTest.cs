@@ -10,6 +10,7 @@ using Moq;
 using System.Threading.Tasks;
 using MealMind.Modules.Nutrition.Domain.UserProfile;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
+using MealMind.Shared.Contracts.Dto.Nutrition;
 
 namespace MealMind.Modules.Nutrition.Tests.Unit;
 
@@ -31,8 +32,12 @@ public class AddFoodEntryCommandTest
         var mealType = MealType.Lunch;
         var barcode = "1234567890123";
         var quantityInGrams = 100;
+
         var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
         dailyLog.AddMeal(Meal.Initialize(mealType, userId));
+
+        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 30, 5, 8, 2, 0), FoodDataSource.Database, barcode);
+
         var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
 
         _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()))
@@ -40,6 +45,9 @@ public class AddFoodEntryCommandTest
 
         _dailyLogRepositoryMock.Setup(x => x.GetByDateAsync(It.IsAny<DateOnly>(), It.IsAny<UserId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(dailyLog);
+
+        _foodRepositoryMock.Setup(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(food);
 
 
         var commandHandler = new AddFoodEntryCommand.Handler(
@@ -53,10 +61,12 @@ public class AddFoodEntryCommandTest
         var result = await commandHandler.Handle(commandPayload, CancellationToken.None);
 
         _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Once);
-        await Assert.That(quantityInGrams).IsGreaterThanOrEqualTo(0);
         await Assert.That(result.IsSuccess).IsTrue();
-        await Assert.That(result.Message).IsNotEqualTo("Either Barcode or FoodId must be provided.");
         _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Once);
-        await Assert.That(result.Message).IsNotEqualTo("Meal not found for the specified meal type.");
+        _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }
