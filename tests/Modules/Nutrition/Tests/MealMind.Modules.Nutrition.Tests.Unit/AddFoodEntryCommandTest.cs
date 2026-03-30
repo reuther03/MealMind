@@ -69,4 +69,38 @@ public class AddFoodEntryCommandTest
         _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    [Test]
+    public async Task Handle_InvalidUser_ShouldReturnNotFound()
+    {
+        var dailyLogDate = DateOnly.FromDateTime(DateTime.Now);
+        var mealType = MealType.Lunch;
+        var barcode = "1234567890123";
+        var quantityInGrams = 100;
+
+        var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
+
+        _profileRepositoryMock.Setup(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((UserProfile?)null);
+
+        var commandHandler = new AddFoodEntryCommand.Handler(
+            _dailyLogRepositoryMock.Object,
+            _profileRepositoryMock.Object,
+            _foodRepositoryMock.Object,
+            _userServiceMock.Object,
+            _factsServiceMock.Object,
+            _unitOfWorkMock.Object);
+
+        var result = await commandHandler.Handle(commandPayload, CancellationToken.None);
+
+        _profileRepositoryMock.Verify(x => x.GetWithIncludesByIdAsync(It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Once);
+        await Assert.That(result.IsSuccess).IsFalse();
+        await Assert.That(result.Message).IsEqualTo("User profile not found.");
+        _dailyLogRepositoryMock.Verify(x => x.GetByDateAsync(It.IsAny<DateOnly>(), It.IsAny<UserId>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.GetByIdAsync(It.IsAny<FoodId>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.GetByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _factsServiceMock.Verify(x => x.GetFoodByBarcodeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _foodRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Food>(), It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
 }
