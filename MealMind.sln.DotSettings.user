@@ -91,6 +91,7 @@
     &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.User.SignUpCommandTest.1.1.Handler_InvalidEmail_ShouldReturnBadRequest.1.1.0&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.User.SignUpCommandTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.FoodEntryTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.DailyLogTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

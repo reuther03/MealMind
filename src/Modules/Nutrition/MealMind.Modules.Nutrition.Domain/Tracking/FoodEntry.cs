@@ -99,7 +99,7 @@ public class FoodEntry : Entity<Guid>
         decimal totalCarbohydrates, decimal totalFats)
     {
         if (quantityInGrams <= 0)
-            throw new ArgumentException("Quantity must be greater than zero", nameof(quantityInGrams));
+            throw new DomainException("Quantity must be greater than zero");
 
         return new FoodEntry(
             Guid.NewGuid(),
