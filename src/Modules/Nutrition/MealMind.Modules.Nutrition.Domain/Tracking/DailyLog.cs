@@ -47,13 +47,7 @@ public class DailyLog : AggregateRoot<DailyLogId>
     }
 
     public void UpdateCurrentWeight(decimal currentWeight)
-    {
-        if (CurrentWeight < 0)
-            throw new DomainException("Current weight cannot be negative.");
-
-        if (CurrentWeight == currentWeight)
-            return;
-
-        CurrentWeight = currentWeight;
-    }
+        => CurrentWeight = currentWeight < 0
+            ? throw new DomainException("Current weight cannot be negative.")
+            : currentWeight;
 }

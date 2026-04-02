@@ -35,4 +35,24 @@ public class DailyLogTest
             .Throws<DomainException>()
             .WithMessage($"Meal of type {meal.MealType} already exists for this day.");
     }
+
+    [Test]
+    public async Task UpdateCurrentWeight_ValidData_ShouldUpdateWeight()
+    {
+        var dailyLog = DailyLog.Create(DateOnly.FromDateTime(DateTime.Now), 70, 2000, Guid.NewGuid());
+
+        dailyLog.UpdateCurrentWeight(75);
+
+        await Assert.That(dailyLog.CurrentWeight).IsEqualTo(75);
+    }
+
+    [Test]
+    public async Task UpdateCurrentWeight_NegativeWeight_ShouldThrow()
+    {
+        var dailyLog = DailyLog.Create(DateOnly.FromDateTime(DateTime.Now), 70, 2000, Guid.NewGuid());
+
+        await Assert.That(() => dailyLog.UpdateCurrentWeight(-75))
+            .Throws<DomainException>()
+            .WithMessage("Current weight cannot be negative.");
+    }
 }
