@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.Nutrition.Domain.Food;
+using MealMind.Shared.Abstractions.Exception;
 using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 
@@ -70,7 +71,7 @@ public class FoodEntry : Entity<Guid>
     public static FoodEntry Create(Food.Food food, decimal quantityInGrams)
     {
         if (quantityInGrams <= 0)
-            throw new ArgumentException("Quantity must be greater than zero", nameof(quantityInGrams));
+            throw new DomainException("Quantity must be greater than zero");
 
         var factor = quantityInGrams / 100m;
 

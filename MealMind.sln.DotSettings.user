@@ -81,7 +81,7 @@
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.semantickernel.core\1.66.0\lib\net8.0\Microsoft.SemanticKernel.Core.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.extensions.vectordata.abstractions\9.7.0\lib\net8.0\Microsoft.Extensions.VectorData.Abstractions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1ea637dc_002Dc588_002D4321_002Db972_002D606275cb73a3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IdentityUserCreated_ShouldCoverAllDaysNotProvided" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1ea637dc_002Dc588_002D4321_002Db972_002D606275cb73a3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="IdentityUserCreated_ShouldCoverAllDaysNotProvided" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.PersonalDataTest.1.1.Create_ValidData_ShouldCreatePersonalData.1.1.0&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.PersonalDataTest.1.1.Create_InvalidDateOfBirth_ShouldThrow.1.1.0&lt;/TestId&gt;&#xD;
@@ -90,25 +90,14 @@
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.PersonalDataTest.1.1.Create_WeightTooSmall_ShouldThrow.1.1.0&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.User.SignUpCommandTest.1.1.Handler_InvalidEmail_ShouldReturnBadRequest.1.1.0&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.User.SignUpCommandTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.FoodEntryTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61923d0c_002D0605_002D486e_002Dac39_002D473f238ae063/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Create_WeightTooSmall_ShouldThrow" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.PersonalDataTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.User.SignUpCommandTest.1.1.Handler_ValidData_ShouldSignUpSuccessfully.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.User.SignUpCommandTest.1.1.Handler_InvalidEmail_ShouldReturnBadRequest.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.AddFoodEntryCommandTest.1.1.Handle_ValidRequest_ShouldAddFoodEntry.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.AddFoodEntryCommandTest.1.1.Handle_InvalidQuantityInGrams_ShouldReturnBadRequest.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.AddFoodEntryCommandTest.1.1.Handle_ValidRequestWithBarcodeFallbackPath_ShouldAddFoodEntry.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.AddFoodEntryCommandTest.1.1.Handle_ValidRequestWithFoodId_ShouldAddFoodEntry.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.AddFoodEntryCommandTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.FoodEntryTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
 	
 	
 	
