@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 
 namespace MealMind.Modules.Identity.Domain.IdentityUser;
@@ -45,7 +46,7 @@ public record Subscription : ValueObject
         string subscriptionStatus)
     {
         if (tier != Tier)
-            throw new ApplicationException($"Invalid tier {tier}");
+            throw new DomainException($"Invalid tier {tier}");
 
         var subscription = this with
         {
