@@ -81,6 +81,11 @@
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.semantickernel.core\1.66.0\lib\net8.0\Microsoft.SemanticKernel.Core.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.extensions.vectordata.abstractions\9.7.0\lib\net8.0\Microsoft.Extensions.VectorData.Abstractions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=193c4175_002D1e91_002D426b_002D805d_002D4f0d4dec756e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateFromImageAnalyze_ValidData_ShouldCreate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.FoodEntryTest.1.1.CreateFromImageAnalyze_ValidData_ShouldCreate.1.1.0&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1ea637dc_002Dc588_002D4321_002Db972_002D606275cb73a3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IdentityUserCreated_ShouldCoverAllDaysNotProvided" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.PersonalDataTest.1.1.Create_ValidData_ShouldCreatePersonalData.1.1.0&lt;/TestId&gt;&#xD;
@@ -95,8 +100,13 @@
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" IsActive="True" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="True" ContinuousTestingMode="3" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e2765f82_002Dbc79_002D4c9e_002D88ba_002Db4a9f6aab41d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateFromImageAnalyze_ValidData_ShouldCreate #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.FoodEntryTest.1.1.CreateFromImageAnalyze_ValidData_ShouldCreate.1.1.0&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	

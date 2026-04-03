@@ -57,7 +57,7 @@ public class FoodEntryTest
         var foodEntry = FoodEntry.CreateFromImageAnalyze("test food", 100, 330, 10, 30, 5);
 
         await Assert.That(foodEntry).IsNotNull();
-        await Assert.That(foodEntry.FoodId).IsNotNull();
+        await Assert.That(foodEntry.FoodId?.Value).IsNull();
         await Assert.That(foodEntry.Source).IsEqualTo(FoodEntrySource.ImageAnalysis);
     }
 
