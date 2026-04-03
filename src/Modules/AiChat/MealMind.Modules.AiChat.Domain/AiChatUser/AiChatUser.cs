@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
@@ -79,7 +80,7 @@ public class AiChatUser : AggregateRoot<UserId>
     public void IncrementActiveConversations()
     {
         if (ActiveConversations >= ConversationsLimit)
-            throw new ApplicationException("Conversations limit exceeded.");
+            throw new DomainException($"User has reached the maximum number of active conversations ({ConversationsLimit}).");
 
         ActiveConversations++;
     }

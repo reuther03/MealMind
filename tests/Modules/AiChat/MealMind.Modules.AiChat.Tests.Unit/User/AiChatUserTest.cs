@@ -4,7 +4,7 @@ using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
 namespace MealMind.Modules.AiChat.Tests.Unit.User;
 
-public class ChangeTierTest
+public class AiChatUserTest
 {
     [Test]
     public async Task ChangeTier_ShouldUpdateToFreeTier()
@@ -64,5 +64,28 @@ public class ChangeTierTest
         await Assert.That(user.CanUseAdvancedPrompts).IsTrue();
         await Assert.That(user.DailyImageAnalysisLimit).IsEqualTo(10);
         await Assert.That(user.ImageAnalysisCorrectionPromptLimit).IsEqualTo(10);
+    }
+
+    [Test]
+    public async Task IncrementActiveConversations_ValidData_ShouldIncrementActiveConversations()
+    {
+        var user = AiChatUser.Create(UserId.New());
+
+        user.IncrementActiveConversations();
+
+        await Assert.That(user.ActiveConversations).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task IncrementActiveConversations_ExceedLimit_ShouldThrow()
+    {
+        var user = AiChatUser.Create(UserId.New());
+
+        user.IncrementActiveConversations();
+        user.IncrementActiveConversations();
+
+        await Assert.That(user.IncrementActiveConversations)
+            .Throws<InvalidOperationException>()
+            .WithMessage($"User has reached the maximum number of active conversations ({user.ConversationsLimit}).");
     }
 }
