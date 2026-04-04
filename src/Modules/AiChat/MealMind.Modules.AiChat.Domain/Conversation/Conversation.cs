@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Contracts.Dto.AiChat;
 
@@ -46,9 +47,8 @@ public class Conversation : AggregateRoot<ConversationId>
 
     public void AddMessage(AiChatMessage message)
     {
-        ArgumentNullException.ThrowIfNull(message);
         if (message.ConversationId != Id)
-            throw new InvalidOperationException("Message does not belong to this conversation.");
+            throw new DomainException("Message conversation ID does not match.");
 
         _chatMessages.Add(message);
         LastUsedAt = DateTime.UtcNow;
