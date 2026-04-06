@@ -51,4 +51,28 @@ public class CreateCheckoutSessionCommandTest
         _stripeServiceMock.Verify(x => x.CreateCheckoutSessionAsync(user.Id, subscriptionTier), Times.Once);
         _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    [Test]
+    public async Task Handle_InvalidUser_ShouldReturnNotFound()
+    {
+        var subscriptionTier = SubscriptionTier.Standard;
+        var userId = _userServiceMock.Object.UserId!;
+
+        _identityUserRepositoryMock.Setup(x => x.GetByIdAsync(userId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((IdentityUser?)null);
+
+        var commandHandler = new CreateCheckoutSessionCommand.Handler(
+            _stripeServiceMock.Object,
+            _userServiceMock.Object,
+            _identityUserRepositoryMock.Object,
+            _unitOfWorkMock.Object
+        );
+
+        var result = await commandHandler.Handle(new CreateCheckoutSessionCommand(subscriptionTier), CancellationToken.None);
+
+        await Assert.That(result.IsSuccess).IsFalse();
+        await Assert.That(result.Message).IsEqualTo("User not found.");
+        _stripeServiceMock.Verify(x => x.CreateCheckoutSessionAsync(It.IsAny<UserId>(), It.IsAny<SubscriptionTier>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
 }
