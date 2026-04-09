@@ -9,7 +9,7 @@ using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Abstractions.Services;
 using Moq;
 
-namespace MealMind.Modules.Identity.Tests.Unit.Stripe;
+namespace MealMind.Modules.Identity.Tests.Unit.Stripe.Commands;
 
 public class CreateCheckoutSessionCommandTest
 {

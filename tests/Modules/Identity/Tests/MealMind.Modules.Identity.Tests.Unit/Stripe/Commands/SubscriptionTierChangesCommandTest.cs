@@ -3,11 +3,10 @@ using MealMind.Modules.Identity.Application.Abstractions.Database;
 using MealMind.Modules.Identity.Application.Features.Commands.Stripe.StripeSubscriptionTierChangesCommand;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Moq;
 using IdentityUser = MealMind.Modules.Identity.Domain.IdentityUser.IdentityUser;
 
-namespace MealMind.Modules.Identity.Tests.Unit.Stripe;
+namespace MealMind.Modules.Identity.Tests.Unit.Stripe.Commands;
 
 public class SubscriptionTierChangesCommandTest
 {
