@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\src\Modules\AiChat\MealMind.Modules.AiChat.Application\MealMind.Modules.AiChat.Application.csproj" />
       <ProjectReference Include="..\..\..\..\src\Modules\AiChat\MealMind.Modules.AiChat.Domain\MealMind.Modules.AiChat.Domain.csproj" />
       <ProjectReference Include="..\..\..\..\src\Modules\Identity\MealMind.Modules.Identity.Domain\MealMind.Modules.Identity.Domain.csproj" />
       <ProjectReference Include="..\..\..\Shared\MealMind.Shared.Tests\MealMind.Shared.Tests.csproj" />
