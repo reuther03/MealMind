@@ -41,7 +41,7 @@ public class AiUserSubscriptionTierUpdatedEventHandlerTest
     public async Task Handle_UserNotFound_ShouldThrow()
     {
         var subscriptionTier = SubscriptionTier.Premium;
-        var userId =  UserId.New();
+        var userId = UserId.New();
 
         _aiChatUserRepositoryMock.Setup(x => x.GetByUserIdAsync(userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((AiChatUser)null!);
@@ -49,7 +49,6 @@ public class AiUserSubscriptionTierUpdatedEventHandlerTest
         var eventHandler = new AiUserSubscriptionTierUpdatedEventHandler(_aiChatUserRepositoryMock.Object, _unitOfWorkMock.Object);
 
         await eventHandler.Handle(new SubscriptionTierUpdatedEvent(userId, subscriptionTier), CancellationToken.None);
-
 
         _aiChatUserRepositoryMock.Verify(x => x.GetByUserIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         _aiChatUserRepositoryMock.Verify(x => x.Update(It.IsAny<AiChatUser>()), Times.Never);
