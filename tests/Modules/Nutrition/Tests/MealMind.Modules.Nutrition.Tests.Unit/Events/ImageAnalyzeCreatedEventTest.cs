@@ -3,6 +3,7 @@ using MealMind.Modules.Nutrition.Application.Abstractions.Database;
 using MealMind.Modules.Nutrition.Application.Events.Integration;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Moq;
 
 namespace MealMind.Modules.Nutrition.Tests.Unit.Events;
@@ -21,7 +22,7 @@ public class ImageAnalyzeCreatedEventTest
     [Test]
     public async Task Handle_ValidData_ShouldCreateImageAnalyze()
     {
-        var userId = Guid.NewGuid();
+        var userId = UserId.New();
         var foodName = "Test Food";
         var quantityInGrams = 100m;
         var totalCalories = 200m;
@@ -51,7 +52,7 @@ public class ImageAnalyzeCreatedEventTest
     [Test]
     public async Task Handle_DailyLogNotFound_ShouldNotCreateImageAnalyze()
     {
-        var userId = Guid.NewGuid();
+        var userId = UserId.New();
         var foodName = "Test Food";
         var quantityInGrams = 100m;
         var totalCalories = 200m;
@@ -60,6 +61,7 @@ public class ImageAnalyzeCreatedEventTest
         var totalFats = 5m;
         var dailyLogDate = DateOnly.FromDateTime(DateTime.UtcNow);
 
+        _dailyLogRepository.Reset();
         _dailyLogRepository.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((DailyLog?)null);
 
