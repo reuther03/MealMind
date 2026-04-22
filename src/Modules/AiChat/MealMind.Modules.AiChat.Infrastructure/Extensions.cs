@@ -39,7 +39,7 @@ public static class Extensions
 
             // services.AddHostedService<DeleteImageAnalyzeJob>();
 
-            services.AddSingleton<IChatCompletionService>(sp => new GoogleAIGeminiChatCompletionService(
+            services.AddSingleton<IChatCompletionService>(_ => new GoogleAIGeminiChatCompletionService(
                 modelId: options.Model,
                 apiKey: options.ApiKey
             ));

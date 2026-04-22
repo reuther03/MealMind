@@ -105,7 +105,6 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
                 cancellationToken
             );
 
-
             var responseString = JsonSerializer.Serialize(response);
 
             var assistantMessage = AiChatMessage.Create(conversation.Id, AiChatRole.Assistant, responseString, aiChatUserMessage.Id);
