@@ -27,7 +27,9 @@
       "Bash(git -C /c/Repos/MealMind log:*)",
       "Bash(git -C /c/Repos/MealMind checkout:*)",
       "Bash(git -C /c/Repos/MealMind status -- \"src/Services/MealMind.Services.Outbox/Database/Migrations/\")",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "WebSearch",
+      "WebFetch(domain:www.gowork.pl)"
     ]
   },
   "outputStyle": "default"
