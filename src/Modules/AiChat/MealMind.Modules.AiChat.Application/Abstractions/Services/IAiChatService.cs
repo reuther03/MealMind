@@ -15,6 +15,14 @@ public interface IAiChatService
         int responseTokensLimit,
         CancellationToken cancellationToken = default);
 
+    Task<StructuredResponse> GenerateStructuredResponseWithNutritionSummaryAsync(
+        string userPrompt,
+        string documentsText,
+        string nutritionSummary,
+        List<ChatMessageContent> chatMessages,
+        int responseTokensLimit,
+        CancellationToken cancellationToken = default);
+
     Task<AnalyzedImageStructuredResponse> AnalyzeImageWithPromptAsync(
         string? userPrompt,
         IFormFile imageFile,

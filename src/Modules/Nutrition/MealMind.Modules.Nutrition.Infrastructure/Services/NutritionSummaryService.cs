@@ -17,7 +17,7 @@ internal class NutritionSummaryService : INutritionSummaryService
         _dbContext = dbContext;
     }
 
-    public async Task<string> BuildSummaryAsync(UserId userId, int weeks, CancellationToken ct)
+    public async Task<string> BuildSummaryAsync(UserId userId, int? weeks, CancellationToken ct)
     {
         if (weeks is < 1 or > 4)
             throw new DomainException("Weeks must be between 1 and 4.");
@@ -36,7 +36,7 @@ internal class NutritionSummaryService : INutritionSummaryService
         var daysFromMonday = ((int)today.DayOfWeek + 6) % 7;
         var mondayThisWeek = today.AddDays(-daysFromMonday);
         var sundayLastWeek = mondayThisWeek.AddDays(-1);
-        var mondayRangeStart = mondayThisWeek.AddDays(-7 * weeks);
+        var mondayRangeStart = mondayThisWeek.AddDays((int)(-7 * weeks)!);
 
         var dailyLogs = await _dbContext.DailyLogs
             .Where(x => x.UserId == userId

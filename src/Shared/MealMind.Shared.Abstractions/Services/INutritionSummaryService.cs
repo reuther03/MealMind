@@ -4,5 +4,5 @@ namespace MealMind.Shared.Abstractions.Services;
 
 public interface INutritionSummaryService
 {
-    Task<string> BuildSummaryAsync(UserId userId, int weeks, CancellationToken ct);
+    Task<string> BuildSummaryAsync(UserId userId, int? weeks, CancellationToken ct);
 }
