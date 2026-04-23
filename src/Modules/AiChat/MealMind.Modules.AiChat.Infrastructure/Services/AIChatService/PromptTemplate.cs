@@ -202,6 +202,73 @@ internal static class PromptTemplate
              Output pure JSON only (first character '{', last character '}'):
              """";
 
+    public static string ConversationPromptWithNutritionSummary(string userPrompt, string documentsText, string nutritionSummary, int tokensLimit)
+        => $$""""
+             You are a nutrition assistant. Answer using facts from the reference documents below.
+
+             ═══════════════════════════════════════════════════════════════
+             📚 REFERENCE DOCUMENTS
+             ═══════════════════════════════════════════════════════════════
+             {{{documentsText}}}
+
+             ═══════════════════════════════════════════════════════════════
+             📋 RESPONSE REQUIREMENTS
+             ═══════════════════════════════════════════════════════════════
+             Answer user prompt {{{userPrompt}}} with factual details from documents above. Include:
+
+             • Response length based on token budget ({{tokensLimit}} tokens):
+               {{(tokensLimit == 200
+                   ? """
+                     → FREE TIER (== 200 tokens): Keep response minimal
+                       - Title: Short and direct (5-10 words)
+                       - Paragraphs: 1 paragraph only (2-3 sentences)
+                       - KeyPoints: 2-3 bullet points (max 10 words each)
+                     """
+                   : tokensLimit <= 500
+                       ? """
+                         → STANDARD TIER (== 500 tokens): Moderate detail
+                           - Title: Descriptive (5-15 words)
+                           - Paragraphs: 1-2 paragraphs (3-4 sentences each)
+                           - KeyPoints: 3-4 bullet points (max 15 words each)
+                         """
+                       : """
+                         → PREMIUM TIER (== 1000 tokens): Full detail
+                           - Title: Specific and descriptive
+                           - Paragraphs: 2-4 detailed paragraphs (4-6 sentences each)
+                           - KeyPoints: 5-7 comprehensive bullet points
+                         """)}}
+
+             • All tiers must:
+               → Use concrete data and numbers from documents
+               → Output valid JSON (no markdown, no trailing commas)
+               → Prioritize most important information first
+
+             Example response:
+             {
+               "Title": "Protein Requirements for Fat Loss Phase",
+               "Paragraphs": [
+                 "During a cutting phase, protein intake should be 2.0–2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.",
+                 "This range is higher than the muscle gain recommendation (1.6–2.2 g/kg) because protein helps prevent muscle breakdown when calories are restricted."
+               ],
+               "KeyPoints": [
+                 "Cutting phase: 2.0–2.4 g/kg body weight",
+                 "Spread protein across 3–5 meals daily",
+                 "Use complete protein sources like eggs, meat, fish, dairy"
+               ]
+             }
+
+             ═══════════════════════════════════════════════════════════════
+             ⚠️ BEFORE RESPONDING - VERIFY
+             ═══════════════════════════════════════════════════════════════
+             1. Did I include specific factual data from documents (not generic statements)?
+             2. Are my paragraphs detailed with concrete numbers and explanations?
+             3. Are my key points concise and actionable?
+             4. Is my JSON valid (no markdown fences, proper formatting)?
+             5. If response is ended promptly, did I complete the JSON structure fully?
+
+             Output pure JSON only (first character '{', last character '}'):
+             """";
+
     public static string FoodCreationPrompt(string userPrompt)
         => $$"""
              You are an AI nutrition expert that creates detailed food item entries based on user descriptions.

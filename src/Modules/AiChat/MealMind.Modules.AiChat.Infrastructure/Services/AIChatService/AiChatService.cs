@@ -74,6 +74,46 @@ public class AiChatService : IAiChatService
         return structuredResponse;
     }
 
+    public async Task<StructuredResponse> GenerateStructuredResponseWithNutritionSummaryAsync(string userPrompt, string documentsText, string nutritionSummary, List<ChatMessageContent> chatMessages,
+        int responseTokensLimit, CancellationToken cancellationToken = default)
+    {
+        var systemPrompt = PromptTemplate.ConversationPrompt(userPrompt, documentsText, responseTokensLimit);
+
+        var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
+        chatMessages.Add(systemMessage);
+
+        var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
+        chatMessages.Add(userMessage);
+
+        var chatHistory = new ChatHistory(chatMessages);
+
+        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
+        {
+            MaxTokens = BaseTokens + responseTokensLimit,
+            Temperature = 0.5f,
+            ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
+            ResponseMimeType = "application/json"
+        }, cancellationToken: cancellationToken);
+
+        var responseText = response[0].Content;
+
+        if (string.IsNullOrWhiteSpace(responseText))
+            throw new ArgumentNullException(responseText);
+
+        if (!responseText.StartsWith('{') ||
+            !responseText.EndsWith('}'))
+        {
+            var repairedJson =
+                await AttemptJsonCorrectionAsync(userPrompt, responseText, documentsText, responseTokensLimit, cancellationToken);
+
+            return repairedJson;
+        }
+
+        var structuredResponse = JsonSerializer.Deserialize<StructuredResponse>(responseText, _jsonSerializerOptions)!;
+
+        return structuredResponse;
+    }
+
     public async Task<AnalyzedImageStructuredResponse> AnalyzeImageWithPromptAsync(
         string? userPrompt,
         IFormFile imageFile,
