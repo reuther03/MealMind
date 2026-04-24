@@ -204,17 +204,32 @@ internal static class PromptTemplate
 
     public static string ConversationPromptWithNutritionSummary(string userPrompt, string documentsText, string nutritionSummary, int tokensLimit)
         => $$""""
-             You are a nutrition assistant. Answer using facts from the reference documents below.
+             You are a nutrition evaluator. The user has logged their meals and weight for the last 1–4 complete weeks (Monday–Sunday). Your job is to answer their question by evaluating the report below against their weight target and daily calorie targets. Use the reference documents only as supporting knowledge — the report is the source of truth about this user.
 
              ═══════════════════════════════════════════════════════════════
-             📚 REFERENCE DOCUMENTS
+             📊 USER NUTRITION REPORT (primary data)
+             ═══════════════════════════════════════════════════════════════
+             The report is markdown with this structure:
+             - Header line with username and weight target (kg)
+             - `## Overall (N days)` block: average calories across the period, weight change first → last with percentage, days-logged vs days-in-period
+             - One `## Week of YYYY-MM-DD` block per week: average calories, weekly average weight (or N/A), days logged of 7, and `On target: X/Y days (Z%)` where a day counts as on-target when actual calories are within ±10% of that day's configured target
+
+             {{{nutritionSummary}}}
+
+             ═══════════════════════════════════════════════════════════════
+             📚 REFERENCE DOCUMENTS (supporting context)
              ═══════════════════════════════════════════════════════════════
              {{{documentsText}}}
 
              ═══════════════════════════════════════════════════════════════
+             🎯 USER QUESTION
+             ═══════════════════════════════════════════════════════════════
+             {{{userPrompt}}}
+
+             ═══════════════════════════════════════════════════════════════
              📋 RESPONSE REQUIREMENTS
              ═══════════════════════════════════════════════════════════════
-             Answer user prompt {{{userPrompt}}} with factual details from documents above. Include:
+             Answer the question using the numbers in the report. Ground every claim in concrete values — cite calorie averages, weight deltas, on-target percentages, and days-logged ratios directly from the report. Do not invent data not present in the report. If the report has too few logged days to draw a conclusion, say so plainly.
 
              • Response length based on token budget ({{tokensLimit}} tokens):
                {{(tokensLimit == 200
@@ -239,32 +254,35 @@ internal static class PromptTemplate
                          """)}}
 
              • All tiers must:
-               → Use concrete data and numbers from documents
+               → Use concrete numbers lifted from the report (kcal averages, kg deltas, %, X/Y days)
+               → Evaluate trends week-over-week when more than one week is present
+               → Relate observations to the user's weight target when relevant
                → Output valid JSON (no markdown, no trailing commas)
-               → Prioritize most important information first
+               → Prioritize the most important finding first
 
              Example response:
              {
-               "Title": "Protein Requirements for Fat Loss Phase",
+               "Title": "Calorie Adherence Slipping Despite Weight Loss",
                "Paragraphs": [
-                 "During a cutting phase, protein intake should be 2.0–2.4 grams per kilogram of body weight to preserve lean muscle mass while in a calorie deficit.",
-                 "This range is higher than the muscle gain recommendation (1.6–2.2 g/kg) because protein helps prevent muscle breakdown when calories are restricted."
+                 "Across the last 14 days you averaged 2180 kcal/day and lost 1.20 kg (−1.41%), which trends toward your 78 kg target. Adherence is weakening though: week of 2026-04-06 hit 6/7 days on target (86%) while week of 2026-04-13 dropped to 3/7 (43%).",
+                 "Logging was consistent at 14/14 days, so the drop in on-target days reflects actual intake — not missing data. The recent week's 2310 kcal average is ~130 kcal above the prior week."
                ],
                "KeyPoints": [
-                 "Cutting phase: 2.0–2.4 g/kg body weight",
-                 "Spread protein across 3–5 meals daily",
-                 "Use complete protein sources like eggs, meat, fish, dairy"
+                 "14/14 days logged — data is reliable",
+                 "Weight −1.20 kg toward 78 kg target",
+                 "On-target adherence fell 86% → 43% week-over-week",
+                 "Recent week averaged ~130 kcal higher than prior"
                ]
              }
 
              ═══════════════════════════════════════════════════════════════
              ⚠️ BEFORE RESPONDING - VERIFY
              ═══════════════════════════════════════════════════════════════
-             1. Did I include specific factual data from documents (not generic statements)?
-             2. Are my paragraphs detailed with concrete numbers and explanations?
-             3. Are my key points concise and actionable?
-             4. Is my JSON valid (no markdown fences, proper formatting)?
-             5. If response is ended promptly, did I complete the JSON structure fully?
+             1. Did I answer the user's actual question, not a generic diet lecture?
+             2. Does every claim cite a number taken from the report?
+             3. Did I flag low-data weeks (days logged < 5) instead of over-interpreting them?
+             4. Is the JSON valid (no markdown fences, no trailing commas)?
+             5. If the response is cut off, is the JSON structure still complete?
 
              Output pure JSON only (first character '{', last character '}'):
              """";

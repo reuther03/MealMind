@@ -74,10 +74,14 @@ public class AiChatService : IAiChatService
         return structuredResponse;
     }
 
-    public async Task<StructuredResponse> GenerateStructuredResponseWithNutritionSummaryAsync(string userPrompt, string documentsText, string nutritionSummary, List<ChatMessageContent> chatMessages,
+    public async Task<StructuredResponse> GenerateStructuredResponseWithNutritionSummaryAsync(
+        string userPrompt,
+        string documentsText,
+        string nutritionSummary,
+        List<ChatMessageContent> chatMessages,
         int responseTokensLimit, CancellationToken cancellationToken = default)
     {
-        var systemPrompt = PromptTemplate.ConversationPrompt(userPrompt, documentsText, responseTokensLimit);
+        var systemPrompt = PromptTemplate.ConversationPromptWithNutritionSummary(userPrompt, documentsText, nutritionSummary, responseTokensLimit);
 
         var systemMessage = new ChatMessageContent(AuthorRole.System, systemPrompt);
         chatMessages.Add(systemMessage);
