@@ -23,7 +23,7 @@ public class DailyLogBackgroundJob : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (await _periodicTimer.WaitForNextTickAsync(stoppingToken))
+        do
         {
             try
             {
@@ -34,7 +34,7 @@ public class DailyLogBackgroundJob : BackgroundService
             {
                 _logger.LogError(e, "Error occurred executing {Name} at {Time}", nameof(DailyLogBackgroundJob), DateTime.UtcNow);
             }
-        }
+        } while (await _periodicTimer.WaitForNextTickAsync(stoppingToken));
     }
 
     private async Task ProcessDailyLogsAsync(CancellationToken cancellationToken)
