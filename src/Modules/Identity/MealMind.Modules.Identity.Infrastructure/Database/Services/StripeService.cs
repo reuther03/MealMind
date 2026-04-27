@@ -51,8 +51,8 @@ public class StripeService : IStripeService
                 }
             ],
             Mode = "subscription",
-            SuccessUrl = "http://localhost:5000/payment-success",
-            CancelUrl = "http://localhost:5000/payment-cancel",
+            SuccessUrl = "http://localhost:5000/identity-module/payment-success",
+            CancelUrl = "http://localhost:5000/identity-module/payment-cancel",
             Metadata = new Dictionary<string, string>
             {
                 { "userId", userId.ToString() },
