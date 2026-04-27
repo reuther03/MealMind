@@ -202,6 +202,91 @@ internal static class PromptTemplate
              Output pure JSON only (first character '{', last character '}'):
              """";
 
+    public static string ConversationPromptWithNutritionSummary(string userPrompt, string documentsText, string nutritionSummary, int tokensLimit)
+        => $$""""
+             You are a nutrition evaluator. The user has logged their meals and weight for the last 1–4 complete weeks (Monday–Sunday). Your job is to answer their question by evaluating the report below against their weight target and daily calorie targets. Use the reference documents only as supporting knowledge — the report is the source of truth about this user.
+
+             ═══════════════════════════════════════════════════════════════
+             📊 USER NUTRITION REPORT (primary data)
+             ═══════════════════════════════════════════════════════════════
+             The report is markdown with this structure:
+             - Header line with username and weight target (kg)
+             - `## Overall (N days)` block: average calories across the period, weight change first → last with percentage, days-logged vs days-in-period
+             - One `## Week of YYYY-MM-DD` block per week: average calories, weekly average weight (or N/A), days logged of 7, and `On target: X/Y days (Z%)` where a day counts as on-target when actual calories are within ±10% of that day's configured target
+
+             {{{nutritionSummary}}}
+
+             ═══════════════════════════════════════════════════════════════
+             📚 REFERENCE DOCUMENTS (supporting context)
+             ═══════════════════════════════════════════════════════════════
+             {{{documentsText}}}
+
+             ═══════════════════════════════════════════════════════════════
+             🎯 USER QUESTION
+             ═══════════════════════════════════════════════════════════════
+             {{{userPrompt}}}
+
+             ═══════════════════════════════════════════════════════════════
+             📋 RESPONSE REQUIREMENTS
+             ═══════════════════════════════════════════════════════════════
+             Answer the question using the numbers in the report. Ground every claim in concrete values — cite calorie averages, weight deltas, on-target percentages, and days-logged ratios directly from the report. Do not invent data not present in the report. If the report has too few logged days to draw a conclusion, say so plainly.
+
+             • Response length based on token budget ({{tokensLimit}} tokens):
+               {{(tokensLimit == 200
+                   ? """
+                     → FREE TIER (== 200 tokens): Keep response minimal
+                       - Title: Short and direct (5-10 words)
+                       - Paragraphs: 1 paragraph only (2-3 sentences)
+                       - KeyPoints: 2-3 bullet points (max 10 words each)
+                     """
+                   : tokensLimit <= 500
+                       ? """
+                         → STANDARD TIER (== 500 tokens): Moderate detail
+                           - Title: Descriptive (5-15 words)
+                           - Paragraphs: 1-2 paragraphs (3-4 sentences each)
+                           - KeyPoints: 3-4 bullet points (max 15 words each)
+                         """
+                       : """
+                         → PREMIUM TIER (== 1000 tokens): Full detail
+                           - Title: Specific and descriptive
+                           - Paragraphs: 2-4 detailed paragraphs (4-6 sentences each)
+                           - KeyPoints: 5-7 comprehensive bullet points
+                         """)}}
+
+             • All tiers must:
+               → Use concrete numbers lifted from the report (kcal averages, kg deltas, %, X/Y days)
+               → Evaluate trends week-over-week when more than one week is present
+               → Relate observations to the user's weight target when relevant
+               → Output valid JSON (no markdown, no trailing commas)
+               → Prioritize the most important finding first
+
+             Example response:
+             {
+               "Title": "Calorie Adherence Slipping Despite Weight Loss",
+               "Paragraphs": [
+                 "Across the last 14 days you averaged 2180 kcal/day and lost 1.20 kg (−1.41%), which trends toward your 78 kg target. Adherence is weakening though: week of 2026-04-06 hit 6/7 days on target (86%) while week of 2026-04-13 dropped to 3/7 (43%).",
+                 "Logging was consistent at 14/14 days, so the drop in on-target days reflects actual intake — not missing data. The recent week's 2310 kcal average is ~130 kcal above the prior week."
+               ],
+               "KeyPoints": [
+                 "14/14 days logged — data is reliable",
+                 "Weight −1.20 kg toward 78 kg target",
+                 "On-target adherence fell 86% → 43% week-over-week",
+                 "Recent week averaged ~130 kcal higher than prior"
+               ]
+             }
+
+             ═══════════════════════════════════════════════════════════════
+             ⚠️ BEFORE RESPONDING - VERIFY
+             ═══════════════════════════════════════════════════════════════
+             1. Did I answer the user's actual question, not a generic diet lecture?
+             2. Does every claim cite a number taken from the report?
+             3. Did I flag low-data weeks (days logged < 5) instead of over-interpreting them?
+             4. Is the JSON valid (no markdown fences, no trailing commas)?
+             5. If the response is cut off, is the JSON structure still complete?
+
+             Output pure JSON only (first character '{', last character '}'):
+             """";
+
     public static string FoodCreationPrompt(string userPrompt)
         => $$"""
              You are an AI nutrition expert that creates detailed food item entries based on user descriptions.
