@@ -39,6 +39,8 @@ internal class NutritionSummaryService : INutritionSummaryService
         var mondayRangeStart = mondayThisWeek.AddDays((int)(-7 * weeks)!);
 
         var dailyLogs = await _dbContext.DailyLogs
+            .Include(x => x.Meals)
+            .ThenInclude(m => m.Foods)
             .Where(x => x.UserId == userId
                 && x.CurrentDate >= mondayRangeStart
                 && x.CurrentDate <= sundayLastWeek)
@@ -50,8 +52,8 @@ internal class NutritionSummaryService : INutritionSummaryService
             .OrderBy(g => g.Key)
             .ToList();
 
-        var firstWeight = dailyLogs.FirstOrDefault(x => x.CurrentWeight.HasValue)?.CurrentWeight;
-        var lastWeight = dailyLogs.LastOrDefault(x => x.CurrentWeight.HasValue)?.CurrentWeight;
+        var firstWeight = dailyLogs.FirstOrDefault(x => x.CurrentWeight is > 0)?.CurrentWeight;
+        var lastWeight = dailyLogs.LastOrDefault(x => x.CurrentWeight is > 0)?.CurrentWeight;
         var avgCal = dailyLogs.Count == 0 ? 0 : dailyLogs.Sum(x => x.TotalCalories) / dailyLogs.Count;
 
         var summaryBuilder = new StringBuilder();
@@ -59,7 +61,7 @@ internal class NutritionSummaryService : INutritionSummaryService
         summaryBuilder.AppendLine("Week summary monday to sunday");
         summaryBuilder.AppendLine($"User weight target: {user.PersonalData.WeightTarget} kg");
         summaryBuilder.AppendLine($"## Overall ({days} days):");
-        summaryBuilder.AppendLine($"- Calories: {avgCal} kcal avg");
+        summaryBuilder.AppendLine($"- Calories: {avgCal:0} kcal avg");
         if (firstWeight.HasValue && lastWeight.HasValue && firstWeight.Value != 0)
         {
             var pct = (lastWeight.Value - firstWeight.Value) / firstWeight.Value * 100;
@@ -85,12 +87,19 @@ internal class NutritionSummaryService : INutritionSummaryService
                 targetByDay.TryGetValue(x.CurrentDate.DayOfWeek, out var t)
                 && Math.Abs(x.TotalCalories - t.Calories) <= t.Calories * 0.1m);
 
-            var weightsInWeek = weekLogs.Where(x => x.CurrentWeight.HasValue)
+            var weekTargets = weekLogs
+                .Where(x => targetByDay.ContainsKey(x.CurrentDate.DayOfWeek))
+                .Select(x => targetByDay[x.CurrentDate.DayOfWeek].Calories)
+                .ToList();
+            var avgTargetCalories = weekTargets.Count == 0 ? 0 : weekTargets.Average();
+            var avgActualCalories = weekLogs.Sum(x => x.TotalCalories) / weekLogs.Count;
+
+            var weightsInWeek = weekLogs.Where(x => x.CurrentWeight is > 0)
                 .Select(x => x.CurrentWeight!.Value)
                 .ToList();
 
             summaryBuilder.AppendLine($"## Week of {group.Key:yyyy-MM-dd}:");
-            summaryBuilder.AppendLine($"- Calories: {weekLogs.Sum(x => x.TotalCalories) / weekLogs.Count} kcal avg");
+            summaryBuilder.AppendLine($"- Calories: {avgActualCalories:0} kcal avg (target avg: {avgTargetCalories:0} kcal)");
             var weightText = weightsInWeek.Count == 0
                 ? "N/A"
                 : $"{weightsInWeek.Average():F1} kg";

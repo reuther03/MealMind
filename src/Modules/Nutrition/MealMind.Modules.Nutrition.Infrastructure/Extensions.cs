@@ -4,6 +4,7 @@ using MealMind.Modules.Nutrition.Application.Abstractions.Services;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using MealMind.Modules.Nutrition.Infrastructure.Database.BackgroundJobs;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Repositories;
+using MealMind.Modules.Nutrition.Infrastructure.Database.Seeders;
 using MealMind.Modules.Nutrition.Infrastructure.Database.Services;
 using MealMind.Modules.Nutrition.Infrastructure.Services;
 using MealMind.Shared.Abstractions.Services;
@@ -27,6 +28,7 @@ public static class Extensions
                 .AddScoped<IFoodRepository, FoodRepository>()
                 .AddScoped<IOpenFoodFactsService, OpenFoodFactsService>()
                 .AddScoped<INutritionSummaryService, NutritionSummaryService>()
+                .AddTransient<IModuleSeeder, NutritionModuleSeeder>()
                 .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
                 .AddHttpClient<IOpenFoodFactsService, OpenFoodFactsService>(opt =>
                 {
