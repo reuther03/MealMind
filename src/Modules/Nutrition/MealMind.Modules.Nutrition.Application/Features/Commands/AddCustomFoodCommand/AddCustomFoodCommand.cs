@@ -14,8 +14,8 @@ public record AddCustomFoodCommand(
     NutritionPer100G NutritionPer100G,
     string ImageUrl,
     string Brand,
-    List<FoodCategory> Categories,
-    List<FoodDietaryTag> DietaryTags
+    List<Category> Categories,
+    List<DietaryTag> DietaryTags
 ) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddCustomFoodCommand, Guid>
@@ -42,8 +42,9 @@ public record AddCustomFoodCommand(
             var food = Food.Create(
                 command.Name, command.NutritionPer100G,
                 FoodDataSource.User, command.Barcode,
-                command.ImageUrl, command.Brand,
-                command.Categories, command.DietaryTags);
+                command.ImageUrl, command.Brand);
+
+            food.AssignTags(command.Categories, command.DietaryTags);
 
             await _foodRepository.AddAsync(food, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
