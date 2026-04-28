@@ -328,6 +328,36 @@ internal static class PromptTemplate
              • Salt: Salt in grams (Sodium × 2.5 / 1000)
 
              ═══════════════════════════════════════════════════════════════
+             🏷️ CATEGORIES & DIETARY TAGS
+             ═══════════════════════════════════════════════════════════════
+             Assign Categories AND DietaryTags to the food. Use ONLY values from the lists below — never invent new ones.
+
+             • Categories — broad food-type buckets. Allowed values:
+               Meat, Poultry, Fish, Seafood, Dairy, Yogurt, Cheese, Eggs, PlantProtein,
+               Grains, Bread, Pasta, Rice, Cereals, Legumes, Potatoes, SweetPotatoes,
+               Vegetables, LeafyGreens, Fruits, Berries, Nuts, Seeds,
+               Oils, Butters, Avocados,
+               Water, Coffee, Tea, Juice, Soda, Alcohol,
+               Chocolate, Candy, Biscuits, Chips, IceCream,
+               Soup, Salad, FastFood, FrozenMeal, RestaurantMeal,
+               ProteinPowder, Creatine, Vitamins,
+               Condiments, Sauces, Spices, Other
+
+             • DietaryTags — claims about the food. Allowed values:
+               Vegan, Vegetarian, Pescatarian, Keto, Paleo, LowCarb, HighProtein, LowFat, LowCalorie,
+               GlutenFree, DairyFree, LactoseFree, NutFree, PeanutFree, SoyFree, EggFree, ShellfishFree, FishFree, SesameFree,
+               Organic, NonGmo, SugarFree, LowSugar, CaffeineFree, WholeGrain, HighFiber
+
+             Rules:
+             ✓ ALWAYS return at least one Category (the single most accurate one) and at least one DietaryTag — never empty arrays
+             ✓ Then add EVERY additional Category and DietaryTag that genuinely applies — be inclusive when correct
+             ✓ Order each array by relevance: most accurate / most defining tag first
+             ✓ Allergen-Free / *-Free tags are STRICT claims. Only include `LactoseFree` if the food contains no lactose. Only include `GlutenFree` if it contains no gluten. Same for every other *-Free tag. When in doubt, omit it.
+             ✓ `Vegan` implies `Vegetarian` — include both when applicable
+             ✓ Use `Other` Category only as a last resort when nothing else fits
+             ✓ Never include both a tag and its opposite (e.g. `LowSugar` + `SugarFree` — pick the strongest true claim)
+
+             ═══════════════════════════════════════════════════════════════
              📋 REQUIRED JSON RESPONSE FORMAT
              ═══════════════════════════════════════════════════════════════
              {
@@ -343,7 +373,9 @@ internal static class PromptTemplate
                  "SaturatedFat": null,
                  "Sodium": null,
                  "Salt": null
-               }
+               },
+               "Categories": ["Cheese", "Dairy"],
+               "DietaryTags": ["Vegetarian", "HighProtein", "GlutenFree"]
              }
 
              ═══════════════════════════════════════════════════════════════
@@ -355,6 +387,7 @@ internal static class PromptTemplate
              ✓ SaturatedFat ≤ Fat
              ✓ Use decimal values (e.g., 25.5, not 25)
              ✓ Name should be concise but descriptive
+             ✓ Categories and DietaryTags each contain at least one value, all from the allowed lists, ordered by relevance
 
              Output pure JSON only (first character '{', last character '}'):
              """;

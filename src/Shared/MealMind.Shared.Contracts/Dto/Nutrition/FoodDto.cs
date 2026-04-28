@@ -7,6 +7,8 @@ public class FoodDto
     public string? Barcode { get; init; }
     public string? Brand { get; init; }
     public string? ImageUrl { get; init; }
+    public List<FoodCategoryDto>? Categories { get; init; }
+    public List<FoodDietaryTagDto>? DietaryTags { get; init; }
     public NutrimentsPer100GDto NutritionPer100G { get; init; } = null!;
     public DateTime CreatedAt { get; init; }
     public FoodDataSource FoodSource { get; init; }
