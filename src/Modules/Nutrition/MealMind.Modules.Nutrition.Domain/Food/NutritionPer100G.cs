@@ -6,16 +6,16 @@ public record NutritionPer100G : ValueObject
 {
     public decimal Calories { get; }
     public decimal Protein { get; }
+    public decimal Carbohydrates { get; }
     public decimal Fat { get; }
     public decimal? SaturatedFat { get; }
-    public decimal Carbohydrates { get; }
     public decimal? Sugar { get; }
     public decimal? Fiber { get; }
     public decimal? Sodium { get; }
     public decimal? Salt { get; }
     public decimal? Cholesterol { get; }
 
-    public NutritionPer100G(decimal calories, decimal protein, decimal fat, decimal carbohydrates, decimal? salt, decimal? sugar = null,
+    public NutritionPer100G(decimal calories, decimal protein, decimal carbohydrates, decimal fat, decimal? salt, decimal? sugar = null,
         decimal? saturatedFat = null, decimal? fiber = null, decimal? sodium = null, decimal? cholesterol = null)
     {
         if (calories < 0) throw new ArgumentException("Calories cannot be negative", nameof(calories));
@@ -46,8 +46,8 @@ public record NutritionPer100G : ValueObject
 
         Calories = calories;
         Protein = protein;
-        Fat = fat;
         Carbohydrates = carbohydrates;
+        Fat = fat;
         Salt = salt;
         Sugar = sugar;
         SaturatedFat = saturatedFat;
@@ -62,8 +62,8 @@ public record NutritionPer100G : ValueObject
         yield return Calories;
         yield return Protein;
         yield return Carbohydrates;
-        yield return Sugar ?? 0;
         yield return Fat;
+        yield return Sugar ?? 0;
         yield return SaturatedFat ?? 0;
         yield return Fiber ?? 0;
         yield return Sodium ?? 0;

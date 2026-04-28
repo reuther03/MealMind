@@ -43,8 +43,8 @@ public record CreateFoodWithAiCommand(string FoodPrompt, IFormFile? ImageFile) :
                     {
                         Name = response.Name,
                         Brand = response.Brand,
-                        Categories = response.Categories?.Select(x => new FoodCategoryDto { Category = x.Category }).ToList(),
-                        DietaryTags = response.DietaryTags?.Select(x => new FoodDietaryTagDto { DietaryTag = x.DietaryTag }).ToList(),
+                        Categories = response.Categories?.Select(x => x).ToList(),
+                        DietaryTags = response.DietaryTags?.Select(x => x).ToList(),
                         NutritionPer100G = new NutrimentsPer100GDto
                         {
                             Calories = response.NutritionPer100G.Calories,

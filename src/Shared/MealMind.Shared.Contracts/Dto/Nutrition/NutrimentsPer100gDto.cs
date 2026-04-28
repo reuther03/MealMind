@@ -1,6 +1,6 @@
 namespace MealMind.Shared.Contracts.Dto.Nutrition;
 
-public class NutrimentsPer100GDto
+public record NutrimentsPer100GDto
 {
     public decimal Calories { get; init; }
     public decimal Protein { get; init; }
