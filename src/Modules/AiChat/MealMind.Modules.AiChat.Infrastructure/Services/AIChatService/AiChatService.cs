@@ -185,7 +185,13 @@ public class AiChatService : IAiChatService
 
         var foodDto = JsonSerializer.Deserialize<FoodDto>(responseText, _jsonSerializerOptions)!;
 
-        return foodDto;
+        var n = foodDto.NutritionPer100G;
+        var computedCalories = Math.Round((n.Protein * 4m) + (n.Carbohydrates * 4m) + (n.Fat * 9m), 1);
+
+        return foodDto with
+        {
+            NutritionPer100G = n with { Calories = computedCalories }
+        };
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
