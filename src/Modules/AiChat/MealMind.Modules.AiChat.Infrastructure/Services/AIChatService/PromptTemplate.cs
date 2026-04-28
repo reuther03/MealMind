@@ -320,6 +320,15 @@ internal static class PromptTemplate
              • Carbohydrates: Total carbs in grams
              • Fat: Total fat in grams
 
+             ⚠️ CALORIE-MACRO CONSISTENCY (HARD RULE — verify before output):
+             Calories MUST equal (Protein × 4) + (Carbohydrates × 4) + (Fat × 9), within ±5%.
+             Procedure:
+               1. Estimate Protein, Carbohydrates, Fat per 100g first.
+               2. Compute calculatedCalories = (Protein × 4) + (Carbohydrates × 4) + (Fat × 9).
+               3. Set Calories = calculatedCalories (rounded to 1 decimal).
+               4. If a known reference value for Calories disagrees by more than 5%, ADJUST the macros (not the calories) so the equation holds — usually fat is the easiest to revise.
+             Never output a Calories value that conflicts with the macros. The downstream system rejects mismatches > a few kcal.
+
              Optional fields (set to null if unknown, estimate if reasonable):
              • Fiber: Dietary fiber in grams
              • Sugar: Total sugars in grams
@@ -379,10 +388,10 @@ internal static class PromptTemplate
              }
 
              ═══════════════════════════════════════════════════════════════
-             ⚠️ VALIDATION RULES
+             ⚠️ VALIDATION RULES (verify each before outputting)
              ═══════════════════════════════════════════════════════════════
-             ✓ All values must be per 100 grams
-             ✓ Calories should roughly match: (Protein × 4) + (Carbs × 4) + (Fat × 9)
+             ✓ All values are per 100 grams
+             ✓ Calories EQUAL (Protein × 4) + (Carbohydrates × 4) + (Fat × 9), within ±5%. Recompute and confirm. If off, fix the macros so the equation holds.
              ✓ Sugar ≤ Carbohydrates
              ✓ SaturatedFat ≤ Fat
              ✓ Use decimal values (e.g., 25.5, not 25)
