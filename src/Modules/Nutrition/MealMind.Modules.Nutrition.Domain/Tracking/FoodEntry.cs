@@ -14,8 +14,8 @@ public class FoodEntry : Entity<Guid>
     public decimal TotalCalories { get; private set; }
     public decimal TotalProteins { get; private set; }
     public decimal TotalCarbohydrates { get; private set; }
-    public decimal? TotalSugars { get; private set; }
     public decimal TotalFats { get; private set; }
+    public decimal? TotalSugars { get; private set; }
     public decimal? TotalSaturatedFats { get; private set; }
     public decimal? TotalFiber { get; private set; }
     public decimal? TotalSodium { get; private set; }
@@ -28,7 +28,7 @@ public class FoodEntry : Entity<Guid>
     }
 
     private FoodEntry(Guid id, FoodId foodId, Name foodName, Name? foodBrand, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
-        decimal totalCarbohydrates, decimal? totalSugars, decimal totalFats, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
+        decimal totalCarbohydrates, decimal totalFats, decimal? totalSugars, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
         decimal? totalSalt, decimal? totalCholesterol) : base(id)
     {
         FoodId = foodId;
@@ -38,8 +38,8 @@ public class FoodEntry : Entity<Guid>
         TotalCalories = totalCalories;
         TotalProteins = totalProteins;
         TotalCarbohydrates = totalCarbohydrates;
-        TotalSugars = totalSugars;
         TotalFats = totalFats;
+        TotalSugars = totalSugars;
         TotalSaturatedFats = totalSaturatedFats;
         TotalFiber = totalFiber;
         TotalSodium = totalSodium;
@@ -48,7 +48,7 @@ public class FoodEntry : Entity<Guid>
     }
 
     private FoodEntry(Guid id, FoodId? foodId, Name foodName, Name? foodBrand, decimal quantityInGrams, decimal totalCalories, decimal totalProteins,
-        decimal totalCarbohydrates, decimal? totalSugars, decimal totalFats, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
+        decimal totalCarbohydrates, decimal totalFats, decimal? totalSugars, decimal? totalSaturatedFats, decimal? totalFiber, decimal? totalSodium,
         decimal? totalSalt, decimal? totalCholesterol, FoodEntrySource source) : base(id)
     {
         FoodId = foodId;
@@ -84,8 +84,8 @@ public class FoodEntry : Entity<Guid>
             Math.Round(food.NutritionPer100G.Calories * factor, 2),
             Math.Round(food.NutritionPer100G.Protein * factor, 2),
             Math.Round(food.NutritionPer100G.Carbohydrates * factor, 2),
-            food.NutritionPer100G.Sugar.HasValue ? Math.Round(food.NutritionPer100G.Sugar.Value * factor, 2) : null,
             Math.Round(food.NutritionPer100G.Fat * factor, 2),
+            food.NutritionPer100G.Sugar.HasValue ? Math.Round(food.NutritionPer100G.Sugar.Value * factor, 2) : null,
             food.NutritionPer100G.SaturatedFat.HasValue ? Math.Round(food.NutritionPer100G.SaturatedFat.Value * factor, 2) : null,
             food.NutritionPer100G.Fiber.HasValue ? Math.Round(food.NutritionPer100G.Fiber.Value * factor, 2) : null,
             food.NutritionPer100G.Sodium.HasValue ? Math.Round(food.NutritionPer100G.Sodium.Value * factor, 2) : null,
@@ -110,8 +110,8 @@ public class FoodEntry : Entity<Guid>
             totalCalories,
             totalProteins,
             totalCarbohydrates,
-            null,
             totalFats,
+            null,
             null,
             null,
             null,

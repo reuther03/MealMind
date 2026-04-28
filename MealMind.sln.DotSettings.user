@@ -89,15 +89,12 @@
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.semantickernel.core\1.66.0\lib\net8.0\Microsoft.SemanticKernel.Core.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\micha\.nuget\packages\microsoft.extensions.vectordata.abstractions\9.7.0\lib\net8.0\Microsoft.Extensions.VectorData.Abstractions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=649caf8c_002D454f_002D4344_002D953f_002Dac84ff7bdb6a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SubscriptionTierChangesCommandTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=649caf8c_002D454f_002D4344_002D953f_002Dac84ff7bdb6a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SubscriptionTierChangesCommandTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Repos\MealMind" Presentation="&amp;lt;tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6537a2e2_002D6d1d_002D4a7c_002Db8e3_002D042574301666/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Handle_DailyLogNotFound_ShouldNotCreateImageAnalyze" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.Stripe.Commands.SubscriptionDeletedCommandTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.Stripe.Commands.UpdateSubscriptionTierCommandTest.1.1.Handle_ValidRequest_ShouldUpdateSubscription.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.Stripe.Commands.UpdateSubscriptionTierCommandTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::F1797687-241D-4A9B-BE67-D2BA3472F218::net10.0::MealMind.Modules.AiChat.Tests.Unit.Events.AiUserSubscriptionTierUpdatedEventHandlerTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.Events.ImageAnalyzeCreatedEventTest.1.1.Handle_ValidData_ShouldCreateImageAnalyze.1.1.0&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.Events.ImageAnalyzeCreatedEventTest.1.1.Handle_DailyLogNotFound_ShouldNotCreateImageAnalyze.1.1.0&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.Events.ImageAnalyzeCreatedEventTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cf56d640_002Deb18_002D498c_002Db285_002D77726d3ed205/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SubscriptionTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
