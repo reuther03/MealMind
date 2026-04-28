@@ -83,15 +83,19 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
             .HasConversion<string>()
             .IsRequired();
 
-        builder.HasMany(x => x.Categories)
-            .WithOne()
-            .HasForeignKey(x => x.FoodId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.PrimitiveCollection<List<Category>>("_categories")
+            .HasField("_categories")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .ElementType(b => b.HasConversion<string>());
 
-        builder.HasMany(x => x.DietaryTags)
-            .WithOne()
-            .HasForeignKey(x => x.FoodId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.Ignore(x => x.Categories);
+
+        builder.PrimitiveCollection<List<DietaryTag>>("_dietaryTags")
+            .HasField("_dietaryTags")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .ElementType(b => b.HasConversion<string>());
+
+        builder.Ignore(x => x.DietaryTags);
 
         builder.HasOne(x => x.Statistics)
             .WithOne()

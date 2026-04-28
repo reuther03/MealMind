@@ -6,16 +6,15 @@ namespace MealMind.Modules.Nutrition.Domain.Food;
 
 public class Food : AggregateRoot<FoodId>
 {
-    //todo: it is needed to be implemented categries and dietary tags
-    private readonly List<FoodCategory> _categories = [];
-    private readonly List<FoodDietaryTag> _dietaryTags = [];
+    private readonly List<Category> _categories = [];
+    private readonly List<DietaryTag> _dietaryTags = [];
     public Name Name { get; private set; }
     public string? Barcode { get; private set; }
     public NutritionPer100G NutritionPer100G { get; private set; }
     public string? ImageUrl { get; private set; }
     public string? Brand { get; private set; }
-    public IReadOnlyList<FoodCategory> Categories => _categories.AsReadOnly();
-    public IReadOnlyList<FoodDietaryTag> DietaryTags => _dietaryTags.AsReadOnly();
+    public IReadOnlyList<Category> Categories => _categories.AsReadOnly();
+    public IReadOnlyList<DietaryTag> DietaryTags => _dietaryTags.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
     public FoodDataSource FoodDataSource { get; private set; }
     public FoodStatistics Statistics { get; private set; }
@@ -33,7 +32,7 @@ public class Food : AggregateRoot<FoodId>
     }
 
     public static Food Create(Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource, string? barcode = null, string? imageUrl = null,
-        string? brand = null, IEnumerable<FoodCategory>? categories = null, IEnumerable<FoodDietaryTag>? tags = null)
+        string? brand = null)
     {
         var food = new Food(FoodId.New(), name, nutritionPer100G, foodDataSource)
         {
@@ -42,13 +41,16 @@ public class Food : AggregateRoot<FoodId>
             Brand = brand
         };
 
-        if (categories != null)
-            food._categories.AddRange(categories);
-
-        if (tags != null)
-            food._dietaryTags.AddRange(tags);
-
         return food;
+    }
+
+    public void AssignTags(IEnumerable<Category> cats, IEnumerable<DietaryTag> tags)
+    {
+        _categories.Clear();
+        _categories.AddRange(cats);
+
+        _dietaryTags.Clear();
+        _dietaryTags.AddRange(tags);
     }
 
     public void UpdateStatistics(FoodStatistics statistics)
