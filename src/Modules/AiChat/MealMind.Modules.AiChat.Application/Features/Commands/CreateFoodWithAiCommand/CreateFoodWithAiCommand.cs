@@ -1,4 +1,4 @@
-﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
+using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
@@ -43,6 +43,8 @@ public record CreateFoodWithAiCommand(string FoodPrompt, IFormFile? ImageFile) :
                     {
                         Name = response.Name,
                         Brand = response.Brand,
+                        Categories = response.Categories?.Select(x => new FoodCategoryDto { Category = x.Category }).ToList(),
+                        DietaryTags = response.DietaryTags?.Select(x => new FoodDietaryTagDto { DietaryTag = x.DietaryTag }).ToList(),
                         NutritionPer100G = new NutrimentsPer100GDto
                         {
                             Calories = response.NutritionPer100G.Calories,

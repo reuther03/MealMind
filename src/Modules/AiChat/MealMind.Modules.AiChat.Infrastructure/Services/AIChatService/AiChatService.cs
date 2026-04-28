@@ -159,15 +159,14 @@ public class AiChatService : IAiChatService
     {
         var systemMessage = new ChatMessageContent(AuthorRole.System, PromptTemplate.FoodCreationPrompt(userPrompt));
 
-        var imageBytes = imageFile != null
-            ? await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken)
-            : null;
+        var userContent = new ChatMessageContentItemCollection { new TextContent(userPrompt) };
+        if (imageFile is { Length: > 0 })
+        {
+            var imageBytes = await imageFile.ToReadOnlyMemoryByteArrayAsync(cancellationToken);
+            userContent.Add(new ImageContent(imageBytes, "image/jpeg"));
+        }
 
-        var complexUserMessage = new ChatMessageContent(AuthorRole.User,
-        [
-            new TextContent(userPrompt),
-            new ImageContent(imageBytes, "image/jpeg")
-        ]);
+        var complexUserMessage = new ChatMessageContent(AuthorRole.User, userContent);
 
         var chatHistory = new ChatHistory([systemMessage, complexUserMessage]);
 
