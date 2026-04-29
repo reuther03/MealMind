@@ -194,9 +194,28 @@ public class AiChatService : IAiChatService
         };
     }
 
-    public Task<FoodTagsResult> GenerateFoodTagsAsync(string foodName, CancellationToken cancellationToken = default)
+    public async Task<FoodTagsResult> GenerateFoodTagsAsync(string foodName, string? brand, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var systemMessage = new ChatMessageContent(AuthorRole.User, PromptTemplate.FoodTagsPrompt(foodName, brand));
+
+        var chatHistory = new ChatHistory([systemMessage]);
+
+        var response = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory, new GeminiPromptExecutionSettings
+        {
+            MaxTokens = 300,
+            Temperature = 0.2f,
+            ThinkingConfig = new GeminiThinkingConfig { ThinkingBudget = 0 },
+            ResponseMimeType = "application/json"
+        }, cancellationToken: cancellationToken);
+
+        var responseText = response[0].Content;
+
+        if (string.IsNullOrWhiteSpace(responseText))
+            throw new ArgumentNullException(responseText);
+
+        var foodTagsResult = JsonSerializer.Deserialize<FoodTagsResult>(responseText, _jsonSerializerOptions)!;
+
+        return foodTagsResult;
     }
 
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,

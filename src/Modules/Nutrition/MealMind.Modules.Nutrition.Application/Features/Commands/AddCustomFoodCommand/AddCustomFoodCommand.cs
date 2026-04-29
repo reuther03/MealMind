@@ -50,6 +50,7 @@ public record AddCustomFoodCommand(
             if (user is null)
                 return Result<Guid>.BadRequest("User profile not found.");
 
+            // TODO: Refactor to background service if scaling is needed
             if (categories.Count == 0 && dietaryTags.Count == 0)
             {
                 try
