@@ -3,4 +3,4 @@ using MealMind.Shared.Contracts.Dto.AiChat;
 
 namespace MealMind.Shared.Abstractions.Messaging.AiChat;
 
-public class GenerateFoodTagsQuery : IQuery<FoodTagsResult>;
+public record GenerateFoodTagsQuery(string ProductName, string? Brand) : IQuery<FoodTagsResult>;
