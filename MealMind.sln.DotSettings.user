@@ -105,6 +105,7 @@
     &lt;TestId&gt;Testing Platform::B18AABAA-0A67-457B-AB1E-E896055D8947::net10.0::MealMind.Modules.Identity.Tests.Unit.Stripe.Commands.UpdateSubscriptionTierCommandTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::F1797687-241D-4A9B-BE67-D2BA3472F218::net10.0::MealMind.Modules.AiChat.Tests.Unit.Events.AiUserSubscriptionTierUpdatedEventHandlerTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.Events.ImageAnalyzeCreatedEventTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;Testing Platform::C112A671-3AA1-49EF-A9E2-DA40280B4BF8::net10.0::MealMind.Modules.Nutrition.Tests.Unit.Features.Commands.AddCustomFoodCommandHandlerTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
