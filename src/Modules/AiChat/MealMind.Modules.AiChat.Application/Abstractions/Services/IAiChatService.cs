@@ -32,4 +32,8 @@ public interface IAiChatService
         string userPrompt,
         IFormFile? imageFile,
         CancellationToken cancellationToken = default);
+
+    Task<FoodTagsResult> GenerateFoodTagsAsync(
+        string foodName,
+        CancellationToken cancellationToken = default);
 }

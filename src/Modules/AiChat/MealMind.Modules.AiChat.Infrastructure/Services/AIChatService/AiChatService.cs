@@ -194,6 +194,11 @@ public class AiChatService : IAiChatService
         };
     }
 
+    public Task<FoodTagsResult> GenerateFoodTagsAsync(string foodName, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     private async Task<StructuredResponse> AttemptJsonCorrectionAsync(string originalQuestion, string malformedJson, string documentsText,
         int responseTokensLimit,
         CancellationToken cancellationToken = default)
