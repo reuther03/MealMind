@@ -61,13 +61,15 @@ public record AddCustomFoodCommand(
                     {
                         categories.AddRange(
                             foodTagsResult.Value.Categories
-                                .Where(s => Enum.TryParse<Category>(s, ignoreCase: true, out _))
-                                .Select(s => Enum.Parse<Category>(s, ignoreCase: true)));
+                                .Select(s => Enum.TryParse<Category>(s, ignoreCase: true, out var c) ? (Category?)c : null)
+                                .Where(c => c is not null)
+                                .Select(c => c!.Value));
 
                         dietaryTags.AddRange(
                             foodTagsResult.Value.DietaryTags
-                                .Where(s => Enum.TryParse<DietaryTag>(s, ignoreCase: true, out _))
-                                .Select(s => Enum.Parse<DietaryTag>(s, ignoreCase: true)));
+                                .Select(s => Enum.TryParse<DietaryTag>(s, ignoreCase: true, out var t) ? (DietaryTag?)t : null)
+                                .Where(t => t is not null)
+                                .Select(t => t!.Value));
 
                         if (categories.Count == 0 && dietaryTags.Count == 0)
                         {
