@@ -287,6 +287,69 @@ internal static class PromptTemplate
              Output pure JSON only (first character '{', last character '}'):
              """";
 
+    public static string FoodTagsPrompt(string foodName, string? brand)
+        => $$"""
+             You are an AI nutrition expert that classifies food items into predefined Categories and DietaryTags.
+
+             ═══════════════════════════════════════════════════════════════
+             🍽️ FOOD TO CLASSIFY
+             ═══════════════════════════════════════════════════════════════
+             Name: "{{foodName}}"
+             Brand: {{(string.IsNullOrWhiteSpace(brand) ? "null" : $"\"{brand}\"")}}
+
+             ═══════════════════════════════════════════════════════════════
+             🏷️ CATEGORIES & DIETARY TAGS
+             ═══════════════════════════════════════════════════════════════
+             Assign Categories AND DietaryTags. Use ONLY values from the lists below — never invent new ones, never alter spelling/casing.
+
+             • Categories — broad food-type buckets. Allowed values:
+               Meat, Poultry, Fish, Seafood, Dairy, Yogurt, Cheese, Eggs, PlantProtein,
+               Grains, Bread, Pasta, Rice, Cereals, Legumes, Potatoes, SweetPotatoes,
+               Vegetables, LeafyGreens, Fruits, Berries, Nuts, Seeds,
+               Oils, Butters, Avocados,
+               Water, Coffee, Tea, Juice, Soda, Alcohol,
+               Chocolate, Candy, Biscuits, Chips, IceCream,
+               Soup, Salad, FastFood, FrozenMeal, RestaurantMeal,
+               ProteinPowder, Creatine, Vitamins,
+               Condiments, Sauces, Spices, Other
+
+             • DietaryTags — claims about the food. Allowed values:
+               Vegan, Vegetarian, Pescatarian, Keto, Paleo, LowCarb, HighProtein, LowFat, LowCalorie,
+               GlutenFree, DairyFree, LactoseFree, NutFree, PeanutFree, SoyFree, EggFree, ShellfishFree, FishFree, SesameFree,
+               Organic, NonGmo, SugarFree, LowSugar, CaffeineFree, WholeGrain, HighFiber
+
+             Rules:
+             ✓ ALWAYS return at least one Category (the single most accurate one) and at least one DietaryTag — never empty arrays
+             ✓ Then add EVERY additional Category and DietaryTag that genuinely applies — be inclusive when correct
+             ✓ Order each array by relevance: most accurate / most defining tag first
+             ✓ Allergen-Free / *-Free tags are STRICT claims. Only include `LactoseFree` if the food contains no lactose. Only include `GlutenFree` if it contains no gluten. Same for every other *-Free tag. When in doubt, omit it.
+             ✓ `Vegan` implies `Vegetarian` — include both when applicable
+             ✓ Use `Other` Category only as a last resort when nothing else fits
+             ✓ Never include both a tag and its opposite (e.g. `LowSugar` + `SugarFree` — pick the strongest true claim)
+             ✓ Spelling and casing must match the allowed lists EXACTLY (e.g., "GlutenFree", not "gluten-free" or "Gluten Free")
+
+             ═══════════════════════════════════════════════════════════════
+             📋 REQUIRED JSON RESPONSE FORMAT
+             ═══════════════════════════════════════════════════════════════
+             Return ONLY this JSON object — no extra fields, no commentary, no markdown:
+
+             {
+               "Categories": ["Cheese", "Dairy"],
+               "DietaryTags": ["Vegetarian", "HighProtein", "GlutenFree"]
+             }
+
+             ═══════════════════════════════════════════════════════════════
+             ⚠️ BEFORE RESPONDING - VERIFY
+             ═══════════════════════════════════════════════════════════════
+             ✓ Both arrays contain at least one value
+             ✓ Every value appears in the allowed lists, character-for-character
+             ✓ No duplicates within an array
+             ✓ Arrays ordered by relevance, most defining first
+             ✓ JSON is valid (no trailing commas, no comments, no markdown fences)
+
+             Output pure JSON only (first character '{', last character '}'):
+             """;
+
     public static string FoodCreationPrompt(string userPrompt)
         => $$"""
              You are an AI nutrition expert that creates detailed food item entries based on user descriptions.

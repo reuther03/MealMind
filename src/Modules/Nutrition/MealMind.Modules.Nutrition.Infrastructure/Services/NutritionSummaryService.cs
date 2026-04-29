@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using MealMind.Modules.Nutrition.Infrastructure.Database;
 using MealMind.Shared.Abstractions.Exception;
-using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.EntityFrameworkCore;

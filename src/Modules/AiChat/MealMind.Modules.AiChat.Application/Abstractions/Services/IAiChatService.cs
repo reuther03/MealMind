@@ -35,5 +35,6 @@ public interface IAiChatService
 
     Task<FoodTagsResult> GenerateFoodTagsAsync(
         string foodName,
+        string? brand,
         CancellationToken cancellationToken = default);
 }
