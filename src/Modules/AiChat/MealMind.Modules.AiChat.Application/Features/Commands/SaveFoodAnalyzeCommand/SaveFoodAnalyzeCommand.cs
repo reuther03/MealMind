@@ -60,7 +60,7 @@ public record SaveFoodAnalyzeCommand(
 
             var carbohydratesEstimation = CalculateEstimation(
                 command.EstimationMode,
-                imageAnalyze.CaloriesMin,
+                imageAnalyze.CarbsMin,
                 imageAnalyze.CarbsMax);
 
             var fatsEstimation = CalculateEstimation(
