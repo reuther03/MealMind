@@ -37,7 +37,7 @@ public record GetCaloriesFromImageCommand(
 
         public async Task<Result<AnalyzedImageStructuredResponse>> Handle(GetCaloriesFromImageCommand command, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByUserIdAsync(_userService.UserId, cancellationToken);
+            var user = await _userRepository.GetByUserIdAsync(_userService.UserId!, cancellationToken);
             if (user is null)
                 return Result<AnalyzedImageStructuredResponse>.NotFound("AI Chat user not found.");
 

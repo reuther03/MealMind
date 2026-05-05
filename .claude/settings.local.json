@@ -29,7 +29,8 @@
       "Bash(git -C /c/Repos/MealMind status -- \"src/Services/MealMind.Services.Outbox/Database/Migrations/\")",
       "Bash(grep:*)",
       "WebSearch",
-      "WebFetch(domain:www.gowork.pl)"
+      "WebFetch(domain:www.gowork.pl)",
+      "Bash(xargs wc *)"
     ]
   },
   "outputStyle": "default"
