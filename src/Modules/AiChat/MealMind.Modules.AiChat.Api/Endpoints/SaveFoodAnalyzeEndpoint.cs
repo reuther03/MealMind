@@ -24,7 +24,8 @@ public class SaveFoodAnalyzeEndpoint : EndpointBase
                   "sessionId": "8b1f6a3e-2c4f-4a90-9c7e-6b1f2e3d4a5b",
                   "correctionId": null,
                   "estimationMode": 1,
-                  "logDate": "2026-05-08"
+                  "logDate": "2026-05-08",
+                  "mealType": 1
                 }
                 """,
                 """

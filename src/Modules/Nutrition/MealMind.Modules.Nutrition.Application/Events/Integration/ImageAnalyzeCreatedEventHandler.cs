@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Application.Abstractions;
 using MealMind.Modules.Nutrition.Application.Abstractions.Database;
+using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Events.Core;
 using MealMind.Shared.Events.AiChat;
@@ -40,7 +41,13 @@ public class ImageAnalyzeCreatedEventHandler : IEventHandler<ImageAnalyzeCreated
         );
 
         //todo: currently adding to the first meal, later we can improve this by allowing users to specify meal type
-        var meal = dailyLog.Meals[0];
+        var meal = dailyLog.Meals.FirstOrDefault(m => m.MealType == (MealType)notification.MealType);
+        if (meal == null)
+        {
+            _logger.LogInformation("Meal of type {MealType} not found in daily log", notification.MealType);
+            return;
+        }
+
         meal.AddFood(foodEntry);
 
         await _unitOfWork.CommitAsync(cancellationToken);

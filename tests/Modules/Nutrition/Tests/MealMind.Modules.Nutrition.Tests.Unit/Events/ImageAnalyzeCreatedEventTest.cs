@@ -4,6 +4,7 @@ using MealMind.Modules.Nutrition.Application.Events.Integration;
 using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Modules.Nutrition.Domain.Tracking;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
+using MealMind.Shared.Events.AiChat;
 using Moq;
 
 namespace MealMind.Modules.Nutrition.Tests.Unit.Events;
@@ -30,6 +31,7 @@ public class ImageAnalyzeCreatedEventTest
         var totalCarbohydrates = 20m;
         var totalFats = 5m;
         var dailyLogDate = DateOnly.FromDateTime(DateTime.UtcNow);
+        var mealtype = 1;
 
         var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
         var meal = Meal.Initialize(MealType.Breakfast, userId);
@@ -42,8 +44,17 @@ public class ImageAnalyzeCreatedEventTest
             Mock.Of<Microsoft.Extensions.Logging.ILogger<ImageAnalyzeCreatedEventHandler>>());
 
         await handler.Handle(
-            new Shared.Events.AiChat.ImageAnalyzeCreatedEvent(userId, foodName, quantityInGrams, totalCalories, totalProteins, totalCarbohydrates, totalFats,
-                dailyLogDate), CancellationToken.None);
+            new ImageAnalyzeCreatedEvent(
+                userId,
+                foodName,
+                quantityInGrams,
+                totalCalories,
+                totalProteins,
+                totalCarbohydrates,
+                totalFats,
+                dailyLogDate,
+                mealtype
+            ), CancellationToken.None);
 
         _dailyLogRepository.Verify(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);

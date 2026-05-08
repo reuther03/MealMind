@@ -11,5 +11,6 @@ public record ImageAnalyzeCreatedEvent(
     decimal TotalProteins,
     decimal TotalCarbohydrates,
     decimal TotalFats,
-    DateOnly DailyLogDate
+    DateOnly DailyLogDate,
+    int MealType
 ) : Event(Guid.NewGuid());

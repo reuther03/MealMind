@@ -11,7 +11,8 @@ public record SaveFoodAnalyzeCommand(
     ImageAnalyzeSessionId SessionId,
     Guid? CorrectionId,
     EstimationMode EstimationMode,
-    DateOnly LogDate
+    DateOnly LogDate,
+    int MealType
 ) : ICommand<bool>
 {
     public sealed class Handler : ICommandHandler<SaveFoodAnalyzeCommand, bool>
@@ -75,7 +76,9 @@ public record SaveFoodAnalyzeCommand(
                     imageAnalyze.TotalQuantityInGrams,
                     caloriesEstimation, proteinsEstimation,
                     carbohydratesEstimation, fatsEstimation,
-                    command.LogDate),
+                    command.LogDate,
+                    command.MealType
+                ),
                 cancellationToken);
 
             return Result.Ok(true);
