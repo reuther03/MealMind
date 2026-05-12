@@ -17,7 +17,8 @@ public record AddCustomFoodCommand(
     string ImageUrl,
     string Brand,
     List<Category>? Categories,
-    List<DietaryTag>? DietaryTags
+    List<DietaryTag>? DietaryTags,
+    bool IsPrivate
 ) : ICommand<Guid>
 {
     public sealed class Handler : ICommandHandler<AddCustomFoodCommand, Guid>

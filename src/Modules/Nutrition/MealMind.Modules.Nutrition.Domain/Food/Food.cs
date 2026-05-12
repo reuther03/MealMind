@@ -1,5 +1,6 @@
 ﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using MealMind.Shared.Contracts.Dto.Nutrition;
 
 namespace MealMind.Modules.Nutrition.Domain.Food;
@@ -15,6 +16,8 @@ public class Food : AggregateRoot<FoodId>
     public string? Brand { get; private set; }
     public IReadOnlyList<Category> Categories => _categories.AsReadOnly();
     public IReadOnlyList<DietaryTag> DietaryTags => _dietaryTags.AsReadOnly();
+    public UserId? CreatedBy { get; private set; }
+    public bool IsPrivate { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public FoodDataSource FoodDataSource { get; private set; }
     public FoodStatistics Statistics { get; private set; }
@@ -23,22 +26,24 @@ public class Food : AggregateRoot<FoodId>
     {
     }
 
-    private Food(FoodId id, Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource) : base(id)
+    private Food(FoodId id, Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource, bool isPrivate) : base(id)
     {
         Name = name;
         NutritionPer100G = nutritionPer100G;
         FoodDataSource = foodDataSource;
         CreatedAt = DateTime.UtcNow;
+        IsPrivate = isPrivate;
     }
 
-    public static Food Create(Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource, string? barcode = null, string? imageUrl = null,
-        string? brand = null)
+    public static Food Create(Name name, NutritionPer100G nutritionPer100G, FoodDataSource foodDataSource, bool isPrivate, UserId? createdBy,
+        string? barcode = null, string? imageUrl = null, string? brand = null)
     {
-        var food = new Food(FoodId.New(), name, nutritionPer100G, foodDataSource)
+        var food = new Food(FoodId.New(), name, nutritionPer100G, foodDataSource, isPrivate)
         {
             Barcode = barcode,
             ImageUrl = imageUrl,
-            Brand = brand
+            Brand = brand,
+            CreatedBy = createdBy
         };
 
         return food;

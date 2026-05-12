@@ -38,6 +38,8 @@ public class OpenFoodFactsDto
                 dto.Nutriments.Sodium100G,         // sodium
                 dto.Nutriments.Cholesterol100G),   // cholesterol
             FoodDataSource.ExternalApi,
+            false,
+            null,
             dto.Code,
             dto.ImageUrl,
             dto.Brand);

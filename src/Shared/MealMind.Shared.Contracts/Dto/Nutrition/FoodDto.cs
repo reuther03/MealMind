@@ -9,6 +9,8 @@ public record FoodDto
     public string? ImageUrl { get; init; }
     public List<string>? Categories { get; init; }
     public List<string>? DietaryTags { get; init; }
+    public Guid? CreatedBy { get; init; }
+    public bool IsPrivate { get; init; }
     public NutrimentsPer100GDto NutritionPer100G { get; init; } = null!;
     public DateTime CreatedAt { get; init; }
     public FoodDataSource FoodSource { get; init; }

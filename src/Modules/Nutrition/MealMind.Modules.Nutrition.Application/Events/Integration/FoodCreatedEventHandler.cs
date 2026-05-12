@@ -39,6 +39,8 @@ public class FoodCreatedEventHandler : IEventHandler<FoodCreatedEvent>
             notification.Food.Name,
             nutritionPer100G,
             notification.Food.FoodSource,
+            notification.Food.IsPrivate,
+            notification.Food.CreatedBy,
             notification.Food.Barcode,
             notification.Food.ImageUrl,
             notification.Food.Brand
