@@ -97,9 +97,11 @@ public record AddCustomFoodCommand(
                 }
             }
 
+            var ownerId = command.IsPrivate ? user.Id : null;
+
             var food = Food.Create(
                 command.Name, command.NutritionPer100G,
-                FoodDataSource.User, command.Barcode,
+                FoodDataSource.User, command.IsPrivate, ownerId, command.Barcode,
                 command.ImageUrl, command.Brand);
 
             food.AssignTags(categories, dietaryTags);

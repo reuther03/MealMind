@@ -83,6 +83,8 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
                             foodDtoResult.NutritionPer100G.Cholesterol ?? 0
                         ),
                         FoodDataSource.Database,
+                        false,
+                        null,
                         foodDtoResult.Barcode,
                         foodDtoResult.ImageUrl,
                         foodDtoResult.Brand
