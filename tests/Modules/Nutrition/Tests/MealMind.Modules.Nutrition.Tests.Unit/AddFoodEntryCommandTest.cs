@@ -46,7 +46,7 @@ public class AddFoodEntryCommandTest
         var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
         dailyLog.AddMeal(Meal.Initialize(mealType, userId));
 
-        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 30, 5, 8, 2, 0), FoodDataSource.Database, barcode);
+        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 5, 30, 8, 2, 0), FoodDataSource.Database, false, null, barcode);
 
         var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, barcode, null, quantityInGrams);
 
@@ -157,7 +157,7 @@ public class AddFoodEntryCommandTest
         var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
         dailyLog.AddMeal(Meal.Initialize(mealType, userId));
 
-        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 30, 5, 8, 2, 0), FoodDataSource.Database);
+        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 5, 30, 8, 2, 0), FoodDataSource.Database, false, null);
 
         var commandPayload = new AddFoodEntryCommand(dailyLogDate, mealType, null, food.Id, quantityInGrams);
 

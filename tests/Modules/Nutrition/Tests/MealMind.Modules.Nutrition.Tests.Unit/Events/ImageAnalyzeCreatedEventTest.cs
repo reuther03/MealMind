@@ -34,7 +34,7 @@ public class ImageAnalyzeCreatedEventTest
         var mealtype = 1;
 
         var dailyLog = DailyLog.Create(dailyLogDate, null, 3000, userId);
-        var meal = Meal.Initialize(MealType.Breakfast, userId);
+        var meal = Meal.Initialize(MealType.Lunch, userId);
         dailyLog.AddMeal(meal);
 
         _dailyLogRepository.Setup(x => x.GetByDateAsync(dailyLogDate, userId, It.IsAny<CancellationToken>()))

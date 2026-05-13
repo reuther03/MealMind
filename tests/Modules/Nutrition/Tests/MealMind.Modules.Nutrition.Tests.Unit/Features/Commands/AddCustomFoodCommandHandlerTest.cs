@@ -67,7 +67,7 @@ public class AddCustomFoodCommandHandlerTest
             .ReturnsAsync((UserProfile?)null);
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 
@@ -92,7 +92,7 @@ public class AddCustomFoodCommandHandlerTest
         var dietaryTags = new List<DietaryTag> { DietaryTag.HighProtein, DietaryTag.GlutenFree };
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, categories, dietaryTags);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, categories, dietaryTags, false);
 
         var handler = CreateHandler();
 
@@ -115,7 +115,7 @@ public class AddCustomFoodCommandHandlerTest
 
         var categories = new List<Category> { Category.Poultry };
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, categories, []);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, categories, [], false);
 
         var handler = CreateHandler();
 
@@ -145,7 +145,7 @@ public class AddCustomFoodCommandHandlerTest
             .ReturnsAsync(aiResult);
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 
@@ -181,7 +181,7 @@ public class AddCustomFoodCommandHandlerTest
             .ReturnsAsync(aiResult);
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 
@@ -210,7 +210,7 @@ public class AddCustomFoodCommandHandlerTest
             .ReturnsAsync(aiResult);
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 
@@ -238,7 +238,7 @@ public class AddCustomFoodCommandHandlerTest
             .ReturnsAsync(aiResult);
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 
@@ -264,7 +264,7 @@ public class AddCustomFoodCommandHandlerTest
             .ThrowsAsync(new Exception("Connection refused"));
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 
@@ -298,7 +298,7 @@ public class AddCustomFoodCommandHandlerTest
             .ThrowsAsync(new OperationCanceledException());
 
         var command = new AddCustomFoodCommand(
-            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null);
+            FoodName, null, SampleNutrition, "http://img.test/img.jpg", FoodBrand, null, null, false);
 
         var handler = CreateHandler();
 

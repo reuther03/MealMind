@@ -10,7 +10,7 @@ public class FoodEntryTest
     [Test]
     public async Task Create_ValidData_ShouldCreate()
     {
-        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 30, 5, 8, 2, 0), FoodDataSource.Database);
+        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 5, 30, 8, 2, 0), FoodDataSource.Database, false, null);
 
         var foodEntry = FoodEntry.Create(food, 100);
 
@@ -26,7 +26,7 @@ public class FoodEntryTest
     [Test]
     public async Task Create_ValidDataWithUnevenQuantity_ShouldCreate()
     {
-        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 30, 5, 8, 2, 0), FoodDataSource.Database);
+        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 5, 30, 8, 2, 0), FoodDataSource.Database, false, null);
 
         var foodEntry = FoodEntry.Create(food, 144);
 
@@ -44,7 +44,7 @@ public class FoodEntryTest
     {
         var quantityInGrams = -1;
 
-        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 30, 5, 8, 2, 0), FoodDataSource.Database);
+        var food = Food.Create("Test Food", new NutritionPer100G(330, 10, 5, 30, 8, 2, 0), FoodDataSource.Database, false, null);
 
         await Assert.That(() => FoodEntry.Create(food, quantityInGrams))
             .Throws<DomainException>()

@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 
 namespace MealMind.Modules.Identity.Tests.Unit.Stripe.Subscription;
 
@@ -23,9 +24,9 @@ public class EnsureTierTest
     {
         var subscription = Domain.IdentityUser.Subscription.CreateFreeTier();
 
-        var ex = Assert.Throws<ApplicationException>(() =>
+        var ex = Assert.Throws<DomainException>(() =>
             subscription.EnsureTier(SubscriptionTier.Standard, DateTime.UtcNow, DateTime.UtcNow.AddDays(30), "active"));
 
-        await Assert.That(ex?.Message).IsEqualTo("Invalid tier Standard");
+        await Assert.That(ex.Message).IsEqualTo("Invalid tier Standard");
     }
 }

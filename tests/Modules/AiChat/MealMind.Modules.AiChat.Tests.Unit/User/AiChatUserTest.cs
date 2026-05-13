@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.AiChat.Domain.AiChatUser;
+using MealMind.Shared.Abstractions.Exception;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Enums;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 
@@ -85,7 +86,7 @@ public class AiChatUserTest
         user.IncrementActiveConversations();
 
         await Assert.That(user.IncrementActiveConversations)
-            .Throws<InvalidOperationException>()
+            .Throws<DomainException>()
             .WithMessage($"User has reached the maximum number of active conversations ({user.ConversationsLimit}).");
     }
 }

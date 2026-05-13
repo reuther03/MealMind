@@ -30,7 +30,8 @@
       "Bash(grep:*)",
       "WebSearch",
       "WebFetch(domain:www.gowork.pl)",
-      "Bash(xargs wc *)"
+      "Bash(xargs wc *)",
+      "Bash(dotnet run *)"
     ]
   },
   "outputStyle": "default"

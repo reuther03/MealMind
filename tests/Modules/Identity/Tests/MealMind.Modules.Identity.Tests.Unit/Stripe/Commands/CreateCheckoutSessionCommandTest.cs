@@ -71,7 +71,7 @@ public class CreateCheckoutSessionCommandTest
         var result = await commandHandler.Handle(new CreateCheckoutSessionCommand(subscriptionTier), CancellationToken.None);
 
         await Assert.That(result.IsSuccess).IsFalse();
-        _stripeServiceMock.Verify(x => x.CreateCheckoutSessionAsync(It.IsAny<UserId>(), It.IsAny<SubscriptionTier>()), Times.Never);
+        _stripeServiceMock.Verify(x => x.CreateCheckoutSessionAsync(It.IsAny<Guid>(), It.IsAny<SubscriptionTier>()), Times.Never);
         _unitOfWorkMock.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 }
