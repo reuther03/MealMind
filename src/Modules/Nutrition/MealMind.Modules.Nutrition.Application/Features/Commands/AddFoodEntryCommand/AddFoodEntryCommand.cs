@@ -73,8 +73,8 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
                         new NutritionPer100G(
                             foodDtoResult.NutritionPer100G.Calories,
                             foodDtoResult.NutritionPer100G.Protein,
-                            foodDtoResult.NutritionPer100G.Fat,
                             foodDtoResult.NutritionPer100G.Carbohydrates,
+                            foodDtoResult.NutritionPer100G.Fat,
                             foodDtoResult.NutritionPer100G.Salt ?? 0,
                             foodDtoResult.NutritionPer100G.Sugar ?? 0,
                             foodDtoResult.NutritionPer100G.SaturatedFat ?? 0,
