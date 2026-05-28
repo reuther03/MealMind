@@ -19,7 +19,7 @@ public class AddCustomFoodEndpoint : EndpointBase
             .RequireAuthorization()
             .WithDocumentation(
                 "Add New Custom Food",
-                "Adds a new custom food item to the user's food database. The food item includes details such as name, barcode, nutritional information per 100 grams, image URL, brand, categories, and dietary tags.",
+                "Adds a new custom food item to the user's food database. The food item includes details such as name, barcode, nutritional information per 100 grams, image URL, brand, categories, dietary tags, and an isPrivate flag (when true, the food is visible only to its creator).",
                 """
                 POST http://localhost:5000/food
 
@@ -28,12 +28,15 @@ public class AddCustomFoodEndpoint : EndpointBase
                   "barcode": "1234567890123",
                   "nutritionPer100G": {
                     "calories": 450,
-                    "proteinInGrams": 10,
-                    "carbohydratesInGrams": 60,
-                    "fatsInGrams": 15,
-                    "fiberInGrams": 8,
-                    "sugarsInGrams": 20,
-                    "sodiumInMilligrams": 200
+                    "protein": 10,
+                    "carbohydrates": 60,
+                    "fat": 15,
+                    "salt": 0.5,
+                    "sugar": 20,
+                    "saturatedFat": 3,
+                    "fiber": 8,
+                    "sodium": 0.2,
+                    "cholesterol": 0
                   },
                   "imageUrl": "http://example.com/images/homemade_granola.jpg",
                   "brand": "MyKitchen",
@@ -44,7 +47,8 @@ public class AddCustomFoodEndpoint : EndpointBase
                   "dietaryTags": [
                     "Vegetarian",
                     "Gluten-Free"
-                  ]
+                  ],
+                  "isPrivate": true
                 }
                 """,
                 """
