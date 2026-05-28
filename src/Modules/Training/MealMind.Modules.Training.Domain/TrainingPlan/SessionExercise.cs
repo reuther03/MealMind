@@ -20,6 +20,9 @@ public class SessionExercise : Entity<Guid>
         if (strengthDetails == null && cardioDetails == null)
             throw new ArgumentException("Either strength details or cardio details must be provided.");
 
+        if (strengthDetails != null && cardioDetails != null)
+            throw new ArgumentException("Cannot provide both strength and cardio details — an exercise is either strength or cardio.");
+
         ExerciseId = exerciseId;
         OrderIndex = orderIndex;
         Notes = notes;
