@@ -57,11 +57,11 @@ public record AddFoodEntryCommand(DateOnly DailyLogDate, MealType MealType, stri
             Food? food = null;
             if (request.FoodId is not null)
             {
-                food = await _foodRepository.GetByIdAsync(request.FoodId.Value, cancellationToken);
+                food = await _foodRepository.GetByIdAsync(request.FoodId.Value, user.Id, cancellationToken);
             }
             else if (request.Barcode is not null)
             {
-                food = await _foodRepository.GetByBarcodeAsync(request.Barcode, cancellationToken);
+                food = await _foodRepository.GetByBarcodeAsync(request.Barcode, user.Id, cancellationToken);
                 if (food is null)
                 {
                     var foodDtoResult = await _factsService.GetFoodByBarcodeAsync(request.Barcode, cancellationToken);

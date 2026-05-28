@@ -29,7 +29,7 @@ public record AddFavoriteFoodCommand(Guid FoodId) : ICommand<bool>
             if (user is null)
                 return Result.BadRequest<bool>("User profile not found.");
 
-            var food = await _foodRepository.GetByIdAsync(command.FoodId, cancellationToken);
+            var food = await _foodRepository.GetByIdAsync(command.FoodId, user.Id, cancellationToken);
             if (food is null)
                 return Result.BadRequest<bool>("Food not found.");
 
