@@ -36,7 +36,7 @@ public record UpdateStrengthDetailsCommand(Guid PlanId, Guid SessionId, Guid Exe
             if (exercise is null)
                 return Result<bool>.NotFound("Exercise not found in session.");
 
-            exercise.SetStrengthDetails(command.StrengthDetails);
+            exercise.UpdateStrengthDetails(command.StrengthDetails);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result<bool>.Ok(true);

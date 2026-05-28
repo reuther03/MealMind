@@ -30,10 +30,18 @@ public class TrainingSession : Entity<Guid>
     public static TrainingSession Create(Name name, string? description = null)
         => new(name, description);
 
-    public void SetAsCompleted()
+    public void SetAsStarted()
     {
-        if (IsCompleted)
-            throw new DomainException("Training session is already completed.");
+        if (!IsCompleted)
+            throw new DomainException("Training session is already started.");
+
+        StartedAt = DateTime.UtcNow;
+    }
+
+    public void SetAsEnded()
+    {
+        if (!IsCompleted)
+            throw new DomainException("Training session is already ended.");
 
         EndedAt = DateTime.UtcNow;
     }

@@ -1,4 +1,5 @@
-﻿using MealMind.Shared.Abstractions.Kernel.Primitives;
+﻿using MealMind.Shared.Abstractions.Exception;
+using MealMind.Shared.Abstractions.Kernel.Primitives;
 
 namespace MealMind.Modules.Training.Domain.TrainingPlan;
 
@@ -30,9 +31,19 @@ public class SessionExercise : Entity<Guid>
         string? notes = null)
         => new(exerciseId, orderIndex, strengthDetails, cardioDetails, notes);
 
-    public void SetStrengthDetails(StrengthDetails? strengthDetails)
-        => StrengthDetails = strengthDetails;
+    public void UpdateStrengthDetails(StrengthDetails strengthDetails)
+    {
+        if (CardioDetails is not null)
+            throw new DomainException("Cannot set strength details on a cardio exercise.");
 
-    public void SetCardioDetails(CardioDetails? cardioDetails)
-        => CardioDetails = cardioDetails;
+        StrengthDetails = strengthDetails ?? throw new ArgumentNullException(nameof(strengthDetails));
+    }
+
+    public void UpdateCardioDetails(CardioDetails cardioDetails)
+    {
+        if (StrengthDetails is not null)
+            throw new DomainException("Cannot set cardio details on a strength exercise.");
+
+        CardioDetails = cardioDetails ?? throw new ArgumentNullException(nameof(cardioDetails));
+    }
 }

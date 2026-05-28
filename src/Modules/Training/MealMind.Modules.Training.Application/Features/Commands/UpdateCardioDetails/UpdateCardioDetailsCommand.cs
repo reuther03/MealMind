@@ -35,7 +35,7 @@ public record UpdateCardioDetailsCommand(Guid PlanId, Guid SessionId, Guid Exerc
             if (exercise is null)
                 return Result<bool>.NotFound("Exercise not found in session.");
 
-            exercise.SetCardioDetails(command.CardioDetails);
+            exercise.UpdateCardioDetails(command.CardioDetails);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result<bool>.Ok(true);
