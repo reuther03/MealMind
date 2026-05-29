@@ -31,6 +31,9 @@ public record UpdateCardioDetailsCommand(Guid PlanId, Guid SessionId, Guid Exerc
             if (session is null)
                 return Result<bool>.NotFound("Session not found.");
 
+            if (session.IsCompleted)
+                return Result<bool>.BadRequest("Cannot modify a completed training session.");
+
             var exercise = session.Exercises.FirstOrDefault(e => e.Id == command.ExerciseId);
             if (exercise is null)
                 return Result<bool>.NotFound("Exercise not found in session.");
