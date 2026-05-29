@@ -12,6 +12,7 @@ public class TrainingSession : Entity<Guid>
     public DateTime? StartedAt { get; private set; }
     public DateTime? EndedAt { get; private set; }
     public string? Description { get; private set; }
+    public bool IsStarted => StartedAt.HasValue;
     public bool IsCompleted => EndedAt.HasValue;
 
     public IReadOnlyList<SessionExercise> Exercises => _exercises.AsReadOnly();
@@ -32,15 +33,18 @@ public class TrainingSession : Entity<Guid>
 
     public void SetAsStarted()
     {
-        if (!IsCompleted)
-            throw new DomainException("Training session is already started.");
+        if (IsStarted)
+            throw new DomainException("Training session has already started.");
 
         StartedAt = DateTime.UtcNow;
     }
 
     public void SetAsEnded()
     {
-        if (!IsCompleted)
+        if (!IsStarted)
+            throw new DomainException("Cannot end a training session that has not started.");
+
+        if (IsCompleted)
             throw new DomainException("Training session is already ended.");
 
         EndedAt = DateTime.UtcNow;
