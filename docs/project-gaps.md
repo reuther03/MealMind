@@ -10,7 +10,6 @@ Dokument zbiorczy z analizy stanu projektu. Pogrupowany per obszar, z prioryteta
 ## 1. Per-moduł — kompletność funkcjonalna
 
 ### Identity
-- **[P0] Brak GET `/identity/me`** — po loginie nie da się pobrać aktualnego usera (tier, email). `AuthState` na frontendzie nie ma się z czego synchronizować.
 - **[P1] Brak GET subscription status** — Stripe webhooks aktualizują DB, ale nikt nie czyta.
 - **[P1] Brak edycji profilu** (email, hasło).
 - **[P1] Brak `DeleteAccountCommand`** — RODO, kasacja konta + danych z innych modułów.

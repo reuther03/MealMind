@@ -30,9 +30,14 @@ public class SessionExercise : Entity<Guid>
         CardioDetails = cardioDetails;
     }
 
-    public static SessionExercise Create(Guid exerciseId, int orderIndex, StrengthDetails? strengthDetails = null, CardioDetails? cardioDetails = null,
+    public static SessionExercise CreateEmpty(Guid exerciseId, int orderIndex, ExerciseType type,
         string? notes = null)
-        => new(exerciseId, orderIndex, strengthDetails, cardioDetails, notes);
+    {
+        var strength = type == ExerciseType.Strength ? new StrengthDetails() : null;
+        var cardio = type == ExerciseType.Strength ? null : CardioDetails.CreateEmpty();
+        return new SessionExercise(exerciseId, orderIndex, strength, cardio, notes);
+    }
+
 
     public void UpdateStrengthDetails(StrengthDetails strengthDetails)
     {

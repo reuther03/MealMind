@@ -17,6 +17,7 @@ internal class TrainingPlanRepository : Repository<TrainingPlan, TrainingDbConte
 
     public async Task<TrainingPlan?> GetByIdAsync(Guid id, Guid userId, CancellationToken cancellationToken)
         => await _context.TrainingPlans
+            .Include(x => x.Sessions)
             .FirstOrDefaultAsync(x => x.Id == TrainingPlanId.From(id) &&
                 x.UserId == UserId.From(userId), cancellationToken);
 }
