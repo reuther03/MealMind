@@ -47,8 +47,7 @@ public record CardioDetails : ValueObject
         CaloriesEstimated = caloriesEstimated;
     }
 
-    public static CardioDetails CreateEmpty()
-        => new CardioDetails(null, null, null, null, null, null, null);
+    public static CardioDetails CreateEmpty() => new(null, null, null, null, null, null, null);
 
 
     protected override IEnumerable<object> GetAtomicValues()

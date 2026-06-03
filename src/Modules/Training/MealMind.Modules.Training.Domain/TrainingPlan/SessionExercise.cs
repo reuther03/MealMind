@@ -41,10 +41,16 @@ public class SessionExercise : Entity<Guid>
 
     public void UpdateStrengthDetails(StrengthDetails strengthDetails)
     {
+        if (strengthDetails == null)
+            throw new DomainException("Strength details cannot be null.");
+
         if (CardioDetails is not null)
             throw new DomainException("Cannot set strength details on a cardio exercise.");
 
-        StrengthDetails = strengthDetails ?? throw new ArgumentNullException(nameof(strengthDetails));
+        if (strengthDetails.Sets.Count == 0)
+            throw new DomainException("Strength details must contain at least one set.");
+
+        StrengthDetails = strengthDetails;
     }
 
     public void UpdateCardioDetails(CardioDetails cardioDetails)
