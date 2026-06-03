@@ -22,7 +22,7 @@ public class TrainingSession : Entity<Guid>
     {
     }
 
-    private TrainingSession(Name name, string? description)
+    private TrainingSession(Name name, string? description) : base(Guid.NewGuid())
     {
         Name = name;
         Description = description;
@@ -31,12 +31,18 @@ public class TrainingSession : Entity<Guid>
     public static TrainingSession Create(Name name, string? description = null)
         => new(name, description);
 
-    public void SetAsStarted()
-    {
-        if (IsStarted)
-            throw new DomainException("Training session has already started.");
 
-        StartedAt = DateTime.UtcNow;
+    public static TrainingSession Clone(TrainingSession previousTrainingSession)
+    {
+        var clonedSession = new TrainingSession(previousTrainingSession.Name, previousTrainingSession.Description);
+        foreach (var exercise in previousTrainingSession.Exercises)
+        {
+            clonedSession._exercises.Add(exercise.CloneForNewSession());
+        }
+
+        clonedSession.SetAsStarted();
+
+        return clonedSession;
     }
 
     public void SetAsEnded()
@@ -56,5 +62,13 @@ public class TrainingSession : Entity<Guid>
             throw new DomainException("Training session is already completed.");
 
         _exercises.Add(exercise);
+    }
+
+    private void SetAsStarted()
+    {
+        if (IsStarted)
+            throw new DomainException("Training session has already started.");
+
+        StartedAt = DateTime.UtcNow;
     }
 }

@@ -1,11 +1,12 @@
 ﻿using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Domain.TrainingPlan;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Result;
 
 namespace MealMind.Modules.Training.Application.Features.Commands.StartTrainingSessionCommand;
 
-public record StartTrainingSessionCommand(Guid TrainingPlanId, Guid TrainingSessionId) : ICommand<bool>
+public record StartTrainingSessionCommand(Guid TrainingPlanId, Guid PreviousTrainingSessionId) : ICommand<bool>
 {
     public sealed class Handler : ICommandHandler<StartTrainingSessionCommand, bool>
     {
@@ -31,12 +32,13 @@ public record StartTrainingSessionCommand(Guid TrainingPlanId, Guid TrainingSess
             if (trainingPlan is null)
                 return Result<bool>.NotFound("Training plan not found.");
 
-            var trainingSession = trainingPlan.Sessions.FirstOrDefault(x => x.Id == command.TrainingSessionId);
-            if (trainingSession is null)
-                return Result<bool>.NotFound("Training session not found.");
+            var previousTrainingSession = trainingPlan.Sessions.FirstOrDefault(x => x.Id == command.PreviousTrainingSessionId && x.IsCompleted);
+            if (previousTrainingSession is null)
+                return Result<bool>.NotFound("Completed training session not found");
 
+            var newTrainingSession = TrainingSession.Clone(previousTrainingSession);
 
-            trainingSession.SetAsStarted();
+            trainingPlan.AddSession(newTrainingSession);
 
             await _unitOfWork.CommitAsync(cancellationToken);
             return Result<bool>.Ok(true);

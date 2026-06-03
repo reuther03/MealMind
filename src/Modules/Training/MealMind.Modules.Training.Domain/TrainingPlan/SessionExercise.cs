@@ -15,7 +15,8 @@ public class SessionExercise : Entity<Guid>
     {
     }
 
-    private SessionExercise(Guid exerciseId, int orderIndex, StrengthDetails? strengthDetails, CardioDetails? cardioDetails, string? notes)
+    private SessionExercise(Guid exerciseId, int orderIndex, StrengthDetails? strengthDetails, CardioDetails? cardioDetails, string? notes) :
+        base(Guid.NewGuid())
     {
         if (strengthDetails == null && cardioDetails == null)
             throw new ArgumentException("Either strength details or cardio details must be provided.");
@@ -36,6 +37,18 @@ public class SessionExercise : Entity<Guid>
         var strength = type == ExerciseType.Strength ? new StrengthDetails() : null;
         var cardio = type == ExerciseType.Strength ? null : CardioDetails.CreateEmpty();
         return new SessionExercise(exerciseId, orderIndex, strength, cardio, notes);
+    }
+
+    public SessionExercise CloneForNewSession()
+    {
+        var strength = StrengthDetails is not null
+            ? new StrengthDetails(StrengthDetails.Sets)
+            : null;
+        var cardio = CardioDetails is not null
+            ? CardioDetails with { }
+            : null;
+
+        return new SessionExercise(ExerciseId, OrderIndex, strength, cardio, Notes);
     }
 
 

@@ -31,8 +31,8 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
 
     public void AddSession(TrainingSession session)
     {
-        if (_sessions.Any(s => s.Name == session.Name))
-            throw new DomainException($"Session with name {session.Name} already exists in this training plan.");
+        if (_sessions.Any(x => x.Id == session.Id))
+            throw new DomainException("Cannot add identical training session to the training plan.");
 
         _sessions.Add(session);
     }
