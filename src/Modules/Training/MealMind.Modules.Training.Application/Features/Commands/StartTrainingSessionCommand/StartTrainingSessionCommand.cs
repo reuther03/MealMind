@@ -23,12 +23,9 @@ public record StartTrainingSessionCommand(Guid TrainingPlanId, Guid PreviousTrai
 
         public async Task<Result<bool>> Handle(StartTrainingSessionCommand command, CancellationToken cancellationToken)
         {
-            if (!_userService.IsAuthenticated)
-                return Result<bool>.BadRequest("User is not authenticated.");
-
             var userId = _userService.UserId;
 
-            var trainingPlan = await _trainingPlanRepository.GetByIdAsync(command.TrainingPlanId, userId, cancellationToken);
+            var trainingPlan = await _trainingPlanRepository.GetByIdAsync(command.TrainingPlanId, userId!, cancellationToken);
             if (trainingPlan is null)
                 return Result<bool>.NotFound("Training plan not found.");
 

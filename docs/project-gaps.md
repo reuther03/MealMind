@@ -33,12 +33,10 @@ Dokument zbiorczy z analizy stanu projektu. Pogrupowany per obszar, z prioryteta
 - **[P0] Brak GET TrainingPlan (single + list)** — tworzysz plan, nie da się go odczytać.
 - **[P0] Brak GET TrainingSession ze szczegółami** (`GetTrainingSessionQuery` nie istnieje).
 - **[P0] Brak GET historii sesji**.
-- **[P0] `StartTrainingSessionCommand` z kopiowaniem ćwiczeń z poprzedniej zakończonej sesji** — zaprojektowane, jeszcze nie zbudowane.
 - **[P0] `TrainingPlan.Activate()/Deactivate()`** — `IsActive` istnieje, brak metod domenowych.
 - **[P1] Brak endpointu dla `SetAsStarted`/`SetAsEnded`** — domena ma, API nie eksponuje.
 - **[P1] Brak `DeleteTrainingPlanCommand`**.
 - **[P1] Brak `RemoveExerciseFromSessionCommand`** i edycji sesji.
-- **[P1] Brak GET pojedynczego `Exercise` endpointu** (`GetExerciseQuery` jest w kodzie, endpointu brak — tylko `GetExercisesEndpoint` listujący).
 
 ### AiChat
 - **[P1] Brak GET pełnej historii konwersacji** — `GetConversationDetailsEndpoint` istnieje, ale niejasne czy serwuje cały message log.
