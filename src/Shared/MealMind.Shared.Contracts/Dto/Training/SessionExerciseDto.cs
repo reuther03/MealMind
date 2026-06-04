@@ -24,7 +24,6 @@ public class ExerciseSetDto
 
 public class CardioDetailsDto
 {
-    public Guid Id { get; set; }
     public int? DurationInMinutes { get; init; }
     public decimal? DistanceInKm { get; init; }
     public int? CaloriesBurned { get; init; }
