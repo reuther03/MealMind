@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.Training.Application.Features.Queries;
 
-public record GetTrainingPlanQuery(Guid Id) : IQuery<TrainingPlanDto>
+public record GetTrainingPlanQuery(Guid Id) : IQuery<TrainingPlanDetailsDto>
 {
-    public sealed class Handler : IQueryHandler<GetTrainingPlanQuery, TrainingPlanDto>
+    public sealed class Handler : IQueryHandler<GetTrainingPlanQuery, TrainingPlanDetailsDto>
     {
         private readonly ITrainingDbContext _dbContext;
         private readonly IUserService _userService;
@@ -21,16 +21,16 @@ public record GetTrainingPlanQuery(Guid Id) : IQuery<TrainingPlanDto>
             _userService = userService;
         }
 
-        public async Task<Result<TrainingPlanDto>> Handle(GetTrainingPlanQuery request, CancellationToken cancellationToken)
+        public async Task<Result<TrainingPlanDetailsDto>> Handle(GetTrainingPlanQuery request, CancellationToken cancellationToken)
         {
             if (!_userService.IsAuthenticated)
-                return Result<TrainingPlanDto>.BadRequest("User is not authenticated.");
+                return Result<TrainingPlanDetailsDto>.BadRequest("User is not authenticated.");
 
             var userId = _userService.UserId;
 
             var trainingPlan = await _dbContext.TrainingPlans
                 .Where(x => x.Id == TrainingPlanId.From(request.Id) && x.UserId == userId && x.IsActive)
-                .Select(x => new TrainingPlanDto
+                .Select(x => new TrainingPlanDetailsDto
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -77,7 +77,7 @@ public record GetTrainingPlanQuery(Guid Id) : IQuery<TrainingPlanDto>
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return trainingPlan == null ? Result<TrainingPlanDto>.NotFound("Training plan not found.") : Result<TrainingPlanDto>.Ok(trainingPlan);
+            return trainingPlan == null ? Result<TrainingPlanDetailsDto>.NotFound("Training plan not found.") : Result<TrainingPlanDetailsDto>.Ok(trainingPlan);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace MealMind.Shared.Contracts.Dto.Training;
+namespace MealMind.Shared.Contracts.Dto.Training;
 
 public class TrainingPlanDto
 {
@@ -6,5 +6,6 @@ public class TrainingPlanDto
     public string Name { get; init; } = null!;
     public DayOfWeek PlannedOn { get; init; }
     public bool IsActive { get; init; }
-    public List<TrainingSessionDto> Sessions { get; init; } = [];
+    public int SessionsCount { get; init; }
+    public DateTime? LastCompletedSessionAt { get; init; }
 }

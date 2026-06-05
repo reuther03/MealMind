@@ -32,7 +32,7 @@ public record GetFoodByNameQuery(string SearchTerm, int PageSize = 10, int Page 
                 .OrderByDescending(x => x.Statistics.TotalUsageCount * 0.5 + x.Statistics.FavoriteCount * 2 + x.Statistics.SearchCount * 0.05)
                 .ThenByDescending(x => x.Statistics.AverageRating * x.Statistics.RatingCount / (x.Statistics.RatingCount + 5.0))
                 .Skip((query.Page - 1) * query.PageSize)
-                .Take(query.PageSize + 1)
+                .Take(query.PageSize)
                 .ToListAsync(cancellationToken);
 
             var foodsDto = databaseFoods
