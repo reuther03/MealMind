@@ -4,6 +4,7 @@ public class SessionExerciseDto
 {
     public Guid Id { get; init; }
     public int OrderIndex { get; init; }
+    public ExerciseDto Exercise { get; init; } = null!;
     public StrengthDetailsDto? StrengthDetails { get; init; }
     public CardioDetailsDto? CardioDetails { get; init; }
 }
