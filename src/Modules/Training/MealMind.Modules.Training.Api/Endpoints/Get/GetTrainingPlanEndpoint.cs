@@ -13,7 +13,7 @@ public class GetTrainingPlanEndpoint : EndpointBase
         endpointRouteBuilder.MapGet("/training-plans/{planId:guid}",
                 async (Guid planId, ISender sender) =>
                 {
-                    var result = await sender.Send(new GetTrainingPlanQuery(planId));
+                    var result = await sender.Send(new GetTrainingPlanDetailsQuery(planId));
                     return result;
                 })
             .RequireAuthorization()

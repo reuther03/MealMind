@@ -1,6 +1,6 @@
 namespace MealMind.Shared.Contracts.Dto.Training;
 
-public class TrainingSessionDto
+public class TrainingSessionDetailsDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = null!;
@@ -9,5 +9,5 @@ public class TrainingSessionDto
     public string? Description { get; init; }
     public bool IsStarted => StartedAt.HasValue;
     public bool IsCompleted => EndedAt.HasValue;
-    public List<string> ExerciseNames { get; init; } = [];
+    public List<SessionExerciseDto> Exercises { get; init; } = [];
 }

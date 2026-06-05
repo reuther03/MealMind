@@ -13,7 +13,7 @@ public class GetExerciseEndpoint : EndpointBase
         endpointRouteBuilder.MapGet("/exercises/{exerciseId:guid}",
                 async (Guid exerciseId, ISender sender) =>
                 {
-                    var result = await sender.Send(new GetExerciseQuery(exerciseId));
+                    var result = await sender.Send(new GetExerciseDetailsQuery(exerciseId));
                     return result;
                 })
             .RequireAuthorization()

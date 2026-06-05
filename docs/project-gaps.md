@@ -30,7 +30,6 @@ Dokument zbiorczy z analizy stanu projektu. Pogrupowany per obszar, z prioryteta
 > *Uwaga: `NutritionTarget` jest immutable z założenia (value object) — update zwraca nową instancję przez `with`-expression. To zgodne z konwencją projektu, nie bug.*
 
 ### Training
-- **[P0] Brak GET TrainingPlan (single + list)** — tworzysz plan, nie da się go odczytać.
 - **[P0] Brak GET TrainingSession ze szczegółami** (`GetTrainingSessionQuery` nie istnieje).
 - **[P0] Brak GET historii sesji**.
 - **[P0] `TrainingPlan.Activate()/Deactivate()`** — `IsActive` istnieje, brak metod domenowych.

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.Training.Application.Features.Queries;
 
-public record GetExerciseQuery(Guid ExerciseId) : IQuery<ExerciseDetailsDto>
+public record GetExerciseDetailsQuery(Guid ExerciseId) : IQuery<ExerciseDetailsDto>
 {
-    public sealed class Handler : IQueryHandler<GetExerciseQuery, ExerciseDetailsDto>
+    public sealed class Handler : IQueryHandler<GetExerciseDetailsQuery, ExerciseDetailsDto>
     {
         private readonly ITrainingDbContext _dbContext;
 
@@ -17,9 +17,9 @@ public record GetExerciseQuery(Guid ExerciseId) : IQuery<ExerciseDetailsDto>
             _dbContext = dbContext;
         }
 
-        public async Task<Result<ExerciseDetailsDto>> Handle(GetExerciseQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<ExerciseDetailsDto>> Handle(GetExerciseDetailsQuery detailsQuery, CancellationToken cancellationToken = default)
         {
-            var exercise = await _dbContext.Exercises.FirstOrDefaultAsync(x => x.Id == query.ExerciseId, cancellationToken);
+            var exercise = await _dbContext.Exercises.FirstOrDefaultAsync(x => x.Id == detailsQuery.ExerciseId, cancellationToken);
             if (exercise == null)
                 return Result<ExerciseDetailsDto>.BadRequest("Exercise not found.");
 
