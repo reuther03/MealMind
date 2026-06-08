@@ -1,12 +1,3 @@
-# Przygotowanie do rozmowy — ENOLOGY (Programista .NET / C# + ERP)
-
-> Rzeszów, ENOLOGY sp. z o.o. — enova365 + Comarch ERP Optima, .NET / C# / MSSQL / T-SQL / ASP.NET Web API.
-> Stanowisko mid/regular w ofercie, ale skoro to Twoja pierwsza praca — celuj w **junior z ambicją mida**: pokaż że ogarniasz podstawy, masz projekt portfolio i nie boisz się dziedziny której nie znasz (ERP).
-
----
-
-## 0. Jak nastawić się do tej rozmowy
-
 **Klucz #1 — szczera transparentność co do ERP.**
 Nigdy nie pracowałeś z enova365 ani Optima. Nie ukrywaj tego. Mów wprost:
 > "Z systemami ERP nie miałem dotąd styczności, ale przygotowałem się do rozmowy — wiem mniej więcej do czego służą, jak są zbudowane (moduły: finanse, HR, magazyn, sprzedaż), i wiem że enova365 i Optima rozszerza się przez pluginy/dodatki w C# odwołujące się do API systemu. Liczę że to obszar w którym sporo nauczę się od zespołu."
