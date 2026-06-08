@@ -16,7 +16,6 @@ public class GetDailyLogEndpoint : EndpointBase
                     var result = await sender.Send(new GetDailyLogQuery(date));
                     return result;
                 })
-            .AllowAnonymous()
             .WithDocumentation(
                 "Get Daily Log",
                 "Retrieves the daily nutrition log for a specified date, including meals and their nutritional breakdown. Useful for tracking daily food intake and nutritional goals.",
