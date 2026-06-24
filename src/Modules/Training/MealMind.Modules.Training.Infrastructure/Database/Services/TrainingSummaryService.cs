@@ -22,7 +22,7 @@ internal class TrainingSummaryService : ITrainingSummaryService
         var daysFromMonday = ((int)today.DayOfWeek + 6) % 7;
         var mondayThisWeek = today.AddDays(-daysFromMonday);
         var sundayLastWeek = mondayThisWeek.AddDays(-1);
-        var mondayRangeStart = mondayThisWeek.AddDays((-1 * days)!);
+        var mondayRangeStart = mondayThisWeek.AddDays(-1 * days);
 
 
         var trainingPlans = await _dbContext.TrainingPlans
@@ -39,25 +39,20 @@ internal class TrainingSummaryService : ITrainingSummaryService
                 s.Description,
                 Exercises = s.Exercises.Select(e => new
                 {
-                    Exercise = _dbContext.Exercises
-                        .Where(ex => ex.Id == e.ExerciseId)
-                        .Select(ex => new
-                        {
-                            ex.Name,
-                            ex.Type,
-                            ex.MuscleGroup
-                        }).FirstOrDefault(),
+                    e.Exercise.Name,
+                    e.Exercise.Type,
+                    e.Exercise.MuscleGroup,
                     e.OrderIndex,
                     e.StrengthDetails,
                     e.CardioDetails
                 }).ToList()
             }).ToListAsync(ct);
 
-        if (trainingPlans == null)
+        if (trainingPlans.Count == 0)
             throw new DomainException("No training sessions found in the specified period.");
 
         var trainingPlansWeeklyGroup = trainingPlans
-            .GroupBy(x => x.StartedAt!.Value.AddDays((-(int)x.StartedAt.Value.DayOfWeek + 6) % 7))
+            .GroupBy(x => x.StartedAt!.Value.AddDays(((int)today.DayOfWeek + 6) % 7))
             .OrderBy(g => g.Key)
             .ToList();
 

@@ -45,10 +45,7 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
                         Description = s.Description,
                         ExerciseNames = s.Exercises
                             .OrderBy(e => e.OrderIndex)
-                            .Select(e => _dbContext.Exercises
-                                .Where(ex => ex.Id == e.ExerciseId)
-                                .Select(ex => ex.Name)
-                                .FirstOrDefault() ?? "Unknown")
+                            .Select(e => e.Exercise.Name)
                             .ToList()
                     }).ToList()
                 })

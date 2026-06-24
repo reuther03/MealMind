@@ -42,25 +42,14 @@ public record GetTrainingSessionDetailsQuery(Guid PlanId, Guid TrainingSessionId
                         {
                             Id = e.Id,
                             OrderIndex = e.OrderIndex,
-                            Exercise = _dbContext.Exercises
-                                .Where(ex => ex.Id == e.ExerciseId)
-                                .Select(ex => new ExerciseDto
+                            Exercise = new ExerciseDto
                                 {
-                                    Id = ex.Id,
-                                    Name = ex.Name,
-                                    ImageUrl = ex.ImageUrl,
-                                    Type = ex.Type.ToString(),
-                                    MuscleGroup = ex.MuscleGroup != null ? ex.MuscleGroup.ToString() : null,
-                                    IsCustom = ex.IsCustom
-                                })
-                                .FirstOrDefault() ?? new ExerciseDto
-                                {
-                                    Id = Guid.Empty,
-                                    Name = "Unknown",
-                                    ImageUrl = null,
-                                    Type = "Unknown",
-                                    MuscleGroup = null,
-                                    IsCustom = false
+                                    Id = e.ExerciseId,
+                                    Name = e.Exercise.Name,
+                                    ImageUrl = e.Exercise.ImageUrl,
+                                    Type = e.Exercise.Type.ToString(),
+                                    MuscleGroup = e.Exercise.MuscleGroup != null ? e.Exercise.MuscleGroup.ToString() : null,
+                                    IsCustom = e.Exercise.IsCustom
                                 },
                             StrengthDetails = e.StrengthDetails == null
                                 ? null
