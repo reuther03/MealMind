@@ -31,7 +31,18 @@
       "WebSearch",
       "WebFetch(domain:www.gowork.pl)",
       "Bash(xargs wc *)",
-      "Bash(dotnet run *)"
+      "Bash(dotnet run *)",
+      "WebFetch(domain:www.pracuj.pl)",
+      "WebFetch(domain:www.opgk.rzeszow.pl)",
+      "WebFetch(domain:justjoin.it)",
+      "WebFetch(domain:www.ideo.pl)",
+      "WebFetch(domain:nofluffjobs.com)",
+      "WebFetch(domain:www.linkedin.com)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Repos\\\\MealMind\\\\src\\\\Modules\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Read(//c/Users/micha/**)",
+      "Read(//c/Users/micha/Downloads/**)",
+      "PowerShell(Get-ChildItem *)"
     ]
   },
   "outputStyle": "default"

@@ -510,3 +510,5 @@ service-worker-assets.js
 
 # Blazor hot reload temp files
 *.razor.g.cs
+
+LearningMaterials/Interview-Prep-IDEO.md

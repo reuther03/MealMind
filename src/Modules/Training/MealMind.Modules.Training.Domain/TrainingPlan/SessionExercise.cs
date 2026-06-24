@@ -6,6 +6,7 @@ namespace MealMind.Modules.Training.Domain.TrainingPlan;
 public class SessionExercise : Entity<Guid>
 {
     public Guid ExerciseId { get; private set; }
+    public Exercise Exercise { get; private set; } = null!;
     public int OrderIndex { get; private set; }
     public string? Notes { get; private set; }
     public StrengthDetails? StrengthDetails { get; private set; }

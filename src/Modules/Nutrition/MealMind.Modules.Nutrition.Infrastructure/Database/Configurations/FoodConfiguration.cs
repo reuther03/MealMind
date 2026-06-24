@@ -1,5 +1,6 @@
 ﻿using MealMind.Modules.Nutrition.Domain.Food;
 using MealMind.Shared.Abstractions.Kernel.ValueObjects;
+using MealMind.Shared.Abstractions.Kernel.ValueObjects.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -81,6 +82,14 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
 
         builder.Property(x => x.FoodDataSource)
             .HasConversion<string>()
+            .IsRequired();
+
+        builder.Property(x => x.CreatedBy)
+            .HasConversion(
+                userId => userId == null ? (Guid?)null : userId.Value,
+                guid => guid.HasValue ? UserId.From(guid.Value) : null);
+
+        builder.Property(x => x.IsPrivate)
             .IsRequired();
 
         builder.PrimitiveCollection<List<Category>>("_categories")

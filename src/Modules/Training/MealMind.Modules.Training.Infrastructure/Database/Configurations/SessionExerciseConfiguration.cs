@@ -35,5 +35,10 @@ public class SessionExerciseConfiguration : IEntityTypeConfiguration<SessionExer
         {
             sd.ToJson();
         });
+
+        builder.HasOne(x => x.Exercise)
+            .WithMany()
+            .HasForeignKey(x => x.ExerciseId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
