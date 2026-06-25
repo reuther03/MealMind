@@ -22,4 +22,7 @@ public class ExerciseComparisonDto
     public decimal? CurrentDistanceInKm { get; init; }
     public decimal? PreviousDistanceInKm { get; init; }
     public decimal? DistanceDelta { get; init; }
+    public int? CurrentCaloriesBurned { get; init; }
+    public int? PreviousCaloriesBurned { get; init; }
+    public int? CaloriesBurnedDelta { get; init; }
 }

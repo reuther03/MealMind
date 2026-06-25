@@ -45,7 +45,8 @@ internal class SessionComparisonService : ISessionComparisonService
                 ExercisesCount = sessionsToComparison.CurrentSession.Exercises.Count,
                 TotalSets = sessionsToComparison.CurrentSession.Exercises.Sum(x => x.StrengthDetails?.Sets.Count ?? 0),
                 TotalVolume = sessionsToComparison.CurrentSession.Exercises.Sum(x => x.StrengthDetails?.Sets.Sum(s => s.Weight * s.Repetitions) ?? 0),
-                DurationInMinutes = sessionsToComparison.CurrentSession.Exercises.Sum(x => x.CardioDetails?.DurationInMinutes ?? 0)
+                CardioDurationInMinutes = sessionsToComparison.CurrentSession.Exercises.Sum(x => x.CardioDetails?.DurationInMinutes ?? 0),
+                CardioCaloriesBurned = sessionsToComparison.CurrentSession.Exercises.Sum(x => x.CardioDetails?.CaloriesBurned ?? 0)
             },
             Previous = sessionsToComparison.PreviousSession is not null
                 ? new SessionStatsDto
@@ -53,7 +54,8 @@ internal class SessionComparisonService : ISessionComparisonService
                     ExercisesCount = sessionsToComparison.PreviousSession.Exercises.Count,
                     TotalSets = sessionsToComparison.PreviousSession.Exercises.Sum(x => x.StrengthDetails?.Sets.Count ?? 0),
                     TotalVolume = sessionsToComparison.PreviousSession.Exercises.Sum(x => x.StrengthDetails?.Sets.Sum(s => s.Weight * s.Repetitions) ?? 0),
-                    DurationInMinutes = sessionsToComparison.PreviousSession.Exercises.Sum(x => x.CardioDetails?.DurationInMinutes ?? 0)
+                    CardioDurationInMinutes = sessionsToComparison.PreviousSession.Exercises.Sum(x => x.CardioDetails?.DurationInMinutes ?? 0),
+                    CardioCaloriesBurned = sessionsToComparison.PreviousSession.Exercises.Sum(x => x.CardioDetails?.CaloriesBurned ?? 0)
                 }
                 : null,
             Exercises = sessionsToComparison.CurrentSession.Exercises.Select(currentExercise =>
@@ -88,10 +90,16 @@ internal class SessionComparisonService : ISessionComparisonService
                     PreviousDistanceInKm = previousExercise?.CardioDetails?.DistanceInKm,
                     DistanceDelta = previousExercise is not null && currentExercise.CardioDetails is not null
                         ? currentExercise.CardioDetails.DistanceInKm - previousExercise.CardioDetails!.DistanceInKm
+                        : null,
+                    CurrentCaloriesBurned = currentExercise.CardioDetails?.CaloriesBurned,
+                    PreviousCaloriesBurned = previousExercise?.CardioDetails?.CaloriesBurned,
+                    CaloriesBurnedDelta = previousExercise is not null && currentExercise.CardioDetails is not null
+                        ? currentExercise.CardioDetails.CaloriesBurned - previousExercise.CardioDetails!.CaloriesBurned
                         : null
                 };
             }).ToList()
         };
+
         return sessionsToComparisonDto;
     }
 }

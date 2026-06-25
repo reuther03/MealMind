@@ -1,5 +1,4 @@
 ﻿using MealMind.Modules.Training.Application.Abstractions.Database;
-using MealMind.Modules.Training.Domain.TrainingPlan;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.Training;
@@ -33,16 +32,20 @@ public record EndTrainingSessionCommand(Guid PlanId, Guid SessionId) : ICommand<
             if (trainingPlan is null)
                 return Result<SessionComparisonDto>.NotFound("Training plan not found.");
 
-            var sessionToEnd = trainingPlan.Sessions.FirstOrDefault(x => x.Id == command.SessionId && x.IsCompleted);
+            var sessionToEnd = trainingPlan.Sessions.FirstOrDefault(x => x.Id == command.SessionId && !x.IsCompleted);
             if (sessionToEnd is null)
                 return Result<SessionComparisonDto>.NotFound("Completed training session not found");
 
+            if (!sessionToEnd.IsStarted)
+                return Result<SessionComparisonDto>.BadRequest("Training session has not been started yet.");
+
             sessionToEnd.SetAsEnded();
 
-            await _sessionComparisonService.CompareSessionsAsync(command.SessionId, cancellationToken);
-
             await _unitOfWork.CommitAsync(cancellationToken);
-            return Result<SessionComparisonDto>.Ok(await _sessionComparisonService.CompareSessionsAsync(command.SessionId, cancellationToken));
+
+            var sessionComparison = await _sessionComparisonService.CompareSessionsAsync(command.SessionId, cancellationToken);
+
+            return Result<SessionComparisonDto>.Ok(sessionComparison);
         }
     }
 }
