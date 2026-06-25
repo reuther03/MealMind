@@ -23,10 +23,7 @@ public record CreatePlanCommand(string Name, DayOfWeek PlannedAt) : ICommand<Gui
 
         public async Task<Result<Guid>> Handle(CreatePlanCommand command, CancellationToken cancellationToken)
         {
-            if (!_userService.IsAuthenticated)
-                return Result<Guid>.BadRequest("User is not authenticated.");
-
-            var trainingPlan = TrainingPlan.Create(command.Name, command.PlannedAt, _userService.UserId);
+            var trainingPlan = TrainingPlan.Create(command.Name, command.PlannedAt, _userService.UserId!);
 
             await _trainingPlanRepository.AddAsync(trainingPlan, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

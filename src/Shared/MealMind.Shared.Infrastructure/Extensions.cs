@@ -8,6 +8,7 @@ using MealMind.Shared.Infrastructure.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 
 [assembly: InternalsVisibleTo("MealMind.Bootstrapper")]
 
@@ -46,6 +47,7 @@ internal static class Extensions
                 });
             });
 
+            services.AddValidatorsFromAssembly(typeof(Extensions).Assembly);
             services.ConfigureHttpJsonOptions(opt => { opt.SerializerOptions.PropertyNameCaseInsensitive = true; });
             services.AddSwagger();
             services.AddAuth(configuration);
