@@ -54,7 +54,8 @@
                 @if (_conversations.TotalPages > 1)
                 {
                     <div class="pagination">
-                        <button class="btn btn-ghost btn-sm" @onclick="PreviousPage" disabled="@(!_conversations.HasPrevious)">
+                        <button class="btn btn-ghost btn-sm" @onclick="PreviousPage"
+                                disabled="@(!_conversations.HasPrevious)">
                             Previous
                         </button>
                         <span class="pagination-info text-muted text-sm">
@@ -94,7 +95,8 @@
 
         try
         {
-            var response = await ApiClient.GetAsync<PaginatedList<ConversationDto>>($"{IApiClient.AiChatModulePrefix}/get-conversations?page={_currentPage}");
+            var response = await ApiClient.GetAsync<PaginatedList<ConversationDto>>
+                ($"{IApiClient.AiChatModulePrefix}/get-conversations?page={_currentPage}");
 
             if (response.IsSuccess)
             {
