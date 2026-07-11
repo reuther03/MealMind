@@ -1,4 +1,5 @@
-﻿namespace MealMind.Shared.Contracts.Dto.Training;
+﻿
+namespace MealMind.Shared.Contracts.Dto.Training;
 
 public class ExerciseDto
 {
@@ -8,4 +9,6 @@ public class ExerciseDto
     public string Type { get; init; } = null!;
     public string? MuscleGroup { get; init; }
     public bool IsCustom { get; init; }
+
+
 }

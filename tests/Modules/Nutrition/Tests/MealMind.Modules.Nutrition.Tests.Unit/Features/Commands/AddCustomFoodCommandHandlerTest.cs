@@ -9,7 +9,6 @@ using MealMind.Shared.Abstractions.Messaging.AiChat;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Requests;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.AiChat;
-using MealMind.Shared.Contracts.Dto.Nutrition;
 using MealMind.Shared.Contracts.Result;
 using Microsoft.Extensions.Logging;
 using Moq;

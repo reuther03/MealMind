@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.Identity.Application.Abstractions.Database;
+using MealMind.Modules.Identity.Application.Features.Mappers;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.Identity;
@@ -23,21 +24,11 @@ public record GetCurrentUserQuery : IQuery<IdentityDto>
         public async Task<Result<IdentityDto>> Handle(GetCurrentUserQuery query, CancellationToken cancellationToken)
         {
             var user = await _dbContext.IdentityUsers
-                .AsNoTracking()
-                .Include(x => x.Subscription)
-                .FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
-            if (user is null)
-                return Result<IdentityDto>.NotFound("User not found.");
+                .Where(x => x.Id == _userService.UserId)
+                .Select(IdentityUserMapper.Projection)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            var identityDto = new IdentityDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Username = user.Username,
-                SubscriptionTier = user.Subscription.Tier.ToString()
-            };
-
-            return Result<IdentityDto>.Ok(identityDto);
+            return user is null ? Result<IdentityDto>.NotFound("User not found.") : Result<IdentityDto>.Ok(user);
         }
     }
 }
