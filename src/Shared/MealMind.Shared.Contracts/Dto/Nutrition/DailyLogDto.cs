@@ -2,6 +2,7 @@
 
 public sealed class DailyLogDto
 {
+    public Guid Id { get; init; }
     public DateOnly CurrentDate { get; init; }
     public decimal? CurrentWeight { get; init; }
     public IReadOnlyList<MealDto> Meals { get; init; } = [];
