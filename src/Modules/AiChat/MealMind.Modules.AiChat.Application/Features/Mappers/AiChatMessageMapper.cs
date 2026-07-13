@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using MealMind.Modules.AiChat.Domain.Conversation;
 using MealMind.Shared.Contracts.Dto.AiChat;
-using OllamaSharp.Models.Chat;
 
 namespace MealMind.Modules.AiChat.Application.Features.Mappers;
 

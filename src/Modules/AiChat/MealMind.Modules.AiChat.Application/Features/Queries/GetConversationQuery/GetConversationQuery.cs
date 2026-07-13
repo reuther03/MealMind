@@ -1,4 +1,5 @@
-﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
+﻿using LinqKit;
+using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Features.Mappers;
 using MealMind.Modules.AiChat.Domain.Conversation;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
@@ -23,15 +24,18 @@ public record GetConversationQuery(Guid ChatConversationId) : IQuery<Conversatio
             _userService = userService;
         }
 
-        public async Task<Result<ConversationDetailsDto>> Handle(GetConversationQuery request, CancellationToken cancellationToken)
+        public async Task<Result<ConversationDetailsDto>> Handle(GetConversationQuery request,
+            CancellationToken cancellationToken)
         {
-            var user = await _dbContext.AiChatUsers.FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
+            var user = await _dbContext.AiChatUsers.FirstOrDefaultAsync(x => x.Id == _userService.UserId,
+                cancellationToken);
             if (user == null)
                 return Result<ConversationDetailsDto>.BadRequest("User not found.");
 
             var conversationDto = await _dbContext.ChatConversations
+                .AsExpandable()
                 .Where(x => x.UserId == user.Id &&
-                    x.Id == ConversationId.From(request.ChatConversationId))
+                            x.Id == ConversationId.From(request.ChatConversationId))
                 .Select(ConversationMapper.DetailsProjection)
                 .FirstOrDefaultAsync(cancellationToken);
 
