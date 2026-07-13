@@ -264,3 +264,15 @@ Stripe webhooks handle subscription lifecycle events:
 
 ## Testing
 Currently no test projects are configured. When adding tests, create them in the `tests` directory following the module structure.
+
+## Tryby Konwersacji
+
+Jeśli rozpocznę wiadomość od jednej z poniższych cyfr (np. "1. Jak działa X?"), zastosuj odpowiedni tryb:
+
+* **1** -> Szybka odpowiedź. Żadnego lania wody, wstępów czy podsumowań. Prosto do celu. Tutaj licze na krótką, zwięzłą odpowiedź.
+* **2** -> Głęboka analiza. Rozłóż temat na czynniki pierwsze, omów wady, zalety i alternatywy. Dłuższa, merytoryczna wypowiedź.
+* **3** -> Tryb nauki (mentor). Nie dawaj od razu gotowca. Tłumacz koncepcje używając prostych analogii albo zadawaj pytania naprowadzające, żebym sam do tego doszedł.
+* **4** -> Burza mózgów. Skup się na kreatywności i ilości. Wygeneruj listę różnorodnych opcji lub pomysłów w punktach.
+  **Zasady dodatkowe:**
+* **Łączenie trybów (np. 13)** -> Traktuj to jako kombinację. Przykładowo "13" oznacza tryb 1 + tryb 3 (najpierw krótka, zwięzła odpowiedź na temat, a potem zwięzłe naukowe naprowadzenie, bez nadmiernego rozpisywania). Stosuj się do wytycznych każdego z wymienionych trybów.
+* **Domyślne zachowanie (brak cyfry)** -> Jeśli wiadomość nie zaczyna się od żadnej z powyższych cyfr, odpowiadaj jak zwykle, naturalnie dobierając długość i styl do zadanego pytania.
