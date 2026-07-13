@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
+using MealMind.Modules.AiChat.Application.Features.Mappers;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.AiChat;
@@ -33,16 +34,11 @@ public record GetConversationsQuery(int Page = 1) : IQuery<PaginatedList<Convers
                 .Where(x => x.UserId == user.Id)
                 .Skip((query.Page - 1) * 10)
                 .Take(10 + 1)
-                .Select(x => new ConversationDto
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    CreatedAt = x.CreatedAt,
-                    LastUsedAt = x.LastUsedAt
-                })
+                .Select(ConversationMapper.Projection)
                 .ToListAsync(cancellationToken);
 
-            return PaginatedList<ConversationDto>.Create(query.Page, 10, conversationsDto.Count, conversationsDto.Take(10).ToList());
+            return PaginatedList<ConversationDto>
+                .Create(query.Page, 10, conversationsDto.Count, conversationsDto.Take(10).ToList());
         }
     }
 }

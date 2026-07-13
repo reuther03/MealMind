@@ -1,4 +1,4 @@
-﻿namespace MealMind.Modules.AiChat.Application.Dtos;
+﻿namespace MealMind.Modules.AiChat.Application.Features.Payloads;
 
 public class DetectedFoodResponse
 {

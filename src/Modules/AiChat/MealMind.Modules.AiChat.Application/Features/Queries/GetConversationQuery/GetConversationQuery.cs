@@ -1,4 +1,5 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
+using MealMind.Modules.AiChat.Application.Features.Mappers;
 using MealMind.Modules.AiChat.Domain.Conversation;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
@@ -31,22 +32,8 @@ public record GetConversationQuery(Guid ChatConversationId) : IQuery<Conversatio
             var conversationDto = await _dbContext.ChatConversations
                 .Where(x => x.UserId == user.Id &&
                     x.Id == ConversationId.From(request.ChatConversationId))
-                .Select(x => new ConversationDetailsDto
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    ChatMessages = x.ChatMessages
-                        .Where(z => z.Role != AiChatRole.System)
-                        .OrderBy(z => z.CreatedAt)
-                        .Select(z => new AiChatMessageDto
-                        {
-                            Id = z.Id,
-                            Role = z.Role.ToString(),
-                            Content = z.Content,
-                            ReplyToMessageId = z.ReplyToMessageId,
-                            CreatedAt = z.CreatedAt
-                        }).ToList()
-                }).FirstOrDefaultAsync(cancellationToken);
+                .Select(ConversationMapper.DetailsProjection)
+                .FirstOrDefaultAsync(cancellationToken);
 
             return conversationDto == null
                 ? Result<ConversationDetailsDto>.NotFound("Conversation not found.")

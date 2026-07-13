@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
-using MealMind.Modules.AiChat.Application.Dtos;
+using MealMind.Modules.AiChat.Application.Features.Payloads;
 using MealMind.Shared.Abstractions.Extensions;
 using MealMind.Shared.Contracts.Dto.AiChat;
 using MealMind.Shared.Contracts.Dto.Nutrition;

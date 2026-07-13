@@ -16,6 +16,7 @@ public static class DailyLogMapper
             CaloriesGoal = entity.CaloriesGoal,
             UserId = entity.UserId.Value,
             Meals = entity.Meals.AsQueryable()
+                //todo: wyniesc filtry do query
                 .OrderBy(m => (int)m.MealType)
                 .Select(m => MealMapper.Projection.Invoke(m))
                 .ToList()

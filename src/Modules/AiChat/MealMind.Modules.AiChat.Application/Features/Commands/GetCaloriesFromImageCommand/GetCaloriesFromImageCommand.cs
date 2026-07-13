@@ -1,6 +1,6 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
-using MealMind.Modules.AiChat.Application.Dtos;
+using MealMind.Modules.AiChat.Application.Features.Payloads;
 using MealMind.Modules.AiChat.Domain.ImageAnalyze;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;

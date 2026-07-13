@@ -1,4 +1,4 @@
-﻿using MealMind.Modules.AiChat.Application.Dtos;
+﻿using MealMind.Modules.AiChat.Application.Features.Payloads;
 using MealMind.Shared.Contracts.Dto.AiChat;
 using MealMind.Shared.Contracts.Dto.Nutrition;
 using Microsoft.AspNetCore.Http;
