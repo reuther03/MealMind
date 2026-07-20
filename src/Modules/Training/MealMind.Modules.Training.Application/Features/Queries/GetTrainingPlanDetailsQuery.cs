@@ -15,11 +15,13 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
     public sealed class Handler : IQueryHandler<GetTrainingPlanDetailsQuery, TrainingPlanDetailsDto>
     {
         private readonly ITrainingDbContext _dbContext;
+        private readonly ICacheService _cacheService;
         private readonly IUserService _userService;
 
-        public Handler(ITrainingDbContext dbContext, IUserService userService)
+        public Handler(ITrainingDbContext dbContext, ICacheService cacheService, IUserService userService)
         {
             _dbContext = dbContext;
+            _cacheService = cacheService;
             _userService = userService;
         }
 

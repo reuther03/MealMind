@@ -13,6 +13,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.OpenApi" Version="2.10.0"/>
         <PackageReference Include="Scrutor" Version="6.1.0"/>
+        <PackageReference Include="StackExchange.Redis.Extensions.AspNetCore" Version="12.6.0" />
+        <PackageReference Include="StackExchange.Redis.Extensions.System.Text.Json" Version="12.6.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3"/>
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3"/>
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3"/>

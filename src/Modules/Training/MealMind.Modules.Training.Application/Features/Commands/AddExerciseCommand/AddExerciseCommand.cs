@@ -30,7 +30,8 @@ public record AddExerciseCommand(Guid TrainingPlanId, Guid SessionId, Guid Exerc
         public async Task<Result<Guid>> Handle(AddExerciseCommand command, CancellationToken cancellationToken)
         {
             var userId = _userService.UserId!;
-            var trainingPlan = await _trainingPlanRepository.GetByIdAsync(command.TrainingPlanId, userId, cancellationToken);
+            var trainingPlan =
+                await _trainingPlanRepository.GetByIdAsync(command.TrainingPlanId, userId, cancellationToken);
             if (trainingPlan is null)
                 return Result<Guid>.BadRequest("Training plan not found.");
 
@@ -43,7 +44,7 @@ public record AddExerciseCommand(Guid TrainingPlanId, Guid SessionId, Guid Exerc
                 return Result<Guid>.BadRequest("Exercise not found.");
 
             var sessionExercise = SessionExercise.CreateEmpty(exercise.Id, session.Exercises.Count + 1, exercise.Type);
-            session.AddExercise(sessionExercise);
+            trainingPlan.AddSessionExercise(session, sessionExercise);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 

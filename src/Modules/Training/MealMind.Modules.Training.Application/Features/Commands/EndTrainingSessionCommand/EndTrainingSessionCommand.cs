@@ -15,7 +15,8 @@ public record EndTrainingSessionCommand(Guid PlanId, Guid SessionId) : ICommand<
         private readonly ISessionComparisonService _sessionComparisonService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IUserService userService, ITrainingPlanRepository trainingPlanRepository, ISessionComparisonService sessionComparisonService,
+        public Handler(IUserService userService, ITrainingPlanRepository trainingPlanRepository,
+            ISessionComparisonService sessionComparisonService,
             IUnitOfWork unitOfWork)
         {
             _userService = userService;
@@ -24,7 +25,8 @@ public record EndTrainingSessionCommand(Guid PlanId, Guid SessionId) : ICommand<
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<SessionComparisonDto>> Handle(EndTrainingSessionCommand command, CancellationToken cancellationToken)
+        public async Task<Result<SessionComparisonDto>> Handle(EndTrainingSessionCommand command,
+            CancellationToken cancellationToken)
         {
             var userId = _userService.UserId;
 
@@ -39,11 +41,12 @@ public record EndTrainingSessionCommand(Guid PlanId, Guid SessionId) : ICommand<
             if (!sessionToEnd.IsStarted)
                 return Result<SessionComparisonDto>.BadRequest("Training session has not been started yet.");
 
-            sessionToEnd.SetAsEnded();
+            trainingPlan.SessionSetAsEnded(sessionToEnd);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            var sessionComparison = await _sessionComparisonService.CompareSessionsAsync(command.SessionId, cancellationToken);
+            var sessionComparison =
+                await _sessionComparisonService.CompareSessionsAsync(command.SessionId, cancellationToken);
 
             return Result<SessionComparisonDto>.Ok(sessionComparison);
         }

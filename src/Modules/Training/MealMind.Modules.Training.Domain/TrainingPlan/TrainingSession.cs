@@ -45,7 +45,7 @@ public class TrainingSession : Entity<Guid>
         return clonedSession;
     }
 
-    public void SetAsEnded()
+    internal void SetAsEnded()
     {
         if (!IsStarted)
             throw new DomainException("Cannot end a training session that has not started.");
@@ -56,7 +56,7 @@ public class TrainingSession : Entity<Guid>
         EndedAt = DateTime.UtcNow;
     }
 
-    public void AddExercise(SessionExercise exercise)
+    internal void AddExercise(SessionExercise exercise)
     {
         if (IsCompleted)
             throw new DomainException("Training session is already completed.");

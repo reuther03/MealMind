@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
+using MealMind.Shared.Infrastructure.Redis;
 
 [assembly: InternalsVisibleTo("MealMind.Bootstrapper")]
 
@@ -41,7 +42,8 @@ internal static class Extensions
             {
                 cors.AddPolicy(CorsPolicy, x =>
                 {
-                    x.WithOrigins("http://localhost:5001", "https://localhost:5001", "http://localhost:5002", "https://localhost:5002")
+                    x.WithOrigins("http://localhost:5001", "https://localhost:5001", "http://localhost:5002",
+                            "https://localhost:5002")
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
@@ -54,6 +56,7 @@ internal static class Extensions
             services.AddHostedService<AppInitializer>();
             services.AddServices(configuration);
             services.AddPostgres();
+            services.AddRedis(configuration);
             services.AddMediatrWithFilters(assemblies);
             services.AddDecorators();
 
