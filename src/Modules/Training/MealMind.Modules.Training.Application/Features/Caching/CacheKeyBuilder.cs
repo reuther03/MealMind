@@ -1,6 +1,4 @@
-﻿using MealMind.Shared.Contracts.Dto.Training;
-
-namespace MealMind.Modules.Training.Application.Features.Caching;
+﻿namespace MealMind.Modules.Training.Application.Features.Caching;
 
 public static class CacheKeyBuilder
 {

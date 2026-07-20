@@ -2,7 +2,6 @@
 using MealMind.Modules.Training.Domain.Events;
 using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.Services;
-using Microsoft.Extensions.Logging;
 
 namespace MealMind.Modules.Training.Application.Events.Domain;
 

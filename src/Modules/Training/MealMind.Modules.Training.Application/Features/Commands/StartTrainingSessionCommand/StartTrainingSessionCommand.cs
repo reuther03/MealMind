@@ -33,7 +33,7 @@ public record StartTrainingSessionCommand(Guid TrainingPlanId, Guid PreviousTrai
             if (previousTrainingSession is null)
                 return Result<bool>.NotFound("Completed training session not found");
 
-            var newTrainingSession = TrainingSession.Clone(previousTrainingSession);
+            var newTrainingSession = trainingPlan.StartNewSession(previousTrainingSession);
 
             trainingPlan.AddSession(newTrainingSession);
 

@@ -30,6 +30,28 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
     public static TrainingPlan Create(Name name, DayOfWeek planedOn, UserId userId) =>
         new(TrainingPlanId.New(), name, planedOn, userId);
 
+    /// <summary>
+    /// Takes a previous training session and creates a new one based on it.
+    /// The new session will have the same exercises and details as the previous one,
+    /// but will be marked as started and not completed.
+    /// </summary>
+    /// <param name="previousTrainingSession">TrainingSession</param>
+    /// <returns>TrainingSession clonedSession</returns>
+    /// <exception cref="DomainException"></exception>
+    public TrainingSession StartNewSession(TrainingSession previousTrainingSession)
+    {
+        if (_sessions.All(x => x.Id != previousTrainingSession.Id))
+            throw new DomainException(
+                "Cannot clone training session that does not belong to the training plan.");
+
+        var clonedSession = TrainingSession.Clone(previousTrainingSession);
+        if (clonedSession == null)
+            throw new DomainException("Failed to clone the training session.");
+
+        RaiseDomainEvent(new TrainingPlanChangedDomainEvent(UserId.Value, Id.Value));
+        return clonedSession;
+    }
+
     public void AddSession(TrainingSession session)
     {
         if (_sessions.Any(x => x.Id == session.Id))

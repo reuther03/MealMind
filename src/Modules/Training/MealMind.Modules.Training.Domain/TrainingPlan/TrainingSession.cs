@@ -32,7 +32,7 @@ public class TrainingSession : Entity<Guid>
         => new(name, description);
 
 
-    public static TrainingSession Clone(TrainingSession previousTrainingSession)
+    internal static TrainingSession Clone(TrainingSession previousTrainingSession)
     {
         var clonedSession = new TrainingSession(previousTrainingSession.Name, previousTrainingSession.Description);
         foreach (var exercise in previousTrainingSession.Exercises)
@@ -64,7 +64,7 @@ public class TrainingSession : Entity<Guid>
         _exercises.Add(exercise);
     }
 
-    private void SetAsStarted()
+    internal void SetAsStarted()
     {
         if (IsStarted)
             throw new DomainException("Training session has already started.");
