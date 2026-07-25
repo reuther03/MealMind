@@ -1,4 +1,5 @@
 using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Application.Features.Mappers;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.Training;
@@ -21,7 +22,8 @@ public record GetAllTrainingPlansQuery(int Page, int PageSize) : IQuery<Paginate
             _userService = userService;
         }
 
-        public async Task<Result<PaginatedList<TrainingPlanDto>>> Handle(GetAllTrainingPlansQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<PaginatedList<TrainingPlanDto>>> Handle(GetAllTrainingPlansQuery query,
+            CancellationToken cancellationToken = default)
         {
             var userId = _userService.UserId;
 
@@ -34,17 +36,7 @@ public record GetAllTrainingPlansQuery(int Page, int PageSize) : IQuery<Paginate
                 .ThenBy(x => x.Name)
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .Select(x => new TrainingPlanDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    PlannedOn = x.PlannedOn,
-                    IsActive = x.IsActive,
-                    SessionsCount = x.Sessions.Count,
-                    LastCompletedSessionAt = x.Sessions
-                        .Where(s => s.EndedAt != null)
-                        .Max(s => s.EndedAt)
-                })
+                .Select(TrainingPlanMapper.Projection)
                 .ToListAsync(cancellationToken);
 
             return Result<PaginatedList<TrainingPlanDto>>.Ok(new PaginatedList<TrainingPlanDto>(

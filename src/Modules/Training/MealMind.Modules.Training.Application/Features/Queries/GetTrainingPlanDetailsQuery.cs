@@ -34,10 +34,11 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
 
             var userId = _userService.UserId;
 
-            if (await _cacheService.GetAsync<TrainingPlan>(
+            //todo: test
+            if (await _cacheService.GetAsync<TrainingPlanDetailsDto>(
                     CacheKeyBuilder.GetTrainingPlanDetailsKey(request.Id, userId)) is { } cachedTrainingPlan)
             {
-                return Result<TrainingPlanDetailsDto>.Ok(TrainingPlanMapper.Projection(cachedTrainingPlan));
+                return Result<TrainingPlanDetailsDto>.Ok(cachedTrainingPlan);
             }
 
             var trainingPlan = await _dbContext.TrainingPlans
@@ -46,10 +47,14 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
                 .Select(TrainingPlanMapper.DetailsProjection)
                 .FirstOrDefaultAsync(cancellationToken);
 
+            if (trainingPlan is null)
+                return Result<TrainingPlanDetailsDto>.NotFound("No training plan was found.");
 
-            return trainingPlan == null
-                ? Result<TrainingPlanDetailsDto>.NotFound("Training plan not found.")
-                : Result<TrainingPlanDetailsDto>.Ok(trainingPlan);
+            await _cacheService.SetAsync(
+                CacheKeyBuilder.GetTrainingPlanDetailsKey(request.Id, userId),
+                trainingPlan);
+
+            return Result<TrainingPlanDetailsDto>.Ok(trainingPlan);
         }
     }
 }

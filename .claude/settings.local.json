@@ -45,5 +45,8 @@
       "PowerShell(Get-ChildItem *)"
     ]
   },
-  "outputStyle": "default"
+  "outputStyle": "default",
+  "enabledMcpjsonServers": [
+    "rider"
+  ]
 }

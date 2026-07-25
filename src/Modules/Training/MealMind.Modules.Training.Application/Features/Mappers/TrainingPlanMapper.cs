@@ -7,6 +7,19 @@ namespace MealMind.Modules.Training.Application.Features.Mappers;
 
 public static class TrainingPlanMapper
 {
+    public static Expression<Func<TrainingPlan, TrainingPlanDto>> Projection { get; }
+        = entity => new TrainingPlanDto
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            PlannedOn = entity.PlannedOn,
+            IsActive = entity.IsActive,
+            SessionsCount = entity.Sessions.Count,
+            LastCompletedSessionAt = entity.Sessions
+                .Where(s => s.EndedAt != null)
+                .Max(s => s.EndedAt)
+        };
+
     public static Expression<Func<TrainingPlan, TrainingPlanDetailsDto>> DetailsProjection { get; } =
         entity => new TrainingPlanDetailsDto
         {
@@ -20,5 +33,6 @@ public static class TrainingPlanMapper
                 .ToList()
         };
 
-    public static Func<TrainingPlan, TrainingPlanDetailsDto> Projection { get; } = DetailsProjection.Compile();
+    public static Func<TrainingPlan, TrainingPlanDetailsDto> CompiledDetailsProjection { get; }
+        = DetailsProjection.Compile();
 }
