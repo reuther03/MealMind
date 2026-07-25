@@ -1,5 +1,6 @@
 ﻿using LinqKit;
 using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Application.Features.Caching;
 using MealMind.Modules.Training.Application.Features.Mappers;
 using MealMind.Modules.Training.Domain.TrainingPlan;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
@@ -33,11 +34,18 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
 
             var userId = _userService.UserId;
 
+            if (await _cacheService.GetAsync<TrainingPlan>(
+                    CacheKeyBuilder.GetTrainingPlanDetailsKey(request.Id, userId)) is { } cachedTrainingPlan)
+            {
+                return Result<TrainingPlanDetailsDto>.Ok(TrainingPlanMapper.Projection(cachedTrainingPlan));
+            }
+
             var trainingPlan = await _dbContext.TrainingPlans
                 .AsExpandable()
                 .Where(x => x.Id == TrainingPlanId.From(request.Id) && x.UserId == userId && x.IsActive)
                 .Select(TrainingPlanMapper.DetailsProjection)
                 .FirstOrDefaultAsync(cancellationToken);
+
 
             return trainingPlan == null
                 ? Result<TrainingPlanDetailsDto>.NotFound("Training plan not found.")

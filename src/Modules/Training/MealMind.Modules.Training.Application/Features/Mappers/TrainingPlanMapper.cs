@@ -19,4 +19,6 @@ public static class TrainingPlanMapper
                 .Select(ts => TrainingSessionMapper.Projection.Invoke(ts))
                 .ToList()
         };
+
+    public static Func<TrainingPlan, TrainingPlanDetailsDto> Projection { get; } = DetailsProjection.Compile();
 }
