@@ -23,8 +23,8 @@ public class CacheService : ICacheService
     public async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null)
     {
         var valueAsString = System.Text.Json.JsonSerializer.Serialize(value);
-        await _redisDatabase.Database.StringSetAsync(key, valueAsString,
-            expiration ?? new Expiration(TimeSpan.FromMinutes(0)));
+
+        await _redisDatabase.Database.StringSetAsync(key, valueAsString);
     }
 
     public Task GetOrSetAsync<T>(string key, Func<Task<T>> valueFactory, TimeSpan? expiration = null)

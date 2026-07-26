@@ -11,9 +11,12 @@ internal static class Extensions
         public IServiceCollection AddServices(IConfiguration configuration)
         {
             services.AddHttpContextAccessor();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ISender, Sender>();
-            services.AddScoped<IPublisher, Publisher>();
+
+            services.AddScoped<IUserService, UserService>()
+                .AddScoped<ISender, Sender>()
+                .AddScoped<IPublisher, Publisher>()
+                .AddScoped<ICacheService, CacheService>();
+
             return services;
         }
     }
