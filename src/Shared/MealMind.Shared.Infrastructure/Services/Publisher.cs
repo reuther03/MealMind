@@ -1,4 +1,5 @@
 ﻿using MealMind.Shared.Abstractions.Events.Core;
+using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,15 +16,14 @@ public sealed class Publisher : IPublisher
 
     public async Task Publish(object notification, CancellationToken cancellationToken = default)
     {
-        var handlerInterface = typeof(IEventHandler<>)
-            .MakeGenericType(notification.GetType());
-
-        var handlers = _serviceProvider.GetServices(handlerInterface);
-
-        foreach (var handlerObj in handlers)
+        foreach (var openHandler in new[] { typeof(IEventHandler<>), typeof(IDomainNotificationHandler<>) })
         {
-            dynamic handler = handlerObj!;
-            await handler.Handle((dynamic)notification, cancellationToken);
+            var handlerInterface = openHandler.MakeGenericType(notification.GetType());
+            foreach (var handlerObj in _serviceProvider.GetServices(handlerInterface))
+            {
+                dynamic handler = handlerObj!;
+                await handler.Handle((dynamic)notification, cancellationToken);
+            }
         }
     }
 
