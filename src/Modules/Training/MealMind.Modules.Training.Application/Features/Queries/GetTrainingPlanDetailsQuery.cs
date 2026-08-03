@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealMind.Modules.Training.Application.Features.Queries;
 
-public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsDto>
+public record GetTrainingPlanDetailsQuery(Guid PlanId) : IQuery<TrainingPlanDetailsDto>
 {
     public sealed class Handler : IQueryHandler<GetTrainingPlanDetailsQuery, TrainingPlanDetailsDto>
     {
@@ -34,16 +34,16 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
 
             var userId = _userService.UserId;
 
-            //todo: test
             if (await _cacheService.GetAsync<TrainingPlanDetailsDto>(
-                    CacheKeyBuilder.GetTrainingPlanDetailsKey(request.Id, userId)) is { } cachedTrainingPlan)
+                    CacheKeyBuilder.GetTrainingPlanDetailsKey(userId, request.PlanId)) is
+                { } cachedTrainingPlan)
             {
                 return Result<TrainingPlanDetailsDto>.Ok(cachedTrainingPlan);
             }
 
             var trainingPlan = await _dbContext.TrainingPlans
                 .AsExpandable()
-                .Where(x => x.Id == TrainingPlanId.From(request.Id) && x.UserId == userId && x.IsActive)
+                .Where(x => x.Id == TrainingPlanId.From(request.PlanId) && x.UserId == userId && x.IsActive)
                 .Select(TrainingPlanMapper.DetailsProjection)
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -51,7 +51,7 @@ public record GetTrainingPlanDetailsQuery(Guid Id) : IQuery<TrainingPlanDetailsD
                 return Result<TrainingPlanDetailsDto>.NotFound("No training plan was found.");
 
             await _cacheService.SetAsync(
-                CacheKeyBuilder.GetTrainingPlanDetailsKey(request.Id, userId),
+                CacheKeyBuilder.GetTrainingPlanDetailsKey(userId, request.PlanId),
                 trainingPlan);
 
             return Result<TrainingPlanDetailsDto>.Ok(trainingPlan);

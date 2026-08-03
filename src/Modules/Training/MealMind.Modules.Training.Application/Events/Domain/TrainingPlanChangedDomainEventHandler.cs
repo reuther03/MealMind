@@ -16,7 +16,6 @@ public record TrainingPlanChangedDomainEventHandler : IDomainNotificationHandler
 
     public async Task Handle(TrainingPlanChangedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var test = 0;
         await _cacheService.RemoveAsync(
             CacheKeyBuilder.GetTrainingPlanDetailsKey(notification.UserId, notification.TrainingPlanId));
     }
