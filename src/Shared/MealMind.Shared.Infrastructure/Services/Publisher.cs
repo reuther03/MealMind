@@ -8,7 +8,6 @@ namespace MealMind.Shared.Infrastructure.Services;
 public sealed class Publisher : IPublisher
 {
     private readonly IServiceProvider _serviceProvider;
-
     public Publisher(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -16,14 +15,21 @@ public sealed class Publisher : IPublisher
 
     public async Task Publish(object notification, CancellationToken cancellationToken = default)
     {
-        foreach (var openHandler in new[] { typeof(IEventHandler<>), typeof(IDomainNotificationHandler<>) })
+        var notificationType = notification.GetType();
+
+        var openHandler = notification switch
         {
-            var handlerInterface = openHandler.MakeGenericType(notification.GetType());
-            foreach (var handlerObj in _serviceProvider.GetServices(handlerInterface))
-            {
-                dynamic handler = handlerObj!;
-                await handler.Handle((dynamic)notification, cancellationToken);
-            }
+            IDomainEvent => typeof(IDomainNotificationHandler<>),
+            IEvent => typeof(IEventHandler<>),
+            _ => throw new InvalidOperationException($"Unknown notification type: {notificationType.Name}")
+        };
+
+        var handlerInterface = openHandler.MakeGenericType(notificationType);
+
+        foreach (var handlerObj in _serviceProvider.GetServices(handlerInterface))
+        {
+            dynamic handler = handlerObj!;
+            await handler.Handle((dynamic)notification, cancellationToken);
         }
     }
 
