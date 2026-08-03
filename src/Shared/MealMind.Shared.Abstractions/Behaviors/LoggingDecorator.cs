@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using MealMind.Shared.Abstractions.Events.Core;
+using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
@@ -17,7 +18,8 @@ public class LoggingDecorator
         private readonly ILogger<QueryHandler<TQuery, TResponse>> _logger;
         private readonly IQueryHandler<TQuery, TResponse> _innerHandler;
 
-        public QueryHandler(ILogger<QueryHandler<TQuery, TResponse>> logger, IQueryHandler<TQuery, TResponse> innerHandler)
+        public QueryHandler(ILogger<QueryHandler<TQuery, TResponse>> logger,
+            IQueryHandler<TQuery, TResponse> innerHandler)
         {
             _logger = logger;
             _innerHandler = innerHandler;
@@ -68,7 +70,8 @@ public class LoggingDecorator
         private readonly ILogger<CommandHandler<TCommand, TResponse>> _logger;
         private readonly ICommandHandler<TCommand, TResponse> _innerHandler;
 
-        public CommandHandler(ILogger<CommandHandler<TCommand, TResponse>> logger, ICommandHandler<TCommand, TResponse> innerHandler)
+        public CommandHandler(ILogger<CommandHandler<TCommand, TResponse>> logger,
+            ICommandHandler<TCommand, TResponse> innerHandler)
         {
             _logger = logger;
             _innerHandler = innerHandler;
@@ -119,7 +122,8 @@ public class LoggingDecorator
         private readonly ILogger<BaseCommandHandler<TBaseCommand>> _logger;
         private readonly ICommandHandler<TBaseCommand> _innerHandler;
 
-        public BaseCommandHandler(ILogger<BaseCommandHandler<TBaseCommand>> logger, ICommandHandler<TBaseCommand> innerHandler)
+        public BaseCommandHandler(ILogger<BaseCommandHandler<TBaseCommand>> logger,
+            ICommandHandler<TBaseCommand> innerHandler)
         {
             _logger = logger;
             _innerHandler = innerHandler;
@@ -179,6 +183,54 @@ public class LoggingDecorator
         public async Task Handle(TEvent notification, CancellationToken cancellationToken = default)
         {
             var requestName = typeof(TEvent).Name;
+            var stopwatch = Stopwatch.StartNew();
+
+            _logger.LogInformation(
+                "{Timestamp} | Handling {RequestName}",
+                DateTime.UtcNow,
+                requestName);
+
+            try
+            {
+                await _innerHandler.Handle(notification, cancellationToken);
+
+                stopwatch.Stop();
+                _logger.LogInformation(
+                    "{Timestamp} | Handled successfully {RequestName} | {ElapsedMilliseconds}ms",
+                    DateTime.UtcNow,
+                    requestName,
+                    stopwatch.ElapsedMilliseconds);
+            }
+            catch (System.Exception ex)
+            {
+                stopwatch.Stop();
+                _logger.LogError(ex,
+                    "{Timestamp} | {RequestName} Error handling | {ElapsedMilliseconds}ms",
+                    DateTime.UtcNow,
+                    requestName,
+                    stopwatch.ElapsedMilliseconds);
+                throw;
+            }
+        }
+    }
+
+    [Decorator]
+    public sealed class DomainEventHandler<TDomainEvent> : IDomainNotificationHandler<TDomainEvent>
+        where TDomainEvent : IDomainEvent
+    {
+        private readonly ILogger<DomainEventHandler<TDomainEvent>> _logger;
+        private readonly INotificationHandler<TDomainEvent> _innerHandler;
+
+        public DomainEventHandler(ILogger<DomainEventHandler<TDomainEvent>> logger,
+            INotificationHandler<TDomainEvent> innerHandler)
+        {
+            _logger = logger;
+            _innerHandler = innerHandler;
+        }
+
+        public async Task Handle(TDomainEvent notification, CancellationToken cancellationToken = default)
+        {
+            var requestName = typeof(TDomainEvent).Name;
             var stopwatch = Stopwatch.StartNew();
 
             _logger.LogInformation(

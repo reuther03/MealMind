@@ -16,7 +16,8 @@ public class Sender : ISender
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<Result<TResponse>> Send<TResponse>(IRequest<Result<TResponse>> request, CancellationToken cancellationToken = default)
+    public async Task<Result<TResponse>> Send<TResponse>(IRequest<Result<TResponse>> request,
+        CancellationToken cancellationToken = default)
     {
         var requestType = request.GetType();
         var responseType = typeof(TResponse);
