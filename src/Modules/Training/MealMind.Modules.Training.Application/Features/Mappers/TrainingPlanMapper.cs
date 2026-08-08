@@ -20,6 +20,21 @@ public static class TrainingPlanMapper
                 .Max(s => s.EndedAt)
         };
 
+    // public static Expression<Func<TrainingPlan, TrainingPlanDto>> Projection
+    //     = entity => new TrainingPlanDto
+    //     {
+    //         Id = entity.Id,
+    //         Name = entity.Name,
+    //         PlannedOn = entity.PlannedOn,
+    //         IsActive = entity.IsActive,
+    //         SessionsCount = entity.Sessions.Count,
+    //         LastCompletedSessionAt = entity.Sessions
+    //             .Where(s => s.EndedAt.HasValue)
+    //             .OrderByDescending(s => s.EndedAt)
+    //             .Select(s => s.EndedAt)
+    //             .FirstOrDefault()
+    //     };
+
     public static Expression<Func<TrainingPlan, TrainingPlanDetailsDto>> DetailsProjection { get; } =
         entity => new TrainingPlanDetailsDto
         {
