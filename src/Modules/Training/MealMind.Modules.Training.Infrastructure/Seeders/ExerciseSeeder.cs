@@ -20,7 +20,7 @@ internal class ExerciseSeeder : IModuleSeeder
 
     public async Task SeedAsync(IConfiguration configuration, CancellationToken cancellationToken)
     {
-        if (await _dbContext.Exercises.AnyAsync(x => x.IsCustom, cancellationToken))
+        if (await _dbContext.Exercises.AnyAsync(x => !x.IsCustom, cancellationToken))
         {
             _logger.LogInformation("Custom exercises found in the database. Skipping seeding");
             return;
