@@ -2,4 +2,4 @@
 
 namespace MealMind.Modules.Training.Domain.Events;
 
-public record TrainingPlanChangedDomainEvent(Guid UserId, Guid TrainingPlanId) : IDomainEvent;
+public record TrainingPlanChangedDomainEvent(Guid UserId, Guid TrainingPlanId, Guid? SessionId = null) : IDomainEvent;

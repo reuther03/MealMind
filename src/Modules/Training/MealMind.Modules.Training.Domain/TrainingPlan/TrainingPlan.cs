@@ -69,7 +69,7 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
                 "Cannot set as ended training session that does not belong to the training plan.");
 
         session.SetAsEnded();
-        RaiseDomainEvent(new TrainingPlanChangedDomainEvent(UserId.Value, Id.Value));
+        RaiseDomainEvent(new TrainingPlanChangedDomainEvent(UserId.Value, Id.Value, session.Id));
     }
 
     public void AddSessionExercise(TrainingSession session, SessionExercise exercise)
@@ -79,6 +79,6 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
             throw new DomainException("Training session does not belong to the training plan.");
 
         trainingSession.AddExercise(exercise);
-        RaiseDomainEvent(new TrainingPlanChangedDomainEvent(UserId.Value, Id.Value));
+        RaiseDomainEvent(new TrainingPlanChangedDomainEvent(UserId.Value, Id.Value, session.Id));
     }
 }

@@ -1,5 +1,6 @@
 ﻿using LinqKit;
 using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Application.Features.Caching;
 using MealMind.Modules.Training.Application.Features.Mappers;
 using MealMind.Modules.Training.Domain.TrainingPlan;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
@@ -16,17 +17,26 @@ public record GetTrainingSessionDetailsQuery(Guid PlanId, Guid TrainingSessionId
     {
         private readonly ITrainingDbContext _dbContext;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
 
-        public Handler(ITrainingDbContext dbContext, IUserService userService)
+        public Handler(ITrainingDbContext dbContext, IUserService userService, ICacheService cacheService)
         {
             _dbContext = dbContext;
             _userService = userService;
+            _cacheService = cacheService;
         }
 
         public async Task<Result<TrainingSessionDetailsDto>> Handle(GetTrainingSessionDetailsQuery request,
             CancellationToken cancellationToken)
         {
-            var userId = _userService.UserId;
+            var userId = _userService.UserId!;
+
+            if (await _cacheService.GetAsync<TrainingSessionDetailsDto>(
+                    CacheKeyBuilder.GetTrainingSessionDetailsKey(userId, request.PlanId, request.TrainingSessionId)) is
+                { } cachedSession)
+            {
+                return Result<TrainingSessionDetailsDto>.Ok(cachedSession);
+            }
 
             var session = await _dbContext.TrainingPlans
                 .AsExpandable()
@@ -36,9 +46,11 @@ public record GetTrainingSessionDetailsQuery(Guid PlanId, Guid TrainingSessionId
                 .Select(s => TrainingSessionMapper.DetailsProjection.Invoke(s))
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return session == null
-                ? Result<TrainingSessionDetailsDto>.NotFound("Training session not found.")
-                : Result<TrainingSessionDetailsDto>.Ok(session);
+            if (session is null)
+                return Result<TrainingSessionDetailsDto>.NotFound("Training session not found.");
+
+            await _cacheService.SetAsync(CacheKeyBuilder.GetTrainingSessionDetailsKey(userId, request.PlanId, request.TrainingSessionId), session);
+            return Result<TrainingSessionDetailsDto>.Ok(session);
         }
     }
 }
