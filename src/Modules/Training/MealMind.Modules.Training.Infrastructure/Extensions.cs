@@ -2,6 +2,8 @@ using MealMind.Modules.Training.Application.Abstractions.Database;
 using MealMind.Modules.Training.Infrastructure.Database;
 using MealMind.Modules.Training.Infrastructure.Database.Repositories;
 using MealMind.Modules.Training.Infrastructure.Database.Services;
+using MealMind.Modules.Training.Infrastructure.Seeders;
+using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,8 @@ public static class Extensions
                 .AddScoped<IExerciseRepository, ExerciseRepository>()
                 .AddScoped<ISessionComparisonService, SessionComparisonService>()
                 .AddUnitOfWork<IUnitOfWork, UnitOfWork>();
+
+            services.AddTransient<IModuleSeeder, ExerciseSeeder>();
 
             return services;
         }

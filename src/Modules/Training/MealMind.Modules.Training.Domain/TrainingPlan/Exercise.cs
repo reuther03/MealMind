@@ -16,7 +16,8 @@ public class Exercise : Entity<Guid>
     {
     }
 
-    private Exercise(string name, string description, ExerciseType type, MuscleGroup? muscleGroup, bool isCustom, string? imageUrl, string? videoUrl)
+    private Exercise(Guid Id, string name, string description, ExerciseType type, MuscleGroup? muscleGroup,
+        bool isCustom, string? imageUrl, string? videoUrl) : base(Id)
     {
         if (type == ExerciseType.Strength && muscleGroup == null)
             throw new ArgumentException("Muscle group must be specified for strength exercises.", nameof(muscleGroup));
@@ -38,5 +39,5 @@ public class Exercise : Entity<Guid>
         bool isCustom = false,
         string? imageUrl = null,
         string? videoUrl = null
-    ) => new(name, description, type, muscleGroup, isCustom, imageUrl, videoUrl);
+    ) => new(Guid.NewGuid(), name, description, type, muscleGroup, isCustom, imageUrl, videoUrl);
 }
