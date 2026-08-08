@@ -1,4 +1,5 @@
 using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Application.Features.Caching;
 using MealMind.Modules.Training.Application.Features.Mappers;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
 using MealMind.Shared.Abstractions.Services;
@@ -15,35 +16,44 @@ public record GetAllTrainingPlansQuery(int Page, int PageSize) : IQuery<Paginate
     {
         private readonly ITrainingDbContext _dbContext;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
 
-        public Handler(ITrainingDbContext dbContext, IUserService userService)
+        public Handler(ITrainingDbContext dbContext, IUserService userService, ICacheService cacheService)
         {
             _dbContext = dbContext;
             _userService = userService;
+            _cacheService = cacheService;
         }
 
         public async Task<Result<PaginatedList<TrainingPlanDto>>> Handle(GetAllTrainingPlansQuery query,
             CancellationToken cancellationToken = default)
         {
-            var userId = _userService.UserId;
+            var userId = _userService.UserId!;
+            var cacheKey = CacheKeyBuilder.GetAllTrainingPlansKey(userId);
 
-            var baseQuery = _dbContext.TrainingPlans.Where(x => x.UserId == userId);
+            var trainingPlans = await _cacheService.GetAsync<List<TrainingPlanDto>>(cacheKey);
+            if (trainingPlans is null)
+            {
+                trainingPlans = await _dbContext.TrainingPlans
+                    .Where(x => x.UserId == userId)
+                    .OrderByDescending(x => x.Sessions.Where(s => s.EndedAt != null).Max(s => s.EndedAt))
+                    .ThenBy(x => x.Name)
+                    .Select(TrainingPlanMapper.Projection)
+                    .ToListAsync(cancellationToken);
 
-            var totalCount = await baseQuery.CountAsync(cancellationToken);
+                await _cacheService.SetAsync(cacheKey, trainingPlans);
+            }
 
-            var trainingPlansDto = await baseQuery
-                .OrderByDescending(x => x.Sessions.Where(s => s.EndedAt != null).Max(s => s.EndedAt))
-                .ThenBy(x => x.Name)
+            var paginatedTrainingPlans = trainingPlans
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .Select(TrainingPlanMapper.Projection)
-                .ToListAsync(cancellationToken);
+                .ToList();
 
             return Result<PaginatedList<TrainingPlanDto>>.Ok(new PaginatedList<TrainingPlanDto>(
                 query.Page,
                 query.PageSize,
-                totalCount,
-                trainingPlansDto));
+                trainingPlans.Count,
+                paginatedTrainingPlans));
         }
     }
 }

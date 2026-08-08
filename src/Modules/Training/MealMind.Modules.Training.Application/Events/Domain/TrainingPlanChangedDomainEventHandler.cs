@@ -25,5 +25,8 @@ public record TrainingPlanChangedDomainEventHandler : IDomainNotificationHandler
 
         await _cacheService.RemoveAsync(
             CacheKeyBuilder.GetTrainingPlanDetailsKey(notification.UserId, notification.TrainingPlanId));
+
+        await _cacheService.RemoveAsync(
+            CacheKeyBuilder.GetAllTrainingPlansKey(notification.UserId));
     }
 }
