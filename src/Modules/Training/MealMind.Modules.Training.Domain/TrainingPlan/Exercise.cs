@@ -11,6 +11,7 @@ public class Exercise : Entity<Guid>
     public ExerciseType Type { get; private set; }
     public MuscleGroup? MuscleGroup { get; private set; }
     public bool IsCustom { get; private set; }
+    //dodac user id przynalezne do IsCustom
 
     private Exercise()
     {
