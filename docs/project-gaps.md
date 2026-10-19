@@ -1,5 +1,5 @@
 # MealMind — Inwentarz braków
-
+test
 Dokument zbiorczy z analizy stanu projektu. Pogrupowany per obszar, z priorytetami:
 - **P0** — bez tego aplikacja jest niefunkcjonalna end-to-end
 - **P1** — znaczna dziura, ale można udawać że nie ma
