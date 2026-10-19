@@ -20,17 +20,6 @@ jobs:
         run: dotnet restore MealMind.sln
 
       - name: Build
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Restore
-        run: dotnet restore MealMind.sln
-
-      - name: Build
         run: dotnet build MealMind.sln --no-restore -c Release
 
       - name: Unit tests
