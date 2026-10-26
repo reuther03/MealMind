@@ -18,7 +18,7 @@ public class StartTrainingSessionEndpoint : EndpointBase
                 })
             .RequireAuthorization()
             .WithDocumentation("Start Training Session",
-                "Starts a new training session based on a previous completed session and adds it to the specified training plan. The previous session must be completed.",
+                "Starts a new training session by cloning a source session (a template or a completed session) and adds it to the specified training plan. The source session cannot be in progress.",
                 "",
                 """
                 {

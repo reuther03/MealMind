@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using MealMind.Shared.Abstractions.Events.Core;
+using MealMind.Shared.Abstractions.Exception;
 using MealMind.Shared.Abstractions.Kernel.Events;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Notifications;
@@ -36,7 +37,15 @@ public class LoggingDecorator
                 DateTime.UtcNow,
                 requestName);
 
-            Result<TResponse> result = await _innerHandler.Handle(query, cancellationToken);
+            Result<TResponse> result;
+            try
+            {
+                result = await _innerHandler.Handle(query, cancellationToken);
+            }
+            catch (DomainException ex)
+            {
+                result = Result<TResponse>.BadRequest(ex.Message);
+            }
 
             if (result.IsSuccess)
             {
@@ -88,7 +97,15 @@ public class LoggingDecorator
                 DateTime.UtcNow,
                 requestName);
 
-            Result<TResponse> result = await _innerHandler.Handle(command, cancellationToken);
+            Result<TResponse> result;
+            try
+            {
+                result = await _innerHandler.Handle(command, cancellationToken);
+            }
+            catch (DomainException ex)
+            {
+                result = Result<TResponse>.BadRequest(ex.Message);
+            }
 
             if (result.IsSuccess)
             {
@@ -140,7 +157,15 @@ public class LoggingDecorator
                 DateTime.UtcNow,
                 requestName);
 
-            Result result = await _innerHandler.Handle(command, cancellationToken);
+            Result result;
+            try
+            {
+                result = await _innerHandler.Handle(command, cancellationToken);
+            }
+            catch (DomainException ex)
+            {
+                result = Result.BadRequest(ex.Message);
+            }
 
             if (result.IsSuccess)
             {
