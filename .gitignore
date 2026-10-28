@@ -512,3 +512,6 @@ service-worker-assets.js
 *.razor.g.cs
 
 LearningMaterials/Interview-Prep-IDEO.md
+.codex/
+AGENTS.md
+.claude/

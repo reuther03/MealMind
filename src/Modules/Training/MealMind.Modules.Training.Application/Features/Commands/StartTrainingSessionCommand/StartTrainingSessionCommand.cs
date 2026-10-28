@@ -29,9 +29,9 @@ public record StartTrainingSessionCommand(Guid TrainingPlanId, Guid PreviousTrai
             if (trainingPlan is null)
                 return Result<bool>.NotFound("Training plan not found.");
 
-            var previousTrainingSession = trainingPlan.Sessions.FirstOrDefault(x => x.Id == command.PreviousTrainingSessionId && x.IsCompleted);
+            var previousTrainingSession = trainingPlan.Sessions.FirstOrDefault(x => x.Id == command.PreviousTrainingSessionId);
             if (previousTrainingSession is null)
-                return Result<bool>.NotFound("Completed training session not found");
+                return Result<bool>.NotFound("Training session not found.");
 
             var newTrainingSession = trainingPlan.StartNewSession(previousTrainingSession);
 

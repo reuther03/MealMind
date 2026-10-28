@@ -1,7 +1,11 @@
-﻿using MealMind.Modules.Training.Application.Abstractions.Database;
+using LinqKit;
+using MealMind.Modules.Training.Application.Abstractions.Database;
+using MealMind.Modules.Training.Application.Features.Caching;
+using MealMind.Modules.Training.Application.Features.Mappers;
 using MealMind.Modules.Training.Domain.TrainingPlan;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Extensions;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Queries;
+using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.Training;
 using MealMind.Shared.Contracts.Pagination;
 using MealMind.Shared.Contracts.Result;
@@ -21,38 +25,73 @@ public record GetExercisesByFilterParametersQuery(
     public sealed class Handler : IQueryHandler<GetExercisesByFilterParametersQuery, PaginatedList<ExerciseDto>>
     {
         private readonly ITrainingDbContext _dbContext;
+        private readonly ICacheService _cacheService;
 
-        public Handler(ITrainingDbContext dbContext)
+        public Handler(ITrainingDbContext dbContext, ICacheService cacheService)
         {
             _dbContext = dbContext;
+            _cacheService = cacheService;
         }
 
-
-        public async Task<Result<PaginatedList<ExerciseDto>>> Handle(GetExercisesByFilterParametersQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<PaginatedList<ExerciseDto>>> Handle(GetExercisesByFilterParametersQuery query,
+            CancellationToken cancellationToken = default)
         {
-            var exercises = _dbContext.Exercises
-                .WhereIf(!string.IsNullOrEmpty(query.Name), x => EF.Functions.Like(x.Name, $"%{query.Name}%"))
-                .WhereIf(query.ExerciseType.HasValue, x => x.Type == query.ExerciseType)
-                .WhereIf(query.MuscleGroup.HasValue, x => x.MuscleGroup == query.MuscleGroup)
-                .WhereIf(query.IsCustom.HasValue, x => x.IsCustom == query.IsCustom);
+            var exercises = new List<ExerciseDto>();
 
-            var totalCount = await exercises.CountAsync(cancellationToken);
+            if (query.IsCustom != true)
+                exercises.AddRange(await GetBaseExercisesAsync(cancellationToken));
 
-            var exercisesPaginated = await exercises
+            if (query.IsCustom != false)
+                exercises.AddRange(await GetCustomExercisesAsync(cancellationToken));
+
+            var name = query.Name;
+            var type = query.ExerciseType?.ToString();
+            var muscleGroup = query.MuscleGroup?.ToString();
+
+            var filtered = exercises
+                .WhereIf(!string.IsNullOrWhiteSpace(name),
+                    x => x.Name.Contains(name!, StringComparison.OrdinalIgnoreCase))
+                .WhereIf(type is not null, x => x.Type == type)
+                .WhereIf(muscleGroup is not null, x => x.MuscleGroup == muscleGroup)
+                .OrderBy(x => x.Name)
+                .ToList();
+
+            var paginated = filtered
                 .Skip((query.PageNumber - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .Select(x => new ExerciseDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    ImageUrl = x.ImageUrl,
-                    Type = x.Type.ToString(),
-                    MuscleGroup = x.MuscleGroup.ToString(),
-                    IsCustom = x.IsCustom
-                })
+                .ToList();
+
+            return Result<PaginatedList<ExerciseDto>>.Ok(new PaginatedList<ExerciseDto>(
+                query.PageNumber,
+                query.PageSize,
+                filtered.Count,
+                paginated));
+        }
+
+        private async Task<List<ExerciseDto>> GetBaseExercisesAsync(CancellationToken cancellationToken)
+        {
+            var cacheKey = CacheKeyBuilder.GetAllBaseExercisesKey();
+
+            var baseExercises = await _cacheService.GetAsync<List<ExerciseDto>>(cacheKey);
+            if (baseExercises is not null)
+                return baseExercises;
+
+            baseExercises = await _dbContext.Exercises
+                .AsExpandable()
+                .Where(x => !x.IsCustom)
+                .Select(x => ExerciseMapper.ExerciseProjection.Invoke(x))
                 .ToListAsync(cancellationToken);
 
-            return Result<PaginatedList<ExerciseDto>>.Ok(new PaginatedList<ExerciseDto>(query.PageNumber, query.PageSize, totalCount, exercisesPaginated));
+            await _cacheService.SetAsync(cacheKey, baseExercises);
+
+            return baseExercises;
         }
+
+        private Task<List<ExerciseDto>> GetCustomExercisesAsync(CancellationToken cancellationToken)
+            => _dbContext.Exercises
+                .AsExpandable()
+                .Where(x => x.IsCustom)
+                .Select(x => ExerciseMapper.ExerciseProjection.Invoke(x))
+                .ToListAsync(cancellationToken);
     }
 }
