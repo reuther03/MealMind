@@ -1,0 +1,38 @@
+Caffeine and Performance
+Caffeine is a well-proven ergogenic aid; this guide covers the effective dose in mg/kg, when to take it before exercise, tolerance, safe daily limits for adults, genetic differences (CYP1A2, ADORA2A), side effects and effects on sleep.
+
+What caffeine improves
+Caffeine produces small to moderate improvements in muscular endurance, movement speed, strength, sprinting, jumping and throwing, plus many aerobic and anaerobic sport-specific tasks. Aerobic endurance shows the most consistent moderate-to-large benefit. Caffeine also improves attention, vigilance and reaction time, and can help both physical and mental performance after sleep loss. Trained and untrained people appear to benefit similarly.
+
+How it works
+Caffeine blocks adenosine receptors in the brain. Adenosine builds up during wakefulness and effort and promotes tiredness, so blocking it reduces perceived effort and fatigue and increases alertness and motivation.
+
+Effective dose
+- Consistent performance benefits are seen with 3-6 mg of caffeine per kg of body weight. For a 70 kg person that is about 210-420 mg.
+- The minimum effective dose may be as low as 2 mg/kg.
+- Very high doses (around 9 mg/kg) cause many side effects and are not needed for an ergogenic effect.
+- For endurance exercise in the heat, 3-6 mg/kg is supported; at altitude, 4-6 mg/kg.
+
+Timing before exercise
+- The most common timing is about 60 minutes before exercise. Peak blood levels are reached roughly 30-120 minutes after an oral dose.
+- Caffeine chewing gum is absorbed faster through the mouth and works best taken shortly before exercise.
+- Because caffeine helps most when fatigue builds, taking some during the later stages of long events can work as well as a larger pre-exercise dose; low doses late in a race (for example flat cola) performed similarly to about 5-6 mg/kg taken an hour before.
+- Coffee, capsules, gels, gum, bars and pre-workout drinks all work; capsules give the most predictable dose.
+
+Tolerance and habituation
+Habitual caffeine use does not consistently remove the performance benefit, and studies are mixed. In one study, low caffeine users who took caffeine daily for 4 weeks became tolerant and lost the acute ergogenic effect, while another study found the benefit remained after 20 days. Caffeine content of coffee varies 8- to 9-fold between similar shops, so self-reported intake is unreliable. Some athletes reduce caffeine for several days before key competitions, but this is not proven to be necessary.
+
+Safe daily intake for adults
+- The US FDA cites 400 mg per day, about two to three 12-ounce cups of coffee, as an amount not generally associated with negative effects for most healthy adults.
+- Toxic effects such as seizures can occur with rapid intake of around 1200 mg, which is less than half a teaspoon of pure caffeine powder. Pure powders are therefore dangerous to measure at home.
+- Energy drinks contain about 41-246 mg per 12 ounces. People who are pregnant, breastfeeding, sensitive or taking certain medications should talk to a health professional; energy drinks are not advised for children and teens.
+- Caffeine is no longer banned in sport but is monitored by WADA; the urine limit of 12 micrograms per ml corresponds to about 10 mg/kg taken over several hours.
+
+Genetics
+Over 95% of caffeine is broken down in the liver by the CYP1A2 enzyme into paraxanthine, theobromine and theophylline. A common variant of the CYP1A2 gene (rs762551) divides people into fast (AA genotype) and slow (AC or CC) metabolizers. In the largest study, a 4 mg/kg dose improved 10 km cycling time by about 3% overall, but by 6.8% in fast metabolizers, while slow metabolizers did not improve. Other studies found different results, so genotype is not yet a reliable basis for dosing. Variants of the ADORA2A gene affect how much anxiety and sleep disruption caffeine causes.
+
+Side effects
+Common side effects include fast heart rate and palpitations, anxiety and jitters, headaches, stomach upset, insomnia and poorer sleep quality. Anxiety-prone athletes may perform worse if caffeine heightens pre-competition nerves.
+
+Caffeine and sleep
+Caffeine lengthens the time to fall asleep, reduces deep sleep, lowers sleep efficiency and shortens total sleep. Its half-life is usually 4-6 hours but varies widely. In one study, morning caffeine disturbed sleep in only 1 of 13 people, but a dose at 6 p.m. caused insomnia in 6. Evening caffeine before a night game delayed sleep onset and shortened sleep. To protect recovery, use caffeine earlier in the day and avoid it in the hours before bed.

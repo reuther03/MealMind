@@ -1,0 +1,46 @@
+Cardio and Concurrent Training
+Official physical activity guidelines, how much cardio interferes with strength and muscle gains, how to choose between HIIT, steady-state and zone 2 work, how to schedule cardio around lifting, and what the evidence says about daily steps.
+
+WHO physical activity guidelines for adults
+- At least 150-300 minutes per week of moderate-intensity aerobic activity, or 75-150 minutes per week of vigorous-intensity activity, or an equivalent combination.
+- One minute of vigorous activity counts roughly as two minutes of moderate activity.
+- Muscle-strengthening activities at moderate or greater intensity that work all major muscle groups on 2 or more days per week.
+- Going beyond 300 minutes of moderate or 150 minutes of vigorous activity per week brings additional health benefits.
+- Replace sedentary time with activity of any intensity, including light activity; any amount is better than none.
+- Older adults should add varied multicomponent activity emphasizing balance and strength on 3 or more days per week to prevent falls.
+- Pregnant and postpartum women without contraindications: at least 150 minutes of moderate aerobic activity per week plus strengthening.
+
+Why it matters
+- Insufficiently active people have a 20-30% higher risk of death than sufficiently active people.
+- About 31% of adults worldwide (1.8 billion people) do not reach 150 minutes of moderate activity per week.
+
+The interference effect
+- Combining endurance and strength training (concurrent training) can blunt strength, power and muscle gains compared with lifting alone.
+- A meta-analysis of 21 studies found effect sizes for hypertrophy of 1.23 for strength training alone versus 0.85 for concurrent training; for strength 1.76 versus 1.44; and for power 0.91 versus 0.55.
+- In relative terms power was blunted most (about 40% smaller effect), then hypertrophy (about 30%), then strength (about 18%).
+- Running combined with lifting reduced both hypertrophy and strength, while cycling did not, possibly because cycling involves less eccentric muscle damage and resembles leg-strength movements.
+- The more often and the longer the endurance sessions, the larger the interference for hypertrophy, strength and power.
+- Concurrent training still produced far more strength and muscle than endurance training alone, so moderate cardio is compatible with lifting goals.
+
+HIIT vs LISS
+- HIIT (high-intensity interval training) alternates short hard efforts with recovery; it is time-efficient and improves aerobic fitness quickly but adds more fatigue and recovery cost.
+- LISS (low-intensity steady state), such as brisk walking or easy cycling, is easy to recover from, low in injury risk and can be done often.
+- In the concurrent-training meta-analysis, fat loss correlated with higher exercise intensity (percent of maximal heart rate), yet higher endurance volume increased interference, so short intense sessions can be an efficient choice for lifters.
+- Both methods count toward the weekly guideline minutes; choose based on schedule, enjoyment and recovery.
+
+Zone 2 training
+- Zone 2 usually refers to steady, low-to-moderate intensity that can be held for long periods while still being able to speak in full sentences.
+- It builds an aerobic base with little fatigue, which makes it easy to combine with resistance training.
+- Most zone 2 work counts as moderate-intensity activity in the WHO guidelines.
+
+Scheduling cardio and lifting
+- Prioritize the session that matches your main goal and do it first or when you are freshest.
+- Separate hard cardio and heavy leg training by several hours or put them on different days when possible.
+- Prefer cycling, rowing or incline walking over high-volume running when muscle gain is the priority.
+- Keep the frequency and duration of intense endurance work moderate during strength or hypertrophy phases, and add cardio gradually.
+
+Daily steps evidence
+- A meta-analysis of 15 cohorts (47,471 adults) found that more daily steps meant progressively lower risk of death from any cause.
+- Compared with the lowest quarter (about 3,500 steps per day), mortality risk was 40% lower at about 5,800 steps, 45% lower at about 7,800 steps and 53% lower at about 10,900 steps.
+- Benefits leveled off at about 6,000-8,000 steps per day in adults aged 60 and older, and at about 8,000-10,000 steps per day in adults under 60.
+- The popular 10,000 steps goal has limited evidence as a strict threshold; more steps up to these levels is the main message.

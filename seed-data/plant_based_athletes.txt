@@ -1,0 +1,42 @@
+Plant-Based Athletes
+Practical guidance for vegan and vegetarian athletes on protein quality and combining sources, vitamin B12, muscle creatine and carnosine, iron, zinc, iodine and long-chain omega-3 fats from algae.
+
+Common nutrient risks on vegan diets
+- Well-planned vegan diets can support training, but poorly planned ones risk low energy, protein and omega-3 intake and shortfalls in vitamin B12, vitamin D, iron, zinc, calcium and iodine.
+- Vegans tend to eat less energy than omnivores because high-fiber plant foods are filling. Very large athletes and those in high-volume phases may need energy-dense foods such as nuts, seeds, nut butters, oils, avocado and dried fruit.
+
+Protein quality
+- Plant proteins are generally less digestible than animal proteins and often low in one or more essential amino acids, commonly lysine, methionine, isoleucine, threonine or tryptophan.
+- Protein quality scores: soy has a PDCAAS of 1.0, comparable to whey, but on the newer DIAAS scale whey isolate scores 1.09 versus 0.91 for soy because of anti-nutrients such as phytate and trypsin inhibitors. Rice, pea and hemp protein score lower than eggs or dairy.
+- Leucine is a key trigger of muscle protein synthesis; soybeans and lentils are good plant sources.
+
+Combining protein sources
+- Combine complementary foods over the day: legumes (rich in lysine) with grains (richer in methionine), for example beans with rice, hummus with pita or lentil soup with bread.
+- Blended plant protein powders (such as pea plus rice) and soy isolate help cover amino acid gaps when whole foods are impractical.
+- Because plant proteins are less digestible and lower in leucine, vegan athletes are advised to aim toward the upper end of standard athlete protein recommendations rather than the minimum, and to include soy, legumes, tofu, tempeh or seitan at most meals.
+
+Vitamin B12
+- B12 is made by bacteria and found naturally only in animal foods; plants are not a reliable source.
+- Adult RDA is 2.4 mcg per day (2.6 mcg in pregnancy, 2.8 mcg when breastfeeding). There is no upper limit because B12 is considered safe even at high doses.
+- In the EPIC-Oxford study about 50% of vegans were B12 deficient and another 21% had very low levels.
+- Deficiency causes megaloblastic anemia, fatigue and nerve damage that can become irreversible, so every vegan should use fortified foods (fortified cereals, plant milks, nutritional yeast) or a daily supplement, usually cyanocobalamin.
+- Absorption is about 50% from small doses of 1-2 mcg but only about 2% from a 500 mcg dose and 1.3% from 1,000 mcg, which is why supplements contain high amounts.
+
+Creatine and carnosine
+- Vegetarians and vegans have lower muscle creatine stores because creatine comes mainly from meat, fish and poultry.
+- In one study vegetarians who supplemented creatine gained more lean mass, maximal strength and type II fiber area than omnivores, consistent with a larger response when baseline stores are low. Synthetic creatine powder is vegan; some capsules use bovine gelatin.
+- Vegetarians also have lower muscle carnosine, an intramuscular acid buffer made from beta-alanine, which comes mainly from meat and poultry. Because their baseline is lower, plant-based athletes in high-intensity sports may get more out of beta-alanine supplementation, which raises muscle carnosine.
+
+Iron and zinc
+- Plant (non-heme) iron is less absorbed, so vegetarians have higher iron requirements than meat eaters; female vegans tend to have lower iron stores and more iron-deficiency anemia.
+- Pair legumes, tofu and fortified grains with vitamin C foods, and keep tea and coffee away from iron-rich meals.
+- Zinc from beans, whole grains, nuts and seeds is bound by phytate; soaking, sprouting, fermenting and leavened bread improve absorption.
+
+Iodine and calcium
+- Iodine intake in vegans can be too low or too high; adults need 150 mcg per day. Iodized salt is the most reliable source, while seaweed content varies widely and can be excessive.
+- For calcium choose calcium-set tofu, fortified plant milks and low-oxalate greens such as kale, broccoli and bok choy.
+
+Omega-3: ALA conversion and algae oil
+- Plant foods supply ALA (flaxseed, chia, walnuts, hemp), but humans convert only about 8% of ALA to EPA and very little to DHA.
+- Supplemental ALA raises blood EPA but does not improve DHA status.
+- Microalgae oil is the vegan source of preformed DHA and EPA and raises blood levels of both. A practical approach is daily ALA-rich foods plus an algae oil supplement.

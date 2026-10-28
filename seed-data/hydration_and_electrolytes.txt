@@ -1,0 +1,51 @@
+Hydration and Electrolytes
+How much fluid and sodium active people need before, during and after training, how to measure sweat rate, and how to avoid both dehydration and exercise-associated hyponatremia.
+
+Daily fluid needs
+- Free-living adults habitually drink just over 2 L of fluid per day, with a typical range of roughly 0.5-4 L per day depending on body size, climate and activity.
+- European reference values for total water (drinks plus food) are about 2.5 L per day for men and 2.0 L per day for women; US adequate intakes for total water are higher, about 3.7 L for men and 2.7 L for women.
+- Most people who train for less than 60-90 minutes a day in normal weather are unlikely to become meaningfully dehydrated if they drink to thirst and eat regular meals, since fruit, vegetables and soups also supply water.
+- People exposed to heat day after day should drink enough that they need to urinate at least every 4 hours.
+
+Pre-exercise hydration
+- Aim to start every session euhydrated, meaning within about plus or minus 1% of normal body mass.
+- At least 4 hours before exercise, drink about 5-7 ml of fluid per kg of body weight (about 350-490 ml for a 70 kg person).
+- If you produce no urine or the urine is dark, drink another 3-5 ml per kg slowly about 2 hours before the session.
+- Sodium helps retain the fluid: a drink with 20-50 mEq of sodium per liter (about 460-1,150 mg/L) or a salty snack works. Before exercise in the heat, about 500 mg of sodium roughly 90 minutes beforehand is a simple strategy.
+- Deliberate hyperhydration with large volumes of plain water is not recommended; it gives no performance advantage and raises the risk of low blood sodium.
+
+Drinking during exercise
+- The goal is to keep body mass loss below 2% of starting weight while never gaining weight during the session.
+- Losses above 2% consistently reduce endurance performance and also strength, power and anaerobic endurance, especially in the heat. Losses above 5% are classed as severe.
+- For sessions longer than 60-90 minutes, a common guideline is 90-240 ml (3-8 oz) of fluid every 10-20 minutes, adjusted to personal sweat rate.
+- For sessions under 1 hour, plain water is enough.
+- If your sweat rate is unknown, drinking to thirst is a safe default. Thirst usually rises at about 2% body mass loss, but competitive athletes may lose performance relying on thirst alone.
+
+Sweat rate testing
+- Weigh yourself (minimal clothing) before and after a typical session; record fluid drunk and urine passed.
+- Sweat loss (L) = body mass before (kg) - body mass after (kg) + fluid consumed (L) - urine (L).
+- Sweat rate (L per hour) = sweat loss / session duration in hours.
+- Example: 1.3 kg lost plus 0.8 L drunk over 1.5 hours = 2.1 L / 1.5 h = 1.4 L per hour.
+- Adult sweat rates range from about 0.5 to 4.0 L per hour, so repeat the test in different temperatures and intensities.
+
+Sodium and electrolytes
+- Sweat sodium concentration varies from about 10 to 100 mEq/L, and measured sodium losses range from 0.2 to 7.3 g per hour.
+- A heavy sweater may lose about 500-700 mg of sodium per hour of vigorous exercise.
+- Typical sodium content: 240 ml sports drink about 110 mg, one electrolyte tablet about 150 mg, one quarter teaspoon of salt about 600 mg, one bouillon cube about 1,020 mg.
+- Heat acclimatization reduces sodium lost in sweat. Salty foods work as well as commercial electrolyte products, and there is little evidence that salt tablets help.
+
+Rehydration after exercise
+- To restore fluid balance within a short recovery window (under about 4-6 hours), drink up to 150% of the fluid lost, roughly 1.5 L for every 1 kg of body mass lost. The extra volume covers increased urine output after drinking.
+- Include sodium through salty foods or an electrolyte drink to retain fluid and keep thirst going.
+- Milk (skim or whole) was retained better than water, orange juice or a commercial electrolyte drink in one rehydration study.
+
+Exercise-associated hyponatremia
+- Defined as blood sodium below 135 mmol/L during or within 24 hours of activity; symptoms usually appear below 130 mmol/L.
+- Main cause: drinking more water or sports drink than you sweat out, so body weight stays the same or rises during exercise lasting 1 hour or more.
+- Low sodium appears in 10-20% of sampled marathon finishers, though serious cases are uncommon; risk is higher in women and in events lasting over 4 hours.
+- Early signs: lightheadedness, dizziness, nausea, puffy hands or face, cramps that do not resolve, weight gain. Severe signs: confusion, disorientation and agitation, which require emergency care.
+
+Urine color and self-monitoring
+- Best combination: first morning urine color, thirst and morning body weight.
+- Pale straw-colored urine suggests good hydration; dark yellow suggests a need for more fluid. Judge color in a cup, not in the toilet bowl.
+- Very dark, brown urine can signal muscle breakdown (rhabdomyolysis) and needs prompt medical attention.
