@@ -21,8 +21,12 @@ var evaluator = new RetrievalEvaluator(
     scope.ServiceProvider.GetRequiredService<IEmbeddingService>(),
     scope.ServiceProvider.GetRequiredService<IDocumentRepository>());
 
+
+
 var cases = RetrievalCase.LoadFromFile(Path.Combine(AppContext.BaseDirectory, "Data", "retrieval-set.json"));
-var embedded = await evaluator.EmbedAsync(cases);
+// var embedded = await evaluator.EmbedAsync(cases);
+var embedded = await evaluator.EmbedAsync(cases,
+    queryPrefix: "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: ");
 
 Console.WriteLine($"Cases: {cases.Count} ({cases.Count(c => c.IsInDomain)} in-domain, {cases.Count(c => !c.IsInDomain)} out-of-domain)");
 Console.WriteLine();
@@ -37,7 +41,7 @@ Console.WriteLine();
 
 // Threshold sweep with the production topK
 const int productionTopK = 6;
-double[] thresholds = [0.70, 0.72, 0.74, 0.76, 0.78, 0.80, 0.82, 0.84, 0.86, 0.88, 0.90];
+double[] thresholds = [0.60, 0.62, 0.64, 0.66, 0.68, 0.70, 0.72, 0.74, 0.76, 0.78, 0.80, 0.82, 0.84, 0.86, 0.88, 0.90];
 
 Console.WriteLine("Threshold sweep");
 foreach (var threshold in thresholds)
