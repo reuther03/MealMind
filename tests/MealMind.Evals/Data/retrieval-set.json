@@ -1,0 +1,119 @@
+[
+  { "question": "jak policzyć BMR wzorem Mifflina dla kobiety?", "expectedDocument": "energy_balance_and_tdee", "expectedFact": "(5 x age in years) - 161", "category": "in-domain", "language": "pl" },
+  { "question": "I train 4 times a week but sit at a desk all day, which activity multiplier should I use?", "expectedDocument": "energy_balance_and_tdee", "expectedFact": "usually moderately active (1.55)", "category": "in-domain", "language": "en" },
+  { "question": "co to jest NEAT i jaką część wydatku energii stanowi?", "expectedDocument": "energy_balance_and_tdee", "expectedFact": "NEAT often makes up 15-30% of TDEE", "category": "in-domain", "language": "pl" },
+  { "question": "jaki wzór na BMR jak znam swój procent tkanki tłuszczowej?", "expectedDocument": "energy_balance_and_tdee", "expectedFact": "BMR = 370 + (21.6 x LBM in kg)", "category": "in-domain", "language": "pl" },
+
+  { "question": "ile białka jak chcę zrobić masę?", "expectedDocument": "protein_intake", "expectedFact": "1.6-2.2 g/kg/day", "category": "in-domain", "language": "pl" },
+  { "question": "How much protein should I eat in a single meal?", "expectedDocument": "protein_intake", "expectedFact": "0.25 g of high-quality protein per kg", "category": "in-domain", "language": "en" },
+  { "question": "czy dużo białka szkodzi nerkom?", "expectedDocument": "protein_intake", "expectedFact": "no evidence that high protein harms the kidneys or liver", "category": "in-domain", "language": "pl" },
+  { "question": "How much protein do I need on a cut if I'm already lean?", "expectedDocument": "protein_intake", "expectedFact": "2.3-3.1 g per kg of lean body mass", "category": "in-domain", "language": "en" },
+  { "question": "ile leucyny powinno być w jednej porcji białka?", "expectedDocument": "protein_intake", "expectedFact": "700-3000 mg of leucine", "category": "in-domain", "language": "pl" },
+
+  { "question": "czy muszę zjeść białko w 30 minut po treningu, bo inaczej trening przepadnie?", "expectedDocument": "nutrient_timing_and_meal_frequency", "expectedFact": "lasts at least 24 hours", "category": "in-domain", "language": "pl" },
+  { "question": "Is it worth having casein before bed?", "expectedDocument": "nutrient_timing_and_meal_frequency", "expectedFact": "30-40 g of casein protein before sleep", "category": "in-domain", "language": "en" },
+  { "question": "czy post przerywany 16:8 pomaga budować mięśnie?", "expectedDocument": "nutrient_timing_and_meal_frequency", "expectedFact": "no strong evidence that it builds more muscle", "category": "in-domain", "language": "pl" },
+  { "question": "How many meals a day should I eat?", "expectedDocument": "nutrient_timing_and_meal_frequency", "expectedFact": "3-6 meals per day all work", "category": "in-domain", "language": "en" },
+
+  { "question": "ile węglowodanów dziennie jak trenuję mniej więcej godzinę dziennie?", "expectedDocument": "carbohydrates_for_training", "expectedFact": "Moderate exercise program (about 1 hour per day): 5-7 g/kg/day", "category": "in-domain", "language": "pl" },
+  { "question": "How many carbs per hour can I absorb during a race longer than 2.5 hours?", "expectedDocument": "carbohydrates_for_training", "expectedFact": "up to 90 g per hour", "category": "in-domain", "language": "en" },
+  { "question": "jak zrobić ładowanie węglowodanami przed maratonem?", "expectedDocument": "carbohydrates_for_training", "expectedFact": "8-10 g/kg/day for 1-3 days", "category": "in-domain", "language": "pl" },
+  { "question": "Why do sports drinks mix glucose and fructose?", "expectedDocument": "carbohydrates_for_training", "expectedFact": "a glucose:fructose blend (typically 2:1)", "category": "in-domain", "language": "en" },
+
+  { "question": "ile procent kalorii może pochodzić z tłuszczów nasyconych?", "expectedDocument": "dietary_fats_and_omega3", "expectedFact": "no more than 10% of total energy from saturated fat", "category": "in-domain", "language": "pl" },
+  { "question": "How much EPA and DHA from fish oil is safe per day?", "expectedDocument": "dietary_fats_and_omega3", "expectedFact": "up to about 5 g/day are safe long term", "category": "in-domain", "language": "en" },
+  { "question": "czy dieta z bardzo małą ilością tłuszczu obniża testosteron?", "expectedDocument": "dietary_fats_and_omega3", "expectedFact": "Higher-fat diets appear to maintain circulating testosterone better", "category": "in-domain", "language": "pl" },
+  { "question": "What's the minimum amount of fat I should eat per day?", "expectedDocument": "dietary_fats_and_omega3", "expectedFact": "0.5 g/kg/day is a practical floor", "category": "in-domain", "language": "en" },
+
+  { "question": "jak szybko powinienem chudnąć na redukcji?", "expectedDocument": "fat_loss_strategy", "expectedFact": "about 0.5-1% of body weight per week", "category": "in-domain", "language": "pl" },
+  { "question": "Do diet breaks actually help fat loss?", "expectedDocument": "fat_loss_strategy", "expectedFact": "MATADOR study", "category": "in-domain", "language": "en" },
+  { "question": "waga stoi od trzech tygodni na redukcji, co robić?", "expectedDocument": "fat_loss_strategy", "expectedFact": "Check intake accuracy first", "category": "in-domain", "language": "pl" },
+  { "question": "Does losing weight faster make me lose more muscle?", "expectedDocument": "fat_loss_strategy", "expectedFact": "losing 1.4% per week reduced fat mass by only 21%", "category": "in-domain", "language": "en" },
+
+  { "question": "jaka nadwyżka kaloryczna na masie?", "expectedDocument": "muscle_gain_strategy", "expectedFact": "10-20% above maintenance calories", "category": "in-domain", "language": "pl" },
+  { "question": "How fast should a beginner gain weight when bulking?", "expectedDocument": "muscle_gain_strategy", "expectedFact": "roughly 1-2% of body weight per month", "category": "in-domain", "language": "en" },
+  { "question": "czy da się jednocześnie spalać tłuszcz i budować mięśnie?", "expectedDocument": "muscle_gain_strategy", "expectedFact": "Recomposition means losing fat and gaining muscle at the same time", "category": "in-domain", "language": "pl" },
+  { "question": "Is dirty bulking a good idea?", "expectedDocument": "muscle_gain_strategy", "expectedFact": "a dirty bulk mostly lengthens the next fat-loss phase", "category": "in-domain", "language": "en" },
+
+  { "question": "jak zrobić fazę ładowania kreatyny?", "expectedDocument": "creatine", "expectedFact": "0.3 g per kg of body weight per day for 5-7 days", "category": "in-domain", "language": "pl" },
+  { "question": "Does creatine cause hair loss?", "expectedDocument": "creatine", "expectedFact": "DHT rose by 56%", "category": "in-domain", "language": "en" },
+  { "question": "czy kreatyna niszczy nerki?", "expectedDocument": "creatine", "expectedFact": "no kidney harm at recommended doses", "category": "in-domain", "language": "pl" },
+  { "question": "Is creatine HCl or ethyl ester better than monohydrate?", "expectedDocument": "creatine", "expectedFact": "have not been shown to raise muscle creatine more than monohydrate", "category": "in-domain", "language": "en" },
+  { "question": "czy po kreatynie zatrzymuje się woda w organizmie?", "expectedDocument": "creatine", "expectedFact": "fluid retention of about 0.5-1.0 L", "category": "in-domain", "language": "pl" },
+
+  { "question": "ile kofeiny przed treningiem na kilogram masy ciała?", "expectedDocument": "caffeine_and_performance", "expectedFact": "3-6 mg of caffeine per kg of body weight", "category": "in-domain", "language": "pl" },
+  { "question": "How much caffeine per day is safe for an adult?", "expectedDocument": "caffeine_and_performance", "expectedFact": "The US FDA cites 400 mg per day", "category": "in-domain", "language": "en" },
+  { "question": "na ile przed treningiem wypić kawę?", "expectedDocument": "caffeine_and_performance", "expectedFact": "about 60 minutes before exercise", "category": "in-domain", "language": "pl" },
+  { "question": "Why does caffeine boost performance for some people but not others?", "expectedDocument": "caffeine_and_performance", "expectedFact": "rs762551", "category": "in-domain", "language": "en" },
+
+  { "question": "dlaczego po beta-alaninie mrowi mnie twarz?", "expectedDocument": "other_ergogenic_supplements", "expectedFact": "paresthesia", "category": "in-domain", "language": "pl" },
+  { "question": "When should I drink beetroot juice before a race?", "expectedDocument": "other_ergogenic_supplements", "expectedFact": "2-3 hours before exercise, when blood nitrite peaks", "category": "in-domain", "language": "en" },
+  { "question": "czy warto brać BCAA, jeśli jem wystarczająco białka?", "expectedDocument": "other_ergogenic_supplements", "expectedFact": "If daily protein is adequate, BCAAs add little", "category": "in-domain", "language": "pl" },
+  { "question": "What dose of sodium bicarbonate is used before exercise?", "expectedDocument": "other_ergogenic_supplements", "expectedFact": "0.3 g per kg of body weight taken 60-90 minutes", "category": "in-domain", "language": "en" },
+  { "question": "czym się różni odżywka serwatkowa od kazeiny?", "expectedDocument": "other_ergogenic_supplements", "expectedFact": "Casein digests slowly and keeps amino acids elevated for more than 300 minutes", "category": "in-domain", "language": "pl" },
+
+  { "question": "ile wody wypić przed treningiem?", "expectedDocument": "hydration_and_electrolytes", "expectedFact": "5-7 ml of fluid per kg of body weight", "category": "in-domain", "language": "pl" },
+  { "question": "How do I calculate my sweat rate?", "expectedDocument": "hydration_and_electrolytes", "expectedFact": "Sweat rate (L per hour) = sweat loss / session duration in hours", "category": "in-domain", "language": "en" },
+  { "question": "ile pić po treningu, żeby się dobrze nawodnić?", "expectedDocument": "hydration_and_electrolytes", "expectedFact": "up to 150% of the fluid lost", "category": "in-domain", "language": "pl" },
+  { "question": "What is exercise-associated hyponatremia?", "expectedDocument": "hydration_and_electrolytes", "expectedFact": "blood sodium below 135 mmol/L", "category": "in-domain", "language": "en" },
+
+  { "question": "ile witaminy D dziennie dla dorosłego?", "expectedDocument": "vitamin_d_and_calcium", "expectedFact": "15 mcg (600 IU) per day", "category": "in-domain", "language": "pl" },
+  { "question": "What vitamin D blood level counts as deficient?", "expectedDocument": "vitamin_d_and_calcium", "expectedFact": "Below 30 nmol/L (12 ng/mL): deficiency", "category": "in-domain", "language": "en" },
+  { "question": "witamina D2 czy D3, która jest lepsza?", "expectedDocument": "vitamin_d_and_calcium", "expectedFact": "D3 raises it more and keeps it elevated longer", "category": "in-domain", "language": "pl" },
+  { "question": "Why is the calcium in spinach poorly absorbed?", "expectedDocument": "vitamin_d_and_calcium", "expectedFact": "only about 5% is absorbed because of oxalate", "category": "in-domain", "language": "en" },
+
+  { "question": "ile żelaza dziennie potrzebuje kobieta?", "expectedDocument": "iron_magnesium_and_zinc", "expectedFact": "Women 19-50: 18 mg per day", "category": "in-domain", "language": "pl" },
+  { "question": "What ferritin level means iron deficiency?", "expectedDocument": "iron_magnesium_and_zinc", "expectedFact": "ferritin below 30 mcg/L suggests iron deficiency", "category": "in-domain", "language": "en" },
+  { "question": "jaka forma magnezu najlepiej się wchłania?", "expectedDocument": "iron_magnesium_and_zinc", "expectedFact": "aspartate, citrate, lactate and chloride are absorbed better than magnesium oxide", "category": "in-domain", "language": "pl" },
+  { "question": "Can taking too much zinc cause problems?", "expectedDocument": "iron_magnesium_and_zinc", "expectedFact": "50 mg or more of zinc per day for weeks can block copper absorption", "category": "in-domain", "language": "en" },
+  { "question": "dlaczego sportsmenki tak często mają niedobór żelaza?", "expectedDocument": "iron_magnesium_and_zinc", "expectedFact": "Up to 60% of female athletes experience iron deficiency", "category": "in-domain", "language": "pl" },
+
+  { "question": "ile błonnika dziennie powinien jeść mężczyzna?", "expectedDocument": "fiber_and_gut_health", "expectedFact": "38 g per day for adult men", "category": "in-domain", "language": "pl" },
+  { "question": "Should I avoid high-fiber food before a hard workout?", "expectedDocument": "fiber_and_gut_health", "expectedFact": "choose lower-fiber, lower-residue foods", "category": "in-domain", "language": "en" },
+  { "question": "co to jest dieta low FODMAP?", "expectedDocument": "fiber_and_gut_health", "expectedFact": "fermentable oligosaccharides, disaccharides, monosaccharides and polyols", "category": "in-domain", "language": "pl" },
+  { "question": "Which foods are good prebiotics?", "expectedDocument": "fiber_and_gut_health", "expectedFact": "inulin and fructo-oligosaccharides", "category": "in-domain", "language": "en" },
+
+  { "question": "ile godzin snu potrzebuje dorosły?", "expectedDocument": "sleep_and_recovery", "expectedFact": "Adults: 7-9 hours of quality sleep", "category": "in-domain", "language": "pl" },
+  { "question": "Does one night without sleep hurt muscle growth?", "expectedDocument": "sleep_and_recovery", "expectedFact": "reduced muscle protein synthesis by 18%", "category": "in-domain", "language": "en" },
+  { "question": "czy drzemka pomaga, jak się nie wyspałem?", "expectedDocument": "sleep_and_recovery", "expectedFact": "a 30-minute lunchtime nap improved 20 m sprint performance", "category": "in-domain", "language": "pl" },
+  { "question": "Why am I so hungry after a bad night's sleep?", "expectedDocument": "sleep_and_recovery", "expectedFact": "raise ghrelin (the hunger hormone) and lower leptin", "category": "in-domain", "language": "en" },
+
+  { "question": "czy alkohol po treningu blokuje przyrost mięśni?", "expectedDocument": "alcohol_and_fitness", "expectedFact": "reduced myofibrillar protein synthesis by 24%", "category": "in-domain", "language": "pl" },
+  { "question": "How many calories are in one gram of alcohol?", "expectedDocument": "alcohol_and_fitness", "expectedFact": "roughly 7 kcal per gram", "category": "in-domain", "language": "en" },
+  { "question": "ile alkoholu to jeden standardowy drink?", "expectedDocument": "alcohol_and_fitness", "expectedFact": "one standard drink contains about 14 g (0.6 fl oz) of pure alcohol", "category": "in-domain", "language": "pl" },
+  { "question": "Does beer dehydrate you after training?", "expectedDocument": "alcohol_and_fitness", "expectedFact": "drinks above about 4% alcohol clearly increase urine output", "category": "in-domain", "language": "en" },
+
+  { "question": "ile serii na partię mięśniową tygodniowo, żeby rosła?", "expectedDocument": "hypertrophy_training_volume_and_intensity", "expectedFact": "At least 10 weekly sets per muscle group are recommended", "category": "in-domain", "language": "pl" },
+  { "question": "Can I build muscle with light weights and high reps?", "expectedDocument": "hypertrophy_training_volume_and_intensity", "expectedFact": "loads anywhere from about 30% of 1RM up to heavy loads", "category": "in-domain", "language": "en" },
+  { "question": "ile odpoczywać między seriami na hipertrofię?", "expectedDocument": "hypertrophy_training_volume_and_intensity", "expectedFact": "1-2 minutes of rest between hypertrophy sets", "category": "in-domain", "language": "pl" },
+  { "question": "Is it better to train each muscle once or twice a week?", "expectedDocument": "hypertrophy_training_volume_and_intensity", "expectedFact": "training a muscle once or several times per week produces similar growth", "category": "in-domain", "language": "en" },
+
+  { "question": "kiedy i o ile dołożyć ciężaru na sztangę?", "expectedDocument": "strength_training_progression", "expectedFact": "increase the load by 2-10%", "category": "in-domain", "language": "pl" },
+  { "question": "What does RPE 8 mean?", "expectedDocument": "strength_training_progression", "expectedFact": "RPE 8 = 2 reps in reserve", "category": "in-domain", "language": "en" },
+  { "question": "jak policzyć swoje maksimum na jedno powtórzenie bez testowania go?", "expectedDocument": "strength_training_progression", "expectedFact": "1RM = weight x (1 + reps / 30)", "category": "in-domain", "language": "pl" },
+  { "question": "What is a deload week and when do I need one?", "expectedDocument": "strength_training_progression", "expectedFact": "A deload is a short planned period, usually about a week", "category": "in-domain", "language": "en" },
+  { "question": "periodyzacja liniowa czy falowa, co lepsze na siłę?", "expectedDocument": "strength_training_progression", "expectedFact": "no clear difference between linear and undulating periodization", "category": "in-domain", "language": "pl" },
+
+  { "question": "ile cardio tygodniowo zaleca WHO?", "expectedDocument": "cardio_and_concurrent_training", "expectedFact": "150-300 minutes per week of moderate-intensity aerobic activity", "category": "in-domain", "language": "pl" },
+  { "question": "Will running kill my gains?", "expectedDocument": "cardio_and_concurrent_training", "expectedFact": "Running combined with lifting reduced both hypertrophy and strength, while cycling did not", "category": "in-domain", "language": "en" },
+  { "question": "ile kroków dziennie naprawdę trzeba robić?", "expectedDocument": "cardio_and_concurrent_training", "expectedFact": "8,000-10,000 steps per day in adults under 60", "category": "in-domain", "language": "pl" },
+  { "question": "What is zone 2 cardio?", "expectedDocument": "cardio_and_concurrent_training", "expectedFact": "able to speak in full sentences", "category": "in-domain", "language": "en" },
+
+  { "question": "jestem weganinem, czy muszę suplementować B12?", "expectedDocument": "plant_based_athletes", "expectedFact": "every vegan should use fortified foods", "category": "in-domain", "language": "pl" },
+  { "question": "Is soy protein as good as whey?", "expectedDocument": "plant_based_athletes", "expectedFact": "whey isolate scores 1.09 versus 0.91 for soy", "category": "in-domain", "language": "en" },
+  { "question": "jak łączyć białka roślinne, żeby mieć wszystkie aminokwasy?", "expectedDocument": "plant_based_athletes", "expectedFact": "legumes (rich in lysine) with grains (richer in methionine)", "category": "in-domain", "language": "pl" },
+  { "question": "Do vegans need to worry about iodine?", "expectedDocument": "plant_based_athletes", "expectedFact": "adults need 150 mcg per day", "category": "in-domain", "language": "en" },
+
+  { "question": "jak wymienić olej w samochodzie?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "pl" },
+  { "question": "What is the capital of Australia?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "en" },
+  { "question": "jak rozliczyć PIT za zeszły rok?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "pl" },
+  { "question": "How do I fix a NullReferenceException in C#?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "en" },
+  { "question": "kto wygrał mundial w 2022 roku?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "pl" },
+  { "question": "What are good series to watch on Netflix this weekend?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "en" },
+  { "question": "ile kosztuje karnet na siłownię w Warszawie?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "pl" },
+  { "question": "Which running shoes are best for flat feet?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "en" },
+  { "question": "jak ugotować jajko na miękko?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "pl" },
+  { "question": "What's a good recipe for banana bread?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "en" },
+  { "question": "jak się leczy skręconą kostkę?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "pl" },
+  { "question": "How do I set up a home Wi-Fi mesh network?", "expectedDocument": null, "expectedFact": null, "category": "out-of-domain", "language": "en" }
+]
