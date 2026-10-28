@@ -1,0 +1,29 @@
+﻿name: CI
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore MealMind.sln
+
+      - name: Build
+        run: dotnet build MealMind.sln --no-restore -c Release
+
+      - name: Unit tests
+        run: |
+          dotnet run --no-build -c Release --project tests/Modules/AiChat/MealMind.Modules.AiChat.Tests.Unit
+          dotnet run --no-build -c Release --project tests/Modules/Identity/Tests/MealMind.Modules.Identity.Tests.Unit
+          dotnet run --no-build -c Release --project tests/Modules/Nutrition/Tests/MealMind.Modules.Nutrition.Tests.Unit

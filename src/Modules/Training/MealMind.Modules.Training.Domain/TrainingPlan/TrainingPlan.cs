@@ -44,6 +44,9 @@ public class TrainingPlan : AggregateRoot<TrainingPlanId>
             throw new DomainException(
                 "Cannot clone training session that does not belong to the training plan.");
 
+        if (previousTrainingSession is { IsStarted: true, IsCompleted: false })
+            throw new DomainException("Cannot clone a training session that is currently in progress.");
+
         var clonedSession = TrainingSession.Clone(previousTrainingSession);
         if (clonedSession == null)
             throw new DomainException("Failed to clone the training session.");
