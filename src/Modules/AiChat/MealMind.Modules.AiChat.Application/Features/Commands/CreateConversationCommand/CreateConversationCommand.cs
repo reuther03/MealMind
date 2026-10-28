@@ -78,7 +78,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
                 return Result<StructuredResponse>.BadRequest("Prompt exceeds the token limit.");
 
             var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(command.Prompt, cancellationToken);
-            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken);
+            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken: cancellationToken);
 
             if (!relevantDocuments.Any())
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");

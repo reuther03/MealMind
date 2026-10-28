@@ -1,0 +1,46 @@
+Energy Balance and TDEE
+How to estimate basal metabolic rate (BMR) and total daily energy expenditure (TDEE) with the Mifflin-St Jeor and Katch-McArdle equations, what TDEE is made of, and why the body adapts its energy expenditure over time.
+
+Energy balance basics
+Body weight changes when energy intake and energy expenditure are not equal. Intake above expenditure leads to weight gain, intake below it leads to weight loss, and matching them maintains weight. TDEE is the total number of kilocalories (kcal) a person burns in a day and is the starting point for setting any calorie target.
+
+Components of TDEE
+- BMR or RMR: energy used at rest for breathing, circulation, organ function and body temperature. It is the largest component and accounts for roughly 60-75% of TDEE in relatively sedentary people.
+- TEF (thermic effect of food): energy used to digest, absorb and process food. It is the smallest component, commonly estimated at about 10% of energy intake.
+- EAT (exercise activity thermogenesis): energy burned in planned training sessions.
+- NEAT (non-exercise activity thermogenesis): walking, stairs, chores, fidgeting and other daily movement. NEAT often makes up 15-30% of TDEE and varies more between people than any other component.
+
+BMR versus RMR
+BMR is measured in strict laboratory conditions after an overnight fast, sleep and complete rest. RMR is measured under less restrictive conditions and is slightly higher. In practice the two terms are used almost interchangeably. Direct and indirect calorimetry are the most accurate measurements but are expensive, so most people rely on prediction equations.
+
+Mifflin-St Jeor equation
+Published in 1990, it is considered more accurate for modern adults than the older Harris-Benedict equation (1919, revised 1984), which can overestimate BMR by 5-15% in sedentary people. Mifflin-St Jeor has an average error of about 5%.
+- Men: BMR = (10 x weight in kg) + (6.25 x height in cm) - (5 x age in years) + 5
+- Women: BMR = (10 x weight in kg) + (6.25 x height in cm) - (5 x age in years) - 161
+- Example (woman, 72 kg, 165 cm, 34 years): 720 + 1031.25 - 170 - 161 = about 1420 kcal/day.
+
+Katch-McArdle equation
+This equation uses lean body mass (LBM) instead of total weight, so it requires a body fat estimate. It suits lean, muscular people whose BMR is underestimated by weight-based formulas.
+- BMR = 370 + (21.6 x LBM in kg)
+- LBM = body weight in kg x (1 - body fat fraction)
+- Example: 80 kg at 15% body fat gives LBM = 68 kg and BMR = 370 + 1468.8 = about 1839 kcal/day.
+
+Activity multipliers
+TDEE is estimated by multiplying BMR by an activity factor:
+- Sedentary (desk job, little exercise): 1.2
+- Lightly active (1-3 sessions per week): 1.375
+- Moderately active (3-5 sessions per week): 1.55
+- Very active (6-7 sessions per week or physical job): 1.725
+- Extremely active (twice-daily training, physical labour): 1.9
+The most common mistake is overestimating activity. Someone who trains 4 times a week but sits 8 hours a day is usually moderately active (1.55), not very active.
+
+Limitations of the equations
+- Mifflin-St Jeor tends to overestimate BMR when BMI is above 35, because fat mass is less metabolically active than lean mass; Katch-McArdle or an adjusted body weight can help.
+- After about age 65, loss of muscle lowers BMR beyond what the age term predicts.
+- All equations give estimates. The real test is tracking body weight for 2-3 weeks at a given intake and adjusting.
+
+Adaptive thermogenesis
+Energy expenditure is not static. When intake is reduced for a long time, TDEE falls by more than the loss of body mass alone would predict. This extra drop is called adaptive thermogenesis or metabolic adaptation. In the classic Minnesota semi-starvation experiment, non-overweight men eating 50% of their maintenance intake for 24 weeks lost about one quarter of their body mass and their energy expenditure fell by about 40%; roughly 25 percentage points were explained by the smaller body and about 15 points by metabolic adaptation. Reduced NEAT is a large part of this response, which is why maintenance calories should be recalculated after any significant change in body weight.
+
+Lean mass and metabolism
+Lean tissue (muscle, organs, bone) costs energy to maintain, so people with more lean mass have higher resting needs. Resistance training and adequate protein help preserve lean mass and therefore resting energy expenditure.

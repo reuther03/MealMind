@@ -1,0 +1,62 @@
+Vitamin D and Calcium
+Daily requirements, upper limits, blood level targets and best sources of vitamin D and calcium, and why both matter for bone health in people who train.
+
+Vitamin D recommended intake (RDA)
+- Ages 1-70 years, men and women: 15 mcg (600 IU) per day.
+- Over 70 years: 20 mcg (800 IU) per day.
+- Infants 0-12 months: 10 mcg (400 IU) per day (adequate intake).
+- Pregnancy and breastfeeding: 15 mcg (600 IU) per day.
+- Conversion: 1 mcg of vitamin D = 40 IU.
+
+Vitamin D upper limit (UL)
+- Adults and teens 9 years and older: 100 mcg (4,000 IU) per day.
+- Children 1-3 years: 63 mcg (2,500 IU); 4-8 years: 75 mcg (3,000 IU).
+- Very high supplement doses can cause toxicity; the UL covers food plus supplements.
+
+Blood levels of 25(OH)D
+- Vitamin D status is measured as serum 25-hydroxyvitamin D, or 25(OH)D.
+- Below 30 nmol/L (12 ng/mL): deficiency, which can cause rickets in children and osteomalacia (soft bones) in adults.
+- 30 to below 50 nmol/L (12-20 ng/mL): generally inadequate for bone and overall health.
+- 50 nmol/L (20 ng/mL) or higher: adequate for most people.
+- Above 125 nmol/L (50 ng/mL): linked to potential adverse effects, especially above 150 nmol/L (60 ng/mL).
+- Unit conversion: 1 ng/mL = 2.5 nmol/L.
+
+Sun exposure
+- UVB light (about 290-320 nm) on bare skin converts a cholesterol precursor into vitamin D3.
+- Some researchers suggest about 5-30 minutes of sun between 10 a.m. and 4 p.m., daily or at least twice a week, on face, arms, hands and legs without sunscreen often gives enough synthesis.
+- Season, latitude, cloud cover, smog, darker skin, older age and sunscreen all reduce production. UVB does not pass through window glass.
+- Because UV exposure is the main preventable cause of skin cancer, sun protection is still advised; supplements are a safer way to fix low status.
+
+Vitamin D food sources
+- Cod liver oil, 1 tablespoon: 34 mcg (1,360 IU).
+- Farmed rainbow trout, 85 g cooked: 16.2 mcg (645 IU).
+- Sockeye salmon, 85 g cooked: 14.2 mcg (570 IU).
+- UV-exposed white mushrooms, half cup: 9.2 mcg (366 IU).
+- Fortified cow's milk, 1 cup: 2.9 mcg (120 IU); fortified soy, almond or oat milk: 2.5-3.6 mcg (100-144 IU).
+- One large egg: 1.1 mcg (44 IU), found in the yolk.
+
+Vitamin D2 vs D3
+- Supplements contain D2 (ergocalciferol, made from yeast) or D3 (cholecalciferol, usually from sheep wool lanolin; a vegan D3 from lichen also exists).
+- Both raise blood 25(OH)D, but D3 raises it more and keeps it elevated longer, so D3 is usually preferred.
+
+Calcium recommended intake (RDA)
+- Ages 9-18 years: 1,300 mg per day.
+- Ages 19-50 years, men and women: 1,000 mg per day.
+- Men 51-70 years: 1,000 mg; women 51-70 years: 1,200 mg.
+- Everyone over 70: 1,200 mg per day.
+
+Calcium upper limit (UL)
+- Ages 9-18: 3,000 mg per day; ages 19-50: 2,500 mg per day; 51 and older: 2,000 mg per day.
+
+Calcium sources and absorption
+- Plain low-fat yogurt, 225 g: 415 mg. Nonfat milk, 1 cup: 299 mg. Fortified soymilk, 1 cup: 299 mg.
+- Canned sardines with bones, 85 g: 325 mg. Firm tofu set with calcium sulfate, half cup: 253 mg.
+- About 30% of calcium is absorbed from dairy and fortified foods. Spinach is rich in calcium but only about 5% is absorbed because of oxalate, while kale, broccoli and bok choy absorb about as well as milk.
+- Adults absorb about 25% of dietary calcium on average; absorption falls as intake rises and vitamin D status falls.
+- Supplements are absorbed best in doses of 500 mg or less: about 36% of a 300 mg dose versus 28% of a 1,000 mg dose. Calcium carbonate (40% calcium) should be taken with food; calcium citrate (21% calcium) can be taken without food.
+
+Relevance to athletes and bone health
+- Vitamin D is needed for active calcium absorption in the gut, so low vitamin D undermines calcium intake.
+- Low vitamin D can cause muscle weakness and pain, but trials of vitamin D supplements on muscle strength have given inconsistent results; benefit is most likely when a person is actually deficient.
+- Calcium needs rise in athletes with low energy availability or missed periods (amenorrhea, part of the female athlete triad), which threaten bone density and raise stress fracture risk.
+- Indoor athletes, people with dark skin, those living at high latitude in winter and people who avoid dairy are at higher risk of low status and may benefit from a blood test.

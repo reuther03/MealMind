@@ -177,7 +177,7 @@ public class AnalyzeNutritionCommandHandlerTest
             .Setup(x => x.GenerateEmbeddingAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(embedding);
         _documentRepositoryMock
-            .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<int>(), It.IsAny<double?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<RagDocument>());
 
         var command = new AnalyzeNutritionCommand(conversation.Id, "Hi");
@@ -225,7 +225,7 @@ public class AnalyzeNutritionCommandHandlerTest
             .Setup(x => x.GenerateEmbeddingAsync(prompt, It.IsAny<CancellationToken>()))
             .ReturnsAsync(embedding);
         _documentRepositoryMock
-            .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<int>(), It.IsAny<double?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<RagDocument> { ragDoc });
         _aiChatServiceMock
             .Setup(x => x.GenerateStructuredResponseWithNutritionSummaryAsync(
@@ -293,7 +293,7 @@ public class AnalyzeNutritionCommandHandlerTest
             .Setup(x => x.GenerateEmbeddingAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(embedding);
         _documentRepositoryMock
-            .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<int>(), It.IsAny<double?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<RagDocument> { ragDoc });
         _aiChatServiceMock
             .Setup(x => x.GenerateStructuredResponseWithNutritionSummaryAsync(

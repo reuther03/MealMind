@@ -17,14 +17,18 @@ internal class DocumentRepository : Repository<Document, AiChatDbContext>, IDocu
     }
 
 
-    public async Task<IList<RagDocument>> GetRelevantDocumentsAsync(IEnumerable<float> embedding,
-        CancellationToken cancellationToken = default)
+    public async Task<IList<RagDocument>> GetRelevantDocumentsAsync(IEnumerable<float> embedding, int topK = 6, double? maxDistance = null, CancellationToken cancellationToken = default)
     {
         var queryVector = new Vector(embedding.ToArray());
 
-        var relevantDocuments = await _dbContext.RagDocuments
+        var query = _dbContext.RagDocuments.AsQueryable();
+
+        if (maxDistance is not null)
+            query = query.Where(x => x.Embedding!.CosineDistance(queryVector) < maxDistance);
+
+        var relevantDocuments = await query
             .OrderBy(x => x.Embedding!.CosineDistance(queryVector))
-            .Take(6)
+            .Take(topK)
             .ToListAsync(cancellationToken);
 
         return relevantDocuments;

@@ -6,5 +6,5 @@ namespace MealMind.Modules.AiChat.Application.Abstractions.Database;
 
 public interface IDocumentRepository : IRepository<Document>
 {
-    Task<IList<RagDocument>> GetRelevantDocumentsAsync(IEnumerable<float> embedding, CancellationToken cancellationToken = default);
+    Task<IList<RagDocument>> GetRelevantDocumentsAsync(IEnumerable<float> embedding, int topK = 6, double? maxDistance = null, CancellationToken cancellationToken = default);
 }

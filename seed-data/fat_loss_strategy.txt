@@ -1,0 +1,40 @@
+Fat Loss Strategy
+How large a calorie deficit to use, how fast to lose weight, whether diet breaks help, how to keep muscle while cutting, and how to deal with hunger, metabolic adaptation and plateaus.
+
+Creating a calorie deficit
+Fat loss requires eating fewer calories than you burn. The classic rule says a daily deficit of about 500 kcal produces roughly 0.45 kg (1 lb) of fat loss per week, but this static model ignores the way the body adapts to dieting, so real progress usually slows over time. Start from an estimate of maintenance calories, set a moderate deficit, and then adjust based on actual weekly weight change.
+
+Recommended rate of weight loss
+- Aim to lose about 0.5-1% of body weight per week to maximize muscle retention.
+- The bigger the deficit, the larger the share of weight lost as lean mass.
+- In athletes dieting for 4-11 weeks, losing 0.7% of body weight per week reduced fat mass by 31% and increased lean mass by 2.1%, while losing 1.4% per week reduced fat mass by only 21% with no lean mass gain. Leaner athletes in the faster group lost some muscle.
+- In strength-trained women, a target of 1 kg per week versus 0.5 kg per week over 4 weeks caused a 5% drop in bench press strength and a 30% larger fall in testosterone.
+- Leaner people should use the slower end of the range; people with more fat to lose can tolerate the faster end.
+
+Keeping muscle while cutting
+- Keep lifting heavy. Resistance training is the main signal that tells the body to keep muscle in a deficit.
+- Keep protein intake high; protein needs rise during a deficit, especially in lean people.
+- Avoid very aggressive deficits and very fast loss.
+- Creatine monohydrate, caffeine and beta-alanine appear useful during contest preparation; most other supplements are not.
+
+Diet breaks and intermittent energy restriction
+The MATADOR study randomised men with obesity to 16 weeks of dieting at 67% of maintenance calories (a 33% deficit), done either continuously or as 2-week diet blocks alternated with 2-week blocks at maintenance (30 weeks in total). The intermittent group lost more weight (14.1 kg versus 9.1 kg) and more fat (12.3 kg versus 8.0 kg), with similar fat-free mass loss. After adjusting for body composition, the drop in resting energy expenditure was smaller with diet breaks (about -360 versus -749 kJ per day). At a 6-month follow-up, the intermittent group still kept more total weight off. Weight stayed stable during the maintenance blocks. Diet breaks therefore lengthen the diet but may make it more efficient and easier to sustain. Planned refeed days, short periods of higher calories mostly from carbohydrate, are popular with physique athletes, but evidence for them is weaker than for longer diet breaks.
+
+Metabolic adaptation
+When dieting, energy expenditure drops by more than predicted from lost weight. In studies of people with overweight, this extra reduction ranged from about 79 to 504 kcal per day. Part comes from lower NEAT (less spontaneous movement), part from hormonal changes such as lower leptin, thyroid hormone and testosterone. Expect to lower calories or increase activity as the diet progresses.
+
+Hunger management
+- Prioritise protein and high-volume, high-fiber foods such as vegetables, fruit and legumes.
+- Choose a meal frequency that controls your appetite; some people feel less hungry with fewer larger meals, others with more frequent high-protein meals.
+- Keep sleep and stress under control, because both affect appetite.
+- Diet breaks can reduce diet fatigue during long cuts.
+
+Plateaus
+Daily weight fluctuates with water, salt, carbohydrate intake and digestion. Use a weekly average of several weigh-ins and compare weeks, not days. If the weekly average has not moved for 2-3 weeks:
+- Check intake accuracy first; portion creep is common.
+- Reduce intake slightly or add steps to raise NEAT.
+- Recalculate maintenance, which falls as body mass decreases.
+- Consider a diet break if you have been dieting for many weeks.
+
+After the diet
+Increase calories gradually toward the new maintenance level and keep training and protein high. Regain is common, so a planned maintenance phase helps keep the lost fat off.

@@ -1,0 +1,33 @@
+Protein Intake
+How much protein active people and athletes need per day and per meal, the role of leucine, how protein quality is measured, how needs change during a calorie deficit, and what the evidence says about kidney safety.
+
+Daily protein intake
+- The ISSN position stand states that 1.4-2.0 g of protein per kg of body weight per day (g/kg/day) is sufficient for most exercising individuals to build and maintain muscle mass.
+- A review of off-season bodybuilding nutrition recommends 1.6-2.2 g/kg/day for people focused on gaining muscle.
+- Higher intakes above 3.0 g/kg/day may have additional positive effects on body composition in resistance-trained people, mainly by promoting fat loss.
+- The general adult RDA of 0.8 g/kg/day is designed to prevent deficiency in sedentary people and is not an optimal target for people who train hard.
+
+Protein per meal
+- A general recommendation is about 0.25 g of high-quality protein per kg of body weight per meal, or an absolute dose of 20-40 g.
+- Doses of 0.25-0.40 g/kg (20-40 g) repeated regularly through the day appear to stimulate muscle protein synthesis (MPS) best compared with other eating patterns.
+- For people trying to maximize muscle gain, per-meal amounts of 0.40-0.55 g/kg spread over 3-6 meals have been suggested.
+- About 10 g of essential amino acids (EAAs) per serving, either free form or within a 20-40 g protein dose, maximally stimulates MPS.
+- In one study, 40 g of protein increased leucine oxidation compared with 20 g, suggesting that very large single doses partly exceed what muscle can use at once. Older adults may need larger doses to get the same response.
+
+Leucine threshold
+Leucine is the branched-chain amino acid that most strongly switches on muscle protein synthesis. Each protein dose should contain about 700-3000 mg of leucine together with a full set of the other essential amino acids. Examples: a 113 g serving of lean beef provides about 10 g of EAAs including 3.5 g of leucine; one egg provides about 0.5 g of leucine. Leucine alone is not enough; all EAAs are needed to build new muscle protein.
+
+Protein quality
+- Quality depends on the essential amino acid profile, leucine content and digestibility.
+- PDCAAS (Protein Digestibility-Corrected Amino Acid Score) has been the standard method; milk proteins score at the top of this scale and have the highest leucine density.
+- DIAAS (Digestible Indispensable Amino Acid Score) is a newer method recommended by the FAO that measures amino acid digestibility at the end of the small intestine and is not capped at 100, so it separates high-quality proteins better.
+- Animal proteins (dairy, eggs, meat, fish) are generally complete and leucine-rich. Soy contains less leucine and fewer EAAs than whey. Plant eaters can compensate by eating larger portions and combining sources such as legumes and grains.
+
+Protein during an energy deficit
+When calories are reduced, the body is more likely to break down muscle, so protein needs rise. A systematic review in lean, resistance-trained athletes suggests 2.3-3.1 g per kg of lean body mass per day during caloric restriction. The leaner the person and the larger the deficit, the closer to the top of this range they should aim. Protein is also the most satiating macronutrient, which helps control hunger while dieting.
+
+Food first, supplements when practical
+Whole foods that contain all the EAAs should be the base of the diet. Protein powders are a convenient way to reach targets with fewer calories, especially for people with high training volume or busy schedules.
+
+Kidney and liver safety
+Concerns about high protein come mainly from people with existing kidney failure, who do benefit from protein restriction. In healthy people there is no evidence that high protein harms the kidneys or liver. Trained participants eating up to 3.4 g/kg/day for eight weeks showed no changes in clinical blood markers of kidney or liver function, and expert bodies have reported no published evidence that high protein intake damages kidney function in healthy athletes. People with diagnosed kidney disease should follow medical advice.

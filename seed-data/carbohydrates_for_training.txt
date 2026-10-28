@@ -1,0 +1,42 @@
+Carbohydrates for Training
+Daily carbohydrate targets by training load, how much carbohydrate to take before, during and after exercise, how glycogen and carb loading work, and when the glycemic index matters.
+
+Why carbohydrate matters
+Carbohydrate is the main fuel for moderate and high-intensity exercise. It is stored as glycogen: about 80 g in the liver (about 320 kcal) and about 300-500 g in muscle (about 1200-2000 kcal). These stores are limited and are depleted most by long or high-volume sessions, so intake should match the demands of training.
+
+Daily carbohydrate targets by training load
+Athlete recommendations are given in grams per kg of body weight per day (g/kg/day), not as a percentage of calories:
+- Low intensity or skill-based activity: 3-5 g/kg/day.
+- Moderate exercise program (about 1 hour per day): 5-7 g/kg/day.
+- Endurance program (1-3 hours per day of moderate to high intensity): 6-10 g/kg/day.
+- Extreme commitment (more than 4-5 hours per day): 8-12 g/kg/day.
+For people lifting weights, at least 3-5 g/kg/day is suggested to support resistance training. Glycogen stores are maximized with a high-carbohydrate diet of about 8-12 g/kg/day.
+
+Carbohydrate before exercise
+In the 1-4 hours before exercise, 1-4 g/kg of carbohydrate is recommended. Endurance athletes before long sessions sit at the high end; strength and team athletes can be at the lower end. Choose low-fiber, low-fat carbohydrate sources close to the session.
+
+Carbohydrate during exercise (by duration)
+How much carbohydrate the gut can absorb is limited, so recommendations are absolute (grams per hour), not per kg:
+- Under 30 minutes: not needed.
+- 30-75 minutes: small amounts or a carbohydrate mouth rinse, which can improve high-intensity performance.
+- 1-2 hours: up to 30 g per hour.
+- 2-3 hours: up to 60 g per hour.
+- More than 2.5 hours: up to 90 g per hour using multiple transportable carbohydrates.
+Team and power sport athletes training for an hour or longer can use 30-60 g per hour. A classic guideline for bouts longer than 60 minutes at more than 70% VO2max is 30-60 g per hour as a 6-8% carbohydrate-electrolyte drink, taken every 10-15 minutes.
+
+Multiple transportable carbohydrates
+Glucose is absorbed by the SGLT1 transporter, which saturates at about 60 g per hour (about 1 g per minute). Fructose uses a different transporter, so a glucose:fructose blend (typically 2:1) lets total oxidation exceed 1 g per minute; one study measured 1.26 g per minute. This allows intakes up to 90 g per hour, reduces gut distress and is linked to better performance. Glucose, sucrose and maltodextrin are all rapidly oxidized; drink, gel or solid form does not change oxidation rate. The gut is trainable: regular practice with carbohydrate during training may increase absorption capacity.
+
+Carbohydrate after exercise and glycogen recovery
+- If the next session is less than 8 hours away, take 1-1.2 g/kg per hour for the first 4 hours, then return to normal meals.
+- For very fast restoration (under 4 hours), about 1.2 g/kg per hour is recommended. Adding protein (about 0.2-0.4 g/kg per hour) to a lower carbohydrate dose (about 0.8 g/kg per hour) gives similar glycogen recovery.
+- With more than 8 hours to recover, meeting the daily target is enough; glycogen normally refills within 24 hours.
+
+Carbohydrate loading
+Loading raises muscle glycogen above normal before endurance events longer than about 90 minutes. Old protocols used a depletion phase, but this is not needed. A practical method is to taper training for 3-4 days while eating 8-10 g/kg/day for 1-3 days. One study showed that 10 g/kg/day of high-glycemic carbohydrate for a single day nearly doubled muscle glycogen. Expect a temporary weight increase because glycogen is stored with water.
+
+Glycemic index (GI)
+For general health and daily meals, most carbohydrate should come from whole grains, vegetables, fruit and legumes. High-GI sources (GI above 70) such as white rice, sports drinks and refined starches empty from the stomach quickly and are useful when glycogen must be replaced fast, during long exercise, or between sessions on the same day. Outside those situations GI matters little for performance.
+
+Low-carb training
+Training with low carbohydrate availability has been studied to boost endurance adaptations, but current evidence does not support it for performance. Low-carb, high-fat diets may impair the ability to train at high intensity.

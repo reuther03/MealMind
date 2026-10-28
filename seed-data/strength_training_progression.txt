@@ -1,0 +1,41 @@
+Strength Training Progression
+How to keep getting stronger: progressive overload methods, RPE and RIR autoregulation, periodization models, deloads, estimating 1RM, and how progression differs for beginners and intermediate lifters.
+
+Progressive overload methods
+- Progressive overload means gradually increasing the demand on the muscles so they keep adapting.
+- Ways to progress: add load, add reps at the same load, add sets, add training days, improve range of motion or technique, or shorten rest for conditioning goals.
+- ACSM rule of thumb: when you can perform the current load for 1-2 reps more than your target number, increase the load by 2-10%. Use the smaller jump for upper-body and small-muscle lifts, the larger for lower-body lifts.
+- Double progression is a simple version: work within a rep range (for example 6-8 reps), and once all sets reach the top of the range, raise the weight and start again at the bottom.
+
+Strength loading guidelines
+- Maximal strength gains are best with heavy loads; the classic "strength zone" is 1-5 reps per set, and loads above about 80% of 1RM should form the foundation for trained lifters.
+- ACSM recommends 8-12 RM loads for novices; intermediate and advanced lifters use a periodized 1-12 RM range with emphasis on heavy 1-6 RM work and 3-5 minute rest periods.
+- Multiple sets produce up to 46% greater strength gains than single sets. About 3-4 sets per exercise and roughly 8 sets per muscle group gave the largest strength effects in one analysis.
+- Lighter loads (20 or more reps) still build meaningful strength, but heavy training is needed to maximize 1RM.
+
+RPE and RIR autoregulation
+- Autoregulation adjusts training to daily readiness, since sleep, nutrition and stress change strength from day to day, and percentage-based plans ignore those fluctuations.
+- The RIR-based RPE scale links effort to repetitions in reserve: RPE 10 = maximal effort with no reps left, RPE 9 = 1 rep in reserve, RPE 8 = 2 reps in reserve, RPE 7 = 3 reps in reserve, and RPE 5-6 = about 4-6 reps in reserve.
+- Example prescription: "3 sets of 5 at RPE 8" means choose a load that leaves about 2 reps in the tank; if the set feels easier, add weight, if harder, reduce it.
+- Experienced lifters rate RIR more accurately than novices, and accuracy improves as sets approach failure. RPE can be combined with percentage-based loading.
+
+Periodization models
+- Linear (classic) periodization moves from higher volume and lighter loads toward lower volume and heavier loads across mesocycles; it is predictable and simple, but strength from earlier phases may fade.
+- Undulating (non-linear) periodization changes volume and load daily or weekly, for example heavy, moderate and light days in the same week.
+- Meta-analyses find no clear difference between linear and undulating periodization for strength in trained or untrained people; both beat non-periodized training, and variety itself seems to help.
+- Block periodization uses concentrated phases: accumulation (2-6 weeks of higher volume at 50-70% of 1RM), transmutation (75-90% of 1RM) and realization (90% of 1RM or more) to peak. Strength and power can be retained for up to about 30 days after a block, which suits athletes with several competitions per year.
+
+Deloads
+- A deload is a short planned period, usually about a week, of reduced training stress that lets fatigue dissipate while keeping skills and fitness.
+- Typical approaches reduce sets and total volume substantially, lower intensity or RPE, or both, while keeping the main movement patterns.
+- Common triggers: the end of a training block or peak (block models place a lighter week after the realization phase), stalled or falling performance over several sessions, persistent joint aches, poor sleep or low motivation.
+
+Testing and estimating 1RM
+- A true 1RM test requires a thorough warm-up, gradually heavier singles and a spotter; it suits experienced lifters.
+- 1RM can be estimated from a submaximal set taken close to failure, for example the Epley formula: 1RM = weight x (1 + reps / 30), or the Brzycki formula: 1RM = weight x 36 / (37 - reps). Estimates are more reliable from heavier sets with fewer reps than from long high-rep sets.
+- The number of reps possible at a given percentage of 1RM varies between people and exercises, so treat tables as guides. In novices, 1RM is unstable and rises quickly, and fatigue from previous training can suppress it.
+
+Beginner vs intermediate progression
+- Novices (no training or a long break): train 2-3 days per week with 8-12 RM loads; they can often add load every session or week.
+- Intermediates (about 6 months of consistent training): 3-4 days per week; progress slows to weekly or monthly increases and benefits from planned variation.
+- Advanced lifters (years of training): 4-5 days per week, periodized programs and more autoregulation, with gains measured over months.

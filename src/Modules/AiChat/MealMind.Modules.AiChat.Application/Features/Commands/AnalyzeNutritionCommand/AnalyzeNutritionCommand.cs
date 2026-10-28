@@ -31,8 +31,12 @@ public record AnalyzeNutritionCommand(
         private readonly IAiChatService _responseManager;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(INutritionSummaryService nutritionSummaryService, IConversationRepository conversationRepository, IDocumentRepository documentRepository,
-            IAiChatUserRepository aiChatUserRepository, IUserService userService, IEmbeddingService embeddingService, IAiChatService responseManager,
+        public Handler(INutritionSummaryService nutritionSummaryService, IConversationRepository conversationRepository,
+            IDocumentRepository documentRepository,
+            IAiChatUserRepository aiChatUserRepository,
+            IUserService userService,
+            IEmbeddingService embeddingService,
+            IAiChatService responseManager,
             IUnitOfWork unitOfWork)
         {
             _nutritionSummaryService = nutritionSummaryService;
@@ -78,7 +82,7 @@ public record AnalyzeNutritionCommand(
             var nutritionSummary = await _nutritionSummaryService.BuildSummaryAsync(aiUser.Id, request.Weeks, cancellationToken);
 
             var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(request.Prompt, cancellationToken);
-            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken);
+            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken: cancellationToken);
 
             if (!relevantDocuments.Any())
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");

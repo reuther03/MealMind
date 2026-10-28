@@ -1,0 +1,38 @@
+Other Ergogenic Supplements
+Evidence, doses and timing for beta-alanine, dietary nitrate (beetroot juice), sodium bicarbonate and citrulline malate, how whey and casein compare as supplements, which popular supplements have weak evidence (BCAAs, glutamine, fat burners), and why third-party testing matters.
+
+Beta-alanine
+- Beta-alanine combines with histidine to form carnosine, a buffer that helps muscle cope with acid build-up during hard efforts.
+- Dose: 4-6 g per day, split into smaller doses, for at least 28 days raises muscle carnosine. Studies have shown increases and benefits with up to 12 g per day. For lifters, 3-5 g per day is a practical dose.
+- It has no acute effect. Carnosine takes about 4 weeks of daily intake to rise enough to matter, so it must be taken consistently, like creatine.
+- Benefits are clearest for high-intensity efforts lasting about 1-4 minutes (60-240 seconds), with little benefit under 60 seconds. It may help high-repetition sets, drop sets and other techniques that make sets last longer, and reduce neuromuscular fatigue in older adults.
+- Side effect: paresthesia, a harmless tingling or itching of the skin, mainly in the face, neck and hands, appearing shortly after a dose. It can be reduced by splitting the daily amount into smaller doses (about 1.6 g or less each) or using a sustained-release product.
+
+Dietary nitrate (beetroot juice)
+- Nitrate from beetroot juice or sodium nitrate is converted to nitric oxide, which can lower the oxygen cost of exercise and improve muscle efficiency.
+- Dose: about 300-600 mg of nitrate, or about 0.1 mmol per kg of body weight per day.
+- Timing: usually taken 2-3 hours before exercise, when blood nitrite peaks.
+- Results are mixed. Benefits appear more often in recreational and moderately trained people; several studies in well-trained cyclists and runners found no improvement in time-trial performance. Avoid antibacterial mouthwash, which blocks the conversion of nitrate by mouth bacteria.
+
+Sodium bicarbonate
+- Bicarbonate increases the blood's buffering capacity and helps neutralise acid produced during intense exercise.
+- Dose: about 0.3 g per kg of body weight taken 60-90 minutes before exercise, or 5 g twice per day for 5 days.
+- Most useful for high-intensity efforts lasting about 1-3 minutes, such as 400-800 m running, 200 m swimming and 3 km cycling. One study reported a 23% improvement in intermittent running performance.
+- The main drawback is stomach upset, nausea and diarrhoea; test it in training and take it with a small meal and water.
+- Combining bicarbonate with beta-alanine or caffeine has given mixed results, sometimes additive and sometimes not.
+
+Citrulline malate
+Citrulline malate at about 8 g per day may provide ergogenic benefits for resistance training, but evidence is still limited.
+
+Whey versus casein as supplements
+- Whey is digested and absorbed quickly and contains a high proportion of leucine. In one study, whey raised blood leucine by about 200% more than casein and produced greater muscle protein synthesis at rest and after exercise.
+- Casein digests slowly and keeps amino acids elevated for more than 300 minutes, giving a more prolonged but smaller peak.
+- Both whey and casein (and soy) increase muscle protein synthesis at rest and after resistance exercise. Whey is the most researched choice around training; casein suits longer gaps between meals. Protein powders are a convenience, not a requirement.
+
+Weak-evidence supplements
+- BCAAs: a 5.6 g dose increased muscle protein synthesis by about 22% versus placebo, but this was about 50% lower than the response to whey protein supplying similar BCAAs. If daily protein is adequate, BCAAs add little.
+- Glutamine: despite its roles in the body, there is no compelling evidence that it increases lean mass or strength in healthy people; a high dose of 0.3 g/kg did not improve repetitions in the bench or leg press.
+- Fat burners: L-carnitine supplementation does not meaningfully raise muscle carnitine or fat burning. Conjugated linoleic acid (CLA) shows at best a modest fat-loss effect in humans. Chromium has not shown reliable benefits. Many "thermogenic" products rely mainly on caffeine and may contain stimulants that are banned in sport.
+
+Third-party testing and safety
+Supplements are not approved by regulators before sale. Since 2010, current Good Manufacturing Practices (cGMP) apply to all supplement makers, which has reduced contamination problems. Independent certification programs such as NSF Certified for Sport, Informed Choice/Informed Sport and BSCG test products for label accuracy and banned substances. Third-party testing does not guarantee a product is clean, but it reduces the risk, which is essential for drug-tested athletes. Avoid products with proprietary blends that hide doses.
