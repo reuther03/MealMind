@@ -81,7 +81,7 @@ public record AnalyzeNutritionCommand(
 
             var nutritionSummary = await _nutritionSummaryService.BuildSummaryAsync(aiUser.Id, request.Weeks, cancellationToken);
 
-            var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(request.Prompt, cancellationToken);
+            var userInputEmbeddings = await _embeddingService.GenerateQueryEmbeddingAsync(request.Prompt, cancellationToken);
             var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken: cancellationToken);
 
             if (!relevantDocuments.Any())

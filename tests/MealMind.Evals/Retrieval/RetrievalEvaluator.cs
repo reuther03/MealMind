@@ -13,13 +13,13 @@ public class RetrievalEvaluator
         _documentRepository = documentRepository;
     }
 
-    public async Task<IReadOnlyList<EmbeddedCase>> EmbedAsync(IEnumerable<RetrievalCase> cases, string? queryPrefix = null)
+    public async Task<IReadOnlyList<EmbeddedCase>> EmbedAsync(IEnumerable<RetrievalCase> cases)
     {
         var embedded = new List<EmbeddedCase>();
 
         foreach (var retrievalCase in cases)
         {
-            var embedding = await _embeddingService.GenerateEmbeddingAsync(queryPrefix + retrievalCase.Question);
+            var embedding = await _embeddingService.GenerateQueryEmbeddingAsync(retrievalCase.Question);
             embedded.Add(new EmbeddedCase(retrievalCase, embedding.ToArray()));
         }
 

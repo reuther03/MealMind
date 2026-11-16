@@ -77,7 +77,7 @@ public record GetChatResponseCommand(
             if (encoding.CountTokens(request.Prompt) > aiUser.PromptTokensLimit)
                 return Result<StructuredResponse>.BadRequest("Prompt exceeds the token limit.");
 
-            var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(request.Prompt, cancellationToken);
+            var userInputEmbeddings = await _embeddingService.GenerateQueryEmbeddingAsync(request.Prompt, cancellationToken);
             var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken: cancellationToken);
 
             if (!relevantDocuments.Any())

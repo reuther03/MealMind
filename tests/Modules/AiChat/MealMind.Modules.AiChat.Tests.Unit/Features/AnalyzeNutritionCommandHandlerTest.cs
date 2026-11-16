@@ -174,7 +174,7 @@ public class AnalyzeNutritionCommandHandlerTest
             .Setup(x => x.BuildSummaryAsync(aiUser.Id, It.IsAny<int?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("summary");
         _embeddingServiceMock
-            .Setup(x => x.GenerateEmbeddingAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GenerateQueryEmbeddingAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(embedding);
         _documentRepositoryMock
             .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<int>(), It.IsAny<double?>(), It.IsAny<CancellationToken>()))
@@ -222,7 +222,7 @@ public class AnalyzeNutritionCommandHandlerTest
             .Setup(x => x.BuildSummaryAsync(aiUser.Id, requestedWeeks, It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedSummary);
         _embeddingServiceMock
-            .Setup(x => x.GenerateEmbeddingAsync(prompt, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GenerateQueryEmbeddingAsync(prompt, It.IsAny<CancellationToken>()))
             .ReturnsAsync(embedding);
         _documentRepositoryMock
             .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<int>(), It.IsAny<double?>(), It.IsAny<CancellationToken>()))
@@ -290,7 +290,7 @@ public class AnalyzeNutritionCommandHandlerTest
             .Setup(x => x.BuildSummaryAsync(aiUser.Id, It.IsAny<int?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("summary");
         _embeddingServiceMock
-            .Setup(x => x.GenerateEmbeddingAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GenerateQueryEmbeddingAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(embedding);
         _documentRepositoryMock
             .Setup(x => x.GetRelevantDocumentsAsync(It.IsAny<IEnumerable<float>>(), It.IsAny<int>(), It.IsAny<double?>(), It.IsAny<CancellationToken>()))

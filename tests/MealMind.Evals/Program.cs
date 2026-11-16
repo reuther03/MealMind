@@ -21,12 +21,8 @@ var evaluator = new RetrievalEvaluator(
     scope.ServiceProvider.GetRequiredService<IEmbeddingService>(),
     scope.ServiceProvider.GetRequiredService<IDocumentRepository>());
 
-
-
 var cases = RetrievalCase.LoadFromFile(Path.Combine(AppContext.BaseDirectory, "Data", "retrieval-set.json"));
-// var embedded = await evaluator.EmbedAsync(cases);
-var embedded = await evaluator.EmbedAsync(cases,
-    queryPrefix: "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: ");
+var embedded = await evaluator.EmbedAsync(cases);
 
 Console.WriteLine($"Cases: {cases.Count} ({cases.Count(c => c.IsInDomain)} in-domain, {cases.Count(c => !c.IsInDomain)} out-of-domain)");
 Console.WriteLine();
