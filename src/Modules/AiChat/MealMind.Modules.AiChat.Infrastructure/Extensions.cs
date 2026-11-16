@@ -25,6 +25,8 @@ public static class Extensions
             var options = new GeminiOptions();
             configuration.GetSection(GeminiOptions.SectionName).Bind(options);
 
+            services.Configure<ConfigOptions>(configuration.GetSection(ConfigOptions.SectionName));
+
             services.AddPostgres<AiChatDbContext>(configuration)
                 .AddScoped<IAiChatDbContext, AiChatDbContext>()
                 .AddUnitOfWork<IUnitOfWork, UnitOfWork>()

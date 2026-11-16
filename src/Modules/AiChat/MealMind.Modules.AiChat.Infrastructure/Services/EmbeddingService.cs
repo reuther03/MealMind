@@ -1,5 +1,7 @@
 ﻿using MealMind.Modules.AiChat.Application.Abstractions.Database;
+using MealMind.Modules.AiChat.Application.Options;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Options;
 using Pgvector;
 
 namespace MealMind.Modules.AiChat.Infrastructure.Services;
@@ -7,10 +9,13 @@ namespace MealMind.Modules.AiChat.Infrastructure.Services;
 public class EmbeddingService : IEmbeddingService
 {
     private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
+    private readonly IOptionsSnapshot<ConfigOptions> _configOptions;
 
-    public EmbeddingService(IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+    public EmbeddingService(IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
+        IOptionsSnapshot<ConfigOptions> configOptions)
     {
         _embeddingGenerator = embeddingGenerator;
+        _configOptions = configOptions;
     }
 
     public async Task<Vector> GenerateEmbeddingAsync(string text, CancellationToken cancellationToken = default)
@@ -23,14 +28,13 @@ public class EmbeddingService : IEmbeddingService
         return new Vector(embedding.Vector.ToArray());
     }
 
-    // public Task<Vector> GenerateEmbeddingsAsync(IEnumerable<string> chunks, CancellationToken cancellationToken = default)
-    // {
-    //     if (!chunks.Any())
-    //         throw new ArgumentException("Chunks collection cannot be empty.", nameof(chunks));
-    //
-    //     foreach (var chunk in chunks)
-    //     {
-    //
-    //     }
-    // }
+    public Task<Vector> GenerateQueryEmbeddingAsync(string text, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            throw new ArgumentException("Text cannot be null or empty.", nameof(text));
+
+        text = $"Instruct: {_configOptions.Value.QueryInstruction}\nQuery: {text}";
+
+        return GenerateEmbeddingAsync(text, cancellationToken);
+    }
 }

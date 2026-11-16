@@ -37,7 +37,7 @@ Console.WriteLine();
 
 // Threshold sweep with the production topK
 const int productionTopK = 6;
-double[] thresholds = [0.70, 0.72, 0.74, 0.76, 0.78, 0.80, 0.82, 0.84, 0.86, 0.88, 0.90];
+double[] thresholds = [0.60, 0.62, 0.64, 0.66, 0.68, 0.70, 0.72, 0.74, 0.76, 0.78, 0.80, 0.82, 0.84, 0.86, 0.88, 0.90];
 
 Console.WriteLine("Threshold sweep");
 foreach (var threshold in thresholds)

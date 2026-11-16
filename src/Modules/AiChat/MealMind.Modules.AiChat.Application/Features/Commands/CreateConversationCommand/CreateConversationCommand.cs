@@ -1,11 +1,13 @@
 ﻿using System.Text.Json;
 using MealMind.Modules.AiChat.Application.Abstractions.Database;
 using MealMind.Modules.AiChat.Application.Abstractions.Services;
+using MealMind.Modules.AiChat.Application.Options;
 using MealMind.Modules.AiChat.Domain.Conversation;
 using MealMind.Shared.Abstractions.QueriesAndCommands.Commands;
 using MealMind.Shared.Abstractions.Services;
 using MealMind.Shared.Contracts.Dto.AiChat;
 using MealMind.Shared.Contracts.Result;
+using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using SharpToken;
@@ -22,12 +24,14 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
         private readonly IUserService _userService;
         private readonly IDocumentRepository _documentRepository;
         private readonly IEmbeddingService _embeddingService;
+        private readonly IOptionsSnapshot<ConfigOptions> _configOptions;
         private readonly IUnitOfWork _unitOfWork;
 
         public Handler(IConversationRepository conversationRepository, IAiChatUserRepository aiChatUserRepository,
             IUserService userService,
             IDocumentRepository documentRepository,
             IEmbeddingService embeddingService,
+            IOptionsSnapshot<ConfigOptions> configOptions,
             IUnitOfWork unitOfWork, IAiChatService aiChatService)
         {
             _conversationRepository = conversationRepository;
@@ -35,6 +39,7 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
             _userService = userService;
             _documentRepository = documentRepository;
             _embeddingService = embeddingService;
+            _configOptions = configOptions;
 
             _unitOfWork = unitOfWork;
             _aiChatService = aiChatService;
@@ -77,8 +82,8 @@ public record CreateConversationCommand(string Prompt) : ICommand<StructuredResp
             if (encoding.CountTokens(command.Prompt) > aiUser.PromptTokensLimit)
                 return Result<StructuredResponse>.BadRequest("Prompt exceeds the token limit.");
 
-            var userInputEmbeddings = await _embeddingService.GenerateEmbeddingAsync(command.Prompt, cancellationToken);
-            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), cancellationToken: cancellationToken);
+            var userInputEmbeddings = await _embeddingService.GenerateQueryEmbeddingAsync(command.Prompt, cancellationToken);
+            var relevantDocuments = await _documentRepository.GetRelevantDocumentsAsync(userInputEmbeddings.ToArray(), maxDistance: _configOptions.Value.MaxDistance, cancellationToken: cancellationToken);
 
             if (!relevantDocuments.Any())
                 return Result<StructuredResponse>.BadRequest("No relevant documents found.");
